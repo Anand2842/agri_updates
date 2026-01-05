@@ -119,13 +119,26 @@ async function searchContent(query: string, type: string = 'all') {
         // Search jobs
         if (type === 'all' || type === 'jobs') {
             const { data: jobData, error: jobError } = await supabase
-                .from('jobs')
+                .from('posts')
                 .select('*')
+                .eq('category', 'Jobs')
                 .eq('is_active', true)
                 .or(`title.ilike.%${searchTerm}%,company.ilike.%${searchTerm}%,location.ilike.%${searchTerm}%`);
 
             if (!jobError && jobData) {
-                jobs = jobData;
+                jobs = jobData.map((post: any) => ({
+                    id: post.id,
+                    title: post.title,
+                    company: post.company || 'Unknown Company',
+                    location: post.location || 'Remote',
+                    type: post.job_type || 'Full-time',
+                    salary_range: post.salary_range,
+                    application_link: post.application_link,
+                    description: post.content || '',
+                    tags: post.tags || [],
+                    is_active: post.is_active ?? true,
+                    created_at: post.created_at
+                }));
             } else {
                 // Fallback to mock data search
                 jobs = MOCK_JOBS.filter(job =>
@@ -142,6 +155,7 @@ async function searchContent(query: string, type: string = 'all') {
             const { data: postData, error: postError } = await supabase
                 .from('posts')
                 .select('*')
+                .neq('category', 'Jobs') // Exclude jobs from posts search
                 .or(`title.ilike.%${searchTerm}%,excerpt.ilike.%${searchTerm}%,content.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%`);
 
             if (!postError && postData) {

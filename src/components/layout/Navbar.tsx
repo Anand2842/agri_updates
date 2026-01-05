@@ -1,19 +1,59 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Search, Menu, X } from 'lucide-react';
+import { createClient } from '@/utils/supabase/client';
+import { User } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
+    const router = useRouter();
+    const supabase = createClient();
+
+    useEffect(() => {
+        const getUser = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            setUser(session?.user ?? null);
+        };
+
+        getUser();
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
+
+    const handleSignOut = async () => {
+        await supabase.auth.signOut();
+        router.refresh();
+    };
 
     return (
-        <header className="border-b border-stone-200 bg-white/90 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
+        <header className="border-b border-stone-200 bg-white/90 backdrop-blur-md relative z-50 transition-all duration-300">
             {/* Top Bar */}
             <div className="hidden md:flex container mx-auto px-4 py-2 justify-between items-center text-xs font-sans text-stone-500 uppercase tracking-wider border-b border-stone-100">
                 <div className="flex items-center gap-4">
                     <Link href="/about" className="hover:text-black">About</Link>
                     <Link href="/contact" className="hover:text-black">Connect With Us</Link>
+                </div>
+                <div>
+                    {user ? (
+                        <div className="flex items-center gap-4">
+                            <Link href="/admin/posts" className="hover:text-black font-bold text-agri-green">
+                                Admin Dashboard
+                            </Link>
+                            <button onClick={handleSignOut} className="hover:text-red-500">
+                                Sign Out
+                            </button>
+                        </div>
+                    ) : (
+                        <Link href="/login" className="hover:text-black">Login</Link>
+                    )}
                 </div>
             </div>
 
@@ -96,6 +136,15 @@ export default function Navbar() {
                         <Link href="/updates" onClick={() => setIsMenuOpen(false)} className="text-xl font-serif">All Updates</Link>
                         <Link href="/startups" onClick={() => setIsMenuOpen(false)} className="text-xl font-serif">Startups</Link>
                         <Link href="/about" onClick={() => setIsMenuOpen(false)} className="text-xl font-serif">About</Link>
+                        <div className="border-t border-stone-100 my-4"></div>
+                        {user ? (
+                            <>
+                                <Link href="/admin/posts" onClick={() => setIsMenuOpen(false)} className="text-lg font-serif text-agri-green">Admin Dashboard</Link>
+                                <button onClick={() => { handleSignOut(); setIsMenuOpen(false); }} className="text-lg font-serif text-red-500">Sign Out</button>
+                            </>
+                        ) : (
+                            <Link href="/login" onClick={() => setIsMenuOpen(false)} className="text-lg font-serif text-stone-500">Login</Link>
+                        )}
                     </div>
                 </div>
             )}
