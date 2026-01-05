@@ -1,0 +1,90 @@
+export type Post = {
+    id: string
+    title: string
+    slug: string
+    excerpt: string | null
+    content: string | null
+    category: string
+    author_name: string
+    image_url: string | null
+    is_featured: boolean
+    display_location?: 'hero' | 'featured' | 'trending' | 'dont_miss' | 'standard'
+    published_at: string
+    created_at: string
+
+    // Job-specific fields (optional, only for category='Jobs')
+    company?: string | null
+    location?: string | null
+    job_type?: string | null
+    salary_range?: string | null
+    application_link?: string | null
+    is_active?: boolean
+    tags?: string[] | null
+}
+
+export type Job = {
+    id: string
+    title: string
+    company: string
+    location: string | null
+    type: string | null
+    salary_range: string | null
+    application_link: string | null
+    description: string | null // Added description
+    tags: string[] | null
+    is_active: boolean
+    created_at: string
+}
+
+export type Startup = {
+    id: string
+    name: string
+    description: string | null
+    funding_stage: string | null
+    location: string | null
+    logo_url: string | null
+    website_url: string | null // Added
+    tags?: string[] | null
+    created_at: string
+}
+
+export type Applicant = {
+    id: string
+    name: string
+    email: string | null
+    role: string
+    stage: 'New Applied' | 'Screening' | 'Technical Interview' | 'Offer Sent' | 'Hired' | 'Rejected'
+    type: string | null
+    match_score: number
+    image_url: string | null
+    created_at: string
+}
+
+export type Company = {
+    id: string
+    name: string
+    industry: string | null
+    status: 'Active Partner' | 'Research Partner' | 'Lead' | 'Churned' | 'Pending'
+    location: string | null
+    contact_email: string | null
+    website: string | null
+    health_score: number
+    active_jobs: number
+    total_hires: number
+    logo_type: string | null // 'leaf' | 'micro' | 'soil' | 'drone' | 'water' | 'default'
+    last_interaction: string | null
+    created_at: string
+}
+
+export type ResearchProject = {
+    id: string
+    title: string
+    description: string | null
+    status: 'Active' | 'Pending Review' | 'Planning' | 'Completed'
+    progress: number
+    budget_utilized: number
+    start_date: string | null
+    team_count: number
+    lead_name: string | null
+    created_at: string
+}
