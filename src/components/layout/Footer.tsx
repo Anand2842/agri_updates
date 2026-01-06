@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Facebook, Twitter, Instagram, Linkedin, Mail } from 'lucide-react';
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function Footer() {
     const [email, setEmail] = useState('');
@@ -51,6 +52,13 @@ export default function Footer() {
             setMessage('Network error. Please try again.');
         }
     };
+    const pathname = usePathname();
+
+    // Hide Footer on Admin pages
+    if (pathname?.startsWith('/admin')) {
+        return null;
+    }
+
     return (
         <footer className="bg-stone-50 border-t border-stone-200 mt-20 pt-16 pb-8">
             <div className="container mx-auto px-4">

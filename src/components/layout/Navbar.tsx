@@ -5,13 +5,20 @@ import Link from 'next/link';
 import { Search, Menu, X } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
     const supabase = createClient();
+
+    const pathname = usePathname();
+
+    // Hide Navbar on Admin pages
+    if (pathname?.startsWith('/admin')) {
+        return null;
+    }
 
     useEffect(() => {
         const getUser = async () => {
