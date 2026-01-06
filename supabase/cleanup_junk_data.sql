@@ -7,6 +7,9 @@ WHERE
     LENGTH(title) < 10 
     OR title ILIKE '%dwa%' 
     OR title ILIKE '%efv%' 
+    OR title ILIKE '%Hi- Greetings%'
+    OR title ILIKE '%wds ewjhsbmn%'
+    OR content ILIKE '%dsvgbnm gvhjbk%'
     OR content ILIKE '%hfcgvmn%'
     OR content ILIKE '%hcgvjbkn%';
 

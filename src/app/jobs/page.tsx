@@ -193,6 +193,15 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                                     </span>
                                     Remote
                                 </Link>
+                                <Link
+                                    href={`/jobs?type=internship${locationFilter ? `&location=${locationFilter}` : ''}`}
+                                    className={`flex items-center gap-2 cursor-pointer hover:text-black ${typeFilter && typeFilter.toLowerCase() === 'internship' ? 'text-agri-green font-bold' : ''}`}
+                                >
+                                    <span className="w-4 h-4 border border-stone-300 flex items-center justify-center">
+                                        {typeFilter && typeFilter.toLowerCase() === 'internship' && <span className="text-xs">✓</span>}
+                                    </span>
+                                    Internship
+                                </Link>
                             </div>
 
                             {(typeFilter || locationFilter) && (

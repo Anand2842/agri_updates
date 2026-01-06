@@ -22,7 +22,7 @@ export default function MainHero({ post }: { post: Post }) {
                 <div className="flex justify-center items-center gap-3 text-[10px] uppercase font-bold tracking-widest text-stone-400 mb-4">
                     <span className="text-agri-green border-b border-agri-green pb-0.5">{post.category}</span>
                     <span>•</span>
-                    <span>{new Date(post.published_at).toLocaleDateString()}</span>
+                    <span>{new Date(post.published_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                 </div>
 
                 <h2 className="font-serif text-3xl md:text-5xl font-black leading-tight mb-6 hover:text-agri-dark transition-colors">

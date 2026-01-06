@@ -80,9 +80,9 @@ export default function Navbar() {
                                 <div className="bg-white border border-stone-100 shadow-xl rounded-lg p-2 flex flex-col gap-1 text-center -mt-2">
                                     <Link href="/jobs" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block">Jobs</Link>
                                     <Link href="/updates?category=Internships" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block">Internships</Link>
-                                    <Link href="/updates?category=Fellowships" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block">Fellowships</Link>
-                                    <Link href="/updates?category=Scholarships" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block">Scholarships</Link>
-                                    <Link href="/updates?category=Grants" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block">Grants</Link>
+                                    <Link href="/updates?category=Fellowships" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block whitespace-nowrap">Fellowships</Link>
+                                    <Link href="/updates?category=Scholarships" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block whitespace-nowrap">Scholarships</Link>
+                                    <Link href="/updates?category=Grants" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block whitespace-nowrap">Grants</Link>
                                 </div>
                             </div>
                         </div>
@@ -97,9 +97,9 @@ export default function Navbar() {
                             </button>
                             <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 w-48">
                                 <div className="bg-white border border-stone-100 shadow-xl rounded-lg p-2 flex flex-col gap-1 text-center -mt-2">
-                                    <Link href="/updates?category=Exams" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block">Exams</Link>
-                                    <Link href="/updates?category=Events" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block">Conferences</Link>
-                                    <Link href="/blog" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block">Blog & News</Link>
+                                    <Link href="/updates?category=Exams" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block whitespace-nowrap">Exams</Link>
+                                    <Link href="/updates?category=Events" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block whitespace-nowrap">Conferences</Link>
+                                    <Link href="/blog" className="px-4 py-2 hover:bg-stone-50 hover:text-agri-green rounded block whitespace-nowrap">Blog & News</Link>
                                 </div>
                             </div>
                         </div>
