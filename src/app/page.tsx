@@ -223,6 +223,7 @@ async function getData() {
       .from('posts')
       .select('*')
       .neq('category', 'Jobs') // Exclude jobs from regular posts fetch
+      .eq('is_active', true)
       .order('published_at', { ascending: false });
 
     // Fetch jobs from posts table

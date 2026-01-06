@@ -88,8 +88,10 @@ export default function PostForm({ initialData }: PostFormProps) {
             postData.job_type = formData.job_type
             postData.salary_range = formData.salary_range
             postData.application_link = formData.application_link
-            postData.is_active = formData.is_active
         }
+
+        // Always save is_active
+        postData.is_active = formData.is_active
 
         try {
             if (initialData) {
@@ -257,20 +259,7 @@ export default function PostForm({ initialData }: PostFormProps) {
                             <p className="text-xs text-stone-500 mt-1">Use /jobs/apply/[slug] for internal applications or paste external URL</p>
                         </div>
 
-                        <div className="col-span-2">
-                            <label className="flex items-center gap-3 cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    checked={formData.is_active}
-                                    onChange={e => setFormData({ ...formData, is_active: e.target.checked })}
-                                    className="w-5 h-5 accent-blue-600"
-                                />
-                                <div>
-                                    <span className="block font-bold uppercase text-xs tracking-widest text-stone-700">Job is Active</span>
-                                    <span className="block text-xs text-stone-500">Uncheck to hide this job from public listings</span>
-                                </div>
-                            </label>
-                        </div>
+
                     </div>
                 )}
 
@@ -316,7 +305,7 @@ export default function PostForm({ initialData }: PostFormProps) {
                         </p>
                     </div>
 
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-6">
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
@@ -327,6 +316,19 @@ export default function PostForm({ initialData }: PostFormProps) {
                             <div>
                                 <span className="block font-bold uppercase text-xs tracking-widest text-stone-700">Mark as Key Update</span>
                                 <span className="block text-xs text-stone-500">General high priority flag.</span>
+                            </div>
+                        </label>
+
+                        <label className="flex items-center gap-3 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={formData.is_active}
+                                onChange={e => setFormData({ ...formData, is_active: e.target.checked })}
+                                className="w-5 h-5 accent-blue-600"
+                            />
+                            <div>
+                                <span className="block font-bold uppercase text-xs tracking-widest text-stone-700">Published / Active</span>
+                                <span className="block text-xs text-stone-500">Uncheck to hide (Draft).</span>
                             </div>
                         </label>
                     </div>
