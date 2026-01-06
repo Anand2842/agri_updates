@@ -13,7 +13,10 @@ export type Post = {
     author_image?: string | null
     author_social_twitter?: string | null
     author_social_linkedin?: string | null
+    status: 'draft' | 'published' | 'archived'
+    views?: number
     published_at: string
+    updated_at?: string
     created_at: string
 
     // Job-specific fields (optional, only for category='Jobs')
@@ -36,6 +39,7 @@ export type Job = {
     application_link: string | null
     description: string | null // Added description
     tags: string[] | null
+    status: 'draft' | 'published' | 'archived'
     is_active: boolean
     created_at: string
 }

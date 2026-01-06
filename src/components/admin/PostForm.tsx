@@ -42,6 +42,7 @@ export default function PostForm({ initialData }: PostFormProps) {
         job_type: initialData?.job_type || '',
         salary_range: initialData?.salary_range || '',
         application_link: initialData?.application_link || '',
+        status: initialData?.status || 'draft',
         is_active: initialData?.is_active ?? true
     })
 
@@ -90,8 +91,10 @@ export default function PostForm({ initialData }: PostFormProps) {
             postData.application_link = formData.application_link
         }
 
-        // Always save is_active
-        postData.is_active = formData.is_active
+        // Save status
+        postData.status = formData.status
+        // Sync is_active for backward compatibility
+        postData.is_active = (formData.status === 'published')
 
         try {
             if (initialData) {
@@ -305,35 +308,27 @@ export default function PostForm({ initialData }: PostFormProps) {
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-6">
-                        <label className="flex items-center gap-3 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                checked={formData.is_featured}
-                                onChange={e => setFormData({ ...formData, is_featured: e.target.checked })}
-                                className="w-5 h-5 accent-agri-green"
-                            />
-                            <div>
-                                <span className="block font-bold uppercase text-xs tracking-widest text-stone-700">Mark as Key Update</span>
-                                <span className="block text-xs text-stone-500">General high priority flag.</span>
-                            </div>
-                        </label>
-
-                        <label className="flex items-center gap-3 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                checked={formData.is_active}
-                                onChange={e => setFormData({ ...formData, is_active: e.target.checked })}
-                                className="w-5 h-5 accent-blue-600"
-                            />
-                            <div>
-                                <span className="block font-bold uppercase text-xs tracking-widest text-stone-700">Published / Active</span>
-                                <span className="block text-xs text-stone-500">Uncheck to hide (Draft).</span>
-                            </div>
-                        </label>
+                    <div>
+                        <span className="block font-bold uppercase text-xs tracking-widest text-stone-500 mb-2">Post Status</span>
+                        <select
+                            value={formData.status}
+                            onChange={e => setFormData({ ...formData, status: e.target.value as any })}
+                            className={`w-full p-3 border outline-none font-bold uppercase text-xs tracking-widest ${formData.status === 'published' ? 'bg-green-50 text-green-700 border-green-200' :
+                                    formData.status === 'archived' ? 'bg-red-50 text-red-700 border-red-200' :
+                                        'bg-stone-50 text-stone-600 border-stone-200'
+                                }`}
+                        >
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
+                            <option value="archived">Archived</option>
+                        </select>
+                        <p className="text-xs text-stone-400 mt-2">
+                            Only 'Published' posts appear on the site.
+                        </p>
                     </div>
                 </div>
             </div>
+
             <div className="flex gap-4 mt-8">
                 <button
                     type="submit"
@@ -350,6 +345,6 @@ export default function PostForm({ initialData }: PostFormProps) {
                     Cancel
                 </button>
             </div>
-        </form>
+        </form >
     )
 }

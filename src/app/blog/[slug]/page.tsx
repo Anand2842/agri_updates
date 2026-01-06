@@ -92,6 +92,8 @@ function formatContent(content: string) {
         .join('');
 }
 
+import ViewCounter from '@/components/analytics/ViewCounter';
+
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const post = await getPost(slug);
@@ -124,6 +126,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
+            {post.id && <ViewCounter postId={post.id} />}
             <div className="relative h-[60vh] w-full">
                 <Image
                     src={post.image_url || '/placeholder.jpg'}

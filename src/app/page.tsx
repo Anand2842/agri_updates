@@ -25,6 +25,7 @@ const MOCK_POSTS: Post[] = [
     excerpt: 'Researchers at MIT have developed a new machine learning algorithm that significantly improves yield predictions.',
     image_url: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80',
     is_featured: true,
+    status: 'published',
     published_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
     content: ''
@@ -38,6 +39,7 @@ const MOCK_POSTS: Post[] = [
     excerpt: 'The funding will accelerate their expansion into urban centers across Europe and Asia by 2025.',
     image_url: 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&q=80',
     is_featured: true,
+    status: 'published',
     published_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
     content: ''
@@ -51,6 +53,7 @@ const MOCK_POSTS: Post[] = [
     excerpt: 'A curated list of the best opportunities for students looking to break into the sustainable tech sector.',
     image_url: 'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&q=80',
     is_featured: true,
+    status: 'published',
     published_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
     content: ''
@@ -64,6 +67,7 @@ const MOCK_POSTS: Post[] = [
     excerpt: 'Amid growing concerns over labor shortages and climate change, startups are deploying swarms of AI-powered drones to plant, monitor, and harvest.',
     image_url: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&q=80',
     is_featured: true,
+    status: 'published',
     published_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
     content: ''
@@ -77,6 +81,7 @@ const MOCK_POSTS: Post[] = [
     excerpt: '',
     image_url: null,
     is_featured: false,
+    status: 'published',
     published_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
     content: ''
@@ -90,6 +95,7 @@ const MOCK_POSTS: Post[] = [
     excerpt: '',
     image_url: null,
     is_featured: false,
+    status: 'published',
     published_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
     content: ''
@@ -103,6 +109,7 @@ const MOCK_POSTS: Post[] = [
     excerpt: '',
     image_url: null,
     is_featured: false,
+    status: 'published',
     published_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
     content: ''
@@ -116,6 +123,7 @@ const MOCK_POSTS: Post[] = [
     excerpt: 'A deep dive into the fungal networks beneath our feet.',
     image_url: null,
     is_featured: false,
+    status: 'published',
     published_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
     content: ''
@@ -129,6 +137,7 @@ const MOCK_POSTS: Post[] = [
     excerpt: 'Turning sand into salad: Tech solutions for arid regions.',
     image_url: null,
     is_featured: false,
+    status: 'published',
     published_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
     content: ''
@@ -142,6 +151,7 @@ const MOCK_POSTS: Post[] = [
     excerpt: '',
     image_url: null,
     is_featured: false,
+    status: 'published',
     published_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
     content: ''
@@ -155,6 +165,7 @@ const MOCK_POSTS: Post[] = [
     excerpt: 'Ayurveda meets AI in new product line.',
     image_url: null,
     is_featured: false,
+    status: 'published',
     published_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
     content: ''
@@ -173,6 +184,7 @@ const MOCK_JOBS: Job[] = [
     description: 'Entry level position for a botanist enthusiast.', // Added
     tags: ['Entry Level', 'Remote'],
     is_active: true,
+    status: 'published',
     created_at: new Date().toISOString()
   },
   {
@@ -186,6 +198,7 @@ const MOCK_JOBS: Job[] = [
     description: 'Senior developer needed to lead our frontend team.', // Added
     tags: ['Senior', 'Tech', 'React'],
     is_active: true,
+    status: 'published',
     created_at: new Date().toISOString()
   },
   {
@@ -199,6 +212,7 @@ const MOCK_JOBS: Job[] = [
     description: 'Contract role for soil analysis and reporting.', // Added
     tags: ['Contract', 'Science'],
     is_active: true,
+    status: 'published',
     created_at: new Date().toISOString()
   },
   {
@@ -212,6 +226,7 @@ const MOCK_JOBS: Job[] = [
     description: 'Learn urban farming techniques this summer.', // Added
     tags: ['Intern'],
     is_active: true,
+    status: 'published',
     created_at: new Date().toISOString()
   }
 ];
@@ -223,7 +238,7 @@ async function getData() {
       .from('posts')
       .select('*')
       .neq('category', 'Jobs') // Exclude jobs from regular posts fetch
-      .eq('is_active', true)
+      .eq('status', 'published') // Only show published posts
       .order('published_at', { ascending: false });
 
     // Fetch jobs from posts table
@@ -231,7 +246,7 @@ async function getData() {
       .from('posts')
       .select('*')
       .eq('category', 'Jobs')
-      .eq('is_active', true) // Assuming is_active column exists on posts or is null
+      .eq('status', 'published') // Only show published jobs
       .order('created_at', { ascending: false })
       .limit(10);
 
@@ -252,6 +267,7 @@ async function getData() {
       application_link: post.application_link,
       description: post.content || post.description || '',
       tags: post.tags || [],
+      status: post.status || 'published',
       is_active: post.is_active ?? true,
       created_at: post.created_at
     }));
