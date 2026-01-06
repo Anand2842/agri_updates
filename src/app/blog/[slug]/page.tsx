@@ -110,6 +110,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         author: [{
             '@type': 'Person',
             name: post.author_name,
+            url: post.author_social_linkedin || undefined, // Publisher Trust Graph: Link to profile
+            sameAs: [
+                post.author_social_linkedin,
+                post.author_social_twitter
+            ].filter(Boolean) as string[],
         }],
     };
 
@@ -136,6 +141,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         {post.title}
                     </h1>
                     <div className="flex items-center gap-4 text-white/80 text-sm font-bold uppercase tracking-widest">
+                        {post.author_image && (
+                            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20">
+                                <Image
+                                    src={post.author_image}
+                                    alt={post.author_name}
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                        )}
                         <span>By {post.author_name}</span>
                         <span>•</span>
                         <span>{new Date(post.published_at).toLocaleDateString()}</span>
@@ -149,6 +164,42 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         className="prose prose-lg prose-stone max-w-none font-serif prose-headings:font-bold prose-a:text-agri-green hover:prose-a:text-agri-dark"
                         dangerouslySetInnerHTML={{ __html: formatContent(post.content || post.excerpt) }}
                     />
+
+                    {/* Author Box - Publisher Trust Graph Signal */}
+                    <div className="mt-16 p-8 bg-stone-50 rounded-xl border border-stone-100 flex flex-col md:flex-row gap-8 items-start">
+                        <div className="relative w-24 h-24 flex-shrink-0 rounded-full overflow-hidden bg-stone-200 border-2 border-white shadow-sm">
+                            {post.author_image ? (
+                                <Image
+                                    src={post.author_image}
+                                    alt={post.author_name}
+                                    fill
+                                    className="object-cover"
+                                />
+                            ) : (
+                                <div className="w-full h-full flex items-center justify-center text-stone-400 font-serif text-2xl font-bold">
+                                    {post.author_name.charAt(0)}
+                                </div>
+                            )}
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-serif font-bold mb-2">About {post.author_name}</h3>
+                            <p className="text-stone-600 mb-4 leading-relaxed">
+                                {post.author_bio || `${post.author_name} is a regular contributor to Agri Updates, covering the latest in agricultural research and innovation.`}
+                            </p>
+                            <div className="flex gap-4">
+                                {post.author_social_linkedin && (
+                                    <a href={post.author_social_linkedin} target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-blue-700 transition-colors">
+                                        Linkedin
+                                    </a>
+                                )}
+                                {post.author_social_twitter && (
+                                    <a href={post.author_social_twitter} target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-black transition-colors">
+                                        Twitter
+                                    </a>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </article>

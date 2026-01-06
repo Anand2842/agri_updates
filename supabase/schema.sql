@@ -37,6 +37,10 @@ CREATE TABLE IF NOT EXISTS posts (
   author_name TEXT,
   category TEXT,
   tags TEXT[],
+  author_bio TEXT,
+  author_image TEXT,
+  author_social_twitter TEXT,
+  author_social_linkedin TEXT,
   published_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );

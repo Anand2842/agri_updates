@@ -9,6 +9,10 @@ export type Post = {
     image_url: string | null
     is_featured: boolean
     display_location?: 'hero' | 'featured' | 'trending' | 'dont_miss' | 'standard'
+    author_bio?: string | null
+    author_image?: string | null
+    author_social_twitter?: string | null
+    author_social_linkedin?: string | null
     published_at: string
     created_at: string
 
