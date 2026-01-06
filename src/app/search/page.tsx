@@ -20,6 +20,7 @@ const MOCK_JOBS: Job[] = [
         description: 'Lead sustainable farming initiatives and optimize crop yields.',
         tags: ['Full-time', 'Senior', 'Agronomy'],
         is_active: true,
+        status: 'published',
         created_at: new Date().toISOString()
     },
     {
@@ -33,6 +34,7 @@ const MOCK_JOBS: Job[] = [
         description: 'Operate drones for precision agriculture and data collection.',
         tags: ['Contract', 'Drone', 'Technology'],
         is_active: true,
+        status: 'published',
         created_at: new Date().toISOString()
     },
     {
@@ -46,6 +48,7 @@ const MOCK_JOBS: Job[] = [
         description: 'Analyze and optimize global food supply chain operations.',
         tags: ['Full-time', 'Logistics', 'Supply Chain'],
         is_active: true,
+        status: 'published',
         created_at: new Date().toISOString()
     },
     {
@@ -59,6 +62,7 @@ const MOCK_JOBS: Job[] = [
         description: 'Manage organic vegetable production and farm operations.',
         tags: ['Full-time', 'Management', 'Organic'],
         is_active: true,
+        status: 'published',
         created_at: new Date().toISOString()
     },
     {
@@ -72,6 +76,7 @@ const MOCK_JOBS: Job[] = [
         description: 'Build backend systems for agricultural financial technology.',
         tags: ['Full-time', 'Technology', 'Python', 'FinTech'],
         is_active: true,
+        status: 'published',
         created_at: new Date().toISOString()
     }
 ];
@@ -86,6 +91,7 @@ const MOCK_POSTS: Post[] = [
         excerpt: 'Researchers at MIT have developed a new machine learning algorithm that significantly improves yield predictions.',
         image_url: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80',
         is_featured: true,
+        status: 'published',
         published_at: new Date().toISOString(),
         created_at: new Date().toISOString(),
         content: ''
@@ -99,6 +105,7 @@ const MOCK_POSTS: Post[] = [
         excerpt: 'The funding will accelerate their expansion into urban centers across Europe and Asia by 2025.',
         image_url: 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&q=80',
         is_featured: true,
+        status: 'published',
         published_at: new Date().toISOString(),
         created_at: new Date().toISOString(),
         content: ''
@@ -137,6 +144,7 @@ async function searchContent(query: string, type: string = 'all') {
                     description: post.content || '',
                     tags: post.tags || [],
                     is_active: post.is_active ?? true,
+                    status: post.status ?? 'published',
                     created_at: post.created_at
                 }));
             } else {
