@@ -46,6 +46,13 @@ export const metadata: Metadata = {
   verification: {
     google: 'googlefc8ca8a578ae80e6',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Agri Updates | AgriTech Careers & News',
+    description: "India's trusted platform for agricultural jobs, internships, fellowships, and AgriTech innovation.",
+    images: ['/og-image.jpg'], // Must be added to public folder
+    creator: '@AgriUpdates', // Replace with actual handle
+  },
 };
 
 import Navbar from "@/components/layout/Navbar";

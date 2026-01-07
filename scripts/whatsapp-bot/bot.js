@@ -1,12 +1,15 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
 const axios = require('axios');
+const path = require('path');
+
+// Load environment variables from the root .env.local file
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env.local') });
 
 // CONFIGURATION
-// CONFIGURATION
 const WEBSITE_WEBHOOK_URL = process.env.WEBHOOK_URL || 'http://localhost:3000/api/webhooks/whatsapp';
-// Secret generated and verified in previous steps
-const API_SECRET = process.env.WEBHOOK_SECRET || 'df8d723a56a18d6165f74b0e16edb943717601e8a8c110ec1fcef708a0c5f931';
+// Secret generated and verified in local env, prioritize WHATSAPP_WEBHOOK_SECRET
+const API_SECRET = process.env.WHATSAPP_WEBHOOK_SECRET || process.env.WEBHOOK_SECRET || 'df8d723a56a18d6165f74b0e16edb943717601e8a8c110ec1fcef708a0c5f931';
 const TARGET_GROUP_NAME = process.env.GROUP_NAME || 'news';
 
 console.log('Starting WhatsApp Client...');
@@ -30,6 +33,17 @@ client.on('qr', (qr) => {
 client.on('ready', () => {
     console.log('Client is ready!');
     console.log(`Listening for messages in group containing: "${TARGET_GROUP_NAME}"`);
+
+    // Debugging: Log failed resource loads to identify 404/400 errors
+    if (client.pupPage) {
+        client.pupPage.on('response', response => {
+            const status = response.status();
+            if (status >= 400) {
+                // Ignore common benign errors if needed, but for now log everything to identify the source
+                console.log(`[DEBUG] Resource Load Failed: ${status} ${response.url()}`);
+            }
+        });
+    }
 });
 
 client.on('message_create', async msg => {

@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
+import DeletePostButton from '@/components/admin/DeletePostButton'
 
 interface AdminPostsPageProps {
     searchParams: Promise<{ category?: string; status?: string }>
@@ -131,10 +132,11 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
                                 <td className="p-4 text-stone-400 text-xs">
                                     {new Date(post.updated_at || post.created_at).toLocaleDateString()}
                                 </td>
-                                <td className="p-4 text-right">
+                                <td className="p-4 text-right flex justify-end items-center gap-2">
                                     <Link href={`/admin/posts/${post.id}`} className="text-stone-400 hover:text-black font-bold uppercase text-[10px] tracking-widest">
                                         Edit
                                     </Link>
+                                    <DeletePostButton postId={post.id} postTitle={post.title} />
                                 </td>
                             </tr>
                         ))}

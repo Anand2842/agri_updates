@@ -51,6 +51,7 @@ export async function POST(request: NextRequest) {
 
         // 4. Save to Database (as Draft)
         // We use supabaseAdmin to bypass RLS
+
         const { data, error } = await supabaseAdmin
             .from('posts')
             .insert({
@@ -58,11 +59,13 @@ export async function POST(request: NextRequest) {
                 slug: postData.slug,
                 content: postData.content,
                 excerpt: postData.excerpt,
-                category: 'Research', // Default category for WhatsApp updates
+                category: postData.category || 'Research',
                 author_name: 'Agri Bot',
                 source: 'whatsapp',
-                status: 'draft', // Saved as draft for review
-                is_active: false // Keep sync until deprecated
+                status: 'draft',
+                is_active: false,
+                // Spread job details if available
+                ...(postData.job_details || {})
             })
             .select()
             .single();

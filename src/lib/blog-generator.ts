@@ -6,6 +6,15 @@ export interface GeneratedPost {
   content: string;
   category: string;
   keywords: string[];
+  job_details?: {
+    company?: string;
+    location?: string;
+    salary_range?: string;
+    job_type?: string;
+    application_link?: string;
+    email?: string;
+    contact?: string;
+  };
 }
 
 export class BlogGenerator {
@@ -47,7 +56,11 @@ export class BlogGenerator {
     for (const pattern of patterns) {
       const match = text.match(pattern);
       if (match && match[1]) {
-        return match[1].trim().replace(/^[:\-\s]+/, ''); // Remove leading separator chars
+        // Cleaning: Remove leading/trailing non-alphanumeric (except standard punctuation inside)
+        // Remove start bullets, arrows, colons
+        return match[1].trim()
+          .replace(/^[:\-\*>&=]+/, '') // Remove "->", ":", "*", ">", "=", etc. at start
+          .trim();
       }
     }
     return null;
@@ -243,13 +256,37 @@ export class BlogGenerator {
 
   private static generateJobPost(cleanText: string, lines: string[]): GeneratedPost {
     // Smart Extraction
-    const position = this.smartExtract(cleanText, [/(?:Position|Role|Post|Hiring For)\s*[:\-\*]*\s*([^\n]+)/i, /Urgent Requirement for\s+([^\n]+)/i]) || "Agri Professional";
-    const company = this.smartExtract(cleanText, [/(?:Company|Organization|Org)\s*[:\-\*]*\s*([^\n]+)/i]) || "Leading Agri Organization";
-    const location = this.smartExtract(cleanText, [/(?:Location|Place|HQ|City)\s*[:\-\*]*\s*([^\n]+)/i]) || "India";
+    const position = this.smartExtract(cleanText, [
+      /(?:Position|Role|Post|Hiring For)\s*[:\-\*]*\s*([^\n]+)/i,
+      /Hiring(?:[:\-\s]+)(.+?)\s+(?:at|@|for)/i, // Capture "Hiring Manager at..." (relaxed colon)
+      /Urgent Requirement\s+(?:at|for)?\s*(.*?)(?:\s+Position|\s+Location|\s+Qualification|\s*$)/i,
+      /Hiring(?:[:\-\s]+)([^\n]+)/i
+    ]) || "Agri Professional";
+
+    // Improve Company Extraction
+    const company = this.smartExtract(cleanText, [
+      /(?:Company|Organization|Org)(?:\s+Name)?\s*[:\-\*]*\s*([^\n]+)/i,
+      /(?:Hiring|Vacancy|Opening).*?(?:at|@|for)\s+([A-Za-z0-9\s\.]+?)(?:\n|$|\.)/i, // Capture "Hiring X at Company"
+      /([A-Za-z0-9\s]+)\s+is hiring/i, // Capture "X is hiring"
+      // Catch "Urgent Requirement [Company] Position" pattern
+      /Urgent Requirement\s+(?!for|at\b)(.*?)(?:\s+Position|\s+Location|\s+Qualification)/i
+    ]) || "Leading Agri Organization";
+
+    // Location: Stop if it hits another keyword
+    const location = this.smartExtract(cleanText, [
+      /(?:Location|Place|HQ|City|Loc)\s*[:\-\*]*\s*([^\n]*?)(?=\s*(?:\n|Qualification|Experience|Job|Contact|Salary|Description|$))/i,
+      /in\s+([A-Za-z]+(?:(?:\s|,\s)[A-Za-z]+)*?)(?:\.|\n|$)/i // Capture "in Pune" or "in Mumbai"
+    ]) || "India";
+
     const experience = this.smartExtract(cleanText, [/(?:Experience|Exp)\s*[:\-\*]*\s*([^\n]+)/i]);
-    const qualification = this.smartExtract(cleanText, [/(?:Qualification|Degree|Education)\s*[:\-\*]*\s*([^\n]+)/i]);
-    const contact = this.smartExtract(cleanText, [/(?:Contact|Mobile|Call|WhatsApp)\s*[:\-\*]*\s*([0-9\+\s]+)/i, /(\+91\s?\d{10})/]);
-    const email = this.smartExtract(cleanText, [/(?:Email|Send CV)\s*[:\-\*]*\s*([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/i, /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/i]);
+    const qualification = this.smartExtract(cleanText, [/(?:Qualification|Degree|Education)s?\s*[:\-\*]*\s*([^\n]+)/i]);
+
+    // Contact: Look for numbers more aggressively
+    const contact = this.smartExtract(cleanText, [
+      /(?:Contact|Mobile|Call|WhatsApp).{0,60}?([0-9]{10}|[0-9]{5}\s[0-9]{5})/i,
+      /(\d{10})/ // Fallback to just finding a 10-digit number
+    ]);
+    const email = this.smartExtract(cleanText, [/(?:Email|Send CV)(?:\s+to)?\s*[:\-\*]*\s*([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/i, /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/i]);
 
     const title = `Hiring: ${position} at ${company}`;
 
@@ -264,30 +301,48 @@ export class BlogGenerator {
         </div>
 
         <h2 class="text-xl font-bold text-stone-800 mb-4">Job Overview</h2>
-        <div class="bg-white border text-sm rounded-lg overflow-hidden mb-8 shadow-sm">
-             <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x border-stone-200">
-                <div class="p-4">
-                    <p class="text-stone-500 font-bold uppercase text-xs mb-1">Position</p>
-                    <p class="font-bold text-lg text-stone-800">${position}</p>
-                </div>
-                 <div class="p-4">
-                    <p class="text-stone-500 font-bold uppercase text-xs mb-1">Location</p>
-                    <p class="font-bold text-lg text-stone-800">${location}</p>
-                </div>
-                 <div class="p-4">
-                    <p class="text-stone-500 font-bold uppercase text-xs mb-1">Experience</p>
-                    <p class="text-stone-800">${experience || "Not Specified"}</p>
-                </div>
-                 <div class="p-4">
-                    <p class="text-stone-500 font-bold uppercase text-xs mb-1">Qualification</p>
-                    <p class="text-stone-800">${qualification || "Not Specified"}</p>
-                </div>
-             </div>
+        <div class="overflow-x-auto mb-8 shadow-sm border border-stone-200 rounded-lg">
+          <table class="w-full text-left border-collapse">
+            <tbody class="divide-y divide-stone-100">
+              <tr class="bg-stone-50">
+                <td class="px-6 py-4 w-1/3 text-xs font-bold text-stone-500 uppercase tracking-wider">Position</td>
+                <td class="px-6 py-4 text-lg font-bold text-stone-900">${position}</td>
+              </tr>
+              <tr class="bg-white">
+                <td class="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider">Company</td>
+                <td class="px-6 py-4 font-medium text-stone-800">${company}</td>
+              </tr>
+              <tr class="bg-stone-50">
+                <td class="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider">Location</td>
+                <td class="px-6 py-4 font-medium text-stone-800">${location}</td>
+              </tr>
+              <tr class="bg-white">
+                <td class="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider">Experience</td>
+                <td class="px-6 py-4 text-stone-800">${experience || "Not Specified"}</td>
+              </tr>
+              <tr class="bg-stone-50">
+                <td class="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider">Qualification</td>
+                <td class="px-6 py-4 text-stone-800">${qualification || "Not Specified"}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <h2 class="text-xl font-bold text-stone-800 mb-4">Description</h2>
         <div class="prose prose-stone max-w-none bg-stone-50 p-6 rounded-xl text-stone-700 whitespace-pre-line font-mono text-sm leading-relaxed">
-          ${cleanText}
+          ${lines.filter(line =>
+      !/^(?:Position|Role|Post|Hiring For|Urgent Requirement|Company|Organization|Org|Location|Place|HQ|City|Experience|Exp|Qualification|Degree|Education|Contact|Mobile|Call|WhatsApp|Email|Send CV|Job Overview)/i.test(line)
+    ).join('\n')}
+        </div>
+
+        <!-- Content Strategy: Original Analysis Placeholder -->
+        <h2 class="text-xl font-bold text-stone-800 mb-4 mt-8 flex items-center gap-2">
+            Details & Analysis
+            <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-normal">Editor's Note</span>
+        </h2>
+        <div class="prose prose-stone max-w-none text-stone-600 mb-8">
+            <p><strong>Resource for Applicants:</strong> This opportunity at ${company} aligns with current industry trends. Applicants are advised to highlight relevant experience in...</p>
+            <p><em>(Editor: Add 500+ words of original analysis here, focusing on the company culture, interview tips for this role, and how it fits into the broader agri-market.)</em></p>
         </div>
 
         <div class="my-8">
@@ -331,7 +386,15 @@ export class BlogGenerator {
       excerpt: `Urgent Hiring: ${position} at ${company}. Location: ${location}. Check eligibility and apply.`,
       category: "Jobs",
       keywords: ["Job", "Hiring", position, "Agriculture Jobs", location],
-      content: contentHtml
+      content: contentHtml,
+      job_details: {
+        company: company,
+        location: location,
+        job_type: "Full-time", // Default estimate
+        email: email || undefined,
+        application_link: email ? `mailto:${email}` : undefined,
+        contact: contact || undefined
+      }
     };
   }
 

@@ -41,7 +41,15 @@ export async function generateMetadata({ params }: JobPageProps): Promise<Metada
             description: `Apply for the ${job.title} position at ${job.company} in ${job.location}.`,
             type: 'article',
             publishedTime: job.created_at,
-        }
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `${job.title} at ${job.company}`,
+            description: `Apply for the ${job.title} position at ${job.company} in ${job.location}.`,
+        },
+        alternates: {
+            canonical: `/jobs/${id}`,
+        },
     };
 }
 
@@ -81,6 +89,35 @@ export default async function JobPage({ params }: JobPageProps) {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'BreadcrumbList',
+                        itemListElement: [
+                            {
+                                '@type': 'ListItem',
+                                position: 1,
+                                name: 'Home',
+                                item: 'https://agriupdates.com'
+                            },
+                            {
+                                '@type': 'ListItem',
+                                position: 2,
+                                name: 'Jobs',
+                                item: 'https://agriupdates.com/jobs'
+                            },
+                            {
+                                '@type': 'ListItem',
+                                position: 3,
+                                name: job.title,
+                                item: `https://agriupdates.com/jobs/${id}`
+                            }
+                        ]
+                    })
+                }}
             />
 
             {/* Header / Breadcrumb */}

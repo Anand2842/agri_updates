@@ -15,11 +15,6 @@ export default function Navbar() {
 
     const pathname = usePathname();
 
-    // Hide Navbar on Admin pages
-    if (pathname?.startsWith('/admin')) {
-        return null;
-    }
-
     useEffect(() => {
         const getUser = async () => {
             const { data: { session } } = await supabase.auth.getSession();
@@ -39,6 +34,11 @@ export default function Navbar() {
         await supabase.auth.signOut();
         router.refresh();
     };
+
+    // Hide Navbar on Admin pages
+    if (pathname?.startsWith('/admin')) {
+        return null;
+    }
 
     return (
         <header className="border-b border-stone-200 bg-white/90 backdrop-blur-md relative z-50 transition-all duration-300">

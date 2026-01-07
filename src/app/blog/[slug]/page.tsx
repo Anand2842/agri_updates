@@ -75,6 +75,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             publishedTime: post.published_at,
             authors: [post.author_name],
         },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: post.excerpt || post.content.substring(0, 160) + '...',
+            images: [post.image_url || '/placeholder.jpg'],
+        },
+        alternates: {
+            canonical: `/blog/${slug}`,
+        },
     };
 }
 
@@ -120,11 +129,40 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         }],
     };
 
+    const breadcrumbJsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://agriupdates.com'
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Blog',
+                item: 'https://agriupdates.com/blog'
+            },
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: post.title,
+                item: `https://agriupdates.com/blog/${slug}`
+            }
+        ]
+    };
+
     return (
         <article className="min-h-screen bg-white pb-20">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
             />
             {post.id && <ViewCounter postId={post.id} />}
             <div className="relative h-[60vh] w-full">
