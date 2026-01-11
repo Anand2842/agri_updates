@@ -111,7 +111,7 @@ export class BlogGenerator {
       excerpt: (lines[1] || "Latest Update").substring(0, 160),
       category: "News",
       keywords: ["Agriculture", "News", "Update"],
-      content: contentHtml
+      content: contentHtml + this.getDisclaimerHtml()
     };
   }
 
@@ -178,7 +178,7 @@ export class BlogGenerator {
       excerpt: `Join the upcoming event "${title}" on ${date || 'upcoming date'}. Check details & register.`,
       category: "Events",
       keywords: ["Event", "Webinar", "Agriculture", "Workshop"],
-      content: contentHtml
+      content: contentHtml + this.getDisclaimerHtml()
     };
   }
 
@@ -241,7 +241,7 @@ export class BlogGenerator {
       excerpt: `New scheme announced: ${title}. Subsidy: ${benefit || 'Available'}. Check eligibility.`,
       category: "Schemes",
       keywords: ["Scheme", "Subsidy", "Grant", "Agriculture"],
-      content: contentHtml
+      content: contentHtml + this.getDisclaimerHtml()
     };
   }
 
@@ -386,7 +386,7 @@ export class BlogGenerator {
       excerpt: `Urgent Hiring: ${position} at ${company}. Location: ${location}. Check eligibility and apply.`,
       category: "Jobs",
       keywords: ["Job", "Hiring", position, "Agriculture Jobs", location],
-      content: contentHtml,
+      content: contentHtml + this.getDisclaimerHtml(),
       job_details: {
         company: company,
         location: location,
@@ -396,6 +396,18 @@ export class BlogGenerator {
         contact: contact || undefined
       }
     };
+  }
+
+  private static getDisclaimerHtml(): string {
+    return `
+      <hr class="my-8 border-stone-200" />
+      <div class="bg-stone-50 p-6 rounded-lg border border-stone-200">
+        <p class="font-bold text-stone-700 mb-2">Disclaimer</p>
+        <p class="text-stone-600 text-sm">
+          Agri Updates shares opportunities sourced from trusted networks. Applicants are advised to verify all details directly with the issuing organisation before submission.
+        </p>
+      </div>
+    `;
   }
 
 }

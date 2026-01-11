@@ -53,7 +53,7 @@ export default function GeneratorPage() {
                     excerpt: generatedResult.excerpt,
                     content: generatedResult.content,
                     category: generatedResult.category,
-                    author_name: 'Agri Updates AI',
+                    author_name: 'Anand',
                     published_at: new Date().toISOString()
                 }])
                 .select()

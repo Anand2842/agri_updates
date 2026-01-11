@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { Share2, MapPin, Building, Calendar, ArrowLeft, ExternalLink } from 'lucide-react';
 import { formatRelativeDate } from '@/lib/utils/date';
+import PostContent from '@/components/PostContent';
 
 export const revalidate = 3600;
 
@@ -166,15 +167,8 @@ export default async function JobPage({ params }: JobPageProps) {
                     <div className="lg:col-span-2 space-y-8">
                         <div className="bg-white p-8 md:p-12 rounded-xl border border-stone-200 shadow-sm">
                             <h2 className="font-serif text-2xl font-bold mb-6">Job Description</h2>
-                            <div className="prose prose-stone max-w-none">
-                                {/* Render description. Render HTML content safely */}
-                                {job.content ? (
-                                    <div dangerouslySetInnerHTML={{ __html: job.content }} />
-                                ) : job.excerpt ? (
-                                    <p>{job.excerpt}</p>
-                                ) : (
-                                    <p className="text-stone-500 italic">No detailed description provided. Please visit the application link for more details.</p>
-                                )}
+                            <div className="w-full">
+                                <PostContent html={job.content || `<p>${job.excerpt}</p>`} canonicalUrl={`https://agriupdates.com/jobs/${id}`} />
                             </div>
                         </div>
 
