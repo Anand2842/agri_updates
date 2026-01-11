@@ -179,6 +179,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 />
                 <div className="absolute inset-0 bg-black/40" />
                 <div className="absolute inset-x-0 bottom-0 container mx-auto px-4 pb-12">
+                    {post.is_featured && (
+                        <span className="inline-block bg-agri-green text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 mb-4 mr-2">
+                            Featured
+                        </span>
+                    )}
                     <span className="inline-block bg-agri-green text-white text-xs font-bold uppercase tracking-widest px-3 py-1 mb-4">
                         {post.category}
                     </span>

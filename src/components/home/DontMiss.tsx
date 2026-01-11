@@ -14,7 +14,12 @@ export default function DontMiss({ posts }: { posts: Post[] }) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {posts.map((post) => (
-                    <div key={post.id} className="text-center group p-4 border border-transparent hover:border-stone-100 hover:bg-stone-50 transition-all">
+                    <div key={post.id} className="text-center group p-4 border border-transparent hover:border-stone-100 hover:bg-stone-50 transition-all relative">
+                        {post.is_featured && (
+                            <div className="absolute top-2 right-2 bg-agri-green text-white text-[9px] font-bold tracking-widest uppercase px-2 py-0.5">
+                                Featured
+                            </div>
+                        )}
                         <div className="text-[10px] uppercase font-bold text-agri-green tracking-widest mb-3">
                             {post.category}
                         </div>

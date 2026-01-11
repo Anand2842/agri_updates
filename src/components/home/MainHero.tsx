@@ -16,6 +16,11 @@ export default function MainHero({ post }: { post: Post }) {
                     sizes="(max-width: 1200px) 100vw, 800px"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
+                {post.is_featured && (
+                    <div className="absolute top-0 right-0 bg-agri-green text-white text-[10px] font-bold tracking-widest uppercase px-3 py-1 m-4 z-10">
+                        Featured
+                    </div>
+                )}
             </Link>
 
             <div className="text-center px-4">

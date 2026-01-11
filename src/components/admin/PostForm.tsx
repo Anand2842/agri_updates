@@ -407,6 +407,21 @@ export default function PostForm({ initialData }: PostFormProps) {
                         </p>
                     </div>
                 </div>
+
+                <div className="mt-6 border-t border-stone-200 pt-6">
+                    <label className="flex items-center gap-3 cursor-pointer group">
+                        <input
+                            type="checkbox"
+                            checked={formData.is_featured}
+                            onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })}
+                            className="w-5 h-5 rounded border-stone-300 text-agri-green focus:ring-agri-green"
+                        />
+                        <div>
+                            <span className="block font-bold uppercase text-xs tracking-widest text-agri-green group-hover:text-agri-dark">Featured Listing</span>
+                            <span className="text-xs text-stone-400">Mark this post as a paid/featured listing (adds badge & priority).</span>
+                        </div>
+                    </label>
+                </div>
             </div>
 
             <div className="flex gap-4 mt-8">

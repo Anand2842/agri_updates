@@ -316,6 +316,11 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                                                             alt={post.title}
                                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                                         />
+                                                        {post.is_featured && (
+                                                            <div className="absolute top-0 right-0 bg-agri-green text-white text-[10px] font-bold tracking-widest uppercase px-2 py-1 m-2">
+                                                                Featured
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </Link>
                                             )}
