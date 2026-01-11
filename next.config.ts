@@ -11,6 +11,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'ulqzicqxnaygfergqrbe.supabase.co',
       },
+      {
+        protocol: 'https',
+        hostname: 'ui-avatars.com',
+      },
     ],
   },
   eslint: {
