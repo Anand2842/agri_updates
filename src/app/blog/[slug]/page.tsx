@@ -10,7 +10,7 @@ async function getPost(slug: string) {
     try {
         const { data, error } = await supabase
             .from('posts')
-            .select('*')
+            .select('*, authors(*)')
             .eq('slug', slug)
             .single();
 
@@ -19,6 +19,7 @@ async function getPost(slug: string) {
             console.log(`Supabase fetch failed or empty for slug: ${slug}, checking mock/fallback logic.`);
             // Quick Mock Match for Demo Purposes
             if (slug === 'ai-crop-yield-model') return {
+                id: 'mock-id-1', // Added mock ID for comments
                 title: 'New AI Model Predicts Crop Yield with 98% Accuracy',
                 category: 'Research',
                 author_name: 'Dr. Sarah Jenkins',
@@ -33,6 +34,7 @@ async function getPost(slug: string) {
             `
             };
             if (slug === 'autonomous-drones') return {
+                id: 'mock-id-2',
                 title: 'The Rise of Autonomous Drones in Precision Agriculture',
                 category: 'Technology',
                 author_name: 'Dr. Arjun Singh',
@@ -73,7 +75,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             images: [post.image_url || '/placeholder.jpg'],
             type: 'article',
             publishedTime: post.published_at,
-            authors: [post.author_name],
+            authors: [post.authors?.name || post.author_name],
         },
         twitter: {
             card: 'summary_large_image',
@@ -102,6 +104,8 @@ function formatContent(content: string) {
 }
 
 import ViewCounter from '@/components/analytics/ViewCounter';
+import CommentSection from '@/components/blog/CommentSection';
+import AdPlaceholder from '@/components/ads/AdPlaceholder';
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
@@ -120,11 +124,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         dateModified: post.updated_at || post.published_at,
         author: [{
             '@type': 'Person',
-            name: post.author_name,
-            url: post.author_social_linkedin || undefined, // Publisher Trust Graph: Link to profile
+            name: post.authors?.name || post.author_name,
+            url: post.authors?.social_links?.linkedin || post.author_social_linkedin || undefined, // Publisher Trust Graph: Link to profile
             sameAs: [
-                post.author_social_linkedin,
-                post.author_social_twitter
+                post.authors?.social_links?.linkedin || post.author_social_linkedin,
+                post.authors?.social_links?.twitter || post.author_social_twitter
             ].filter(Boolean) as string[],
         }],
     };
@@ -182,17 +186,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         {post.title}
                     </h1>
                     <div className="flex items-center gap-4 text-white/80 text-sm font-bold uppercase tracking-widest">
-                        {post.author_image && (
+                        {(post.authors?.avatar_url || post.author_image) && (
                             <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20">
                                 <Image
-                                    src={post.author_image}
-                                    alt={post.author_name}
+                                    src={post.authors?.avatar_url || post.author_image || '/placeholder-avatar.jpg'}
+                                    alt={post.authors?.name || post.author_name}
                                     fill
                                     className="object-cover"
                                 />
                             </div>
                         )}
-                        <span>By {post.author_name}</span>
+                        <span>By {post.authors?.name || post.author_name}</span>
                         <span>•</span>
                         <span>{new Date(post.published_at).toLocaleDateString()}</span>
                     </div>
@@ -201,48 +205,52 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
             <div className="container mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
                 <div className="lg:col-span-8 lg:col-start-3">
+                    <AdPlaceholder type="banner" />
                     <div
                         className="prose prose-lg prose-stone max-w-none font-serif prose-headings:font-bold prose-a:text-agri-green hover:prose-a:text-agri-dark"
                         dangerouslySetInnerHTML={{ __html: formatContent(post.content || post.excerpt) }}
                     />
 
-                    {/* Author Box - Publisher Trust Graph Signal */}
                     <div className="mt-16 p-8 bg-stone-50 rounded-xl border border-stone-100 flex flex-col md:flex-row gap-8 items-start">
                         <div className="relative w-24 h-24 flex-shrink-0 rounded-full overflow-hidden bg-stone-200 border-2 border-white shadow-sm">
-                            {post.author_image ? (
+                            {(post.authors?.avatar_url || post.author_image) ? (
                                 <Image
-                                    src={post.author_image}
-                                    alt={post.author_name}
+                                    src={post.authors?.avatar_url || post.author_image || '/placeholder-avatar.jpg'}
+                                    alt={post.authors?.name || post.author_name}
                                     fill
                                     className="object-cover"
                                 />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center text-stone-400 font-serif text-2xl font-bold">
-                                    {post.author_name.charAt(0)}
+                                    {(post.authors?.name || post.author_name).charAt(0)}
                                 </div>
                             )}
                         </div>
                         <div>
-                            <h3 className="text-xl font-serif font-bold mb-2">About {post.author_name}</h3>
+                            <h3 className="text-xl font-serif font-bold mb-2">About {post.authors?.name || post.author_name}</h3>
                             <p className="text-stone-600 mb-4 leading-relaxed">
-                                {post.author_bio || `${post.author_name} is a regular contributor to Agri Updates, covering the latest in agricultural research and innovation.`}
+                                {post.authors?.bio || post.author_bio || `${post.authors?.name || post.author_name} is a regular contributor to Agri Updates, covering the latest in agricultural research and innovation.`}
                             </p>
                             <div className="flex gap-4">
-                                {post.author_social_linkedin && (
-                                    <a href={post.author_social_linkedin} target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-blue-700 transition-colors">
+                                {(post.authors?.social_links?.linkedin || post.author_social_linkedin) && (
+                                    <a href={post.authors?.social_links?.linkedin || post.author_social_linkedin} target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-blue-700 transition-colors">
                                         Linkedin
                                     </a>
                                 )}
-                                {post.author_social_twitter && (
-                                    <a href={post.author_social_twitter} target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-black transition-colors">
+                                {(post.authors?.social_links?.twitter || post.author_social_twitter) && (
+                                    <a href={post.authors?.social_links?.twitter || post.author_social_twitter} target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-black transition-colors">
                                         Twitter
                                     </a>
                                 )}
                             </div>
                         </div>
                     </div>
+
+                    <AdPlaceholder type="banner" />
                 </div>
             </div>
+
+            {post.id && <CommentSection postId={post.id} />}
         </article>
     );
 }

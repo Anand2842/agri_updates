@@ -1,33 +1,4 @@
-export type Post = {
-    id: string
-    title: string
-    slug: string
-    excerpt: string | null
-    content: string | null
-    category: string
-    author_name: string
-    image_url: string | null
-    is_featured: boolean
-    display_location?: 'hero' | 'featured' | 'trending' | 'dont_miss' | 'standard'
-    author_bio?: string | null
-    author_image?: string | null
-    author_social_twitter?: string | null
-    author_social_linkedin?: string | null
-    status: 'draft' | 'published' | 'archived'
-    views?: number
-    published_at: string
-    updated_at?: string
-    created_at: string
 
-    // Job-specific fields (optional, only for category='Jobs')
-    company?: string | null
-    location?: string | null
-    job_type?: string | null
-    salary_range?: string | null
-    application_link?: string | null
-    is_active?: boolean
-    tags?: string[] | null
-}
 
 export type Job = {
     id: string
@@ -95,4 +66,61 @@ export type ResearchProject = {
     team_count: number
     lead_name: string | null
     created_at: string
+}
+
+
+export type Comment = {
+    id: string
+    post_id: string
+    parent_id: string | null
+    user_name: string
+    content: string
+    likes: number
+    created_at: string
+}
+
+export type Author = {
+    id: string
+    name: string
+    bio: string | null
+    role: string | null
+    avatar_url: string | null
+    social_links: any | null
+    is_active: boolean
+    created_at: string
+}
+
+export type Post = {
+    id: string
+    author_id?: string | null // NEW: Link to Author table
+    title: string
+    slug: string
+    excerpt: string | null
+    content: string | null
+    category: string
+    author_name: string // Keeper for backward compat or custom overrides
+    image_url: string | null
+    is_featured: boolean
+    display_location?: 'hero' | 'featured' | 'trending' | 'dont_miss' | 'standard'
+    author_bio?: string | null
+    author_image?: string | null
+    author_social_twitter?: string | null
+    author_social_linkedin?: string | null
+    status: 'draft' | 'published' | 'archived'
+    views?: number
+    published_at: string
+    updated_at?: string
+    created_at: string
+
+    // Job-specific fields (optional, only for category='Jobs')
+    company?: string | null
+    location?: string | null
+    job_type?: string | null
+    salary_range?: string | null
+    application_link?: string | null
+    is_active?: boolean
+    tags?: string[] | null
+
+    // Relation
+    authors?: Author | null
 }

@@ -3,10 +3,10 @@
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
-import { Post } from '@/types/database'
+import { Post, Author } from '@/types/database'
 import dynamic from 'next/dynamic'
 
-import { Image as ImageIcon, Wand2 } from 'lucide-react'
+import { Image as ImageIcon, Wand2, Sparkles } from 'lucide-react'
 import ImageUpload from './ImageUpload'
 
 // Dynamically import Quill to avoid SSR issues
@@ -24,6 +24,17 @@ export default function PostForm({ initialData }: PostFormProps) {
     const router = useRouter()
     const supabase = createClient()
     const [loading, setLoading] = useState(false)
+    const [isPolishing, setIsPolishing] = useState(false)
+    const [authors, setAuthors] = useState<Author[]>([])
+
+    // Fetch authors on mount
+    useState(() => {
+        const fetchAuthors = async () => {
+            const { data } = await supabase.from('authors').select('*').eq('is_active', true)
+            if (data) setAuthors(data)
+        }
+        fetchAuthors()
+    })
 
     // Unified Form State (includes job-specific fields)
     const [formData, setFormData] = useState({
@@ -32,6 +43,7 @@ export default function PostForm({ initialData }: PostFormProps) {
         excerpt: initialData?.excerpt || '',
         content: initialData?.content || '',
         author_name: initialData?.author_name || 'Agri Updates',
+        author_id: initialData?.author_id || '', // New field
         category: initialData?.category || 'Research',
         image_url: initialData?.image_url || '',
         is_featured: initialData?.is_featured || false,
@@ -65,6 +77,34 @@ export default function PostForm({ initialData }: PostFormProps) {
         }));
     }
 
+    const handlePolish = async () => {
+        if (!formData.content || formData.content.length < 10) {
+            alert('Please write some content first to polish.');
+            return;
+        }
+
+        setIsPolishing(true);
+        try {
+            const res = await fetch('/api/ai/polish', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: formData.content })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) throw new Error(data.error || 'Failed to polish');
+
+            setFormData(prev => ({ ...prev, content: data.content }));
+            alert('Content polished successfully!');
+        } catch (error) {
+            console.error('Polish error:', error);
+            alert('Failed to polished content. Check API Key or try again.');
+        } finally {
+            setIsPolishing(false);
+        }
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
@@ -74,6 +114,7 @@ export default function PostForm({ initialData }: PostFormProps) {
             slug: formData.slug,
             excerpt: formData.excerpt,
             content: formData.content,
+            author_id: formData.author_id || null,
             author_name: formData.author_name,
             category: formData.category,
             image_url: formData.image_url,
@@ -181,12 +222,40 @@ export default function PostForm({ initialData }: PostFormProps) {
                 </div>
 
                 <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Author Name</label>
-                    <input
-                        value={formData.author_name}
-                        onChange={e => setFormData({ ...formData, author_name: e.target.value })}
-                        className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black"
-                    />
+                    <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Author</label>
+                    <div className="flex gap-4">
+                        <div className="flex-1">
+                            <select
+                                value={formData.author_id}
+                                onChange={e => {
+                                    const selectedId = e.target.value;
+                                    const selectedAuthor = authors.find(a => a.id === selectedId);
+                                    setFormData({
+                                        ...formData,
+                                        author_id: selectedId,
+                                        author_name: selectedAuthor ? selectedAuthor.name : formData.author_name
+                                    })
+                                }}
+                                className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black"
+                            >
+                                <option value="">-- Select Author --</option>
+                                {authors.map(author => (
+                                    <option key={author.id} value={author.id}>
+                                        {author.name} ({author.role})
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="flex-1">
+                            <input
+                                value={formData.author_name}
+                                onChange={e => setFormData({ ...formData, author_name: e.target.value })}
+                                className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black"
+                                placeholder="Or type custom name..."
+                            />
+                        </div>
+                    </div>
+                    <p className="text-xs text-stone-400 mt-2">Select a verified author from the list, or override the display name manually.</p>
                 </div>
 
                 <div>
@@ -267,7 +336,18 @@ export default function PostForm({ initialData }: PostFormProps) {
                 )}
 
                 <div className="prose-editor">
-                    <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Content</label>
+                    <div className="flex justify-between items-center mb-2">
+                        <label className="block text-xs font-bold uppercase tracking-widest text-stone-500">Content</label>
+                        <button
+                            type="button"
+                            onClick={handlePolish}
+                            disabled={isPolishing}
+                            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-purple-600 hover:bg-purple-50 px-3 py-1 rounded transition-colors disabled:opacity-50"
+                        >
+                            <Sparkles className="w-3 h-3" />
+                            {isPolishing ? 'Polishing...' : 'Magic Polish'}
+                        </button>
+                    </div>
                     <ReactQuill
                         theme="snow"
                         value={formData.content}
@@ -314,8 +394,8 @@ export default function PostForm({ initialData }: PostFormProps) {
                             value={formData.status}
                             onChange={e => setFormData({ ...formData, status: e.target.value as any })}
                             className={`w-full p-3 border outline-none font-bold uppercase text-xs tracking-widest ${formData.status === 'published' ? 'bg-green-50 text-green-700 border-green-200' :
-                                    formData.status === 'archived' ? 'bg-red-50 text-red-700 border-red-200' :
-                                        'bg-stone-50 text-stone-600 border-stone-200'
+                                formData.status === 'archived' ? 'bg-red-50 text-red-700 border-red-200' :
+                                    'bg-stone-50 text-stone-600 border-stone-200'
                                 }`}
                         >
                             <option value="draft">Draft</option>
