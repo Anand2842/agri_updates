@@ -8,7 +8,7 @@ interface PostContentProps {
 }
 
 const window = new JSDOM('').window;
-const DOMPurify = createDOMPurify(window as unknown as Window);
+const DOMPurify = createDOMPurify(window as any);
 
 export default function PostContent({ html, canonicalUrl }: PostContentProps) {
     const clean = DOMPurify.sanitize(html, {
