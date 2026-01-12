@@ -2,7 +2,7 @@
 'use client';
 
 import { Comment } from '@/types/database';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CommentForm from './CommentForm';
 
 // Recursive component to display comments and replies
@@ -121,9 +121,9 @@ export default function CommentList({ postId }: CommentListProps) {
     };
 
     // Initial fetch
-    useState(() => {
+    useEffect(() => {
         fetchComments();
-    });
+    }, []);
 
     // Only show top-level comments initially (others are recursively rendered)
     const rootComments = comments.filter(c => !c.parent_id);

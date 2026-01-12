@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { Share2, MapPin, Building, Calendar, ArrowLeft, ExternalLink } from 'lucide-react';
@@ -12,13 +12,24 @@ interface JobPageProps {
     params: Promise<{ slug: string }>;
 }
 
-async function getJob(slug: string) {
-    const { data, error } = await supabase
+function isUUID(str: string) {
+    const regex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    return regex.test(str);
+}
+
+async function getJob(slugOrId: string) {
+    let query = supabase
         .from('posts')
         .select('*')
-        .eq('slug', slug)
-        .eq('category', 'Jobs')
-        .single();
+        .eq('category', 'Jobs');
+
+    if (isUUID(slugOrId)) {
+        query = query.eq('id', slugOrId);
+    } else {
+        query = query.eq('slug', slugOrId);
+    }
+
+    const { data, error } = await query.single();
 
     if (error || !data) return null;
     return data;
@@ -49,7 +60,7 @@ export async function generateMetadata({ params }: JobPageProps): Promise<Metada
             description: `Apply for the ${job.title} position at ${job.company} in ${job.location}.`,
         },
         alternates: {
-            canonical: `/jobs/${slug}`,
+            canonical: `/jobs/${job.slug}`,
         },
     };
 }
@@ -60,6 +71,11 @@ export default async function JobPage({ params }: JobPageProps) {
 
     if (!job) {
         notFound();
+    }
+
+    // Redirect legacy ID URLs to new key-rich Slug URLs
+    if (isUUID(slug) && job.slug) {
+        redirect(`/jobs/${job.slug}`);
     }
 
     // Schema.org JSON-LD
