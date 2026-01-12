@@ -184,7 +184,7 @@ export default async function JobPage({ params }: JobPageProps) {
                         <div className="bg-white p-8 md:p-12 rounded-xl border border-stone-200 shadow-sm">
                             <h2 className="font-serif text-2xl font-bold mb-6">Job Description</h2>
                             <div className="w-full">
-                                <PostContent html={job.content || `<p>${job.excerpt}</p>`} canonicalUrl={`https://agriupdates.com/jobs/${slug}`} />
+                                <PostContent html={job.content || `<p>${job.excerpt}</p>`} />
                             </div>
                         </div>
 
