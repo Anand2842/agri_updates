@@ -34,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
         if (jobs) {
             jobRoutes = jobs.map((job) => ({
-                url: `${baseUrl}/jobs/${job.id}`,
+                url: `${baseUrl}/jobs/${job.slug}`,
                 lastModified: job.created_at,
                 changeFrequency: 'weekly' as const,
                 priority: 0.6,

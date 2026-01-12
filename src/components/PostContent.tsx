@@ -4,13 +4,14 @@ import createDOMPurify from 'dompurify';
 
 interface PostContentProps {
     html: string;
-    canonicalUrl?: string;
+    // canonicalUrl prop removed as it was unused
 }
 
 const window = new JSDOM('').window;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DOMPurify = createDOMPurify(window as any);
 
-export default function PostContent({ html, canonicalUrl }: PostContentProps) {
+export default function PostContent({ html }: PostContentProps) {
     const clean = DOMPurify.sanitize(html, {
         ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'p', 'ul', 'ol', 'li', 'strong', 'em', 'a', 'img', 'blockquote', 'div', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'details', 'summary', 'span', 'hr', 'br'],
         ALLOWED_ATTR: ['href', 'src', 'alt', 'target', 'rel', 'class', 'className', 'style']

@@ -2,7 +2,6 @@
 
 import { createClient } from '@/utils/supabase/client'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 export default function SignupPage() {
@@ -11,7 +10,6 @@ export default function SignupPage() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState(false)
-    const router = useRouter()
     const supabase = createClient()
 
     const handleSignup = async (e: React.FormEvent) => {
@@ -39,7 +37,7 @@ export default function SignupPage() {
                 <div className="max-w-md w-full bg-white p-8 border border-stone-200 shadow-sm text-center">
                     <h1 className="font-serif text-3xl font-bold mb-4">Check Your Email</h1>
                     <p className="text-stone-600 mb-8">
-                        We've sent a confirmation link to <strong>{email}</strong>.
+                        We&apos;ve sent a confirmation link to <strong>{email}</strong>.
                         Please check your inbox to complete your registration.
                     </p>
                     <Link

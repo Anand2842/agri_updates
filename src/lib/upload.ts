@@ -6,12 +6,12 @@ export async function uploadImage(file: File): Promise<string> {
     const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
     const filePath = `${fileName}`;
 
-    const { data, error } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
         .from('blog-assets')
         .upload(filePath, file);
 
-    if (error) {
-        throw new Error('Image upload failed: ' + error.message);
+    if (uploadError) {
+        throw new Error('Image upload failed: ' + uploadError.message);
     }
 
     const { data: { publicUrl } } = supabase.storage

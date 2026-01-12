@@ -119,7 +119,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         '@context': 'https://schema.org',
         '@type': 'NewsArticle',
         headline: post.title,
-        image: [post.image_url],
+        description: post.excerpt || post.content?.substring(0, 160),
+        image: [post.image_url || 'https://agriupdates.com/og-image.png'],
         datePublished: post.published_at,
         dateModified: post.updated_at || post.published_at,
         author: [{

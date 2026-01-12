@@ -257,17 +257,17 @@ async function getData() {
     // We assume the extra job fields are stored in the table columns 
     // based on previous context, but will use 'any' casting for safety 
     // if types aren't perfectly aligned yet.
-    const jobs: Job[] = (jobsData || []).map((post: any) => ({
+    const jobs: Job[] = (jobsData || []).map((post: Post) => ({
       id: post.id,
       title: post.title,
-      company: post.company || 'Unknown Company', // Fallback
+      company: post.company || 'Unknown Company',
       location: post.location || 'Remote',
-      type: post.job_type || 'Full-time', // mapped from job_type in posts
-      salary_range: post.salary_range,
-      application_link: post.application_link,
-      description: post.content || post.description || '',
+      type: post.job_type || 'Full-time',
+      salary_range: post.salary_range || null,
+      application_link: post.application_link || null,
+      description: post.content || post.excerpt || '',
       tags: post.tags || [],
-      status: post.status || 'published',
+      status: post.status,
       is_active: post.is_active ?? true,
       created_at: post.created_at
     }));

@@ -9,14 +9,18 @@ interface JobsPageProps {
     searchParams: Promise<{ type?: string; location?: string; q?: string; page?: string }>;
 }
 
-async function getJobs(filters?: { type?: string; location?: string; q?: string }) {
+async function getJobs(filters?: { type?: string; location?: string; q?: string }, page: number = 1, limit: number = ITEMS_PER_PAGE) {
     try {
+        const from = (page - 1) * limit;
+        const to = from + limit - 1;
+
         let query = supabase
             .from('posts')
-            .select('*')
+            .select('*', { count: 'exact' })
             .eq('category', 'Jobs')
             .eq('is_active', true)
-            .order('created_at', { ascending: false });
+            .order('created_at', { ascending: false })
+            .range(from, to);
 
         if (filters?.type) {
             query = query.ilike('job_type', filters.type);
@@ -34,17 +38,17 @@ async function getJobs(filters?: { type?: string; location?: string; q?: string 
             query = query.or(`title.ilike.%${filters.q}%,company.ilike.%${filters.q}%`);
         }
 
-        const { data, error } = await query;
+        const { data, error, count } = await query;
 
         if (error) {
             console.error('Supabase jobs fetch error:', error);
-            return [];
+            return { jobs: [], count: 0 };
         }
 
-        return data || [];
+        return { jobs: data || [], count: count || 0 };
     } catch (error) {
         console.error('Error fetching jobs:', error);
-        return [];
+        return { jobs: [], count: 0 };
     }
 }
 
@@ -86,11 +90,11 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
     const qFilter = params.q;
     const page = parseInt(params.page || '1');
 
-    const jobs = await getJobs({ type: typeFilter, location: locationFilter, q: qFilter });
+    const { jobs, count } = await getJobs({ type: typeFilter, location: locationFilter, q: qFilter }, page, ITEMS_PER_PAGE);
 
-    const totalJobs = jobs.length;
+    const totalJobs = count;
     const totalPages = Math.ceil(totalJobs / ITEMS_PER_PAGE);
-    const displayedJobs = jobs.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+    const displayedJobs = jobs; // Already paginated by DB
 
     return (
         <div className="bg-white min-h-screen pb-20">
@@ -220,7 +224,7 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                     {/* Job List */}
                     <div className="flex-grow">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                            {displayedJobs.map((job) => (
+                            {displayedJobs.map((job: Post) => (
                                 <div key={job.id} className="border border-stone-200 p-6 group hover:border-agri-green transition-colors bg-white flex flex-col h-full">
                                     <div className="flex justify-between items-start mb-4">
                                         <div className="flex flex-col">

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Facebook, Twitter, Instagram, Linkedin, Mail } from 'lucide-react';
+import { Twitter, Linkedin, Facebook } from 'lucide-react';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 
@@ -47,7 +47,7 @@ export default function Footer() {
                 setStatus('error');
                 setMessage(data.error || 'Something went wrong');
             }
-        } catch (error) {
+        } catch {
             setStatus('error');
             setMessage('Network error. Please try again.');
         }

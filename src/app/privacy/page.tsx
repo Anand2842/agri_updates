@@ -12,7 +12,7 @@ export default function PrivacyPage() {
                 <div className="container mx-auto px-4 text-center">
                     <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">Privacy Policy</h1>
                     <p className="text-stone-500 max-w-2xl mx-auto italic font-serif text-lg">
-                        "Transparent, Secure, and Respectful of Your Data"
+                        &quot;Transparent, Secure, and Respectful of Your Data&quot;
                     </p>
                     <div className="h-1 w-20 bg-agri-green mx-auto mt-6"></div>
                 </div>
@@ -26,7 +26,7 @@ export default function PrivacyPage() {
 
                     <h2>1. Who We Are</h2>
                     <p>
-                        Agri Updates ("we," "our," or "us") is a digital media platform dedicated to agricultural news, career opportunities, and innovation. We aggregate job listings and publish news content for the agriculture sector. We respect your privacy and are committed to protecting your personal data.
+                        Agri Updates (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is a digital media platform dedicated to agricultural news, career opportunities, and innovation. We aggregate job listings and publish news content for the agriculture sector. We respect your privacy and are committed to protecting your personal data.
                     </p>
 
                     <h2>2. Information We Collect</h2>
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
 
                     <h2>4. Job Listings & External Links</h2>
                     <p>
-                        Our platform serves as a news aggregator for job opportunities. When you click "Apply," you may be directed to third-party websites (e.g., company career pages, LinkedIn). We are not responsible for the privacy practices or content of these third-party sites. We encourage you to read their privacy policies before submitting any personal information.
+                        Our platform serves as a news aggregator for job opportunities. When you click &quot;Apply,&quot; you may be directed to third-party websites (e.g., company career pages, LinkedIn). We are not responsible for the privacy practices or content of these third-party sites. We encourage you to read their privacy policies before submitting any personal information.
                     </p>
 
                     <h2>5. Data Security</h2>

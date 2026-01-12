@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { Post, Author } from '@/types/database'
 import dynamic from 'next/dynamic'
 
-import { Image as ImageIcon, Wand2, Sparkles } from 'lucide-react'
+import { Wand2, Sparkles } from 'lucide-react'
 import ImageUpload from './ImageUpload'
 
 // Dynamically import Quill to avoid SSR issues
@@ -109,7 +109,7 @@ export default function PostForm({ initialData }: PostFormProps) {
         e.preventDefault()
         setLoading(true)
 
-        const postData: any = {
+        const postData: Partial<Post> & Record<string, unknown> = {
             title: formData.title,
             slug: formData.slug,
             excerpt: formData.excerpt,
@@ -374,14 +374,14 @@ export default function PostForm({ initialData }: PostFormProps) {
                         <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Display Location</label>
                         <select
                             value={formData.display_location}
-                            onChange={(e) => setFormData({ ...formData, display_location: e.target.value as any })}
+                            onChange={(e) => setFormData({ ...formData, display_location: e.target.value as 'standard' | 'hero' | 'featured' | 'trending' | 'dont_miss' })}
                             className="w-full p-3 bg-white border border-stone-200 outline-none focus:border-black"
                         >
                             <option value="standard">Standard (Feed)</option>
                             <option value="hero">Main Hero (Big Center)</option>
                             <option value="featured">Featured Grid (Top 3)</option>
                             <option value="trending">Trending (Numbered List)</option>
-                            <option value="dont_miss">Don't Miss (Bottom)</option>
+                            <option value="dont_miss">Don&apos;t Miss (Bottom)</option>
                         </select>
                         <p className="text-xs text-stone-400 mt-2">
                             Controls where this post appears on the home page.
@@ -392,7 +392,7 @@ export default function PostForm({ initialData }: PostFormProps) {
                         <span className="block font-bold uppercase text-xs tracking-widest text-stone-500 mb-2">Post Status</span>
                         <select
                             value={formData.status}
-                            onChange={e => setFormData({ ...formData, status: e.target.value as any })}
+                            onChange={e => setFormData({ ...formData, status: e.target.value as 'draft' | 'published' | 'archived' })}
                             className={`w-full p-3 border outline-none font-bold uppercase text-xs tracking-widest ${formData.status === 'published' ? 'bg-green-50 text-green-700 border-green-200' :
                                 formData.status === 'archived' ? 'bg-red-50 text-red-700 border-red-200' :
                                     'bg-stone-50 text-stone-600 border-stone-200'
@@ -403,7 +403,7 @@ export default function PostForm({ initialData }: PostFormProps) {
                             <option value="archived">Archived</option>
                         </select>
                         <p className="text-xs text-stone-400 mt-2">
-                            Only 'Published' posts appear on the site.
+                            Only &apos;Published&apos; posts appear on the site.
                         </p>
                     </div>
                 </div>

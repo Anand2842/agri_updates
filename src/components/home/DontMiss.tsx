@@ -8,7 +8,7 @@ export default function DontMiss({ posts }: { posts: Post[] }) {
         <section className="container mx-auto px-4 py-12 border-t border-b double-border-stone-200 my-12">
             <div className="flex items-center justify-center gap-4 mb-10">
                 <div className="h-px bg-stone-300 w-20"></div>
-                <h3 className="font-serif italic text-3xl text-stone-900 px-4">Don't Miss</h3>
+                <h3 className="font-serif italic text-3xl text-stone-900 px-4">Don&apos;t Miss</h3>
                 <div className="h-px bg-stone-300 w-20"></div>
             </div>
 

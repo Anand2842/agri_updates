@@ -82,7 +82,7 @@ export default function ContactForm() {
                 <div className="container mx-auto px-4 text-center">
                     <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
                     <p className="text-stone-500 max-w-2xl mx-auto italic font-serif text-lg">
-                        "Let's build the future of agricultural careers together"
+                        &quot;Let&apos;s build the future of agricultural careers together&quot;
                     </p>
                     <div className="h-1 w-20 bg-agri-green mx-auto mt-6"></div>
                 </div>

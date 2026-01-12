@@ -85,7 +85,7 @@ export type Author = {
     bio: string | null
     role: string | null
     avatar_url: string | null
-    social_links: any | null
+    social_links: Record<string, string> | null
     is_active: boolean
     created_at: string
 }

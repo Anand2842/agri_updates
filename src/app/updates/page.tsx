@@ -1,5 +1,4 @@
 import { supabase } from '@/lib/supabase';
-import { Post } from '@/types/database';
 import Link from 'next/link';
 import { Metadata } from 'next';
 
@@ -103,8 +102,8 @@ export default async function UpdatesPage({ searchParams }: UpdatesPageProps) {
                                 key={cat.value}
                                 href={cat.value ? `/updates?category=${cat.value}` : '/updates'}
                                 className={`px-4 py-2 text-xs font-bold uppercase tracking-widest whitespace-nowrap rounded-full transition-colors ${categoryFilter === cat.value
-                                        ? 'bg-agri-green text-white'
-                                        : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                                    ? 'bg-agri-green text-white'
+                                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
                                     }`}
                             >
                                 {cat.label}

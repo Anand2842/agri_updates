@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     siteName: 'Agri Updates',
     images: [
       {
-        url: '/og-image.jpg', // Needs to be added to public folder later
+        url: '/og-image.png',
         width: 1200,
         height: 630,
       },

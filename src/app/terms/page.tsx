@@ -12,7 +12,7 @@ export default function TermsPage() {
                 <div className="container mx-auto px-4 text-center">
                     <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">Terms of Use</h1>
                     <p className="text-stone-500 max-w-2xl mx-auto italic font-serif text-lg">
-                        "Building trust through transparency and responsibility"
+                        &quot;Building trust through transparency and responsibility&quot;
                     </p>
                     <div className="h-1 w-20 bg-agri-green mx-auto mt-6"></div>
                 </div>
@@ -26,7 +26,7 @@ export default function TermsPage() {
 
                     <h2>1. Acceptance of Terms</h2>
                     <p>
-                        By accessing and using Agri Updates ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
+                        By accessing and using Agri Updates (&quot;the Service&quot;), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
                     </p>
 
                     <h2>2. Description of Service</h2>
@@ -101,7 +101,7 @@ export default function TermsPage() {
 
                     <h3>9.1 Service Availability</h3>
                     <p>
-                        The Service is provided on an "as is" and "as available" basis. We do not warrant that the Service will be uninterrupted, timely, secure, or error-free.
+                        The Service is provided on an &quot;as is&quot; and &quot;as available&quot; basis. We do not warrant that the Service will be uninterrupted, timely, secure, or error-free.
                     </p>
 
                     <h3>9.2 Accuracy of Information</h3>
@@ -121,7 +121,7 @@ export default function TermsPage() {
 
                     <h2>11. Indemnification</h2>
                     <p>
-                        You agree to defend, indemnify, and hold harmless Agri Updates and its licensee and licensors, and their employees, contractors, agents, officers and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney's fees).
+                        You agree to defend, indemnify, and hold harmless Agri Updates and its licensee and licensors, and their employees, contractors, agents, officers and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs or debt, and expenses (including but not limited to attorney&apos;s fees).
                     </p>
 
                     <h2>12. Governing Law</h2>
