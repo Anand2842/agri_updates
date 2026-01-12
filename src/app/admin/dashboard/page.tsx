@@ -1,5 +1,5 @@
-import { Search, Bell, Users, Building, Briefcase, TrendingUp, MoreVertical, Calendar, Rocket, FileText, Download, ArrowUpRight } from 'lucide-react';
-import Link from 'next/link';
+import { Search, Bell, Users, Building, Briefcase, TrendingUp, MoreVertical, Rocket, FileText, ArrowUpRight } from 'lucide-react';
+import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import DashboardCharts from './DashboardCharts';
 
@@ -53,7 +53,7 @@ export default async function AdminDashboard() {
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
                     <h1 className="font-serif text-3xl font-bold mb-1">Dashboard</h1>
-                    <p className="text-stone-500 text-sm">Welcome back, Admin. Here's what's happening today.</p>
+                    <p className="text-stone-500 text-sm">Welcome back, Admin. Here&apos;s what&apos;s happening today.</p>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="relative">
@@ -70,7 +70,7 @@ export default async function AdminDashboard() {
                             <div className="text-xs text-stone-500">Super Admin</div>
                         </div>
                         <div className="w-10 h-10 bg-stone-200 rounded-full overflow-hidden border-2 border-white shadow-sm">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80" alt="Admin" className="w-full h-full object-cover" />
+                            <Image src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80" alt="Admin" fill className="object-cover" />
                         </div>
                     </div>
                 </div>

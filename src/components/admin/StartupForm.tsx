@@ -80,8 +80,8 @@ export default function StartupForm({ initialData }: StartupFormProps) {
 
             router.push('/admin/startups')
             router.refresh()
-        } catch (err: any) {
-            setError(err.message)
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'An error occurred')
             setLoading(false)
         }
     }

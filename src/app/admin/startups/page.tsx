@@ -84,7 +84,7 @@ export default async function AdminStartupsPage() {
                             {startups?.length === 0 && (
                                 <tr>
                                     <td colSpan={5} className="p-8 text-center text-stone-500">
-                                        No startups found. Click "Add Startup" to create one.
+                                        No startups found. Click &quot;Add Startup&quot; to create one.
                                     </td>
                                 </tr>
                             )}

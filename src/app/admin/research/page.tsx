@@ -1,4 +1,4 @@
-import { Search, Plus, Filter, LayoutGrid, List, MoreHorizontal, Calendar, FileText, PieChart, FlaskConical, Upload } from 'lucide-react';
+import { Plus, Filter, LayoutGrid, List, MoreHorizontal, Calendar, FileText, PieChart, FlaskConical, Upload } from 'lucide-react';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import { ResearchProject } from '@/types/database';
@@ -111,9 +111,9 @@ export default async function ResearchCRM() {
                     <div key={project.id} className="bg-white p-6 rounded-xl border border-stone-100 shadow-sm hover:shadow-md transition-shadow group">
                         <div className="flex justify-between items-start mb-4">
                             <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${project.status === 'Active' ? 'bg-green-100 text-green-700' :
-                                    project.status === 'Pending Review' ? 'bg-yellow-100 text-yellow-700' :
-                                        project.status === 'Planning' ? 'bg-blue-100 text-blue-700' :
-                                            'bg-stone-100 text-stone-600'
+                                project.status === 'Pending Review' ? 'bg-yellow-100 text-yellow-700' :
+                                    project.status === 'Planning' ? 'bg-blue-100 text-blue-700' :
+                                        'bg-stone-100 text-stone-600'
                                 }`}>
                                 {project.status}
                             </span>
@@ -169,9 +169,9 @@ export default async function ResearchCRM() {
     );
 }
 
-function UploadIcon(props: any) {
+function UploadIcon(props: { className?: string }) {
     return <Upload className={props.className} />
 }
-function FolderIcon(props: any) {
+function FolderIcon(props: { className?: string }) {
     return <FileText className={props.className} />
 }

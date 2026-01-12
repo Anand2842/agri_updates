@@ -1,6 +1,5 @@
 import { supabase } from '@/lib/supabase';
 import { Startup } from '@/types/database';
-import Image from 'next/image';
 import { Metadata } from 'next';
 
 export const revalidate = 0;

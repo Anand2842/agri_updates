@@ -2,7 +2,7 @@
 'use client';
 
 import { Comment } from '@/types/database';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import CommentForm from './CommentForm';
 
 // Recursive component to display comments and replies
@@ -106,7 +106,7 @@ export default function CommentList({ postId }: CommentListProps) {
     const [comments, setComments] = useState<Comment[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const fetchComments = async () => {
+    const fetchComments = useCallback(async () => {
         try {
             const res = await fetch(`/api/comments?postId=${postId}`);
             if (res.ok) {
@@ -118,12 +118,12 @@ export default function CommentList({ postId }: CommentListProps) {
         } finally {
             setLoading(false);
         }
-    };
+    }, [postId]);
 
     // Initial fetch
     useEffect(() => {
         fetchComments();
-    }, []);
+    }, [fetchComments]);
 
     // Only show top-level comments initially (others are recursively rendered)
     const rootComments = comments.filter(c => !c.parent_id);

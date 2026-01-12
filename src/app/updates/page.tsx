@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Metadata } from 'next';
 
 export const revalidate = 0;
@@ -121,10 +122,11 @@ export default async function UpdatesPage({ searchParams }: UpdatesPageProps) {
                             {post.image_url && (
                                 <Link href={`/blog/${post.slug}`} className="block">
                                     <div className="relative aspect-[16/9] overflow-hidden">
-                                        <img
-                                            src={post.image_url}
+                                        <Image
+                                            src={post.image_url!}
                                             alt={post.title}
-                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                            fill
+                                            className="object-cover transition-transform duration-700 group-hover:scale-105"
                                         />
                                     </div>
                                 </Link>

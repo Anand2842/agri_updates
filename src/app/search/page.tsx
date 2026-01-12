@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { supabase } from '@/lib/supabase';
 import { Job, Post } from '@/types/database';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
     title: 'Search | Agri Updates',
@@ -311,13 +312,14 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                                             {post.image_url && (
                                                 <Link href={`/blog/${post.slug}`} className="block">
                                                     <div className="relative aspect-[4/3] overflow-hidden">
-                                                        <img
-                                                            src={post.image_url}
+                                                        <Image
+                                                            src={post.image_url!}
                                                             alt={post.title}
-                                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                                            fill
+                                                            className="object-cover transition-transform duration-700 group-hover:scale-105"
                                                         />
                                                         {post.is_featured && (
-                                                            <div className="absolute top-0 right-0 bg-agri-green text-white text-[10px] font-bold tracking-widest uppercase px-2 py-1 m-2">
+                                                            <div className="absolute top-0 right-0 bg-agri-green text-white text-[10px] font-bold tracking-widest uppercase px-2 py-1 m-2 z-10">
                                                                 Featured
                                                             </div>
                                                         )}

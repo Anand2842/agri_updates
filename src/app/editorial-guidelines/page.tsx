@@ -28,7 +28,7 @@ export default function EditorialPage() {
 
                     <h3>2. Independence</h3>
                     <p>
-                        Our editorial content is independent of our advertising and partnership teams. Sponsored content is clearly marked as "Sponsored" or "Partner Content" to maintain transparency with our readers.
+                        Our editorial content is independent of our advertising and partnership teams. Sponsored content is clearly marked as &quot;Sponsored&quot; or &quot;Partner Content&quot; to maintain transparency with our readers.
                     </p>
 
                     <h3>3. AI & Automation</h3>

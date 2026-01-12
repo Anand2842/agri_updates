@@ -12,7 +12,7 @@ export default function DisclaimerPage() {
                 <div className="container mx-auto px-4 text-center">
                     <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">Disclaimer</h1>
                     <p className="text-stone-500 max-w-2xl mx-auto italic font-serif text-lg">
-                        "Transparency and accuracy in all our communications"
+                        &quot;Transparency and accuracy in all our communications&quot;
                     </p>
                     <div className="h-1 w-20 bg-agri-green mx-auto mt-6"></div>
                 </div>
@@ -126,7 +126,7 @@ export default function DisclaimerPage() {
                     <div className="bg-blue-50 border-l-4 border-blue-400 p-6 mt-8">
                         <h3 className="text-blue-800 font-bold mb-2">📞 Need Help?</h3>
                         <p className="text-blue-700">
-                            If you're unsure about any information on our platform or need clarification about a job posting, please don't hesitate to contact us. We're here to help ensure you have accurate and reliable information.
+                            If you&apos;re unsure about any information on our platform or need clarification about a job posting, please don&apos;t hesitate to contact us. We&apos;re here to help ensure you have accurate and reliable information.
                         </p>
                     </div>
                 </div>

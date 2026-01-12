@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
         // Using existing logic to determine category, format, etc.
         const generatedPost = BlogGenerator.generate(rawText);
 
-        const { keywords, ...postData } = generatedPost;
+        const { ...postData } = generatedPost;
 
         // 4. Save to Database (as Draft)
         // We use supabaseAdmin to bypass RLS

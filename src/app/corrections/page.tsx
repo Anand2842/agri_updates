@@ -29,8 +29,8 @@ export default function CorrectionsPage() {
                     <h3>How We Issue Corrections</h3>
                     <ul>
                         <li><strong>Minor Errors:</strong> Typos or minor inaccuracies that do not change the meaning of the story will be corrected in the text without a formal note, unless the error was significant.</li>
-                        <li><strong>Factual Errors:</strong> If we get a fact wrong (e.g., wrong data figure, misspelled name), we will correct the text and add a <em>"Correction:"</em> note at the bottom of the article explaining what was changed and when.</li>
-                        <li><strong>Retractions:</strong> In rare cases where a story is fundamentally flawed, we will retract it with an editor's note explaining the decision.</li>
+                        <li><strong>Factual Errors:</strong> If we get a fact wrong (e.g., wrong data figure, misspelled name), we will correct the text and add a <em>&quot;Correction:&quot;</em> note at the bottom of the article explaining what was changed and when.</li>
+                        <li><strong>Retractions:</strong> In rare cases where a story is fundamentally flawed, we will retract it with an editor&apos;s note explaining the decision.</li>
                     </ul>
                 </div>
             </div>

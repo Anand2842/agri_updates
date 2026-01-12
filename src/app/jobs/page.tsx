@@ -103,7 +103,7 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                 <div className="container mx-auto px-4 text-center">
                     <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">Agricultural Jobs</h1>
                     <p className="text-stone-500 max-w-2xl mx-auto italic font-serif text-lg">
-                        "Find your next career move in the world of agriculture"
+                        &quot;Find your next career move in the world of agriculture&quot;
                     </p>
                     <div className="h-1 w-20 bg-agri-green mx-auto mt-6"></div>
                 </div>

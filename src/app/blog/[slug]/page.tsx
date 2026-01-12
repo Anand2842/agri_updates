@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { Post } from '@/types/database';
 import { Metadata } from 'next';
 
 export const revalidate = 0;
@@ -51,7 +50,7 @@ async function getPost(slug: string) {
         }
 
         return data;
-    } catch (e) {
+    } catch {
         return null;
     }
 }
