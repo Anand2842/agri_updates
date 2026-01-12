@@ -225,7 +225,7 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                                     <div className="flex justify-between items-start mb-4">
                                         <div className="flex flex-col">
                                             <h2 className="font-serif text-xl font-bold leading-tight group-hover:text-agri-dark transition-colors mb-1">
-                                                <Link href={`/jobs/${job.id}`}>{job.title}</Link>
+                                                <Link href={`/jobs/${job.slug}`}>{job.title}</Link>
                                             </h2>
                                             <span className="text-stone-500 text-sm">{job.company}</span>
                                         </div>
@@ -246,7 +246,7 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                                                 </span>
                                             ))}
                                         </div>
-                                        <Link href={`/jobs/${job.id}`} className="bg-black text-white text-xs font-bold uppercase px-4 py-2 hover:bg-agri-green transition-colors">
+                                        <Link href={`/jobs/${job.slug}`} className="bg-black text-white text-xs font-bold uppercase px-4 py-2 hover:bg-agri-green transition-colors">
                                             View Details
                                         </Link>
                                     </div>

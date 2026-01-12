@@ -47,7 +47,7 @@ If the input looks like a job/internship/fellowship:
     *   Location (and if Remote)
     *   Salary (if disclosed)
     *   Deadline (if disclosed)
-    *   Link (if available, display as "Apply Here")
+    *   Link (if available - use "Apply Here" for URLs. If WhatsApp/Email, display the number/email labelled "via WhatsApp" or "via Email")
 
 Input Text:
 `;

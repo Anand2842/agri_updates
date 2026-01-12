@@ -9,14 +9,14 @@ import PostContent from '@/components/PostContent';
 export const revalidate = 3600;
 
 interface JobPageProps {
-    params: Promise<{ id: string }>;
+    params: Promise<{ slug: string }>;
 }
 
-async function getJob(id: string) {
+async function getJob(slug: string) {
     const { data, error } = await supabase
         .from('posts')
         .select('*')
-        .eq('id', id)
+        .eq('slug', slug)
         .eq('category', 'Jobs')
         .single();
 
@@ -25,8 +25,8 @@ async function getJob(id: string) {
 }
 
 export async function generateMetadata({ params }: JobPageProps): Promise<Metadata> {
-    const { id } = await params;
-    const job = await getJob(id);
+    const { slug } = await params;
+    const job = await getJob(slug);
 
     if (!job) {
         return {
@@ -49,14 +49,14 @@ export async function generateMetadata({ params }: JobPageProps): Promise<Metada
             description: `Apply for the ${job.title} position at ${job.company} in ${job.location}.`,
         },
         alternates: {
-            canonical: `/jobs/${id}`,
+            canonical: `/jobs/${slug}`,
         },
     };
 }
 
 export default async function JobPage({ params }: JobPageProps) {
-    const { id } = await params;
-    const job = await getJob(id);
+    const { slug } = await params;
+    const job = await getJob(slug);
 
     if (!job) {
         notFound();
@@ -114,7 +114,7 @@ export default async function JobPage({ params }: JobPageProps) {
                                 '@type': 'ListItem',
                                 position: 3,
                                 name: job.title,
-                                item: `https://agriupdates.com/jobs/${id}`
+                                item: `https://agriupdates.com/jobs/${slug}`
                             }
                         ]
                     })
@@ -168,7 +168,7 @@ export default async function JobPage({ params }: JobPageProps) {
                         <div className="bg-white p-8 md:p-12 rounded-xl border border-stone-200 shadow-sm">
                             <h2 className="font-serif text-2xl font-bold mb-6">Job Description</h2>
                             <div className="w-full">
-                                <PostContent html={job.content || `<p>${job.excerpt}</p>`} canonicalUrl={`https://agriupdates.com/jobs/${id}`} />
+                                <PostContent html={job.content || `<p>${job.excerpt}</p>`} canonicalUrl={`https://agriupdates.com/jobs/${slug}`} />
                             </div>
                         </div>
 
