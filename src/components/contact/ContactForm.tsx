@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { Mail } from 'lucide-react';
 
 export default function ContactForm() {
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -21,7 +21,8 @@ export default function ContactForm() {
         setStatus('loading');
 
         const data = {
-            name: `${formData.get('firstName')} ${formData.get('lastName')}`,
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
             email: formData.get('email'),
             subject: formData.get('subject'),
             message: formData.get('message'),
@@ -78,201 +79,187 @@ export default function ContactForm() {
 
     return (
         <div className="bg-white min-h-screen pb-20">
-            <div className="bg-stone-50 border-b border-stone-200 py-16">
+            <div className="bg-stone-50 border-b border-stone-200 py-20">
                 <div className="container mx-auto px-4 text-center">
-                    <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
-                    <p className="text-stone-500 max-w-2xl mx-auto italic font-serif text-lg">
-                        &quot;Let&apos;s build the future of agricultural careers together&quot;
+                    <h1 className="font-serif text-4xl md:text-6xl font-bold mb-6 text-stone-900">Connect With Agri Updates</h1>
+                    <p className="text-stone-600 max-w-3xl mx-auto text-lg leading-relaxed">
+                        Agri Updates is a curated digital platform sharing verified agricultural jobs, opportunities, programs, and ecosystem updates across India.
                     </p>
-                    <div className="h-1 w-20 bg-agri-green mx-auto mt-6"></div>
+                    <p className="text-stone-500 max-w-2xl mx-auto mt-4">
+                        If you have a query, partnership idea, or opportunity to share, feel free to reach out.
+                    </p>
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-16">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div className="container mx-auto px-4 py-16 max-w-6xl">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
                     {/* Contact Information */}
                     <div>
-                        <h2 className="font-serif text-3xl font-bold mb-8">Get In Touch</h2>
+                        <h2 className="font-serif text-3xl font-bold mb-8 text-stone-900">Get In Touch</h2>
 
-                        <div className="space-y-6">
-                            <div className="flex items-start gap-4">
-                                <div className="bg-agri-green/10 p-3 rounded-full">
+                        <div className="bg-stone-50 p-8 rounded-xl border border-stone-100 mb-8">
+                            <div className="flex items-start gap-4 mb-6">
+                                <div className="bg-white p-3 rounded-full border border-stone-100 shadow-sm">
                                     <Mail className="w-6 h-6 text-agri-green" />
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-lg mb-1">Email</h3>
-                                    <p className="text-stone-600">hello@agriupdates.com</p>
-                                    <p className="text-sm text-stone-500 mt-1">For general inquiries and partnerships</p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-start gap-4">
-                                <div className="bg-agri-green/10 p-3 rounded-full">
-                                    <Phone className="w-6 h-6 text-agri-green" />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-lg mb-1">Phone</h3>
-                                    <p className="text-stone-600">+1 (555) 123-4567</p>
-                                    <p className="text-sm text-stone-500 mt-1">Mon-Fri, 9AM-6PM EST</p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-start gap-4">
-                                <div className="bg-agri-green/10 p-3 rounded-full">
-                                    <MapPin className="w-6 h-6 text-agri-green" />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-lg mb-1">Address</h3>
-                                    <p className="text-stone-600">
-                                        Agri Updates HQ<br />
-                                        123 Innovation Drive<br />
-                                        Agriculture Valley, CA 94043
+                                    <p className="font-mono text-stone-700 bg-white px-3 py-1 rounded border border-stone-200 inline-block mb-2">
+                                        aanand.ak15@gmail.com
+                                    </p>
+                                    <p className="text-sm text-stone-500 italic">
+                                        All communications are handled via email to ensure clarity and timely response.
                                     </p>
                                 </div>
                             </div>
 
-                            <div className="flex items-start gap-4">
-                                <div className="bg-agri-green/10 p-3 rounded-full">
-                                    <Clock className="w-6 h-6 text-agri-green" />
-                                </div>
-                                <div>
-                                    <h3 className="font-bold text-lg mb-1">Business Hours</h3>
-                                    <p className="text-stone-600">
-                                        Monday - Friday: 9:00 AM - 6:00 PM EST<br />
-                                        Saturday: 10:00 AM - 4:00 PM EST<br />
-                                        Sunday: Closed
-                                    </p>
-                                </div>
+                            <div className="pl-16">
+                                <h4 className="font-bold text-sm uppercase tracking-widest text-stone-400 mb-3">For:</h4>
+                                <ul className="space-y-2 text-stone-700 font-medium">
+                                    <li className="flex items-center gap-2">
+                                        <span className="w-1.5 h-1.5 bg-agri-green rounded-full"></span>
+                                        General inquiries
+                                    </li>
+                                    <li className="flex items-center gap-2">
+                                        <span className="w-1.5 h-1.5 bg-agri-green rounded-full"></span>
+                                        Partnerships & collaborations
+                                    </li>
+                                    <li className="flex items-center gap-2">
+                                        <span className="w-1.5 h-1.5 bg-agri-green rounded-full"></span>
+                                        Featured Listings & visibility requests
+                                    </li>
+                                </ul>
                             </div>
                         </div>
 
-                        <div className="mt-12 p-6 bg-stone-50 border-l-4 border-agri-green">
-                            <h3 className="font-bold text-lg mb-2">For Job Postings</h3>
-                            <p className="text-stone-600 mb-3">
-                                Companies interested in posting agricultural job opportunities can reach us at:
-                            </p>
-                            <p className="font-mono text-sm bg-white p-2 border">
-                                jobs@agriupdates.com
+                        <div className="bg-stone-900 text-white p-8 rounded-xl">
+                            <h3 className="font-serif text-xl font-bold mb-4">About Agri Updates</h3>
+                            <p className="text-stone-300 leading-relaxed mb-0">
+                                Agri Updates is an innovation news platform connecting startups, funding updates, case studies, and artificial intelligence in the agricultural sector.
                             </p>
                         </div>
                     </div>
 
                     {/* Contact Form */}
-                    <div>
-                        <h2 className="font-serif text-3xl font-bold mb-8">Send us a Message</h2>
+                    <div className="bg-white p-8 rounded-xl border border-stone-200 shadow-sm">
+                        <h2 className="font-serif text-3xl font-bold mb-2 text-stone-900">Send Us a Message</h2>
+                        <p className="text-stone-500 mb-8">Use the form below to contact us directly.</p>
 
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <form onSubmit={handleSubmit} className="space-y-5">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div>
-                                    <label htmlFor="firstName" className="block text-sm font-bold text-stone-700 mb-2">
-                                        First Name *
+                                    <label htmlFor="firstName" className="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
+                                        First Name
                                     </label>
                                     <input
                                         type="text"
                                         id="firstName"
                                         name="firstName"
                                         required
-                                        className="w-full px-4 py-3 border border-stone-300 focus:outline-none focus:border-agri-green text-sm"
-                                        placeholder="Your first name"
+                                        className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-agri-green/20 focus:border-agri-green transition-all"
+                                        placeholder="First Name"
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="lastName" className="block text-sm font-bold text-stone-700 mb-2">
-                                        Last Name *
+                                    <label htmlFor="lastName" className="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
+                                        Last Name
                                     </label>
                                     <input
                                         type="text"
                                         id="lastName"
                                         name="lastName"
                                         required
-                                        className="w-full px-4 py-3 border border-stone-300 focus:outline-none focus:border-agri-green text-sm"
-                                        placeholder="Your last name"
+                                        className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-agri-green/20 focus:border-agri-green transition-all"
+                                        placeholder="Last Name"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label htmlFor="email" className="block text-sm font-bold text-stone-700 mb-2">
-                                    Email Address *
+                                <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
+                                    Email Address
                                 </label>
                                 <input
                                     type="email"
                                     id="email"
                                     name="email"
                                     required
-                                    className="w-full px-4 py-3 border border-stone-300 focus:outline-none focus:border-agri-green text-sm"
-                                    placeholder="your.email@example.com"
+                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-agri-green/20 focus:border-agri-green transition-all"
+                                    placeholder="email@example.com"
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="subject" className="block text-sm font-bold text-stone-700 mb-2">
-                                    Subject *
+                                <label htmlFor="subject" className="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
+                                    Subject
                                 </label>
-                                <select
+                                <input
+                                    type="text"
                                     id="subject"
                                     name="subject"
                                     required
-                                    className="w-full px-4 py-3 border border-stone-300 focus:outline-none focus:border-agri-green text-sm"
-                                >
-                                    <option value="">Select a topic</option>
-                                    <option value="general">General Inquiry</option>
-                                    <option value="partnership">Partnership Opportunity</option>
-                                    <option value="jobs">Job Posting</option>
-                                    <option value="support">Technical Support</option>
-                                    <option value="feedback">Feedback</option>
-                                    <option value="other">Other</option>
-                                </select>
+                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-agri-green/20 focus:border-agri-green transition-all"
+                                    placeholder="How can we help?"
+                                />
                             </div>
 
                             <div>
-                                <label htmlFor="message" className="block text-sm font-bold text-stone-700 mb-2">
-                                    Message *
+                                <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">
+                                    Message
                                 </label>
                                 <textarea
                                     id="message"
                                     name="message"
                                     required
-                                    rows={6}
-                                    className="w-full px-4 py-3 border border-stone-300 focus:outline-none focus:border-agri-green text-sm"
-                                    placeholder="Tell us how we can help you..."
+                                    rows={5}
+                                    className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-agri-green/20 focus:border-agri-green transition-all resize-none"
+                                    placeholder="Write your message here..."
                                 ></textarea>
                             </div>
 
-                            <div className="flex items-start gap-3">
+                            <div className="flex items-start gap-3 pt-2">
                                 <input
                                     type="checkbox"
                                     id="privacy"
                                     name="privacy"
                                     required
-                                    className="mt-1 accent-agri-green"
+                                    className="mt-1 w-4 h-4 text-agri-green border-stone-300 rounded focus:ring-agri-green"
                                 />
-                                <label htmlFor="privacy" className="text-sm text-stone-600">
+                                <label htmlFor="privacy" className="text-sm text-stone-500 leading-snug">
                                     I have read and agree to the{' '}
-                                    <a href="/privacy" className="text-agri-green hover:underline">
+                                    <a href="/privacy" className="text-stone-900 font-bold hover:underline">
                                         Privacy Policy
                                     </a>
                                     {' '}and{' '}
-                                    <a href="/terms" className="text-agri-green hover:underline">
+                                    <a href="/terms" className="text-stone-900 font-bold hover:underline">
                                         Terms of Use
                                     </a>
                                     .
                                 </label>
                             </div>
 
-                            <div className="hidden">
-                                <label htmlFor="website">Website</label>
-                                <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
-                            </div>
-
                             <button
                                 type="submit"
                                 disabled={status === 'loading'}
-                                className="w-full bg-agri-green text-white px-8 py-4 font-bold uppercase tracking-widest hover:bg-agri-dark transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                                className="w-full bg-black text-white px-8 py-4 font-bold uppercase tracking-widest hover:bg-stone-800 transition-colors disabled:opacity-70 disabled:cursor-not-allowed rounded-lg mt-4"
                             >
-                                {status === 'loading' ? 'Sending...' : 'Send Message'}
+                                {status === 'loading' ? 'Sending Message...' : 'Send Message'}
                             </button>
                         </form>
+                    </div>
+                </div>
+
+                {/* Transparency Note */}
+                <div className="border-t border-stone-200 pt-16 text-center max-w-3xl mx-auto">
+                    <h3 className="font-serif text-2xl font-bold mb-6 text-stone-900">Transparency Note</h3>
+                    <div className="bg-stone-50 p-8 rounded-xl border border-stone-100">
+                        <p className="text-stone-600 mb-4 leading-relaxed">
+                            Agri Updates is an independent, remote-first digital platform.
+                            We currently operate without a physical office address or public phone line.
+                        </p>
+                        <p className="text-stone-600 font-medium">
+                            This allows us to focus on content quality, verification, and timely responses.
+                        </p>
                     </div>
                 </div>
             </div>

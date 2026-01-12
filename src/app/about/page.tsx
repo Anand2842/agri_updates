@@ -1,281 +1,161 @@
-import Image from 'next/image';
-import { Target, TrendingUp, Users, Award, Briefcase, Microscope, Leaf } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { Metadata } from 'next';
+import Link from 'next/link';
 
-async function getStats() {
-    try {
-        const [jobsResult, postsResult, startupsResult] = await Promise.all([
-            supabase.from('jobs').select('id', { count: 'exact', head: true }),
-            supabase.from('posts').select('id', { count: 'exact', head: true }),
-            supabase.from('startups').select('id', { count: 'exact', head: true })
-        ]);
+export const metadata: Metadata = {
+    title: 'About Us | Agri Updates',
+    description: 'Agri Updates is a curated digital platform sharing verified agricultural jobs, opportunities, programs, and ecosystem updates across India.',
+};
 
-        return {
-            jobs: jobsResult.count || 5, // fallback to mock count
-            posts: postsResult.count || 25,
-            startups: startupsResult.count || 4
-        };
-    } catch {
-        return {
-            jobs: 5,
-            posts: 25,
-            startups: 4
-        };
-    }
-}
-
-export default async function AboutPage() {
-    const stats = await getStats();
+export default function AboutPage() {
     return (
         <div className="bg-white min-h-screen pb-20">
-
-            {/* Hero Section */}
-            <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 bg-stone-900">
-                    {/* Abstract background or image */}
-                    <div className="absolute inset-0 opacity-40">
-                        <Image
-                            src="https://images.unsplash.com/photo-1628352081506-83c43123ed6d?auto=format&fit=crop&q=80"
-                            alt="Background"
-                            fill
-                            priority
-                            sizes="100vw"
-                            className="object-cover"
-                        />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-900 to-transparent" />
-                </div>
-
-                <div className="relative z-10 text-center max-w-4xl px-4">
-                    <div className="flex items-center justify-center gap-2 mb-6">
-                        <span className="bg-agri-green/20 border border-agri-green text-agri-green px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
-                            Our Mission
-                        </span>
-                    </div>
-                    <h1 className="font-serif text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-                        Cultivating the Future of Agriculture
-                    </h1>
-                    <p className="text-xl text-stone-300 max-w-2xl mx-auto mb-10 leading-relaxed">
-                        Agri Updates is the premier digital ecosystem connecting agricultural researchers, innovators, and professionals with the opportunities that shape our food systems.
+            {/* Header Section */}
+            <div className="bg-stone-50 border-b border-stone-200 py-20">
+                <div className="container mx-auto px-4 text-center">
+                    <h1 className="font-serif text-4xl md:text-6xl font-bold mb-6 text-stone-900">About Agri Updates</h1>
+                    <p className="text-stone-600 max-w-3xl mx-auto text-lg leading-relaxed font-medium">
+                        Building Access to Agricultural Opportunities
                     </p>
-                    <button className="bg-agri-green text-white px-8 py-4 font-bold uppercase tracking-widest hover:bg-agri-dark transition-all rounded shadow-lg transform hover:-translate-y-1">
-                        Join Our Mission
-                    </button>
-                </div>
-            </section>
-
-            {/* Stats Divider */}
-            <div className="container mx-auto px-4 -mt-16 relative z-20">
-                <div className="bg-white shadow-xl rounded-2xl p-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center border border-stone-100">
-                    <div>
-                        <div className="text-stone-400 text-xs font-bold uppercase tracking-widest mb-2">Jobs Posted</div>
-                        <div className="text-4xl font-serif font-bold text-agri-green">{stats.jobs}+</div>
-                    </div>
-                    <div>
-                        <div className="text-stone-400 text-xs font-bold uppercase tracking-widest mb-2">Startups</div>
-                        <div className="text-4xl font-serif font-bold text-agri-green">{stats.startups}+</div>
-                    </div>
-                    <div>
-                        <div className="text-stone-400 text-xs font-bold uppercase tracking-widest mb-2">Articles</div>
-                        <div className="text-4xl font-serif font-bold text-agri-green">{stats.posts}+</div>
-                    </div>
-                    <div>
-                        <div className="text-stone-400 text-xs font-bold uppercase tracking-widest mb-2">Community</div>
-                        <div className="text-4xl font-serif font-bold text-agri-green">2.5k+</div>
-                    </div>
+                    <div className="h-1 w-20 bg-agri-green mx-auto mt-8"></div>
                 </div>
             </div>
 
-            {/* Mission & Values */}
-            <section className="container mx-auto px-4 py-24">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-                    <div className="lg:col-span-4">
-                        <h2 className="font-serif text-4xl font-bold mb-6">Our Mission & Values</h2>
-                        <p className="text-stone-500 leading-relaxed mb-8">
-                            We exist to democratize access to research, internships, and careers in the agricultural sector. We believe that by connecting the right people with the right opportunities, we can accelerate innovation in farming and food systems.
+            <div className="container mx-auto px-4 py-16 max-w-4xl">
+                {/* Introduction */}
+                <div className="mb-16 text-center">
+                    <p className="text-xl md:text-2xl text-stone-800 leading-relaxed font-serif">
+                        Agri Updates is a curated digital platform focused on sharing verified agricultural jobs, opportunities, programs, and ecosystem updates across India.
+                    </p>
+                    <p className="mt-6 text-stone-600 leading-relaxed text-lg">
+                        We aim to make information accessible, structured, and reliable for students, professionals, startups, and institutions working in agriculture and allied sectors.
+                    </p>
+                </div>
+
+                {/* Our Purpose */}
+                <section className="mb-20">
+                    <div className="bg-white rounded-2xl p-8 md:p-12 border border-stone-200 shadow-sm">
+                        <h2 className="font-serif text-3xl font-bold mb-6 text-stone-900">Our Purpose</h2>
+                        <p className="text-stone-600 mb-6 text-lg">
+                            Agriculture is evolving rapidly — but access to timely, trustworthy information remains fragmented.
                         </p>
-                        <div className="bg-stone-50 p-6 border-l-4 border-agri-green">
-                            <p className="font-serif italic text-lg text-stone-700">
-                                "We aim to be the digital soil where the seeds of agricultural innovation take root—providing the nutrients of knowledge and connection."
+                        <p className="text-stone-600 mb-6 font-medium">
+                            Agri Updates exists to:
+                        </p>
+                        <ul className="space-y-4 text-stone-700">
+                            {[
+                                "Centralize agricultural opportunities",
+                                "Reduce information gaps for students and professionals",
+                                "Improve visibility for credible programs and initiatives",
+                                "Support the agri-innovation ecosystem through structured updates"
+                            ].map((item, index) => (
+                                <li key={index} className="flex items-start gap-4">
+                                    <span className="w-2 h-2 bg-agri-green rounded-full mt-2.5 flex-shrink-0"></span>
+                                    <span className="leading-relaxed">{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </section>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+                    {/* What We Do */}
+                    <section>
+                        <h2 className="font-serif text-2xl font-bold mb-6 text-stone-900 border-l-4 border-agri-green pl-4">What We Do</h2>
+                        <p className="text-stone-600 mb-4">We curate and publish:</p>
+                        <ul className="space-y-3 text-stone-700 bg-stone-50 p-6 rounded-xl">
+                            {[
+                                "Agricultural job openings",
+                                "Internship and research opportunities",
+                                "Startup and innovation updates",
+                                "Government schemes and programs",
+                                "Events, fellowships, and calls for applications"
+                            ].map((item, index) => (
+                                <li key={index} className="flex items-center gap-3">
+                                    <span className="w-1.5 h-1.5 bg-stone-400 rounded-full flex-shrink-0"></span>
+                                    <span>{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                        <p className="mt-4 text-sm text-stone-500 italic px-2">
+                            All content follows clear editorial and verification guidelines.
+                        </p>
+                    </section>
+
+                    {/* How Agri Updates Works */}
+                    <section>
+                        <h2 className="font-serif text-2xl font-bold mb-6 text-stone-900 border-l-4 border-agri-green pl-4">How It Works</h2>
+                        <ul className="space-y-6">
+                            {[
+                                "Opportunities are sourced from trusted networks and official channels",
+                                "Content is reviewed and structured for clarity and accuracy",
+                                "Listings are published with transparent disclaimers",
+                                "Selected posts may be highlighted through Featured Listings for increased visibility"
+                            ].map((item, index) => (
+                                <li key={index} className="flex gap-4">
+                                    <div className="w-8 h-8 rounded-full bg-agri-green/10 text-agri-green flex items-center justify-center font-bold text-sm flex-shrink-0">
+                                        {index + 1}
+                                    </div>
+                                    <p className="text-stone-700 leading-snug pt-1">{item}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                </div>
+
+                {/* Transparency & Independence */}
+                <section className="mb-20 bg-stone-900 text-white rounded-2xl p-8 md:p-12 overflow-hidden relative">
+                    <div className="relative z-10">
+                        <h2 className="font-serif text-3xl font-bold mb-6">Transparency & Independence</h2>
+                        <p className="text-stone-300 text-lg mb-6 leading-relaxed">
+                            Agri Updates is an independent, remote-first platform.
+                        </p>
+                        <div className="border-t border-stone-700 pt-6">
+                            <p className="text-stone-400">
+                                We do not guarantee outcomes, selections, or placements.
+                                <br />
+                                Our role is to improve visibility and access to information.
                             </p>
                         </div>
                     </div>
+                    {/* Decorative background element */}
+                    <div className="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-agri-green opacity-10 rounded-full blur-3xl"></div>
+                </section>
 
-                    <div className="lg:col-span-8 flex flex-col gap-6">
-                        {/* Card 1 */}
-                        <div className="bg-white border border-stone-100 p-8 rounded-xl shadow-sm flex items-start gap-6 hover:shadow-md transition-shadow">
-                            <div className="bg-green-50 p-4 rounded-full text-agri-green">
-                                <TrendingUp className="w-8 h-8" />
-                            </div>
-                            <div>
-                                <h3 className="font-serif text-xl font-bold mb-2">Growth</h3>
-                                <p className="text-sm text-stone-500 leading-relaxed">
-                                    Fostering constant learning and professional development for every member.
-                                </p>
-                            </div>
-                        </div>
+                {/* Looking Ahead */}
+                <section className="mb-16 text-center max-w-2xl mx-auto">
+                    <h2 className="font-serif text-3xl font-bold mb-6 text-stone-900">Looking Ahead</h2>
+                    <p className="text-stone-600 mb-6 text-lg">
+                        Agri Updates is evolving into a comprehensive discovery layer for:
+                    </p>
+                    <div className="flex flex-wrap justify-center gap-4 mb-8">
+                        <span className="px-5 py-2 bg-stone-100 text-stone-700 rounded-full font-medium">Agricultural careers</span>
+                        <span className="px-5 py-2 bg-stone-100 text-stone-700 rounded-full font-medium">Research and innovation</span>
+                        <span className="px-5 py-2 bg-stone-100 text-stone-700 rounded-full font-medium">Startup and ecosystem activity</span>
+                    </div>
+                    <p className="text-stone-500 italic">
+                        We are building gradually, with a focus on trust, consistency, and long-term value.
+                    </p>
+                </section>
 
-                        {/* Card 2 */}
-                        <div className="bg-white border border-stone-100 p-8 rounded-xl shadow-sm flex items-start gap-6 hover:shadow-md transition-shadow">
-                            <div className="bg-green-50 p-4 rounded-full text-agri-green">
-                                <Microscope className="w-8 h-8" />
-                            </div>
-                            <div>
-                                <h3 className="font-serif text-xl font-bold mb-2">Insight</h3>
-                                <p className="text-sm text-stone-500 leading-relaxed">
-                                    Delivering accurate, timely data to help professionals make informed decisions.
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Card 3 */}
-                        <div className="bg-white border border-stone-100 p-8 rounded-xl shadow-sm flex items-start gap-6 hover:shadow-md transition-shadow">
-                            <div className="bg-green-50 p-4 rounded-full text-agri-green">
-                                <Users className="w-8 h-8" />
-                            </div>
-                            <div>
-                                <h3 className="font-serif text-xl font-bold mb-2">Community</h3>
-                                <p className="text-sm text-stone-500 leading-relaxed">
-                                    Supporting a thriving ecosystem of startups, students, and researchers working towards a sustainable future.
-                                </p>
-                            </div>
-                        </div>
+                {/* Contact CTA */}
+                <div className="bg-agri-green/5 border border-agri-green/20 rounded-xl p-8 text-center max-w-xl mx-auto">
+                    <h3 className="font-bold text-lg mb-4 text-stone-900">Contact Us</h3>
+                    <p className="text-stone-600 mb-4">
+                        For inquiries, partnerships, or Featured Listings:
+                    </p>
+                    <a
+                        href="mailto:aanand.ak15@gmail.com"
+                        className="inline-block bg-white text-stone-900 border border-stone-300 px-6 py-3 rounded-lg font-mono font-medium hover:border-agri-green hover:text-agri-green transition-colors"
+                    >
+                        📧 aanand.ak15@gmail.com
+                    </a>
+                    <div className="mt-6">
+                        <Link href="/contact" className="text-sm text-agri-green font-bold uppercase tracking-wider hover:underline">
+                            Use Contact Form &rarr;
+                        </Link>
                     </div>
                 </div>
-            </section>
-
-            {/* Timeline Section */}
-            <section className="bg-stone-50 py-24">
-                <div className="container mx-auto px-4 text-center mb-16">
-                    <h2 className="font-serif text-4xl font-bold mb-4">Our Journey</h2>
-                    <p className="text-stone-500">From a trusted news source to a career ecosystem.</p>
-                </div>
-
-                <div className="max-w-3xl mx-auto px-4 relative">
-                    {/* Vertical Line */}
-                    <div className="absolute left-10 md:left-1/2 top-0 bottom-0 w-px bg-stone-300 md:-ml-px"></div>
-
-                    {/* Item 1 */}
-                    <div className="relative mb-12 md:mb-20">
-                        <div className="md:flex items-center justify-between w-full">
-                            <div className="order-1 md:w-5/12 text-left md:text-right pl-20 md:pl-0 md:pr-12">
-                                <span className="bg-green-100 text-agri-dark text-[10px] font-bold px-2 py-1 rounded mb-2 inline-block">2021</span>
-                                <h3 className="font-serif text-xl font-bold mb-2">Founded as a Blog</h3>
-                                <p className="text-xs text-stone-500">Started sharing daily updates on the Agritech landscape and research breakthroughs.</p>
-                            </div>
-                            <div className="absolute left-0 md:left-1/2 top-0 bg-white border-4 border-green-100 w-10 h-10 rounded-full flex items-center justify-center text-agri-green z-10 md:-ml-5">
-                                <Leaf className="w-4 h-4" />
-                            </div>
-                            <div className="order-2 md:w-5/12"></div>
-                        </div>
-                    </div>
-
-                    {/* Item 2 */}
-                    <div className="relative mb-12 md:mb-20">
-                        <div className="md:flex items-center justify-between w-full">
-                            <div className="order-1 md:w-5/12"></div>
-                            <div className="absolute left-0 md:left-1/2 top-0 bg-white border-4 border-green-100 w-10 h-10 rounded-full flex items-center justify-center text-agri-green z-10 md:-ml-5">
-                                <Users className="w-4 h-4" />
-                            </div>
-                            <div className="order-2 md:w-5/12 text-left pl-20 md:pl-12">
-                                <span className="bg-green-100 text-agri-dark text-[10px] font-bold px-2 py-1 rounded mb-2 inline-block">2023</span>
-                                <h3 className="font-serif text-xl font-bold mb-2">First 10,000 Subscribers</h3>
-                                <p className="text-xs text-stone-500">Our newsletter community grew rapidly as researchers sought reliable news sources.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Item 3 */}
-                    <div className="relative mb-12 md:mb-20">
-                        <div className="md:flex items-center justify-between w-full">
-                            <div className="order-1 md:w-5/12 text-left md:text-right pl-20 md:pl-0 md:pr-12">
-                                <span className="bg-green-100 text-agri-dark text-[10px] font-bold px-2 py-1 rounded mb-2 inline-block">2024</span>
-                                <h3 className="font-serif text-xl font-bold mb-2">Launched Career Platform</h3>
-                                <p className="text-xs text-stone-500">Expanded from news to a dedicated job and internship portal for the agricultural sector.</p>
-                            </div>
-                            <div className="absolute left-0 md:left-1/2 top-0 bg-white border-4 border-green-100 w-10 h-10 rounded-full flex items-center justify-center text-agri-green z-10 md:-ml-5">
-                                <Briefcase className="w-4 h-4" />
-                            </div>
-                            <div className="order-2 md:w-5/12"></div>
-                        </div>
-                    </div>
-
-                    {/* Item 4 */}
-                    <div className="relative">
-                        <div className="md:flex items-center justify-between w-full">
-                            <div className="order-1 md:w-5/12"></div>
-                            <div className="absolute left-0 md:left-1/2 top-0 bg-white border-4 border-green-100 w-10 h-10 rounded-full flex items-center justify-center text-agri-green z-10 md:-ml-5">
-                                <Award className="w-4 h-4" />
-                            </div>
-                            <div className="order-2 md:w-5/12 text-left pl-20 md:pl-12">
-                                <span className="bg-green-100 text-agri-dark text-[10px] font-bold px-2 py-1 rounded mb-2 inline-block">2026</span>
-                                <h3 className="font-serif text-xl font-bold mb-2">Partnered with Top Firms</h3>
-                                <p className="text-xs text-stone-500">Collaborating with industry leaders to shape the workforce of tomorrow.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Leadership & Advisors */}
-            <section className="container mx-auto px-4 py-24 border-t border-stone-100">
-                <div className="text-center mb-16">
-                    <h2 className="font-serif text-4xl font-bold mb-4">Curated by Experts</h2>
-                    <p className="text-stone-500 max-w-2xl mx-auto">Agri Updates is led by a dedicated team of researchers and industry veterans committed to bridging the gap between talent and opportunity.</p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto">
-                    <div className="text-center group">
-                        <div className="w-32 h-32 bg-stone-100 rounded-full mx-auto mb-6 flex items-center justify-center border-2 border-stone-50 group-hover:border-agri-green transition-colors">
-                            <span className="font-serif text-3xl text-stone-400">AS</span>
-                        </div>
-                        <h3 className="font-serif text-xl font-bold mb-1">Dr. Aryaman Singh</h3>
-                        <p className="text-xs text-agri-green font-bold uppercase tracking-widest mb-4">Editor-in-Chief</p>
-                        <p className="text-sm text-stone-500 leading-relaxed">Former Senior Scientist at IARI. Passionate about connecting young agronomists with global research hubs.</p>
-                    </div>
-
-                    <div className="text-center group">
-                        <div className="w-32 h-32 bg-stone-100 rounded-full mx-auto mb-6 flex items-center justify-center border-2 border-stone-50 group-hover:border-agri-green transition-colors">
-                            <span className="font-serif text-3xl text-stone-400">JP</span>
-                        </div>
-                        <h3 className="font-serif text-xl font-bold mb-1">Jyoti Patel</h3>
-                        <p className="text-xs text-agri-green font-bold uppercase tracking-widest mb-4">Head of Partnerships</p>
-                        <p className="text-sm text-stone-500 leading-relaxed">MBA in Agribusiness. previously worked with leading Agritech startups to scale operations across India.</p>
-                    </div>
-
-                    <div className="text-center group">
-                        <div className="w-32 h-32 bg-stone-100 rounded-full mx-auto mb-6 flex items-center justify-center border-2 border-stone-50 group-hover:border-agri-green transition-colors">
-                            <span className="font-serif text-3xl text-stone-400">RK</span>
-                        </div>
-                        <h3 className="font-serif text-xl font-bold mb-1">Rahul Kumar</h3>
-                        <p className="text-xs text-agri-green font-bold uppercase tracking-widest mb-4">Tech Lead</p>
-                        <p className="text-sm text-stone-500 leading-relaxed">Building the digital infrastructure to make agricultural data accessible to every student in India.</p>
-                    </div>
-                </div>
-            </section>
-
-            {/* Team CTA */}
-            <section className="container mx-auto px-4 py-24 text-center">
-                <div className="bg-stone-900 text-white rounded-3xl p-12 md:p-20 relative overflow-hidden">
-                    {/* Decorative Background Circles */}
-                    <div className="absolute -top-20 -right-20 w-64 h-64 bg-agri-green/10 rounded-full blur-3xl"></div>
-                    <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-agri-green/10 rounded-full blur-3xl"></div>
-
-                    <div className="relative z-10 max-w-2xl mx-auto">
-                        <h2 className="font-serif text-3xl md:text-5xl font-bold mb-6">Ready to grow your career?</h2>
-                        <p className="text-stone-400 mb-10 text-lg">Join thousands of researchers and professionals finding their next big opportunity on Agri Updates.</p>
-                        <div className="flex justify-center gap-4">
-                            <button className="bg-agri-green text-white px-8 py-3 font-bold uppercase tracking-widest hover:bg-agri-dark transition-all rounded">
-                                Browse Jobs
-                            </button>
-                            <button className="bg-transparent border border-stone-600 text-white px-8 py-3 font-bold uppercase tracking-widest hover:bg-stone-800 transition-all rounded">
-                                Partner with Us
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            </div>
         </div>
     );
 }
