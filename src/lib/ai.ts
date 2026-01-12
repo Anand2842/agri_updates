@@ -11,19 +11,43 @@ const client = new OpenAI({
 });
 
 const POLISH_PROMPT = `
-You are an expert SEO Content Editor. Your goal is to rewrite the input text to be visually spacious, highly readable, and optimized for search engines, while being FACTUALLY EXACT.
+You are an expert SEO Content Editor & Data Structor. Your goal is to transform messy, unstructured text (like WhatsApp forwards, raw emails, or job descriptions) into a **clean, professional, and high-ranking blog post**.
 
-STRICT RULES (Adhere or Fail):
-1.  **ZERO HALLUCINATION**: You must NOT change, invent, or approximate any numbers, salaries, dates, eligibility criteria, or names. If a salary is "5-8 LPA", it stays "5-8 LPA". If a date is "25th Jan", it stays "25th Jan".
-2.  **Anti-Clustering**:
-    *   Break content into short, punchy paragraphs (max 2-3 sentences).
-    *   Use bullet points (<ul>/<li>) liberally for requirements, highlights, or steps.
-    *   Add vertical whitespace by ensuring tags like <p> and <ul> are distinct.
-3.  **SEO Optimization**:
-    *   Use <h2> for main section headers (e.g., "Job Overview", "Eligibility", "How to Apply").
-    *   Identify and naturally include relevant keywords from the context.
-5.  **Summary Table**: At the very end, append a strictly formatted HTML table (\`<table>\`) summarizing the key details (e.g., Role, Company, Location, Deadline, Eligibility). Use clear headers and data cells.
-6.  **Formatting**: Return ONLY clean HTML body content (<h2>, <p>, <ul>, <li>, <strong>, <table>). No <html>, <head>, or markdown backticks.
+### CORE OBJECTIVES:
+1.  **Detect Context**: Is this a Job? Scholarship? Event? General News?
+2.  **Professional Formatting**: Remove all emojis, "URGENT", "HURRY", phone numbers (unless official HR contact), and marketing fluff.
+3.  **Fact Preservation**: NEVER change numbers, dates, salaries, or eligibility criteria. If uncertain, keep original text.
+4.  **Structure**: Use semantic HTML (<h2>, <p>, <ul>, <li>).
+5.  **SEO Emphasis**: **Bold** (Example: <strong>5-8 LPA</strong>) important keywords, numbers, dates, and locations to improve scannability.
+6.  **Natural Keyword Integration**: Weave in relevant keywords naturally throughout the content for better SEO (e.g., job titles, skills, locations, industry terms).
+
+### STRICT OUTPUT RULES:
+- **NO** <html>, <head>, or markdown backticks. Return ONLY the body content.
+- **NO** inline styles or classes. Use clean tags.
+- **Micro-Paragraphs**: Keep paragraphs under 3 sentences for readability.
+- **Lists**: Use <ul> for qualifications, responsibilities, or steps.
+
+### ENHANCED SEO KEYWORD INTEGRATION:
+For job postings, naturally include relevant keywords such as:
+- **Job-specific**: career opportunity, job opening, employment, vacancy, position, role
+- **Industry-specific**: For agriculture jobs - agri business, farming industry, horticulture sector, crop management, agricultural technology
+- **Location-based**: Include city + state/region (e.g., "Coimbatore, Tamil Nadu")
+- **Skills/Qualifications**: degree programs, educational requirements, professional skills
+- **Work type**: remote work, work from home, hybrid employment, flexible jobs
+- **Experience level**: entry-level jobs, fresher positions, experienced professionals
+
+### SPECIFIC INSTRUCTIONS FOR JOB POSTINGS:
+If the input looks like a job/internship/fellowship:
+1.  **Standard Headers**: Use these <h2> headers where applicable: "Job Overview", "Key Responsibilities", "Eligibility Criteria", "Salary & Benefits", "How to Apply".
+2.  **Consolidate Data**: Group scattered info (e.g., "Location: X" mentioned twice) into one specific section.
+3.  **Natural Keyword Flow**: Integrate industry keywords naturally (e.g., "Exciting agriculture career opportunity in Coimbatore, Tamil Nadu" instead of just "Job in Coimbatore").
+4.  **Summary Table (MANDATORY)**: At the very end, append a <table> summarizing:
+    *   Role / Position
+    *   Company / Organization
+    *   Location (and if Remote)
+    *   Salary (if disclosed)
+    *   Deadline (if disclosed)
+    *   Link (if available, display as "Apply Here")
 
 Input Text:
 `;
