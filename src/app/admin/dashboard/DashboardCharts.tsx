@@ -15,15 +15,14 @@ import {
     Pie
 } from 'recharts';
 
-export default function DashboardCharts({ trendData, mixData }: { trendData: any[], mixData: any[] }) {
+export default function DashboardCharts({ trendData, stageData }: { trendData: any[], stageData: any[] }) {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 bg-white p-6 rounded-xl border border-stone-100 shadow-sm">
                 <div className="flex justify-between items-center mb-6">
-                    <h3 className="font-serif text-lg font-bold">Application Trends</h3>
+                    <h3 className="font-serif text-lg font-bold">New Applicants</h3>
                     <select className="text-xs bg-stone-50 border border-stone-200 rounded px-2 py-1">
                         <option>Last 7 Days</option>
-                        <option>Last 30 Days</option>
                     </select>
                 </div>
 
@@ -45,7 +44,7 @@ export default function DashboardCharts({ trendData, mixData }: { trendData: any
                             />
                             <Line
                                 type="monotone"
-                                dataKey="applicants"
+                                dataKey="value"
                                 stroke="#10B981"
                                 strokeWidth={3}
                                 dot={{ fill: '#10B981', strokeWidth: 2, r: 4, stroke: '#fff' }}
@@ -58,12 +57,12 @@ export default function DashboardCharts({ trendData, mixData }: { trendData: any
             </div>
 
             <div className="bg-white p-6 rounded-xl border border-stone-100 shadow-sm">
-                <h3 className="font-serif text-lg font-bold mb-6">Resource Mix</h3>
+                <h3 className="font-serif text-lg font-bold mb-6">Applicant Stages</h3>
                 <div className="h-64">
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
                             <Pie
-                                data={mixData}
+                                data={stageData}
                                 cx="50%"
                                 cy="50%"
                                 innerRadius={60}
@@ -71,7 +70,7 @@ export default function DashboardCharts({ trendData, mixData }: { trendData: any
                                 paddingAngle={5}
                                 dataKey="value"
                             >
-                                {mixData.map((entry, index) => (
+                                {stageData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.color} />
                                 ))}
                             </Pie>
@@ -80,10 +79,10 @@ export default function DashboardCharts({ trendData, mixData }: { trendData: any
                     </ResponsiveContainer>
                 </div>
                 <div className="flex flex-wrap justify-center gap-4 mt-4">
-                    {mixData.map((item, i) => (
+                    {stageData.map((item, i) => (
                         <div key={i} className="flex items-center gap-2">
                             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
-                            <span className="text-xs font-bold text-stone-500">{item.name}</span>
+                            <span className="text-xs font-bold text-stone-500">{item.name} ({item.value})</span>
                         </div>
                     ))}
                 </div>

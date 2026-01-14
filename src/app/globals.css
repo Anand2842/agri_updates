@@ -5,15 +5,20 @@
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
 
+  /* Newspaper Color Palette */
   --color-agri-green: #059669;
-  /* emerald-500 */
   --color-agri-dark: #064E3B;
-  /* emerald-900 */
+  --color-paper-bg: #FAFAF9;
+  /* Warm off-white */
+  --color-ink-black: #1C1917;
+  /* Rich black for text */
+  --color-border-thin: #E7E5E4;
+  /* Subtle dividers */
 }
 
 @layer base {
   body {
-    @apply font-sans antialiased text-stone-900 bg-stone-50 selection:bg-agri-green/20 selection:text-agri-dark;
+    @apply font-sans antialiased text-ink-black bg-paper-bg selection:bg-agri-green/20 selection:text-agri-dark;
   }
 
   html {
@@ -26,7 +31,25 @@
   h4,
   h5,
   h6 {
-    @apply font-serif;
+    @apply font-serif tracking-tight;
+  }
+
+  /* Newspaper-style thin borders */
+  .newspaper-border {
+    @apply border-ink-black;
+  }
+
+  .newspaper-border-thin {
+    @apply border-border-thin;
+  }
+
+  /* Section Headers */
+  .section-header {
+    @apply text-xs font-bold uppercase tracking-[0.2em] text-stone-500 mb-4 pb-2 border-b border-ink-black;
+  }
+
+  .section-header-green {
+    @apply bg-agri-green text-white text-center text-[10px] font-bold uppercase tracking-[0.2em] py-2 px-4;
   }
 
   /* Custom Scrollbar */
@@ -44,7 +67,21 @@
   }
 }
 
-/* Editor Specific Styling for "Spacious" feel */
+/* Newspaper Card Styles */
+.newspaper-card {
+  @apply border border-border-thin bg-white p-4 transition-all hover:border-stone-300;
+}
+
+.newspaper-card-minimal {
+  @apply py-4 border-b border-border-thin last:border-b-0;
+}
+
+/* Category Badge */
+.category-badge {
+  @apply inline-block text-[10px] font-bold uppercase tracking-widest text-agri-green border-b border-agri-green pb-0.5;
+}
+
+/* Editor Specific Styling */
 .ql-editor h2 {
   margin-top: 2rem !important;
   margin-bottom: 1rem !important;
@@ -83,14 +120,12 @@
 
 .ql-editor td,
 .ql-editor th {
-  border: 1px solid #e7e5e4;
-  /* stone-200 */
+  border: 1px solid var(--color-border-thin);
   padding: 12px;
   text-align: left;
 }
 
 .ql-editor th {
   background-color: #f5f5f4;
-  /* stone-100 */
   font-weight: bold;
 }

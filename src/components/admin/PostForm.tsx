@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import { Post, Author } from '@/types/database'
 import dynamic from 'next/dynamic'
+import { getUserRole, UserRole } from '@/lib/auth'
 
-import { Wand2, Sparkles } from 'lucide-react'
+import { Wand2, Sparkles, Lock } from 'lucide-react'
 import ImageUpload from './ImageUpload'
 
 // Dynamically import Quill to avoid SSR issues
@@ -26,15 +27,22 @@ export default function PostForm({ initialData }: PostFormProps) {
     const [loading, setLoading] = useState(false)
     const [isPolishing, setIsPolishing] = useState(false)
     const [authors, setAuthors] = useState<Author[]>([])
+    const [userRole, setUserRole] = useState<UserRole>('user')
+    const [roleLoading, setRoleLoading] = useState(true)
 
-    // Fetch authors on mount
-    useState(() => {
-        const fetchAuthors = async () => {
-            const { data } = await supabase.from('authors').select('*').eq('is_active', true)
-            if (data) setAuthors(data)
+    // Fetch authors and user role on mount
+    useEffect(() => {
+        const init = async () => {
+            const [roleData, { data: authorsData }] = await Promise.all([
+                getUserRole(supabase),
+                supabase.from('authors').select('*').eq('is_active', true)
+            ])
+            setUserRole(roleData)
+            if (authorsData) setAuthors(authorsData)
+            setRoleLoading(false)
         }
-        fetchAuthors()
-    })
+        init()
+    }, [supabase])
 
     // Unified Form State (includes job-specific fields)
     const [formData, setFormData] = useState({
@@ -47,6 +55,7 @@ export default function PostForm({ initialData }: PostFormProps) {
         category: initialData?.category || 'Research',
         image_url: initialData?.image_url || '',
         is_featured: initialData?.is_featured || false,
+        featured_until: initialData?.featured_until || '',  // Featured expiration date
         display_location: initialData?.display_location || 'standard',
         // Job-specific fields
         company: initialData?.company || '',
@@ -57,6 +66,13 @@ export default function PostForm({ initialData }: PostFormProps) {
         status: initialData?.status || 'draft',
         is_active: initialData?.is_active ?? true
     })
+
+    // Helper to set featured duration
+    const setFeaturedDuration = (days: number) => {
+        const date = new Date();
+        date.setDate(date.getDate() + days);
+        setFormData(prev => ({ ...prev, featured_until: date.toISOString().slice(0, 16) }));
+    }
 
     const generateSlug = (text: string) => {
         return text
@@ -95,8 +111,22 @@ export default function PostForm({ initialData }: PostFormProps) {
 
             if (!res.ok) throw new Error(data.error || 'Failed to polish');
 
-            setFormData(prev => ({ ...prev, content: data.content }));
-            alert('Content polished successfully!');
+            setFormData(prev => ({
+                ...prev,
+                content: data.content,
+                // ALWAYS overwrite with fresh extracted data from Magic Polish
+                title: data.title || prev.title,
+                slug: data.slug ? generateSlug(data.title) : prev.slug,
+                excerpt: data.excerpt || prev.excerpt,
+                category: data.category || prev.category,
+                // Job Details - ALWAYS overwrite
+                company: data.job_details?.company || '',
+                location: data.job_details?.location || '',
+                job_type: data.job_details?.job_type || prev.job_type || 'Full-time',
+                salary_range: data.job_details?.salary_range || '',
+                application_link: data.job_details?.application_link || '',
+            }));
+            alert('Content polished & structured successfully!');
         } catch (error) {
             console.error('Polish error:', error);
             alert('Failed to polished content. Check API Key or try again.');
@@ -109,6 +139,13 @@ export default function PostForm({ initialData }: PostFormProps) {
         e.preventDefault()
         setLoading(true)
 
+        // RBAC Check: Moderators cannot publish directly
+        if (userRole === 'moderator' && formData.status === 'published') {
+            alert("Moderators cannot publish posts directly. Please save as Draft or Pending.");
+            setLoading(false);
+            return;
+        }
+
         const postData: Partial<Post> & Record<string, unknown> = {
             title: formData.title,
             slug: formData.slug,
@@ -119,6 +156,7 @@ export default function PostForm({ initialData }: PostFormProps) {
             category: formData.category,
             image_url: formData.image_url,
             is_featured: formData.is_featured,
+            featured_until: formData.is_featured && formData.featured_until ? formData.featured_until : null,
             display_location: formData.display_location,
             published_at: initialData?.published_at || new Date().toISOString()
         }
@@ -139,6 +177,11 @@ export default function PostForm({ initialData }: PostFormProps) {
 
         try {
             if (initialData) {
+                // RBAC Check: Moderators cannot edit Published posts
+                if (userRole === 'moderator' && initialData.status === 'published') {
+                    throw new Error("Moderators cannot edit published posts.");
+                }
+
                 const { error } = await supabase
                     .from('posts')
                     .update(postData)
@@ -153,16 +196,42 @@ export default function PostForm({ initialData }: PostFormProps) {
 
             router.push('/admin/posts')
             router.refresh()
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error saving post:', error)
-            alert('Failed to save post.')
+            alert(error.message || 'Failed to save post.')
         } finally {
             setLoading(false)
         }
     }
 
+    if (roleLoading) {
+        return <div className="p-8 text-center text-stone-500">Checking permissions...</div>
+    }
+
+    // RBAC: If Moderator is trying to edit a PUBLISHED post, show Read-Only or warning
+    const isModLocked = userRole === 'moderator' && initialData?.status === 'published';
+
     return (
-        <form onSubmit={handleSubmit} className="bg-white p-8 border border-stone-200 shadow-sm max-w-4xl">
+        <form onSubmit={handleSubmit} className="bg-white p-8 border border-stone-200 shadow-sm max-w-4xl relative">
+            {isModLocked && (
+                <div className="absolute inset-0 z-50 bg-stone-50/50 backdrop-blur-sm flex items-center justify-center">
+                    <div className="bg-white p-8 rounded-xl shadow-xl border border-red-200 text-center max-w-md">
+                        <Lock className="w-12 h-12 text-red-500 mx-auto mb-4" />
+                        <h3 className="font-serif text-xl font-bold text-red-900 mb-2">Protected Content</h3>
+                        <p className="text-stone-600 mb-6">
+                            This post is <strong>Published</strong>. Moderators cannot make changes to live content to prevent accidental issues.
+                        </p>
+                        <button
+                            type="button"
+                            onClick={() => router.back()}
+                            className="bg-stone-900 text-white px-6 py-2 rounded-lg font-bold uppercase tracking-wider text-sm hover:bg-black"
+                        >
+                            Go Back
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <div className="flex justify-between items-center mb-6">
                 <h2 className="font-serif text-2xl font-bold">
                     {initialData ? 'Edit Post' : 'Write New Post'}
@@ -399,9 +468,14 @@ export default function PostForm({ initialData }: PostFormProps) {
                                 }`}
                         >
                             <option value="draft">Draft</option>
-                            <option value="published">Published</option>
+                            {userRole !== 'moderator' && <option value="published">Published</option>}
                             <option value="archived">Archived</option>
                         </select>
+                        {userRole === 'moderator' && (
+                            <p className="text-xs text-amber-600 mt-2 font-bold">
+                                🔒 Moderators cannot publish directly.
+                            </p>
+                        )}
                         <p className="text-xs text-stone-400 mt-2">
                             Only &apos;Published&apos; posts appear on the site.
                         </p>
@@ -413,24 +487,48 @@ export default function PostForm({ initialData }: PostFormProps) {
                         <input
                             type="checkbox"
                             checked={formData.is_featured}
-                            onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })}
-                            className="w-5 h-5 rounded border-stone-300 text-agri-green focus:ring-agri-green"
+                            onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked, featured_until: e.target.checked ? formData.featured_until : '' })}
+                            className="w-5 h-5 rounded border-stone-300 text-amber-500 focus:ring-amber-500"
                         />
                         <div>
-                            <span className="block font-bold uppercase text-xs tracking-widest text-agri-green group-hover:text-agri-dark">Featured Listing</span>
+                            <span className="block font-bold uppercase text-xs tracking-widest text-amber-600 group-hover:text-amber-800">💰 Featured Listing (Paid)</span>
                             <span className="text-xs text-stone-400">Mark this post as a paid/featured listing (adds badge & priority).</span>
                         </div>
                     </label>
+
+                    {/* Featured Duration Picker */}
+                    {formData.is_featured && (
+                        <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                            <label className="block text-xs font-bold uppercase tracking-widest text-amber-700 mb-3">Featured Until (Auto-Expires)</label>
+                            <div className="flex flex-wrap gap-2 mb-3">
+                                <button type="button" onClick={() => setFeaturedDuration(7)} className="px-3 py-1.5 text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-800 rounded transition-colors">7 Days</button>
+                                <button type="button" onClick={() => setFeaturedDuration(14)} className="px-3 py-1.5 text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-800 rounded transition-colors">14 Days</button>
+                                <button type="button" onClick={() => setFeaturedDuration(30)} className="px-3 py-1.5 text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-800 rounded transition-colors">30 Days</button>
+                                <button type="button" onClick={() => setFormData(prev => ({ ...prev, featured_until: '' }))} className="px-3 py-1.5 text-xs font-bold bg-stone-100 hover:bg-stone-200 text-stone-600 rounded transition-colors">Forever</button>
+                            </div>
+                            <input
+                                type="datetime-local"
+                                value={formData.featured_until}
+                                onChange={(e) => setFormData({ ...formData, featured_until: e.target.value })}
+                                className="w-full p-2 bg-white border border-amber-300 rounded text-sm focus:outline-none focus:border-amber-500"
+                            />
+                            <p className="text-xs text-amber-600 mt-2">
+                                {formData.featured_until
+                                    ? `Will auto-demote to standard feed on ${new Date(formData.featured_until).toLocaleString()}.`
+                                    : '"Forever" means no expiration - manually remove when needed.'}
+                            </p>
+                        </div>
+                    )}
                 </div>
             </div>
 
             <div className="flex gap-4 mt-8">
                 <button
                     type="submit"
-                    disabled={loading}
+                    disabled={loading || isModLocked}
                     className="bg-black text-white px-8 py-3 font-bold uppercase tracking-widest hover:bg-agri-green disabled:opacity-50"
                 >
-                    {loading ? 'Publishing...' : 'Publish Post'}
+                    {loading ? 'Saving...' : (userRole === 'moderator' ? 'Save Draft' : 'Publish Post')}
                 </button>
                 <button
                     type="button"

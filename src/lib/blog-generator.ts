@@ -56,13 +56,265 @@ export class BlogGenerator {
     for (const pattern of patterns) {
       const match = text.match(pattern);
       if (match && match[1]) {
-        // Cleaning: Remove leading/trailing non-alphanumeric (except standard punctuation inside)
-        // Remove start bullets, arrows, colons
-        return match[1].trim()
+        let extracted = match[1].trim()
           .replace(/^[:\-\*>&=]+/, '') // Remove "->", ":", "*", ">", "=", etc. at start
           .trim();
+
+        // Reject generic placeholders
+        if (extracted.startsWith('/') ||
+          /^(?:Position|Organization|Company|Job Title|Location|Place)$/i.test(extracted) ||
+          extracted.includes('{') || extracted.includes('<')) {
+          continue;
+        }
+
+        return extracted;
       }
     }
+    return null;
+  }
+
+  // Validates if a field contains pollution (other field labels mixed in)
+  private static isFieldPolluted(value: string): boolean {
+    if (!value || value.length < 2) return true;
+    const pollutionKeywords = [
+      'POSITION', 'COMPANY', 'LOCATION', 'SALARY', 'EXPERIENCE', 'QUALIFICATION', 'DEADLINE', 'CONTACT',
+      'Position:', 'Company:', 'Location:', 'Salary:', 'Experience:', 'Qualification:', 'Deadline:',
+      'Organization', 'Job Title', 'Not Disclosed', 'Not specified', 'Not provided',
+      '---BEGIN', '---END', 'STRUCTURED DATA'
+    ];
+    return pollutionKeywords.some(keyword => value.includes(keyword)) ||
+      /^[^a-zA-Z]+$/.test(value) ||  // Only non-letters
+      value.length > 100;             // Way too long, probably garbage
+  }
+
+  // Enhanced fallback extraction when structured data parsing fails
+  private static extractFromOriginalText(text: string, fieldType: string): string | null {
+    // Pre-clean common WhatsApp formatting: remove asterisks around text, normalize separators
+    const cleanedText = text
+      .replace(/\*([^*]+)\*/g, '$1') // Remove bold asterisks
+      .replace(/#\s*/g, '') // Remove hashtags before text
+      .replace(/[:\-]+\s*[:\->]+/g, ':'); // Normalize ": ->" patterns
+
+    switch (fieldType.toLowerCase()) {
+      case 'position':
+        // Look for job titles - enhanced patterns for WhatsApp-style forwards
+        const positionPatterns = [
+          // Match "Position —PO" (em dash format) - allow Location as terminator
+          /Position\s*[-—]+\s*([A-Za-z0-9\s/]+?)(?:\s(?:at|Location|from)|\n|\*|$)/i,
+          // Specific capture for "Position - Sales Officer"
+          /(?:Position|Role|Designation)\s*[:\-\s]*([A-Za-z0-9\s/\-,&]+?)(?:\s(?:at|Location)|\n|\*|$)/i,
+          // Capture "Hiring: —PO" (handle dash separator)
+          /Hiring\s*:\s*(?:[-—]\s*)?([A-Za-z0-9\s/\-,&]+?)(?:\sat|\n|$)/i,
+          // Capture position from "Position Name at Company"
+          /([A-Za-z0-9\s/\-,&]+?)\s+at\s+(?:looking|searching|hiring)/i,
+          /(?:POSITION|Position)\s*[-:*]+\s*([A-Za-z\s()&\/]+?)(?:\n|$)/i,
+          /(?:Hiring|HIRING)[:,\s*-]+\s*([A-Za-z\s()&\/]+?)(?:\s+at\s+|\n|$)/i,
+          /(?:URGENT REQUIREMENT|Vacancy)[\s:*-]+([A-Za-z\s()&\/]+?)(?:\n|$)/i,
+          /(?:sales officer|territory manager|area manager|zonal manager|marketing manager|field officer|agronomist|agricultural officer)/i,
+        ];
+        for (const pattern of positionPatterns) {
+          const match = cleanedText.match(pattern);
+          if (match) {
+            const value = (match[1] || match[0]).trim().replace(/^[:\-*\s]+|[:\-*\s]+$/g, '');
+            if (value.length >= 2 && value.length < 80) {
+              return value;
+            }
+          }
+        }
+        break;
+
+      case 'company':
+        // Enhanced company detection - handles "Organization : *Company Name*" format
+        // Pattern 1: Explicit "Organization : *Name*" format (most reliable)
+        const orgMatch = text.match(/Organization\s*:\s*\*([^*]+)\*/i);
+        if (orgMatch && orgMatch[1]) {
+          const value = orgMatch[1].trim();
+          if (value.length > 3 && value.length < 100) {
+            return value;
+          }
+        }
+
+        const companyPatterns = [
+          // Match "Organization : *Company Name*" pattern
+          /Organization\s*[:\-\s]*\*([^*]+)\*/i,
+          // Match "*Company Name* -Value" pattern (Acsen style)
+          /Company\s+Name\s*[:\-]*\s*[:\-]\s*([A-Za-z0-9\s().]+?)(?:\*|\n|$)/i,
+          /Company\s+Name\s*\*\s*[:\-]*\s*([A-Za-z0-9\s().]+?)(?:\*|\n|$)/i,
+          // Generic *Company Name* pattern if strictly followed by Limited/Pvt/etc
+          /\*([A-Za-z0-9\s&]+(?:Pvt|Private|Limited|Ltd|Corp|Inc|Group|Solution|System|Technology|Industry|Farm|Agro)[^*.]{0,20})\*/i,
+          // Standard patterns
+          /(?:Company|Organization|Employer)\s*[:\-\s]*\**([A-Za-z0-9\s.&()]+?)(?:\*|\n|$)/i,
+          /at\s+([A-Z][A-Za-z0-9\s.&()]+(?:Pvt|Private|Limited|Ltd|Corp|Inc|Group|Solution|System|Technology|Farm|Agro)[A-Za-z0-9\s.&()]*?)(?:\sat|\n|\.|$)/,
+          // Match "Organization/Company :" followed by company name ending in Ltd/Pvt
+          /(?:Organization|Organisation|Company|Employer)\s*[:*\-]+\s*([A-Za-z][A-Za-z0-9\s.&'()]+?(?:Ltd\.?|Pvt\.?\s*Ltd\.?|Private\s+Limited|Corporation|Corp|Inc|LLC))/i,
+          // Match company name with "crops science" or similar
+          /([A-Za-z][A-Za-z0-9\s.&'()]+(?:crops\s+science|agri\s*chem|fertilizer)[A-Za-z0-9\s.&'()]*(?:Ltd\.?|Pvt\.?\s*Ltd\.?))/i,
+          // Fallback: company name with standard suffixes
+          /([A-Za-z][A-Za-z0-9\s.&'()]{5,}(?:pvt\.?\s+ltd|Ltd\.?|private limited))/i,
+        ];
+        for (const pattern of companyPatterns) {
+          const match = cleanedText.match(pattern);
+          if (match && match[1]) {
+            const value = match[1].trim().replace(/^[:\-*\s]+|[:\-*\s]+$/g, '');
+            // Reject common false positives
+            if (value.length > 5 && value.length < 80 &&
+              !/^(Company|Organization|Private|The|This|before|trusted|making)$/i.test(value) &&
+              !value.includes('verify') && !value.includes('payment')) {
+              return value;
+            }
+          }
+        }
+        break;
+
+      case 'location':
+        // Enhanced location detection - handles inline and multiline formats
+        const locationPatterns = [
+          // Match "*Location- Value" format (Acsen style) and "*Location - Value"
+          /Location\s*[-:]+\s*([A-Za-z0-9\s,.-]+?)(?:\s*(?:https?|Height|Weight|http|\*|\n|$))/i,
+          // Match "LOCATION - # CityName- Description" format (inline with dot or period after)
+          /LOCATION\s*[-:]+\s*#?\s*([A-Za-z]+(?:\s*[-–]\s*[A-Za-z\s]+)*?)(?:\s*\.\s*(?:Salary|Experience)|$)/i,
+          // Match "Location # Yavatmal-" format
+          /(?:Location|LOCATION)\s+#\s*([A-Za-z]+(?:\s*[-–]\s*[A-Za-z\s]+)*)/i,
+          // Standard patterns
+          /(?:LOCATION|Location)\s*[-:*#]+\s*([A-Za-z\s,().\-]+?)(?:\.?\s*Experience|\n(?:Experience)|Salary|$)/i,
+          /(?:Place|City|District|State)\s*[:*\-]+\s*([A-Za-z\s,().\-]+?)(?:\n|$)/i,
+          /(?:covering\s+(?:whole\s+)?(?:district|area|region)?)\s*[:.\-]*\s*([A-Za-z\s,().\-]+)/i,
+          /#\s*([A-Za-z]+(?:\s*[-–]\s*[A-Za-z\s]+)?)/i, // Hashtag locations
+        ];
+        for (const pattern of locationPatterns) {
+          const match = cleanedText.match(pattern);
+          if (match && match[1]) {
+            let value = match[1].trim().replace(/^[:\-*#\s]+|[:\-*#\s]+$/g, '');
+            // Clean trailing labels and text
+            value = value.replace(/\s*(?:For|Experience|Salary|Qualification|\.|\n).*$/i, '').trim();
+            // Skip if the value looks like a generic placeholder
+            if (value.length > 2 && value.length < 100 && !/^(Pan\s*India|India|Location)$/i.test(value)) {
+              return value;
+            }
+          }
+        }
+        break;
+
+      case 'salary':
+        // Enhanced salary detection - with length limits
+        const salaryPatterns = [
+          // Match "Salary : value" up to first period or "Age Limit"
+          /(?:Salary|CTC|Compensation|Package)\s*[:*\-]+\s*([^.\n]{3,50})(?:\.|Age\s+Limit|\n|$)/i,
+          // Match rupee amounts
+          /(₹[\d,\s\-–to]+(?:per\s+month|per\s+annum|LPA|lac|PM|PA)?)/i,
+          /(Rs\.?\s*[\d,\s\-–to]+(?:per\s+month|per\s+annum|LPA|lac)?)/i,
+          // Match standard phrases
+          /(As\s+Per\s+Industry\s+Standard)/i,
+          /(Negotiable|Attractive\s+Package|Best\s+in\s+Industry)/i,
+        ];
+        for (const pattern of salaryPatterns) {
+          const match = cleanedText.match(pattern);
+          if (match) {
+            let value = (match[1] || match[0]).trim().replace(/^[:\-*\s]+|[:\-*\s]+$/g, '');
+            // Limit length and clean trailing punctuation
+            value = value.substring(0, 60).replace(/[.\s,]+$/, '');
+            if (value.length > 2 && value.length < 60) {
+              return value;
+            }
+          }
+        }
+        break;
+
+      case 'experience':
+        // Enhanced experience detection
+        const experiencePatterns = [
+          // Prioritize specific "Minimum X years" patterns
+          /(?:Minimum|Min|Max)\s*[:*\-]?\s*(\d+(?:\+?|\s*(?:to|-|–)\s*\d+)?\s*years?)/i,
+          /((?:Minimum\s*)?\d+(?:\+?|\s*(?:to|-|–)\s*\d+)?\s*years?(?:'?s?)?\s*(?:experience|exp)?)/i,
+        ];
+        for (const pattern of experiencePatterns) {
+          const match = cleanedText.match(pattern);
+          if (match && match[1]) {
+            let value = match[1].trim().replace(/^[:\-*\s]+|[:\-*\s]+$/g, '');
+            // Clean trailing text
+            value = value.replace(/\s*(?:on\s+Company|will\s+be|Salary|Requirement|Qualification|Description).*$/i, '').trim();
+
+            // Reject if it looks like a phone number (M.+)
+            if (value.startsWith('M.') || /^\+?\d[\d\-\s]+$/.test(value)) {
+              continue;
+            }
+
+            if (value.length > 2) {
+              return value;
+            }
+          }
+        }
+        break;
+
+      case 'qualification':
+        // Enhanced qualification detection
+        const qualificationPatterns = [
+          /(?:Qualification|Degree|Education|Eligibility)\s*[:*\-]+\s*([^\n]+?)(?:\n|Note|$)/i,
+          /(B\.?Sc\.?\s*(?:Agri(?:culture)?\.?)?(?:\s*\/\s*M\.?Sc\.?\s*Agri(?:culture)?\.?)?)/i,
+          /(M\.?Sc\.?\s*(?:Agri(?:culture)?\.?)?)/i,
+          /(Diploma\s+in\s+[A-Za-z\s]+)/i,
+          /(MBA\s*[-–\/]?\s*(?:Agri(?:business)?|Marketing)?)/i,
+        ];
+        for (const pattern of qualificationPatterns) {
+          const match = cleanedText.match(pattern);
+          if (match && match[1]) {
+            const value = match[1].trim().replace(/^[:\-*\s]+|[:\-*\s]+$/g, '');
+            if (value.length > 3) {
+              return value;
+            }
+          }
+        }
+        break;
+
+      case 'deadline':
+        // Enhanced deadline detection - handles "before 15 Jan 2026"
+        const deadlinePatterns = [
+          /(?:Deadline|Last\s+Date|Apply\s+Before|before)\s*[:*\-]?\s*(\d{1,2}[\s\/\-]*(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s,]*\d{2,4})/i,
+          /(?:Deadline|Last\s+Date|Apply\s+Before)\s*[:*\-]+\s*([^\n]+?)(?:\n|$)/i,
+          /before\s+(\d{1,2}[\s\/\-]*(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*[\s,]*\d{2,4})/i,
+          /(\d{1,2}[\-\/\.]\d{1,2}[\-\/\.]\d{2,4})/,
+        ];
+        for (const pattern of deadlinePatterns) {
+          const match = cleanedText.match(pattern);
+          if (match && match[1]) {
+            const value = match[1].trim().replace(/^[:\-*\s]+|[:\-*\s]+$/g, '');
+            if (value.length > 3) {
+              return value;
+            }
+          }
+        }
+        break;
+
+      case 'email':
+        // Extract ALL email addresses - return first valid one
+        const emailMatches = cleanedText.match(/[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+/gi);
+        if (emailMatches && emailMatches.length > 0) {
+          // Return first non-generic email
+          for (const email of emailMatches) {
+            if (!email.includes('example') && !email.includes('test')) {
+              return email;
+            }
+          }
+          return emailMatches[0];
+        }
+        return null;
+
+      case 'contact':
+        // Extract phone numbers - Indian format
+        const phonePatterns = [
+          /(?:Contact|Phone|Call|Mobile)\s*[:*\-]+\s*(\+?91[-\s]?\d{10}|\d{10})/i,
+          /(\d{10})/,
+          /(\d{5}[\s\-]?\d{5})/,
+        ];
+        for (const pattern of phonePatterns) {
+          const match = cleanedText.match(pattern);
+          if (match && match[1]) {
+            return match[1].replace(/[\s\-]/g, '');
+          }
+        }
+        return null;
+    }
+
     return null;
   }
 
@@ -255,142 +507,233 @@ export class BlogGenerator {
   }
 
   private static generateJobPost(cleanText: string, lines: string[]): GeneratedPost {
-    // Smart Extraction
-    const position = this.smartExtract(cleanText, [
-      /(?:Position|Role|Post|Hiring For)\s*[:\-\*]*\s*([^\n]+)/i,
-      /Hiring(?:[:\-\s]+)(.+?)\s+(?:at|@|for)/i, // Capture "Hiring Manager at..." (relaxed colon)
-      /Urgent Requirement\s+(?:at|for)?\s*(.*?)(?:\s+Position|\s+Location|\s+Qualification|\s*$)/i,
-      /Hiring(?:[:\-\s]+)([^\n]+)/i
-    ]) || "Agri Professional";
+    // --- PRIORITY 1: Parse AI Structured Data Block ---
+    const structuredMatch = cleanText.match(/---BEGIN STRUCTURED DATA---([\s\S]*?)---END STRUCTURED DATA---/i);
 
-    // Improve Company Extraction
-    const company = this.smartExtract(cleanText, [
-      /(?:Company|Organization|Org)(?:\s+Name)?\s*[:\-\*]*\s*([^\n]+)/i,
-      /(?:Hiring|Vacancy|Opening).*?(?:at|@|for)\s+([A-Za-z0-9\s\.]+?)(?:\n|$|\.)/i, // Capture "Hiring X at Company"
-      /([A-Za-z0-9\s]+)\s+is hiring/i, // Capture "X is hiring"
-      // Catch "Urgent Requirement [Company] Position" pattern
-      /Urgent Requirement\s+(?!for|at\b)(.*?)(?:\s+Position|\s+Location|\s+Qualification)/i
-    ]) || "Leading Agri Organization";
+    // DEBUG: Log if structured data block exists
+    if (!structuredMatch) {
+      console.warn('WARNING: No structured data block found in AI output. This may cause data loss.');
+      console.log('AI Output preview:', cleanText.substring(0, 500));
+    }
 
-    // Location: Stop if it hits another keyword
-    const location = this.smartExtract(cleanText, [
-      /(?:Location|Place|HQ|City|Loc)\s*[:\-\*]*\s*([^\n]*?)(?=\s*(?:\n|Qualification|Experience|Job|Contact|Salary|Description|$))/i,
-      /in\s+([A-Za-z]+(?:(?:\s|,\s)[A-Za-z]+)*?)(?:\.|\n|$)/i // Capture "in Pune" or "in Mumbai"
-    ]) || "India";
+    let position = "Agricultural Professional";
+    let company = "Private Agri Company";
+    let location = "Pan India";
+    let salary = "As per industry standards";
+    let experience = "As per company norms";
+    let qualification = "Relevant Degree";
+    let deadline: string | null = null;
+    let email: string | null = null;
+    let contact: string | null = null;
 
-    const experience = this.smartExtract(cleanText, [/(?:Experience|Exp)\s*[:\-\*]*\s*([^\n]+)/i]);
-    const qualification = this.smartExtract(cleanText, [/(?:Qualification|Degree|Education)s?\s*[:\-\*]*\s*([^\n]+)/i]);
+    if (structuredMatch) {
+      const structuredBlock = structuredMatch[1];
 
-    // Contact: Look for numbers more aggressively
-    const contact = this.smartExtract(cleanText, [
-      /(?:Contact|Mobile|Call|WhatsApp).{0,60}?([0-9]{10}|[0-9]{5}\s[0-9]{5})/i,
-      /(\d{10})/ // Fallback to just finding a 10-digit number
-    ]);
-    const email = this.smartExtract(cleanText, [/(?:Email|Send CV)(?:\s+to)?\s*[:\-\*]*\s*([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/i, /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/i]);
+      // Parse each line in the structured block
+      const extractField = (fieldName: string): string | null => {
+        const regex = new RegExp(`${fieldName}:\\s*(.+?)(?:\\n|$)`, 'i');
+        const match = structuredBlock.match(regex);
+        if (match && match[1]) {
+          const value = match[1].trim();
+          // Validation: Reject if it contains other field labels (pollution)
+          const fieldLabels = ['POSITION', 'COMPANY', 'LOCATION', 'SALARY', 'EXPERIENCE', 'QUALIFICATION', 'DEADLINE', 'CONTACT', 'EMAIL'];
+          if (fieldLabels.some(label => value.includes(label + ':'))) {
+            return null; // Polluted
+          }
+          if (value === 'Not provided' || value === 'Not specified' || value === 'Not Disclosed') {
+            return null;
+          }
+          return value;
+        }
+        return null;
+      };
 
-    const title = `Hiring: ${position} at ${company}`;
+      position = extractField('POSITION') || position;
+      company = extractField('COMPANY') || company;
+      location = extractField('LOCATION') || location;
+      salary = extractField('SALARY') || salary;
+      experience = extractField('EXPERIENCE') || experience;
+      qualification = extractField('QUALIFICATION') || qualification;
+      deadline = extractField('DEADLINE');
+      email = extractField('CONTACT_EMAIL');
+      contact = extractField('CONTACT_PHONE');
+    } else {
+      // --- CRITICAL FALLBACK: Extract from original input text ---
+      console.warn('CRITICAL: Using fallback extraction - may lose data accuracy');
+
+      // Extract from the ENTIRE original text, not just structured block
+      position = this.smartExtract(cleanText, [
+        /(?:Position|Role|Post|Hiring For|Vacancy for)[\s:*-]+([A-Za-z\s()&/]+?)(?:\n|at|@|-|$)/i,
+        /(?:POSITION|Hiring|Vacancy)[\s:*-]+([A-Za-z\s()&/]+?)(?:\n|at|@|-|$)/i,
+        /(?:We are hiring|Looking for)[\s:*-]+([A-Za-z\s()&/]+?)(?:\n|at|@|\.|$)/i,
+      ]) || this.extractFromOriginalText(cleanText, 'position') || position;
+
+      // For company, try extractFromOriginalText FIRST since it has "Organization : *Name*" pattern
+      company = this.extractFromOriginalText(cleanText, 'company') || this.smartExtract(cleanText, [
+        /(?:Company|Employer)[\s:*-]+([A-Za-z0-9\s.&']+?(?:Ltd|Pvt|Corp)[^,\n]*)/i,
+      ]) || company;
+
+      location = this.smartExtract(cleanText, [
+        /(?:Location|Place|City|State|Region)[\s:*-]+([A-Za-z\s(),\-]+?)(?:\n|$)/i,
+      ]) || this.extractFromOriginalText(cleanText, 'location') || location;
+
+      salary = this.extractFromOriginalText(cleanText, 'salary') || this.smartExtract(cleanText, [
+        /(?:Salary|CTC|Compensation|Package)[\s:*-]+([^.\n]{3,50})(?:\.|Age\s+Limit|\n|$)/i,
+        /(?:₹|Rs\.?)[\d,\s\-]+(?:per month|per annum|LPA)?/i,
+      ]) || salary;
+
+      // For experience, try extractFromOriginalText FIRST to avoid greedy generic matching
+      experience = this.extractFromOriginalText(cleanText, 'experience') || this.smartExtract(cleanText, [
+        /(?:Experience|Exp|Minimum Experience)[\s:*-]+([^\n]+?)(?:\n|$)/i,
+      ]) || experience;
+
+      qualification = this.smartExtract(cleanText, [
+        /(?:Qualification|Degree|Education|Eligibility)[\s:*-]+([^\n]+?)(?:\n|$)/i,
+      ]) || this.extractFromOriginalText(cleanText, 'qualification') || qualification;
+
+      deadline = this.smartExtract(cleanText, [
+        /(?:Deadline|Last Date|Apply Before)[\s:*-]+([^\n]+?)(?:\n|$)/i,
+      ]) || this.extractFromOriginalText(cleanText, 'deadline');
+
+      email = this.smartExtract(cleanText, [
+        /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/i,
+      ]) || this.extractFromOriginalText(cleanText, 'email');
+
+      contact = this.smartExtract(cleanText, [
+        /(\d{10}|\d{5}\s*\d{5})/,
+      ]) || this.extractFromOriginalText(cleanText, 'contact');
+    }
+
+    // Build Clean Title
+    const title = `${position} – Job Opening at ${company} (${location})`;
+
+    // --- SEO-OPTIMIZED CONTENT STRUCTURE ---
+    const descriptionParagraphs = lines
+      .filter(l => l.length > 20 && !/^(?:POSITION|COMPANY|LOCATION|SALARY|EXPERIENCE|QUALIFICATION|DEADLINE|CONTACT|---)/i.test(l))
+      .slice(0, 10)
+      .map(p => `<p class="mb-4">${p}</p>`)
+      .join('');
 
     const contentHtml = `
-      <div class="agri-job-alert">
-        <div class="bg-green-50 border-l-4 border-agri-green p-6 mb-8 rounded-r-xl">
-             <div class="flex items-center gap-2 mb-2">
-                <span class="bg-green-200 text-green-800 text-xs font-bold px-2 py-1 rounded uppercase">Job Alert</span>
-            </div>
-            <h1 class="text-2xl font-bold text-stone-900 leading-tight">${title}</h1>
-            <p class="mt-2 text-stone-600">A new career opportunity has been released. Check details below.</p>
-        </div>
+<article class="agri-job-post" itemscope itemtype="https://schema.org/JobPosting">
+  <meta itemprop="title" content="${position}">
+  <meta itemprop="datePosted" content="${new Date().toISOString().split('T')[0]}">
+  <meta itemprop="hiringOrganization" content="${company}">
 
-        <h2 class="text-xl font-bold text-stone-800 mb-4">Job Overview</h2>
-        <div class="overflow-x-auto mb-8 shadow-sm border border-stone-200 rounded-lg">
-          <table class="w-full text-left border-collapse">
-            <tbody class="divide-y divide-stone-100">
-              <tr class="bg-stone-50">
-                <td class="px-6 py-4 w-1/3 text-xs font-bold text-stone-500 uppercase tracking-wider">Position</td>
-                <td class="px-6 py-4 text-lg font-bold text-stone-900">${position}</td>
-              </tr>
-              <tr class="bg-white">
-                <td class="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider">Company</td>
-                <td class="px-6 py-4 font-medium text-stone-800">${company}</td>
-              </tr>
-              <tr class="bg-stone-50">
-                <td class="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider">Location</td>
-                <td class="px-6 py-4 font-medium text-stone-800">${location}</td>
-              </tr>
-              <tr class="bg-white">
-                <td class="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider">Experience</td>
-                <td class="px-6 py-4 text-stone-800">${experience || "Not Specified"}</td>
-              </tr>
-              <tr class="bg-stone-50">
-                <td class="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider">Qualification</td>
-                <td class="px-6 py-4 text-stone-800">${qualification || "Not Specified"}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+  <section class="introduction mb-8">
+    <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border-l-4 border-agri-green">
+      <span class="inline-block bg-agri-green text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide mb-3">🔥 Hot Opportunity</span>
+      <h1 class="text-2xl font-bold text-stone-900 mb-2">${title}</h1>
+      <p class="text-stone-600">A new career opportunity is now open. Read the details carefully and apply before the deadline.</p>
+    </div>
+  </section>
 
-        <h2 class="text-xl font-bold text-stone-800 mb-4">Description</h2>
-        <div class="prose prose-stone max-w-none bg-stone-50 p-6 rounded-xl text-stone-700 whitespace-pre-line font-mono text-sm leading-relaxed">
-          ${lines.filter(line =>
-      !/^(?:Position|Role|Post|Hiring For|Urgent Requirement|Company|Organization|Org|Location|Place|HQ|City|Experience|Exp|Qualification|Degree|Education|Contact|Mobile|Call|WhatsApp|Email|Send CV|Job Overview)/i.test(line)
-    ).join('\n')}
-        </div>
+  <section class="about-opportunity mb-8">
+    <h2 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">About This Opportunity</h2>
+    <div class="prose prose-stone max-w-none text-stone-700 leading-relaxed">
+      ${descriptionParagraphs || '<p>This is an exciting opportunity in the agriculture sector. The employer is looking for motivated candidates to join their team. Please review the details in the Job Overview table below.</p>'}
+    </div>
+  </section>
 
-        <!-- Content Strategy: Original Analysis Placeholder -->
-        <h2 class="text-xl font-bold text-stone-800 mb-4 mt-8 flex items-center gap-2">
-            Details & Analysis
-            <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full font-normal">Editor's Note</span>
-        </h2>
-        <div class="prose prose-stone max-w-none text-stone-600 mb-8">
-            <p><strong>Resource for Applicants:</strong> This opportunity at ${company} aligns with current industry trends. Applicants are advised to highlight relevant experience in...</p>
-            <p><em>(Editor: Add 500+ words of original analysis here, focusing on the company culture, interview tips for this role, and how it fits into the broader agri-market.)</em></p>
-        </div>
+  <section class="key-responsibilities mb-8">
+    <h2 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">Key Responsibilities</h2>
+    <ul class="list-disc pl-6 space-y-2 text-stone-700">
+      <li>Perform duties as assigned by the reporting manager in line with the role of <strong>${position}</strong>.</li>
+      <li>Contribute to team goals and organizational objectives.</li>
+      <li>Maintain professional conduct and adhere to company policies.</li>
+    </ul>
+  </section>
 
-        <div class="my-8">
-             <div class="bg-stone-900 text-white p-8 rounded-2xl shadow-xl text-center">
-                 <h3 class="text-2xl font-bold mb-6">How to Apply</h3>
-                 <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
-                    ${contact ? `
-                        <div class="bg-stone-800 px-6 py-3 rounded-lg flex items-center gap-3">
-                            <span>📞</span>
-                            <span class="font-mono text-lg">${contact}</span>
-                        </div>
-                    ` : ''}
-                    ${email ? `
-                        <div class="bg-stone-800 px-6 py-3 rounded-lg flex items-center gap-3">
-                            <span>📧</span>
-                            <a href="mailto:${email}" class="font-mono text-lg underline decorataion-agri-green decoration-2 underline-offset-4">${email}</a>
-                        </div>
-                    ` : ''}
-                 </div>
-                 ${!contact && !email ? '<p class="text-stone-400">Please check the description above for application details.</p>' : ''}
-                 <p class="text-xs text-stone-500 mt-6">Mention "Agri Updates" when you apply to increase visibility.</p>
-             </div>
-        </div>
-
-         <h3 class="font-bold text-lg mb-4">Frequently Asked Questions</h3>
-        <details class="mb-2 group bg-white border rounded-lg">
-          <summary class="font-bold cursor-pointer p-4 hover:bg-stone-50 flex justify-between">
-            <span>Is this a verified job?</span>
-             <span class="transform group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <div class="p-4 border-t text-sm text-stone-600">
-            <p>We source jobs from trusted networks, but please verify directly with the employer before making payments or sharing sensitive documents.</p>
-          </div>
-        </details>
+  <section class="eligibility mb-8">
+    <h2 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">Eligibility Criteria</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-stone-50 p-4 rounded-lg">
+        <p class="text-xs font-bold text-stone-500 uppercase mb-1">Qualification</p>
+        <p class="font-medium text-stone-800">${qualification}</p>
       </div>
-        `;
+      <div class="bg-stone-50 p-4 rounded-lg">
+        <p class="text-xs font-bold text-stone-500 uppercase mb-1">Experience</p>
+        <p class="font-medium text-stone-800">${experience}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="job-overview-table mb-8">
+    <h2 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">Job Overview</h2>
+    <div class="overflow-x-auto shadow-sm border border-stone-200 rounded-lg">
+      <table class="w-full text-left border-collapse">
+        <tbody>
+          <tr class="bg-stone-50"><td class="px-4 py-3 font-bold text-stone-600 w-1/3">Position</td><td class="px-4 py-3 text-stone-900 font-semibold">${position}</td></tr>
+          <tr><td class="px-4 py-3 font-bold text-stone-600">Company</td><td class="px-4 py-3">${company}</td></tr>
+          <tr class="bg-stone-50"><td class="px-4 py-3 font-bold text-stone-600">Location</td><td class="px-4 py-3">${location}</td></tr>
+          <tr><td class="px-4 py-3 font-bold text-stone-600">Salary/CTC</td><td class="px-4 py-3">${salary}</td></tr>
+          ${deadline ? `<tr class="bg-stone-50"><td class="px-4 py-3 font-bold text-stone-600">Last Date to Apply</td><td class="px-4 py-3 text-red-600 font-semibold">${deadline}</td></tr>` : ''}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="how-to-apply mb-8">
+    <h2 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">How to Apply</h2>
+    <div class="bg-stone-900 text-white p-6 rounded-xl text-center">
+      <p class="mb-4">Interested candidates can apply by contacting the recruiter directly:</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        ${contact ? `<a href="tel:${contact}" class="bg-stone-800 hover:bg-stone-700 px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"><span>📞</span><span class="font-mono">${contact}</span></a>` : ''}
+        ${email ? `<a href="mailto:${email}" class="bg-green-700 hover:bg-green-600 px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"><span>📧</span><span class="font-mono">${email}</span></a>` : ''}
+      </div>
+      ${!contact && !email ? '<p class="text-stone-400 mt-4">Please check the description above for application details.</p>' : ''}
+      <p class="text-xs text-stone-400 mt-4">Mention "Agri Updates" in your application subject for priority consideration.</p>
+    </div>
+  </section>
+
+  <section class="faq mb-8">
+    <h2 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">Frequently Asked Questions</h2>
+    <div class="space-y-3">
+      <details class="group bg-white border border-stone-200 rounded-lg shadow-sm">
+        <summary class="font-bold cursor-pointer p-4 hover:bg-stone-50 flex justify-between items-center">
+          <span>Is this a verified job posting?</span>
+          <span class="text-stone-400 group-open:rotate-180 transition-transform">▼</span>
+        </summary>
+        <div class="p-4 border-t border-stone-100 text-stone-600 text-sm">
+          <p>We source job listings from trusted networks, but we always recommend verifying details directly with the employer before sharing personal documents or making any payments.</p>
+        </div>
+      </details>
+      <details class="group bg-white border border-stone-200 rounded-lg shadow-sm">
+        <summary class="font-bold cursor-pointer p-4 hover:bg-stone-50 flex justify-between items-center">
+          <span>What is the salary for this role?</span>
+          <span class="text-stone-400 group-open:rotate-180 transition-transform">▼</span>
+        </summary>
+        <div class="p-4 border-t border-stone-100 text-stone-600 text-sm">
+          <p>The salary for this position is <strong>${salary}</strong>. Final compensation may vary based on experience and interview performance.</p>
+        </div>
+      </details>
+      <details class="group bg-white border border-stone-200 rounded-lg shadow-sm">
+        <summary class="font-bold cursor-pointer p-4 hover:bg-stone-50 flex justify-between items-center">
+          <span>Can freshers apply for this job?</span>
+          <span class="text-stone-400 group-open:rotate-180 transition-transform">▼</span>
+        </summary>
+        <div class="p-4 border-t border-stone-100 text-stone-600 text-sm">
+          <p>The required experience is <strong>${experience}</strong>. Please check the eligibility carefully. If you meet the qualifications, we encourage you to apply.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+</article>
+    `;
 
     return {
       title: title,
       slug: this.createSlug(title),
-      excerpt: `Urgent Hiring: ${position} at ${company}. Location: ${location}. Check eligibility and apply.`,
+      excerpt: `Exciting job opening for ${position} at ${company}, ${location}. Eligibility: ${qualification}. Apply now!`,
       category: "Jobs",
-      keywords: ["Job", "Hiring", position, "Agriculture Jobs", location],
+      keywords: ["Job", "Hiring", position, "Agriculture Jobs", location, company],
       content: contentHtml + this.getDisclaimerHtml(),
       job_details: {
         company: company,
         location: location,
-        job_type: "Full-time", // Default estimate
+        salary_range: salary,
+        job_type: "Full-time",
         email: email || undefined,
         application_link: email ? `mailto:${email}` : undefined,
         contact: contact || undefined

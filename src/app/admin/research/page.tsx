@@ -140,11 +140,11 @@ export default async function ResearchCRM() {
 
                         <div className="flex items-center justify-between border-t border-stone-100 pt-4">
                             <div className="flex -space-x-2">
-                                <div className="w-8 h-8 rounded-full border-2 border-white bg-stone-200 relative overflow-hidden">
-                                    <Image src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80" alt="User" fill className="object-cover" />
+                                <div className="w-8 h-8 rounded-full border-2 border-white bg-blue-100 text-blue-600 flex items-center justify-center text-[10px] font-bold">
+                                    AR
                                 </div>
-                                <div className="w-8 h-8 rounded-full border-2 border-white bg-stone-200 relative overflow-hidden">
-                                    <Image src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80" alt="User" fill className="object-cover" />
+                                <div className="w-8 h-8 rounded-full border-2 border-white bg-green-100 text-green-600 flex items-center justify-center text-[10px] font-bold">
+                                    AJ
                                 </div>
                                 <div className="w-8 h-8 rounded-full border-2 border-white bg-stone-100 flex items-center justify-center text-[10px] font-bold text-stone-500">
                                     +{project.team_count}

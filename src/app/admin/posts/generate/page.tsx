@@ -54,7 +54,13 @@ export default function GeneratorPage() {
                     content: generatedResult.content,
                     category: generatedResult.category,
                     author_name: 'Anand',
-                    published_at: new Date().toISOString()
+                    published_at: new Date().toISOString(),
+                    // Job Details (if available)
+                    company: generatedResult.job_details?.company || '',
+                    location: generatedResult.job_details?.location || '',
+                    job_type: generatedResult.job_details?.job_type || '',
+                    salary_range: generatedResult.job_details?.salary_range || '',
+                    application_link: generatedResult.job_details?.application_link || '',
                 }])
                 .select()
                 .single()

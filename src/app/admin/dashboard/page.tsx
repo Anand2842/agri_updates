@@ -1,51 +1,99 @@
 import { Search, Bell, Users, Building, Briefcase, TrendingUp, MoreVertical, Rocket, FileText, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase';
 import DashboardCharts from './DashboardCharts';
 
 export const revalidate = 0;
 
-const TREND_DATA = [
-    { name: 'Mon', applicants: 40, jobs: 24 },
-    { name: 'Tue', applicants: 30, jobs: 13 },
-    { name: 'Wed', applicants: 20, jobs: 58 },
-    { name: 'Thu', applicants: 27, jobs: 39 },
-    { name: 'Fri', applicants: 18, jobs: 48 },
-    { name: 'Sat', applicants: 23, jobs: 38 },
-    { name: 'Sun', applicants: 34, jobs: 43 },
-];
-
-const MIX_DATA = [
-    { name: 'R&D', value: 45, color: '#4ade80' },
-    { name: 'Ops', value: 25, color: '#86efac' },
-    { name: 'Marketing', value: 20, color: '#a7f3d0' },
-    { name: 'Sales', value: 10, color: '#22c55e' },
-];
-
 async function getDashboardStats() {
     try {
+        // Parallel data fetching for speed
         const [
             { count: applicantCount },
             { count: companyCount },
-            { count: projectCount }
+            { count: projectCount },
+            { data: recentApplicants },
+            { data: recentCompanies },
+            { data: recentProjects },
+            { data: allApplicants } // fetching specific fields for charts
         ] = await Promise.all([
-            supabase.from('applicants').select('*', { count: 'exact', head: true }),
-            supabase.from('companies').select('*', { count: 'exact', head: true }),
-            supabase.from('research_projects').select('*', { count: 'exact', head: true }),
+            supabaseAdmin.from('applicants').select('*', { count: 'exact', head: true }),
+            supabaseAdmin.from('companies').select('*', { count: 'exact', head: true }),
+            supabaseAdmin.from('research_projects').select('*', { count: 'exact', head: true }),
+
+            // Recent entries
+            supabaseAdmin.from('applicants').select('id, name, stage, created_at').order('created_at', { ascending: false }).limit(5),
+            supabaseAdmin.from('companies').select('id, name, status, created_at').order('created_at', { ascending: false }).limit(5),
+            supabaseAdmin.from('research_projects').select('id, title, status, created_at').order('created_at', { ascending: false }).limit(5),
+
+            // For charts (this should be optimized in prod with RPC or date filtering, fetching last 30 days)
+            supabaseAdmin.from('applicants').select('created_at, stage').order('created_at', { ascending: true })
         ]);
 
+        // Process Recent Activity Feed (Merge & Sort)
+        const activityFeed = [
+            ...(recentApplicants || []).map(a => ({ type: 'Applicant', name: a.name, status: a.stage, date: a.created_at, icon: Users })),
+            ...(recentCompanies || []).map(c => ({ type: 'Company', name: c.name, status: c.status, date: c.created_at, icon: Briefcase })),
+            ...(recentProjects || []).map(p => ({ type: 'Research', name: p.title, status: p.status, date: p.created_at, icon: Rocket })),
+        ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5); // Take top 5
+
+        // Process Applicant Stages for Pie Chart
+        const stageCounts: Record<string, number> = {};
+        allApplicants?.forEach(a => {
+            const s = a.stage || 'Unknown';
+            stageCounts[s] = (stageCounts[s] || 0) + 1;
+        });
+        const stageData = Object.entries(stageCounts).map(([name, value], i) => ({
+            name,
+            value,
+            color: ['#4ade80', '#22c55e', '#16a34a', '#15803d', '#86efac'][i % 5]
+        })).sort((a, b) => b.value - a.value);
+
+        // Process Applicant Trends (Last 7 Days)
+        const trendMap: Record<string, number> = {};
+        const today = new Date();
+        for (let i = 6; i >= 0; i--) {
+            const d = new Date(today);
+            d.setDate(today.getDate() - i);
+            trendMap[d.toLocaleDateString('en-US', { weekday: 'short' })] = 0;
+        }
+
+        allApplicants?.forEach(a => {
+            const itemDate = new Date(a.created_at);
+            // simple check if within last 7 days roughly
+            if (today.getTime() - itemDate.getTime() < 7 * 24 * 60 * 60 * 1000) {
+                const dayName = itemDate.toLocaleDateString('en-US', { weekday: 'short' });
+                if (trendMap[dayName] !== undefined) {
+                    trendMap[dayName]++;
+                }
+            }
+        });
+
+        const trendData = Object.entries(trendMap).map(([name, value]) => ({ name, value }));
+
         return {
-            applicants: applicantCount || 0,
-            companies: companyCount || 0,
-            projects: projectCount || 0
+            counts: {
+                applicants: applicantCount || 0,
+                companies: companyCount || 0,
+                projects: projectCount || 0
+            },
+            activityFeed,
+            stageData,
+            trendData
         };
-    } catch {
-        return { applicants: 1240, companies: 85, projects: 24 }; // Fallback
+    } catch (e) {
+        console.error("Dashboard Load Error:", e);
+        return {
+            counts: { applicants: 0, companies: 0, projects: 0 },
+            activityFeed: [],
+            stageData: [],
+            trendData: []
+        };
     }
 }
 
 export default async function AdminDashboard() {
-    const stats = await getDashboardStats();
+    const { counts, activityFeed, stageData, trendData } = await getDashboardStats();
 
     return (
         <div className="space-y-8">
@@ -69,8 +117,8 @@ export default async function AdminDashboard() {
                             <div className="text-sm font-bold">Anand Admin</div>
                             <div className="text-xs text-stone-500">Super Admin</div>
                         </div>
-                        <div className="w-10 h-10 bg-stone-200 rounded-full overflow-hidden border-2 border-white shadow-sm">
-                            <Image src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80" alt="Admin" fill className="object-cover" />
+                        <div className="w-10 h-10 bg-agri-green/20 text-agri-green rounded-full flex items-center justify-center border-2 border-white shadow-sm font-bold text-sm">
+                            AA
                         </div>
                     </div>
                 </div>
@@ -84,10 +132,10 @@ export default async function AdminDashboard() {
                             <Users className="w-6 h-6" />
                         </div>
                         <span className="flex items-center text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                            <TrendingUp className="w-3 h-3 mr-1" /> +12%
+                            <TrendingUp className="w-3 h-3 mr-1" /> Live
                         </span>
                     </div>
-                    <div className="text-3xl font-serif font-bold mb-1">{stats.applicants}</div>
+                    <div className="text-3xl font-serif font-bold mb-1">{counts.applicants}</div>
                     <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Total Applicants</div>
                 </div>
 
@@ -97,10 +145,10 @@ export default async function AdminDashboard() {
                             <Building className="w-6 h-6" />
                         </div>
                         <span className="flex items-center text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
-                            <TrendingUp className="w-3 h-3 mr-1" /> +5%
+                            <TrendingUp className="w-3 h-3 mr-1" /> Active
                         </span>
                     </div>
-                    <div className="text-3xl font-serif font-bold mb-1">{stats.companies}</div>
+                    <div className="text-3xl font-serif font-bold mb-1">{counts.companies}</div>
                     <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Active Companies</div>
                 </div>
 
@@ -110,21 +158,21 @@ export default async function AdminDashboard() {
                             <Briefcase className="w-6 h-6" />
                         </div>
                         <span className="flex items-center text-xs font-bold text-stone-400 bg-stone-50 px-2 py-1 rounded-full">
-                            No change
+                            Stable
                         </span>
                     </div>
-                    <div className="text-3xl font-serif font-bold mb-1">{stats.projects}</div>
+                    <div className="text-3xl font-serif font-bold mb-1">{counts.projects}</div>
                     <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Active Projects</div>
                 </div>
             </div>
 
             {/* Client-side Charts */}
-            <DashboardCharts trendData={TREND_DATA} mixData={MIX_DATA} />
+            <DashboardCharts trendData={trendData} stageData={stageData} />
 
             {/* Recent Table */}
             <div className="bg-white border border-stone-100 rounded-xl shadow-sm overflow-hidden">
                 <div className="p-6 border-b border-stone-100 flex justify-between items-center">
-                    <h3 className="font-serif text-lg font-bold">Recent CRM Entries</h3>
+                    <h3 className="font-serif text-lg font-bold">Recent Activity Feed</h3>
                     <button className="text-agri-green text-xs font-bold flex items-center gap-1 hover:underline">
                         View All <ArrowUpRight className="w-3 h-3" />
                     </button>
@@ -136,35 +184,35 @@ export default async function AdminDashboard() {
                                 <th className="px-6 py-3">Entity</th>
                                 <th className="px-6 py-3">Type</th>
                                 <th className="px-6 py-3">Status</th>
-                                <th className="px-6 py-3 text-right">Action</th>
+                                <th className="px-6 py-3 text-right">Time</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-stone-100 text-sm">
-                            {[
-                                { name: 'GreenTech Agro', type: 'Company', status: 'Active', icon: Rocket },
-                                { name: 'Dr. Aditi Rao', type: 'Applicant', status: 'Screening', icon: Users },
-                                { name: 'Soil Analysis Ph2', type: 'Research', status: 'Pending', icon: FileText },
-                            ].map((item, i) => (
+                            {activityFeed.length > 0 ? activityFeed.map((item, i) => (
                                 <tr key={i} className="hover:bg-stone-50 group">
                                     <td className="px-6 py-4 flex items-center gap-3">
                                         <div className="p-2 bg-stone-100 rounded text-stone-500">
                                             <item.icon className="w-4 h-4" />
                                         </div>
-                                        <span className="font-bold text-stone-900">{item.name}</span>
+                                        <span className="font-bold text-stone-900 line-clamp-1">{item.name}</span>
                                     </td>
                                     <td className="px-6 py-4 text-stone-500">{item.type}</td>
                                     <td className="px-6 py-4">
                                         <span className="px-2 py-1 bg-stone-100 text-stone-600 rounded text-[10px] font-bold uppercase tracking-wider">
-                                            {item.status}
+                                            {item.status || 'Pending'}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <button className="text-stone-300 hover:text-black">
-                                            <MoreVertical className="w-4 h-4" />
-                                        </button>
+                                    <td className="px-6 py-4 text-right text-xs text-stone-400">
+                                        {new Date(item.date).toLocaleDateString()}
                                     </td>
                                 </tr>
-                            ))}
+                            )) : (
+                                <tr>
+                                    <td colSpan={4} className="px-6 py-8 text-center text-stone-500 text-sm">
+                                        No recent activity found.
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>

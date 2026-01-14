@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
 import DeletePostButton from '@/components/admin/DeletePostButton'
+import DisplayLocationSelector from '@/components/admin/DisplayLocationSelector'
 
 interface AdminPostsPageProps {
     searchParams: Promise<{ category?: string; status?: string }>
@@ -100,6 +101,7 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
                         <tr>
                             <th className="p-4">Title</th>
                             <th className="p-4">Status</th>
+                            <th className="p-4">Display</th>
                             <th className="p-4">Category</th>
                             <th className="p-4">Views</th>
                             <th className="p-4">Updated</th>
@@ -120,6 +122,12 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
                                         }`}>
                                         {post.status || 'Draft'}
                                     </span>
+                                </td>
+                                <td className="p-4 w-40">
+                                    <DisplayLocationSelector
+                                        postId={post.id}
+                                        initialLocation={post.display_location || 'standard'}
+                                    />
                                 </td>
                                 <td className="p-4">
                                     <span className="bg-stone-100 text-stone-600 px-2 py-1 rounded text-[10px] uppercase font-bold">
@@ -142,7 +150,7 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
                         ))}
                         {posts?.length === 0 && (
                             <tr>
-                                <td colSpan={6} className="p-8 text-center text-stone-500">
+                                <td colSpan={7} className="p-8 text-center text-stone-500">
                                     No posts found.
                                 </td>
                             </tr>

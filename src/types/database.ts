@@ -101,6 +101,7 @@ export type Post = {
     author_name: string // Keeper for backward compat or custom overrides
     image_url: string | null
     is_featured: boolean
+    featured_until?: string | null  // ISO date string for featured expiration
     display_location?: 'hero' | 'featured' | 'trending' | 'dont_miss' | 'standard'
     author_bio?: string | null
     author_image?: string | null

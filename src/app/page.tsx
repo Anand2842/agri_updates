@@ -3,6 +3,10 @@ import Trending from '@/components/home/Trending';
 import MainHero from '@/components/home/MainHero';
 import Opportunities from '@/components/home/Opportunities';
 import DontMiss from '@/components/home/DontMiss';
+import SubscribeBlock from '@/components/home/SubscribeBlock';
+import ResearchPapers from '@/components/home/ResearchPapers';
+import StartupsSection from '@/components/home/StartupsSection';
+import LatestJobs from '@/components/home/LatestJobs';
 import { supabase } from '@/lib/supabase';
 import { Post, Job } from '@/types/database';
 import { Metadata } from 'next';
@@ -237,7 +241,7 @@ async function getData() {
     const { data: posts, error: postError } = await supabase
       .from('posts')
       .select('*')
-      .neq('category', 'Jobs') // Exclude jobs from regular posts fetch
+      // .neq('category', 'Jobs') // ALLOW Jobs in main feed now
       .eq('status', 'published') // Only show published posts
       .order('published_at', { ascending: false });
 
@@ -287,60 +291,146 @@ async function getData() {
 export default async function Home() {
   const { posts, jobs } = await getData();
 
-  // 1. Filter Feature-eligible posts
-  // Real DB data might differ from Mock structure, ensure is_featured exists
-  const featuredCandidates = posts.filter(p => p.is_featured === true);
+  // --- REFINED SLOT LOGIC WITH ADMIN WIREUPS ---
 
-  // 2. Featured Grid (Top 3 Featured)
-  const featuredPosts = featuredCandidates.slice(0, 3);
+  // 1. Bucket posts by their explicit display_location
+  const explicitHero = posts.filter(p => p.display_location === 'hero');
+  const explicitFeatured = posts.filter(p => p.display_location === 'featured');
+  const explicitTrending = posts.filter(p => p.display_location === 'trending');
+  const explicitDontMiss = posts.filter(p => p.display_location === 'dont_miss');
 
-  // 3. Main Hero (The 4th Featured Post, or the most recent one if not enough featured)
-  const mainHeroPost = featuredCandidates.length > 3 ? featuredCandidates[3] : (posts[0] || null);
+  const shownIds = new Set<string>();
 
-  // 4. Trending (Next 5 posts, excluding the ones already shown)
-  // We filter out IDs that are already in featured/hero to avoid duplication
-  const shownIds = new Set([
-    ...featuredPosts.map(p => p.id),
-    mainHeroPost?.id
-  ].filter(Boolean));
+  // Helper to check if a post is already shown
+  const isAvailable = (p: Post) => !shownIds.has(p.id);
+  const markShown = (p: Post) => shownIds.add(p.id);
 
-  const trendingPosts = posts
-    .filter(p => !shownIds.has(p.id))
-    .slice(0, 5);
+  // 2. Select Main Hero (Priority: Explicit 'hero' -> First Featured -> First Recent)
+  let mainHeroPost: Post | null = null;
 
-  // Add trending to shown
-  trendingPosts.forEach(p => shownIds.add(p.id));
+  if (explicitHero.length > 0 && isAvailable(explicitHero[0])) {
+    mainHeroPost = explicitHero[0];
+  } else {
+    // Fallback: Use first featured post that isn't already used (though none used yet)
+    // or just the first post in the list.
+    const fallback = posts.find(p => p.is_featured) || posts[0];
+    if (fallback) mainHeroPost = fallback;
+  }
 
-  // 5. Dont Miss (Next 4 posts)
-  const dontMissPosts = posts
-    .filter(p => !shownIds.has(p.id))
-    .slice(0, 4);
+  if (mainHeroPost) markShown(mainHeroPost);
+
+  // Helper to check if featured is still active (not expired)
+  const isFeaturedActive = (p: Post) => {
+    if (!p.is_featured) return false;
+    if (!p.featured_until) return true; // No expiration = forever featured
+    return new Date(p.featured_until) > new Date(); // Check if not yet expired
+  };
+
+  // 3. Select Featured Grid (Target: 3 posts)
+  // Priority: Explicit 'featured' -> Other is_featured=true posts (that haven't expired)
+  let featuredPosts: Post[] = [];
+
+  // Add explicit featured ones first
+  explicitFeatured.forEach(p => {
+    if (isAvailable(p) && featuredPosts.length < 3) {
+      featuredPosts.push(p);
+      markShown(p);
+    }
+  });
+
+  // Fill remainder with generic featured posts (checking expiration)
+  if (featuredPosts.length < 3) {
+    const candidates = posts.filter(p => isFeaturedActive(p) && isAvailable(p));
+    for (const p of candidates) {
+      if (featuredPosts.length >= 3) break;
+      featuredPosts.push(p);
+      markShown(p);
+    }
+  }
+
+  // 4. Select Trending (Target: 5 posts)
+  // Priority: Explicit 'trending' -> Next available recent posts
+  let trendingPosts: Post[] = [];
+
+  explicitTrending.forEach(p => {
+    if (isAvailable(p) && trendingPosts.length < 5) {
+      trendingPosts.push(p);
+      markShown(p);
+    }
+  });
+
+  if (trendingPosts.length < 5) {
+    // Fill with remaining posts (sorted by date desc from fetch)
+    const candidates = posts.filter(p => isAvailable(p));
+    for (const p of candidates) {
+      if (trendingPosts.length >= 5) break;
+      trendingPosts.push(p);
+      markShown(p);
+    }
+  }
+
+  // 5. Select Don't Miss (Target: 4 posts)
+  // Priority: Explicit 'dont_miss' -> Next available recent posts
+  let dontMissPosts: Post[] = [];
+
+  explicitDontMiss.forEach(p => {
+    if (isAvailable(p) && dontMissPosts.length < 4) {
+      dontMissPosts.push(p);
+      markShown(p);
+    }
+  });
+
+  if (dontMissPosts.length < 4) {
+    const candidates = posts.filter(p => isAvailable(p));
+    for (const p of candidates) {
+      if (dontMissPosts.length >= 4) break;
+      dontMissPosts.push(p);
+      markShown(p);
+    }
+  }
+
+  // Filter posts by category for bottom sections
+  const researchPosts = posts.filter(p => p.category === 'Research');
+  const startupPosts = posts.filter(p => p.category === 'Startups');
+  const jobPosts = posts.filter(p => p.category === 'Jobs');
 
   return (
-    <div className="bg-white min-h-screen pb-20">
+    <div className="bg-paper-bg min-h-screen">
+      {/* Featured Grid */}
       <FeaturedGrid posts={featuredPosts} />
 
-      <section className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-12 border-t border-stone-200 pt-12">
+      {/* Subscribe Block */}
+      <SubscribeBlock />
 
-        {/* Left Column: Trending (3 cols) */}
+      {/* Main Content Grid */}
+      <section className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 py-12">
+        {/* Left Column: Trending */}
         <aside className="lg:col-span-3 order-2 lg:order-1">
           <Trending posts={trendingPosts} />
         </aside>
 
-        {/* Center Column: Main Hero (6 cols) */}
+        {/* Center Column: Main Hero */}
         <div className="lg:col-span-6 order-1 lg:order-2">
-          <MainHero post={mainHeroPost} />
+          {mainHeroPost && <MainHero post={mainHeroPost} />}
         </div>
 
-        {/* Right Column: Opportunities (3 cols) */}
+        {/* Right Column: Opportunities */}
         <aside className="lg:col-span-3 order-3 lg:order-3">
           <Opportunities jobs={jobs} />
         </aside>
-
       </section>
 
+      {/* Don't Miss Section */}
       <DontMiss posts={dontMissPosts} />
 
+      {/* Bottom Categories Section */}
+      <section className="container mx-auto px-4 py-12 border-t border-stone-200">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <ResearchPapers posts={researchPosts} />
+          <StartupsSection posts={startupPosts} />
+          <LatestJobs posts={jobPosts} />
+        </div>
+      </section>
     </div>
   );
 }
