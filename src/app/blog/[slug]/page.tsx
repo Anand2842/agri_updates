@@ -194,7 +194,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         {(post.authors?.avatar_url || post.author_image) && (
                             <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20">
                                 <Image
-                                    src={post.authors?.avatar_url || post.author_image || '/placeholder-avatar.jpg'}
+                                    src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name)}&background=22c55e&color=fff`}
                                     alt={post.authors?.name || post.author_name}
                                     fill
                                     className="object-cover"
@@ -220,7 +220,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         <div className="relative w-24 h-24 flex-shrink-0 rounded-full overflow-hidden bg-stone-200 border-2 border-white shadow-sm">
                             {(post.authors?.avatar_url || post.author_image) ? (
                                 <Image
-                                    src={post.authors?.avatar_url || post.author_image || '/placeholder-avatar.jpg'}
+                                    src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name)}&background=22c55e&color=fff`}
                                     alt={post.authors?.name || post.author_name}
                                     fill
                                     className="object-cover"
