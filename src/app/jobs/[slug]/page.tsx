@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import { Share2, MapPin, Building, Calendar, ArrowLeft, ExternalLink } from 'lucide-react';
 import { formatRelativeDate } from '@/lib/utils/date';
 import PostContent from '@/components/PostContent';
+import { getAllHubs } from '@/lib/hubs';
 
 export const revalidate = 3600;
 
@@ -242,6 +243,27 @@ export default async function JobPage({ params }: JobPageProps) {
                                 </a>
                             </div>
                         </div>
+
+                        {/* Related Hubs - SEO Loop */}
+                        {(job.tags && job.tags.length > 0) && (
+                            <div className="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+                                <h3 className="font-bold uppercase text-xs tracking-widest text-stone-500 mb-4">Related Job Collections</h3>
+                                <div className="space-y-2">
+                                    {getAllHubs()
+                                        .filter(hub => job.tags?.some((t: string) => t.toLowerCase().includes(hub.filter.tag.toLowerCase()) || hub.filter.tag.toLowerCase().includes(t.toLowerCase())))
+                                        .slice(0, 5)
+                                        .map(hub => (
+                                            <Link key={hub.slug} href={`/${hub.slug}`} className="block p-3 bg-stone-50 hover:bg-stone-100 rounded border border-transparent hover:border-stone-200 transition-colors">
+                                                <div className="font-bold text-sm text-stone-800">{hub.h1}</div>
+                                                <div className="text-xs text-stone-500 mt-1">View all {hub.filter.tag} jobs &rarr;</div>
+                                            </Link>
+                                        ))}
+                                    <Link href="/jobs" className="block p-3 text-center text-xs font-bold uppercase tracking-wider text-stone-400 hover:text-stone-600">
+                                        View All Jobs
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -1,9 +1,9 @@
 
 import OpenAI from 'openai';
 
-const apiKey = process.env.GROQ_API_KEY;
-const baseURL = process.env.AI_BASE_URL || 'https://api.groq.com/openai/v1';
-const modelName = process.env.AI_MODEL || 'openai/gpt-oss-120b';
+const apiKey = process.env.AI_API_KEY || process.env.GROQ_API_KEY; // Fallback to old key if present
+const baseURL = process.env.AI_BASE_URL || 'https://openrouter.ai/api/v1';
+const modelName = process.env.AI_MODEL || 'xiaomi/mimo-v2-flash:free';
 
 const client = new OpenAI({
     apiKey: apiKey || 'dummy', // Prevent crash if missing, handled below

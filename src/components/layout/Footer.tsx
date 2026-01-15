@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Twitter, Linkedin, Facebook } from 'lucide-react';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { getAllHubs } from '@/lib/hubs';
 
 export default function Footer() {
     const [email, setEmail] = useState('');
@@ -62,7 +63,7 @@ export default function Footer() {
     return (
         <footer className="bg-white border-t-2 border-black mt-16 pt-12 pb-8">
             <div className="container mx-auto px-4">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-16">
                     <div className="col-span-1 md:col-span-1">
                         <h3 className="font-serif text-2xl font-bold mb-4">AGRI UPDATES</h3>
                         <p className="text-stone-500 text-sm leading-relaxed mb-6">
@@ -90,6 +91,20 @@ export default function Footer() {
                             <li><Link href="/startups" className="hover:text-black">Startups</Link></li>
                             <li><Link href="/jobs" className="hover:text-black">Jobs</Link></li>
                             <li><Link href="/blog" className="hover:text-black">Blog</Link></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 className="font-bold uppercase text-xs tracking-widest mb-6">Job Collections</h4>
+                        <ul className="space-y-3 text-sm text-stone-500">
+                            {getAllHubs().slice(0, 5).map(hub => (
+                                <li key={hub.slug}>
+                                    <Link href={`/${hub.slug}`} className="hover:text-black">
+                                        {hub.title.split(' - ')[0]}
+                                    </Link>
+                                </li>
+                            ))}
+                            <li><Link href="/jobs" className="font-bold text-agri-green hover:underline">View All Jobs</Link></li>
                         </ul>
                     </div>
 

@@ -108,7 +108,7 @@ export class BlogGenerator {
           // Capture position from "Position Name at Company"
           /([A-Za-z0-9\s/\-,&]+?)\s+at\s+(?:looking|searching|hiring)/i,
           /(?:POSITION|Position)\s*[-:*]+\s*([A-Za-z\s()&\/]+?)(?:\n|$)/i,
-          /(?:Hiring|HIRING)[:,\s*-]+\s*([A-Za-z\s()&\/]+?)(?:\s+at\s+|\n|$)/i,
+          /(?:Hiring|HIRING)[:,\s*-]+\s*([A-Za-z\s()&\/]+?)(?:\s+at\s*|\n|$)/i,
           /(?:URGENT REQUIREMENT|Vacancy)[\s:*-]+([A-Za-z\s()&\/]+?)(?:\n|$)/i,
           /(?:sales officer|territory manager|area manager|zonal manager|marketing manager|field officer|agronomist|agricultural officer)/i,
         ];
@@ -125,26 +125,19 @@ export class BlogGenerator {
 
       case 'company':
         // Enhanced company detection - handles "Organization : *Company Name*" format
-        // Pattern 1: Explicit "Organization : *Name*" format (most reliable)
-        const orgMatch = text.match(/Organization\s*:\s*\*([^*]+)\*/i);
-        if (orgMatch && orgMatch[1]) {
-          const value = orgMatch[1].trim();
-          if (value.length > 3 && value.length < 100) {
-            return value;
-          }
-        }
-
+        // IMPORTANT: cleanedText has asterisks REMOVED, so patterns must NOT expect them around the name
         const companyPatterns = [
-          // Match "Organization : *Company Name*" pattern
+          // Match "Organization : Company Name" (asterisks removed)
+          /Organization\s*[:\-\s]*([A-Za-z0-9\s.&]+?)(?:\s(?:POSITION|Location|Chennai)|\n|$)/i,
+          // Match "Organization : *Company Name*" (original text fallback just in case, but cleanedText won't have it)
           /Organization\s*[:\-\s]*\*([^*]+)\*/i,
-          // Match "*Company Name* -Value" pattern (Acsen style)
-          /Company\s+Name\s*[:\-]*\s*[:\-]\s*([A-Za-z0-9\s().]+?)(?:\*|\n|$)/i,
-          /Company\s+Name\s*\*\s*[:\-]*\s*([A-Za-z0-9\s().]+?)(?:\*|\n|$)/i,
-          // Generic *Company Name* pattern if strictly followed by Limited/Pvt/etc
-          /\*([A-Za-z0-9\s&]+(?:Pvt|Private|Limited|Ltd|Corp|Inc|Group|Solution|System|Technology|Industry|Farm|Agro)[^*.]{0,20})\*/i,
+          // Match "Company Name -Value" pattern
+          /Company\s+Name\s*[:\-]*\s*[:\-]\s*([A-Za-z0-9\s().]+?)(?: \*|\n|$)/i,
+          // Generic Company Name pattern
+          /([A-Za-z0-9\s&]+(?:Pvt|Private|Limited|Ltd|Corp|Inc|Group|Solution|System|Technology|Farm|Agro)[^*.]{0,20})/i,
           // Standard patterns
-          /(?:Company|Organization|Employer)\s*[:\-\s]*\**([A-Za-z0-9\s.&()]+?)(?:\*|\n|$)/i,
-          /at\s+([A-Z][A-Za-z0-9\s.&()]+(?:Pvt|Private|Limited|Ltd|Corp|Inc|Group|Solution|System|Technology|Farm|Agro)[A-Za-z0-9\s.&()]*?)(?:\sat|\n|\.|$)/,
+          /(?:Company|Organization|Employer)\s*[:\-\s]*\**( [A-Za-z0-9\s.&()]+?)(?: \*|\n|$)/i,
+          /at\s+([A-Z][A-Za-z0-9\s.&()]+(?:Pvt|Private|Limited|Ltd|Corp|Inc|Group|Solution|System|Technology|Farm|Agro)[A-Za-z0-9\s.&()]*?)(?: \sat|\n|\.|$)/,
           // Match "Organization/Company :" followed by company name ending in Ltd/Pvt
           /(?:Organization|Organisation|Company|Employer)\s*[:*\-]+\s*([A-Za-z][A-Za-z0-9\s.&'()]+?(?:Ltd\.?|Pvt\.?\s*Ltd\.?|Private\s+Limited|Corporation|Corp|Inc|LLC))/i,
           // Match company name with "crops science" or similar

@@ -57,6 +57,7 @@ export default function PostForm({ initialData }: PostFormProps) {
         is_featured: initialData?.is_featured || false,
         featured_until: initialData?.featured_until || '',  // Featured expiration date
         display_location: initialData?.display_location || 'standard',
+        tags: initialData?.tags?.join(', ') || '', // Initialize tags as comma-string
         // Job-specific fields
         company: initialData?.company || '',
         location: initialData?.location || '',
@@ -158,6 +159,7 @@ export default function PostForm({ initialData }: PostFormProps) {
             is_featured: formData.is_featured,
             featured_until: formData.is_featured && formData.featured_until ? formData.featured_until : null,
             display_location: formData.display_location,
+            tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean), // Process tags
             published_at: initialData?.published_at || new Date().toISOString()
         }
 
@@ -328,14 +330,16 @@ export default function PostForm({ initialData }: PostFormProps) {
                 </div>
 
                 <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Excerpt (Short Summary)</label>
-                    <textarea
-                        rows={3}
-                        value={formData.excerpt}
-                        onChange={e => setFormData({ ...formData, excerpt: e.target.value })}
+                    <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Tags (Comma separated)</label>
+                    <input
+                        value={formData.tags}
+                        onChange={e => setFormData({ ...formData, tags: e.target.value })}
                         className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black"
+                        placeholder="e.g. Maharashtra, Sales, BSc Agri, Govt Job"
                     />
+                    <p className="text-xs text-stone-400 mt-2">Critical for Job Hubs! Add location (State/District), Role, and Qualification tags.</p>
                 </div>
+
 
                 {/* Job-specific fields - shown only when category is Jobs */}
                 {formData.category === 'Jobs' && (
@@ -407,15 +411,17 @@ export default function PostForm({ initialData }: PostFormProps) {
                 <div className="prose-editor">
                     <div className="flex justify-between items-center mb-2">
                         <label className="block text-xs font-bold uppercase tracking-widest text-stone-500">Content</label>
-                        <button
-                            type="button"
-                            onClick={handlePolish}
-                            disabled={isPolishing}
-                            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-purple-600 hover:bg-purple-50 px-3 py-1 rounded transition-colors disabled:opacity-50"
-                        >
-                            <Sparkles className="w-3 h-3" />
-                            {isPolishing ? 'Polishing...' : 'Magic Polish'}
-                        </button>
+                        {userRole === 'admin' && (
+                            <button
+                                type="button"
+                                onClick={handlePolish}
+                                disabled={isPolishing}
+                                className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-purple-600 hover:bg-purple-50 px-3 py-1 rounded transition-colors disabled:opacity-50"
+                            >
+                                <Sparkles className="w-3 h-3" />
+                                {isPolishing ? 'Polishing...' : 'Magic Polish'}
+                            </button>
+                        )}
                     </div>
                     <ReactQuill
                         theme="snow"
