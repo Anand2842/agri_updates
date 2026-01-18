@@ -63,8 +63,32 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    'name': 'Agri Updates',
+    'url': 'https://agriupdates.com',
+    'logo': 'https://agriupdates.com/logo.png',
+    'description': "India's trusted platform for agricultural jobs, internships, fellowships, and AgriTech innovation.",
+    'sameAs': [
+      'https://twitter.com/AgriUpdates',
+      'https://linkedin.com/company/agriupdates'
+    ],
+    'contactPoint': {
+      '@type': 'ContactPoint',
+      'contactType': 'customer support',
+      'email': 'support@agriupdates.com'
+    }
+  };
+
   return (
     <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+      </head>
       <body
         className={`${inter.variable} ${playfair.variable} antialiased bg-stone-50 text-stone-900 font-sans flex flex-col min-h-screen`}
       >

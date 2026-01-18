@@ -4,11 +4,10 @@ export default function SubscribeBlock() {
     return (
         <section className="container mx-auto px-4 py-10 border-b border-stone-200">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                {/* Text */}
                 <div className="flex-1">
-                    <h2 className="font-serif text-3xl md:text-4xl font-black text-black uppercase tracking-tight mb-2">
+                    <span className="block font-serif text-3xl md:text-4xl font-black text-black uppercase tracking-tight mb-2">
                         AGRI UPDATES
-                    </h2>
+                    </span>
                     <p className="text-stone-600 font-serif text-lg leading-relaxed max-w-xl">
                         Get notified about opportunities. Your premier source for agricultural jobs, research breakthroughs, and startup innovation.
                     </p>

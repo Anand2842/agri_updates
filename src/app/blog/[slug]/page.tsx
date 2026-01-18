@@ -104,6 +104,7 @@ function formatContent(content: string) {
 
 import ViewCounter from '@/components/analytics/ViewCounter';
 import CommentSection from '@/components/blog/CommentSection';
+import RelatedPosts from '@/components/blog/RelatedPosts';
 import AdPlaceholder from '@/components/ads/AdPlaceholder';
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -122,15 +123,30 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         image: [post.image_url || 'https://agriupdates.com/og-image.png'],
         datePublished: post.published_at,
         dateModified: post.updated_at || post.published_at,
+        articleSection: post.category,
+        about: {
+            '@type': 'Thing',
+            name: post.category,
+        },
+        keywords: post.tags?.join(', ') || post.category,
         author: [{
             '@type': 'Person',
             name: post.authors?.name || post.author_name,
-            url: post.authors?.social_links?.linkedin || post.author_social_linkedin || undefined, // Publisher Trust Graph: Link to profile
+            url: post.authors?.social_links?.linkedin || post.author_social_linkedin || undefined,
             sameAs: [
                 post.authors?.social_links?.linkedin || post.author_social_linkedin,
                 post.authors?.social_links?.twitter || post.author_social_twitter
             ].filter(Boolean) as string[],
         }],
+        publisher: {
+            '@type': 'Organization',
+            name: 'Agri Updates',
+            url: 'https://agriupdates.com',
+            logo: {
+                '@type': 'ImageObject',
+                url: 'https://agriupdates.com/logo.png'
+            }
+        }
     };
 
     const breadcrumbJsonLd = {
@@ -254,6 +270,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     <AdPlaceholder type="banner" />
                 </div>
             </div>
+
+            {/* Related Posts */}
+            {post.id && post.category && (
+                <RelatedPosts currentPostId={post.id} category={post.category} />
+            )}
 
             {post.id && <CommentSection postId={post.id} />}
         </article>

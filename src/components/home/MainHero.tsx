@@ -29,9 +29,9 @@ export default function MainHero({ post }: { post: Post }) {
                     </span>
 
                     {/* Title */}
-                    <h2 className="font-serif text-2xl md:text-3xl font-black leading-tight mb-2">
+                    <h3 className="font-serif text-2xl md:text-3xl font-black leading-tight mb-2">
                         {post.title}
-                    </h2>
+                    </h3>
 
                     {/* Meta */}
                     <div className="text-[10px] uppercase tracking-widest text-white/70">

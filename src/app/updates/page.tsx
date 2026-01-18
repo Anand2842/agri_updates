@@ -94,26 +94,6 @@ export default async function UpdatesPage({ searchParams }: UpdatesPageProps) {
                 </div>
             </div>
 
-            {/* Category Tabs */}
-            <div className="sticky top-0 z-10 bg-white border-b border-stone-200 shadow-sm">
-                <div className="container mx-auto px-4">
-                    <div className="flex gap-1 overflow-x-auto py-3 scrollbar-hide">
-                        {CATEGORIES.map((cat) => (
-                            <Link
-                                key={cat.value}
-                                href={cat.value ? `/updates?category=${cat.value}` : '/updates'}
-                                className={`px-4 py-2 text-xs font-bold uppercase tracking-widest whitespace-nowrap rounded-full transition-colors ${categoryFilter === cat.value
-                                    ? 'bg-agri-green text-white'
-                                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
-                                    }`}
-                            >
-                                {cat.label}
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
             <div className="container mx-auto px-4 py-12">
                 {/* Posts Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -7,6 +7,7 @@ import SubscribeBlock from '@/components/home/SubscribeBlock';
 import ResearchPapers from '@/components/home/ResearchPapers';
 import StartupsSection from '@/components/home/StartupsSection';
 import LatestJobs from '@/components/home/LatestJobs';
+import QuickFAQ from '@/components/home/QuickFAQ';
 import { supabase } from '@/lib/supabase';
 import { Post, Job } from '@/types/database';
 import { Metadata } from 'next';
@@ -396,6 +397,9 @@ export default async function Home() {
 
   return (
     <div className="bg-paper-bg min-h-screen">
+      {/* Screen-reader accessible H1 for SEO */}
+      <h1 className="sr-only">Agricultural Jobs, Internships & Innovation News in India</h1>
+
       {/* Featured Grid */}
       <FeaturedGrid posts={featuredPosts} />
 

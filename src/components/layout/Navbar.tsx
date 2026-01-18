@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Search, Menu, X } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,6 +13,8 @@ export default function Navbar() {
     const router = useRouter();
     const supabase = createClient();
     const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const currentCategory = searchParams.get('category');
 
     // Get current date for newspaper-style header
     const currentDate = new Date().toLocaleDateString('en-IN', {
@@ -97,17 +99,30 @@ export default function Navbar() {
                 <div className="container mx-auto px-4">
                     {/* Desktop Nav */}
                     <div className="hidden md:flex flex-wrap justify-center items-center gap-x-1 py-3 text-[10px] font-bold tracking-[0.1em] uppercase text-stone-700">
-                        {navCategories.map((cat, idx) => (
-                            <span key={cat.href} className="flex items-center">
-                                {idx > 0 && <span className="mx-2 text-stone-300">|</span>}
-                                <Link
-                                    href={cat.href}
-                                    className="hover:text-agri-green transition-colors py-1 whitespace-nowrap"
-                                >
-                                    {cat.label}
-                                </Link>
-                            </span>
-                        ))}
+                        {navCategories.map((cat, idx) => {
+                            // Determine if this link is active
+                            let isActive = false;
+                            if (cat.href === '/jobs' && pathname === '/jobs') {
+                                isActive = true;
+                            } else if (cat.href === '/startups' && pathname === '/startups') {
+                                isActive = true;
+                            } else if (cat.href.startsWith('/updates')) {
+                                const catParam = new URL(cat.href, 'http://a').searchParams.get('category');
+                                isActive = pathname === '/updates' && currentCategory === catParam;
+                            }
+
+                            return (
+                                <span key={cat.href} className="flex items-center">
+                                    {idx > 0 && <span className="mx-2 text-stone-300">|</span>}
+                                    <Link
+                                        href={cat.href}
+                                        className={`py-1 whitespace-nowrap transition-colors ${isActive ? 'text-agri-green border-b-2 border-agri-green' : 'hover:text-agri-green'}`}
+                                    >
+                                        {cat.label}
+                                    </Link>
+                                </span>
+                            );
+                        })}
                         <span className="mx-2 text-stone-300">|</span>
                         <Link href="/search" className="text-stone-400 hover:text-black p-1">
                             <Search className="w-4 h-4" />
