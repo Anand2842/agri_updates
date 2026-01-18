@@ -55,6 +55,7 @@ export const metadata: Metadata = {
   },
 };
 
+import { Suspense } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
@@ -92,7 +93,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} antialiased bg-stone-50 text-stone-900 font-sans flex flex-col min-h-screen`}
       >
-        <Navbar />
+        <Suspense fallback={<div className="h-20 bg-white" />}>
+          <Navbar />
+        </Suspense>
         <main className="flex-grow">
           {children}
         </main>

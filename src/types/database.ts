@@ -10,7 +10,7 @@ export type Job = {
     application_link: string | null
     description: string | null // Added description
     tags: string[] | null
-    status: 'draft' | 'published' | 'archived'
+    status: 'draft' | 'published' | 'archived' | 'scheduled' | 'pending_review'
     is_active: boolean
     created_at: string
 }
