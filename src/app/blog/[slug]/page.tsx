@@ -11,6 +11,7 @@ async function getPost(slug: string) {
             .from('posts')
             .select('*, authors(*)')
             .eq('slug', slug)
+            .eq('status', 'published')
             .single();
 
         if (error || !data) {

@@ -131,6 +131,7 @@ async function searchContent(query: string, type: string = 'all') {
                 .select('*')
                 .eq('category', 'Jobs')
                 .eq('is_active', true)
+                .eq('status', 'published')
                 .or(`title.ilike.%${searchTerm}%,company.ilike.%${searchTerm}%,location.ilike.%${searchTerm}%`);
 
             if (!jobError && jobData) {
@@ -164,6 +165,7 @@ async function searchContent(query: string, type: string = 'all') {
             const { data: postData, error: postError } = await supabase
                 .from('posts')
                 .select('*')
+                .eq('status', 'published')
                 .neq('category', 'Jobs') // Exclude jobs from posts search
                 .or(`title.ilike.%${searchTerm}%,excerpt.ilike.%${searchTerm}%,content.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%`);
 

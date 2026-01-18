@@ -26,6 +26,7 @@ async function getPosts(category?: string) {
         let query = supabase
             .from('posts')
             .select('*')
+            .eq('status', 'published')
             .order('published_at', { ascending: false });
 
         if (category) {

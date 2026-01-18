@@ -31,6 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             .from('posts')
             .select('id, slug, created_at')
             .eq('category', 'Jobs')
+            .eq('status', 'published')
             .eq('is_active', true);
 
         if (jobs) {
@@ -50,7 +51,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     try {
         const { data: posts } = await supabase
             .from('posts')
-            .select('slug, published_at');
+            .select('slug, published_at')
+            .eq('status', 'published');
 
         if (posts) {
             postRoutes = posts.map((post) => ({

@@ -19,6 +19,7 @@ async function getJobs(filters?: { type?: string; location?: string; q?: string 
             .select('*', { count: 'exact' })
             .eq('category', 'Jobs')
             .eq('is_active', true)
+            .eq('status', 'published')
             .order('created_at', { ascending: false })
             .range(from, to);
 

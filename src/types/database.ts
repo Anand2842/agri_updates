@@ -107,9 +107,10 @@ export type Post = {
     author_image?: string | null
     author_social_twitter?: string | null
     author_social_linkedin?: string | null
-    status: 'draft' | 'published' | 'archived'
+    status: 'draft' | 'published' | 'archived' | 'scheduled' | 'pending_review'
     views?: number
     published_at: string
+    scheduled_for?: string | null // NEW: Timestamp for scheduled publishing
     updated_at?: string
     created_at: string
 

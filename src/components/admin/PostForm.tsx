@@ -51,13 +51,14 @@ export default function PostForm({ initialData }: PostFormProps) {
         excerpt: initialData?.excerpt || '',
         content: initialData?.content || '',
         author_name: initialData?.author_name || 'Agri Updates',
-        author_id: initialData?.author_id || '', // New field
+        author_id: initialData?.author_id || '',
         category: initialData?.category || 'Research',
         image_url: initialData?.image_url || '',
         is_featured: initialData?.is_featured || false,
-        featured_until: initialData?.featured_until || '',  // Featured expiration date
+        featured_until: initialData?.featured_until || '',
         display_location: initialData?.display_location || 'standard',
-        tags: initialData?.tags?.join(', ') || '', // Initialize tags as comma-string
+        tags: initialData?.tags?.join(', ') || '',
+        scheduled_for: initialData?.scheduled_for || '', // NEW: Scheduling
         // Job-specific fields
         company: initialData?.company || '',
         location: initialData?.location || '',
@@ -80,9 +81,9 @@ export default function PostForm({ initialData }: PostFormProps) {
             .toString()
             .toLowerCase()
             .trim()
-            .replace(/\s+/g, '-')     // Replace spaces with -
-            .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-            .replace(/\-\-+/g, '-')   // Replace multiple - with single -
+            .replace(/\s+/g, '-')
+            .replace(/[^\w\-]+/g, '')
+            .replace(/\-\-+/g, '-')
     }
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,6 +94,17 @@ export default function PostForm({ initialData }: PostFormProps) {
             slug: !initialData ? generateSlug(newTitle) : prev.slug
         }));
     }
+
+    // Auto-switch status to 'scheduled' if a future date is picked
+    useEffect(() => {
+        if (formData.scheduled_for) {
+            const scheduleDate = new Date(formData.scheduled_for);
+            const now = new Date();
+            if (scheduleDate > now && formData.status !== 'scheduled') {
+                setFormData(prev => ({ ...prev, status: 'scheduled' }));
+            }
+        }
+    }, [formData.scheduled_for]);
 
     const handlePolish = async () => {
         if (!formData.content || formData.content.length < 10) {
@@ -115,12 +127,10 @@ export default function PostForm({ initialData }: PostFormProps) {
             setFormData(prev => ({
                 ...prev,
                 content: data.content,
-                // ALWAYS overwrite with fresh extracted data from Magic Polish
                 title: data.title || prev.title,
                 slug: data.slug ? generateSlug(data.title) : prev.slug,
                 excerpt: data.excerpt || prev.excerpt,
                 category: data.category || prev.category,
-                // Job Details - ALWAYS overwrite
                 company: data.job_details?.company || '',
                 location: data.job_details?.location || '',
                 job_type: data.job_details?.job_type || prev.job_type || 'Full-time',
@@ -159,11 +169,11 @@ export default function PostForm({ initialData }: PostFormProps) {
             is_featured: formData.is_featured,
             featured_until: formData.is_featured && formData.featured_until ? formData.featured_until : null,
             display_location: formData.display_location,
-            tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean), // Process tags
-            published_at: initialData?.published_at || new Date().toISOString()
+            tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean),
+            published_at: initialData?.published_at || new Date().toISOString(),
+            scheduled_for: formData.scheduled_for || null, // Save schedule time
         }
 
-        // Add job-specific fields if category is Jobs
         if (formData.category === 'Jobs') {
             postData.company = formData.company
             postData.location = formData.location
@@ -172,14 +182,11 @@ export default function PostForm({ initialData }: PostFormProps) {
             postData.application_link = formData.application_link
         }
 
-        // Save status
         postData.status = formData.status
-        // Sync is_active for backward compatibility
         postData.is_active = (formData.status === 'published')
 
         try {
             if (initialData) {
-                // RBAC Check: Moderators cannot edit Published posts
                 if (userRole === 'moderator' && initialData.status === 'published') {
                     throw new Error("Moderators cannot edit published posts.");
                 }
@@ -210,7 +217,6 @@ export default function PostForm({ initialData }: PostFormProps) {
         return <div className="p-8 text-center text-stone-500">Checking permissions...</div>
     }
 
-    // RBAC: If Moderator is trying to edit a PUBLISHED post, show Read-Only or warning
     const isModLocked = userRole === 'moderator' && initialData?.status === 'published';
 
     return (
@@ -251,6 +257,7 @@ export default function PostForm({ initialData }: PostFormProps) {
             </div>
 
             <div className="grid grid-cols-1 gap-6 mb-6">
+                {/* Title & Slug */}
                 <div>
                     <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Title</label>
                     <input
@@ -292,6 +299,7 @@ export default function PostForm({ initialData }: PostFormProps) {
                     </div>
                 </div>
 
+                {/* Author Selection */}
                 <div>
                     <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Author</label>
                     <div className="flex gap-4">
@@ -403,8 +411,6 @@ export default function PostForm({ initialData }: PostFormProps) {
                             />
                             <p className="text-xs text-stone-500 mt-1">Use /jobs/apply/[slug] for internal applications or paste external URL</p>
                         </div>
-
-
                     </div>
                 )}
 
@@ -467,26 +473,46 @@ export default function PostForm({ initialData }: PostFormProps) {
                         <span className="block font-bold uppercase text-xs tracking-widest text-stone-500 mb-2">Post Status</span>
                         <select
                             value={formData.status}
-                            onChange={e => setFormData({ ...formData, status: e.target.value as 'draft' | 'published' | 'archived' })}
+                            onChange={e => setFormData({ ...formData, status: e.target.value as 'draft' | 'published' | 'archived' | 'scheduled' | 'pending_review' })}
                             className={`w-full p-3 border outline-none font-bold uppercase text-xs tracking-widest ${formData.status === 'published' ? 'bg-green-50 text-green-700 border-green-200' :
-                                formData.status === 'archived' ? 'bg-red-50 text-red-700 border-red-200' :
-                                    'bg-stone-50 text-stone-600 border-stone-200'
+                                formData.status === 'scheduled' ? 'bg-purple-50 text-purple-700 border-purple-200' :
+                                    formData.status === 'pending_review' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                                        formData.status === 'archived' ? 'bg-red-50 text-red-700 border-red-200' :
+                                            'bg-stone-50 text-stone-600 border-stone-200'
                                 }`}
                         >
                             <option value="draft">Draft</option>
+                            <option value="pending_review">Pending Review</option>
+                            {userRole !== 'moderator' && <option value="scheduled">Scheduled</option>}
                             {userRole !== 'moderator' && <option value="published">Published</option>}
                             <option value="archived">Archived</option>
                         </select>
                         {userRole === 'moderator' && (
                             <p className="text-xs text-amber-600 mt-2 font-bold">
-                                🔒 Moderators cannot publish directly.
+                                🔒 Moderators can only submit for review.
                             </p>
                         )}
-                        <p className="text-xs text-stone-400 mt-2">
-                            Only &apos;Published&apos; posts appear on the site.
-                        </p>
                     </div>
                 </div>
+
+                {/* Scheduling Input */}
+                {formData.status === 'scheduled' && (
+                    <div className="mt-6 p-4 bg-purple-50 border border-purple-200 rounded-lg animate-in fade-in slide-in-from-top-2">
+                        <label className="block text-xs font-bold uppercase tracking-widest text-purple-700 mb-2">
+                            Scheduled Publication Time
+                        </label>
+                        <input
+                            type="datetime-local"
+                            value={formData.scheduled_for}
+                            onChange={(e) => setFormData({ ...formData, scheduled_for: e.target.value })}
+                            className="w-full p-3 bg-white border border-purple-300 rounded text-sm focus:outline-none focus:border-purple-500"
+                            required
+                        />
+                        <p className="text-xs text-purple-600 mt-2">
+                            This post will automatically go live on {formData.scheduled_for ? new Date(formData.scheduled_for).toLocaleString() : '...'}
+                        </p>
+                    </div>
+                )}
 
                 <div className="mt-6 border-t border-stone-200 pt-6">
                     <label className="flex items-center gap-3 cursor-pointer group">
@@ -532,9 +558,15 @@ export default function PostForm({ initialData }: PostFormProps) {
                 <button
                     type="submit"
                     disabled={loading || isModLocked}
-                    className="bg-black text-white px-8 py-3 font-bold uppercase tracking-widest hover:bg-agri-green disabled:opacity-50"
+                    className={`text-white px-8 py-3 font-bold uppercase tracking-widest disabled:opacity-50 transition-colors
+                        ${formData.status === 'scheduled' ? 'bg-purple-600 hover:bg-purple-700' :
+                            formData.status === 'pending_review' ? 'bg-amber-600 hover:bg-amber-700' :
+                                'bg-black hover:bg-agri-green'}`}
                 >
-                    {loading ? 'Saving...' : (userRole === 'moderator' ? 'Save Draft' : 'Publish Post')}
+                    {loading ? 'Saving...' :
+                        (formData.status === 'scheduled' ? 'Confirm Schedule' :
+                            formData.status === 'pending_review' ? 'Submit for Review' :
+                                userRole === 'moderator' ? 'Save Draft' : 'Publish Post')}
                 </button>
                 <button
                     type="button"
