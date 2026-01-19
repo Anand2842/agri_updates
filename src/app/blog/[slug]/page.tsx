@@ -187,7 +187,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
             />
             {post.id && <ViewCounter postId={post.id} />}
-            <div className="relative h-[60vh] w-full">
+            <div className="relative min-h-[60vh] w-full flex items-end">
                 <Image
                     src={post.image_url || '/placeholder.jpg'}
                     alt={post.title}
@@ -197,33 +197,35 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     priority
                 />
                 <div className="absolute inset-0 bg-black/40" />
-                <div className="absolute inset-x-0 bottom-0 container mx-auto px-4 pb-12">
-                    {post.is_featured && (
-                        <span className="inline-block bg-agri-green text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 mb-4 mr-2">
-                            Featured
-                        </span>
-                    )}
-                    <span className="inline-block bg-agri-green text-white text-xs font-bold uppercase tracking-widest px-3 py-1 mb-4">
-                        {post.category}
-                    </span>
-                    <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white max-w-4xl leading-tight mb-4">
-                        {post.title}
-                    </h1>
-                    <div className="flex items-center gap-4 text-white/80 text-sm font-bold uppercase tracking-widest">
-                        {(post.authors?.avatar_url || post.author_image) && (
-                            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20">
-                                <Image
-                                    src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name)}&background=22c55e&color=fff`}
-                                    alt={post.authors?.name || post.author_name}
-                                    fill
-                                    sizes="40px"
-                                    className="object-cover"
-                                />
-                            </div>
+                <div className="relative w-full container mx-auto px-4 pb-12 pt-24">
+                    <div className="lg:max-w-4xl">
+                        {post.is_featured && (
+                            <span className="inline-block bg-agri-green text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 mb-4 mr-2">
+                                Featured
+                            </span>
                         )}
-                        <span>By {post.authors?.name || post.author_name}</span>
-                        <span>•</span>
-                        <span>{new Date(post.published_at).toLocaleDateString()}</span>
+                        <span className="inline-block bg-agri-green text-white text-xs font-bold uppercase tracking-widest px-3 py-1 mb-4">
+                            {post.category}
+                        </span>
+                        <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 break-words">
+                            {post.title}
+                        </h1>
+                        <div className="flex flex-wrap items-center gap-4 text-white/80 text-sm font-bold uppercase tracking-widest">
+                            {(post.authors?.avatar_url || post.author_image) && (
+                                <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20">
+                                    <Image
+                                        src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name)}&background=22c55e&color=fff`}
+                                        alt={post.authors?.name || post.author_name}
+                                        fill
+                                        sizes="40px"
+                                        className="object-cover"
+                                    />
+                                </div>
+                            )}
+                            <span>By {post.authors?.name || post.author_name}</span>
+                            <span>•</span>
+                            <span>{new Date(post.published_at).toLocaleDateString()}</span>
+                        </div>
                     </div>
                 </div>
             </div>
