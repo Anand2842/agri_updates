@@ -277,6 +277,9 @@ export default function PostForm({ initialData }: PostFormProps) {
 
     const isModLocked = userRole === 'moderator' && initialData?.status === 'published';
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ReactQuillCasted = ReactQuill as any;
+
     return (
         <form onSubmit={handleSubmit} className="bg-white p-8 border border-stone-200 shadow-sm max-w-4xl relative">
             {isModLocked && (
@@ -487,12 +490,11 @@ export default function PostForm({ initialData }: PostFormProps) {
                             </button>
                         )}
                     </div>
-                    {/* @ts-ignore */}
-                    <ReactQuill
+                    <ReactQuillCasted
                         ref={quillRef}
                         theme="snow"
                         value={formData.content}
-                        onChange={(content) => setFormData(prev => ({ ...prev, content }))}
+                        onChange={(content: string) => setFormData(prev => ({ ...prev, content }))}
                         modules={modules}
                         className="bg-white h-96 mb-12"
                     />
