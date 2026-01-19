@@ -18,7 +18,8 @@ import {
     Plus,
     Crown,
     TrendingUp,
-    Eye
+    Eye,
+    Megaphone
 } from 'lucide-react';
 
 export default function AdminSidebar() {
@@ -47,6 +48,7 @@ export default function AdminSidebar() {
                 { name: 'Featured Manager', icon: Crown, href: '/admin/posts?is_featured=true', money: true },
                 { name: 'Hero & Highlights', icon: Star, href: '/admin/posts?display=hero' },
                 { name: 'Trending', icon: TrendingUp, href: '/admin/posts?display=trending' },
+                { name: 'Ads Manager', icon: Megaphone, href: '/admin/ads' },
             ]
         },
         {

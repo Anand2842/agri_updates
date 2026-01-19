@@ -106,7 +106,7 @@ function formatContent(content: string) {
 import ViewCounter from '@/components/analytics/ViewCounter';
 import CommentSection from '@/components/blog/CommentSection';
 import RelatedPosts from '@/components/blog/RelatedPosts';
-import AdPlaceholder from '@/components/ads/AdPlaceholder';
+import AdBanner from '@/components/ads/AdBanner';
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
@@ -227,7 +227,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
             <div className="container mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
                 <div className="lg:col-span-8 lg:col-start-3">
-                    <AdPlaceholder type="banner" />
+                    <AdBanner placement="banner" className="my-8" />
                     <div
                         className="prose prose-lg prose-stone max-w-none font-serif prose-headings:font-bold prose-a:text-agri-green hover:prose-a:text-agri-dark"
                         dangerouslySetInnerHTML={{ __html: formatContent(post.content || post.excerpt) }}
@@ -268,7 +268,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         </div>
                     </div>
 
-                    <AdPlaceholder type="banner" />
+                    <AdBanner placement="banner" />
                 </div>
             </div>
 

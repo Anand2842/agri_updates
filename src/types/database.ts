@@ -126,3 +126,17 @@ export type Post = {
     // Relation
     authors?: Author | null
 }
+
+export type Ad = {
+    id: string
+    title: string
+    image_url: string
+    link_url: string
+    placement: 'banner' | 'sidebar' | 'popup'
+    is_active: boolean
+    start_date?: string | null
+    end_date?: string | null
+    views: number
+    clicks: number
+    created_at: string
+}
