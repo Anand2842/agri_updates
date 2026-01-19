@@ -243,15 +243,15 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                                         {job.excerpt || job.content ? (job.excerpt || job.content)!.substring(0, 150) + '...' : 'Click to view full job details and application instructions.'}
                                     </div>
 
-                                    <div className="flex justify-between items-center mt-auto">
-                                        <div className="flex gap-2">
-                                            {Array.isArray(job.tags) && job.tags.map((tag: string) => (
-                                                <span key={tag} className="text-[10px] uppercase font-bold text-agri-green tracking-wider">
+                                    <div className="flex justify-between items-end mt-auto gap-4">
+                                        <div className="flex flex-wrap gap-2">
+                                            {Array.isArray(job.tags) && job.tags.slice(0, 4).map((tag: string) => (
+                                                <span key={tag} className="text-[10px] uppercase font-bold text-agri-green tracking-wider whitespace-nowrap">
                                                     #{tag}
                                                 </span>
                                             ))}
                                         </div>
-                                        <Link href={`/jobs/${job.slug}`} className="bg-black text-white text-xs font-bold uppercase px-4 py-2 hover:bg-agri-green transition-colors">
+                                        <Link href={`/jobs/${job.slug}`} className="bg-black text-white text-[10px] font-bold uppercase px-4 py-2 hover:bg-agri-green transition-colors whitespace-nowrap flex-shrink-0 mb-1">
                                             View Details
                                         </Link>
                                     </div>
