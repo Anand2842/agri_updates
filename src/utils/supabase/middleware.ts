@@ -12,10 +12,10 @@ export async function updateSession(request: NextRequest) {
     const nonce = btoa(crypto.randomUUID());
     const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com;
     style-src 'self' 'unsafe-inline';
-    img-src 'self' blob: data: https://images.unsplash.com https://*.supabase.co;
-    connect-src 'self' https://*.supabase.co;
+    img-src 'self' blob: data: https://images.unsplash.com https://*.supabase.co https://ui-avatars.com https://www.googletagmanager.com https://www.google-analytics.com;
+    connect-src 'self' https://*.supabase.co https://www.googletagmanager.com https://www.google-analytics.com;
     font-src 'self';
     object-src 'none';
     base-uri 'self';
