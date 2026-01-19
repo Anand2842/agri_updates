@@ -2,6 +2,10 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { Metadata } from 'next';
+import ViewCounter from '@/components/analytics/ViewCounter';
+import CommentSection from '@/components/blog/CommentSection';
+import RelatedPosts from '@/components/blog/RelatedPosts';
+import AdBanner from '@/components/ads/AdBanner';
 
 export const revalidate = 0;
 
@@ -103,10 +107,7 @@ function formatContent(content: string) {
         .join('');
 }
 
-import ViewCounter from '@/components/analytics/ViewCounter';
-import CommentSection from '@/components/blog/CommentSection';
-import RelatedPosts from '@/components/blog/RelatedPosts';
-import AdBanner from '@/components/ads/AdBanner';
+
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
@@ -191,6 +192,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     src={post.image_url || '/placeholder.jpg'}
                     alt={post.title}
                     fill
+                    sizes="100vw"
                     className="object-cover"
                     priority
                 />
@@ -214,6 +216,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                                     src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name)}&background=22c55e&color=fff`}
                                     alt={post.authors?.name || post.author_name}
                                     fill
+                                    sizes="40px"
                                     className="object-cover"
                                 />
                             </div>
@@ -240,6 +243,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                                     src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name)}&background=22c55e&color=fff`}
                                     alt={post.authors?.name || post.author_name}
                                     fill
+                                    sizes="96px"
                                     className="object-cover"
                                 />
                             ) : (
