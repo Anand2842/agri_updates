@@ -17,24 +17,60 @@
 }
 
 @layer base {
-  body {
-    @apply font-sans antialiased text-ink-black bg-paper-bg selection:bg-agri-green/20 selection:text-agri-dark;
-  }
-
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
+  body {
+    @apply font-sans antialiased text-ink-black bg-paper-bg selection:bg-agri-green/20 selection:text-agri-dark;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* Golden Ratio (1.618) Type Scale 
+     Base: 16px (1rem)
+     Ratio: 1.618
+  */
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    @apply font-serif tracking-tight;
+    @apply font-sans tracking-tight font-bold text-agri-dark;
   }
 
-  /* Newspaper-style thin borders */
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 4.25rem);
+    /* ~40px to ~68px */
+    line-height: 1.1;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 2.625rem);
+    /* ~32px to ~42px */
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-size: clamp(1.5rem, 3vw, 1.625rem);
+    /* ~24px to ~26px */
+    line-height: 1.3;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+    /* 20px - tweaked for utility */
+    line-height: 1.4;
+  }
+
+  p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  /* Newspaper-style thin borders - Keeping for legacy but updating usage */
   .newspaper-border {
     @apply border-ink-black;
   }
@@ -67,18 +103,135 @@
   }
 }
 
-/* Newspaper Card Styles */
+/* Global Content Layout Helpers */
+.container-reading {
+  @apply max-w-[75ch] mx-auto;
+}
+
+/* Newspaper Card Styles - Updated for 8pt Grid */
 .newspaper-card {
-  @apply border border-border-thin bg-white p-4 transition-all hover:border-stone-300;
+  @apply border border-border-thin bg-white p-6 transition-all hover:border-stone-300;
 }
 
 .newspaper-card-minimal {
-  @apply py-4 border-b border-border-thin last:border-b-0;
+  @apply py-6 border-b border-border-thin last:border-b-0;
 }
 
 /* Category Badge */
 .category-badge {
   @apply inline-block text-[10px] font-bold uppercase tracking-widest text-agri-green border-b border-agri-green pb-0.5;
+}
+
+/* Responsive Prose Heading Sizes - MUST ALLOW WRAPPING */
+.prose h1,
+.prose h2 {
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
+  font-family: var(--font-sans);
+  /* Ensuring Inter */
+}
+
+.prose h1 {
+  /* Inherit base H1 or override */
+  font-size: clamp(2.5rem, 5vw, 4.25rem);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.prose h2 {
+  font-size: clamp(2rem, 4vw, 2.625rem);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.prose h3 {
+  font-size: clamp(1.5rem, 3vw, 1.625rem);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Prevent prose content from overflowing but keep words whole */
+.prose {
+  max-width: 75ch;
+  /* Enforce reading width */
+  margin-left: auto;
+  margin-right: auto;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+  text-align: left;
+}
+
+/* CRITICAL: Override all child elements to prevent mid-word breaking */
+.prose * {
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  hyphens: none !important;
+}
+
+/* Ensure links break if they are too long */
+.prose a {
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+
+/* Tables must scroll horizontally if too wide */
+.prose table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Code blocks must scroll horizontally if too wide */
+.prose pre {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Ensure list items don't overflow but respect word boundaries */
+.prose ul,
+.prose ol {
+  max-width: 100%;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+.prose li {
+  max-width: 100%;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+}
+
+/* Ensure all headings handle long text properly */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+@media (min-width: 640px) {
+  .prose h1 {
+    font-size: 2rem;
+  }
+
+  .prose h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .prose h1 {
+    font-size: 2.5rem;
+  }
+
+  .prose h2 {
+    font-size: 1.75rem;
+  }
 }
 
 /* Editor Specific Styling */

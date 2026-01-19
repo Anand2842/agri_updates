@@ -6,6 +6,7 @@ import ViewCounter from '@/components/analytics/ViewCounter';
 import CommentSection from '@/components/blog/CommentSection';
 import RelatedPosts from '@/components/blog/RelatedPosts';
 import AdBanner from '@/components/ads/AdBanner';
+import PostContent from '@/components/PostContent';
 
 export const revalidate = 0;
 
@@ -93,20 +94,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
 }
 
-// Helper to format plain text content into paragraphs if no HTML tags are found
-function formatContent(content: string) {
-    if (!content) return '';
-    // If it already contains HTML tags like <p>, <div>, <br>, assume it's formatted
-    if (/<[a-z][\s\S]*>/i.test(content)) return content;
-
-    // Otherwise, split by newlines and wrap in <p>
-    return content
-        .split('\n')
-        .filter(line => line.trim() !== '')
-        .map(line => `<p class="mb-4">${line.trim()}</p>`)
-        .join('');
-}
-
 
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -177,7 +164,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     };
 
     return (
-        <article className="min-h-screen bg-white pb-20">
+        <article className="min-h-screen bg-white pb-20 overflow-hidden">
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -187,32 +174,37 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
             />
             {post.id && <ViewCounter postId={post.id} />}
-            <div className="relative min-h-[60vh] w-full flex items-end">
+            {/* Hero Section with Background */}
+            <div className="relative bg-stone-900">
+                {/* Background Image - Absolute positioned */}
                 <Image
                     src={post.image_url || '/placeholder.jpg'}
                     alt={post.title}
                     fill
                     sizes="100vw"
-                    className="object-cover"
+                    className="object-cover opacity-60"
                     priority
                 />
-                <div className="absolute inset-0 bg-black/40" />
-                <div className="relative w-full container mx-auto px-4 pb-12 pt-24">
-                    <div className="lg:max-w-4xl">
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/50 to-transparent" />
+
+                {/* Content - Positioned relatively to push down content below */}
+                <div className="relative z-10 container mx-auto px-4 py-16 md:py-24 lg:py-32">
+                    <div className="max-w-3xl pt-16">
                         {post.is_featured && (
-                            <span className="inline-block bg-agri-green text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 mb-4 mr-2">
+                            <span className="inline-block bg-agri-green text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 mb-3 mr-2">
                                 Featured
                             </span>
                         )}
-                        <span className="inline-block bg-agri-green text-white text-xs font-bold uppercase tracking-widest px-3 py-1 mb-4">
+                        <span className="inline-block bg-agri-green text-white text-[10px] md:text-xs font-bold uppercase tracking-widest px-3 py-1 mb-3">
                             {post.category}
                         </span>
-                        <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4 break-words">
+                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-snug mb-4">
                             {post.title}
                         </h1>
-                        <div className="flex flex-wrap items-center gap-4 text-white/80 text-sm font-bold uppercase tracking-widest">
+                        <div className="flex flex-wrap items-center gap-2 md:gap-4 text-white/80 text-xs md:text-sm font-bold uppercase tracking-wider">
                             {(post.authors?.avatar_url || post.author_image) && (
-                                <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20">
+                                <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border-2 border-white/20 flex-shrink-0">
                                     <Image
                                         src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name)}&background=22c55e&color=fff`}
                                         alt={post.authors?.name || post.author_name}
@@ -223,7 +215,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                                 </div>
                             )}
                             <span>By {post.authors?.name || post.author_name}</span>
-                            <span>•</span>
+                            <span className="hidden sm:inline">•</span>
                             <span>{new Date(post.published_at).toLocaleDateString()}</span>
                         </div>
                     </div>
@@ -233,10 +225,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <div className="container mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
                 <div className="lg:col-span-8 lg:col-start-3">
                     <AdBanner placement="banner" className="my-8" />
-                    <div
-                        className="prose prose-lg prose-stone max-w-none font-serif prose-headings:font-bold prose-a:text-agri-green hover:prose-a:text-agri-dark"
-                        dangerouslySetInnerHTML={{ __html: formatContent(post.content || post.excerpt) }}
-                    />
+                    <PostContent html={post.content || post.excerpt} />
 
                     <div className="mt-16 p-8 bg-stone-50 rounded-xl border border-stone-100 flex flex-col md:flex-row gap-8 items-start">
                         <div className="relative w-24 h-24 flex-shrink-0 rounded-full overflow-hidden bg-stone-200 border-2 border-white shadow-sm">
@@ -249,13 +238,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                                     className="object-cover"
                                 />
                             ) : (
-                                <div className="w-full h-full flex items-center justify-center text-stone-400 font-serif text-2xl font-bold">
+                                <div className="w-full h-full flex items-center justify-center text-stone-400 text-2xl font-bold">
                                     {(post.authors?.name || post.author_name).charAt(0)}
                                 </div>
                             )}
                         </div>
                         <div>
-                            <h3 className="text-xl font-serif font-bold mb-2">About {post.authors?.name || post.author_name}</h3>
+                            <h3 className="text-xl font-bold mb-2">About {post.authors?.name || post.author_name}</h3>
                             <p className="text-stone-600 mb-4 leading-relaxed">
                                 {post.authors?.bio || post.author_bio || `${post.authors?.name || post.author_name} is a regular contributor to Agri Updates, covering the latest in agricultural research and innovation.`}
                             </p>

@@ -46,14 +46,14 @@ export default function LatestJobs({ posts }: Props) {
             <h3 className="section-header">Latest Jobs</h3>
 
             {/* List */}
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-6">
                 {displayPosts.slice(0, 4).map((post) => (
                     <div key={post.id} className="newspaper-card-minimal group">
                         <Link href={`/blog/${post.slug}`} className="block">
-                            <h4 className="font-serif text-base font-bold leading-snug mb-1 group-hover:text-agri-green transition-colors">
+                            <h4 className="text-lg font-bold leading-snug mb-2 group-hover:text-agri-green transition-colors">
                                 {post.title}
                             </h4>
-                            <p className="text-xs text-stone-500 font-serif">
+                            <p className="text-xs text-stone-500 uppercase tracking-wide">
                                 {post.company || 'Company'} • {post.location || 'Location'}
                             </p>
                         </Link>

@@ -26,7 +26,7 @@ export default function Trending({ posts }: { posts: Post[] }) {
                                 {post.category}
                             </div>
                             <Link href={`/blog/${post.slug}`} className="block">
-                                <h4 className="font-serif text-base font-bold leading-snug group-hover:text-agri-green transition-colors line-clamp-2">
+                                <h4 className="font-serif text-base font-bold leading-snug group-hover:text-agri-green transition-colors line-clamp-2 break-words [overflow-wrap:anywhere]">
                                     {post.title}
                                 </h4>
                             </Link>

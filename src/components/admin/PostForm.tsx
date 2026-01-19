@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import { Post, Author } from '@/types/database'
@@ -212,6 +212,64 @@ export default function PostForm({ initialData }: PostFormProps) {
             setLoading(false)
         }
     }
+
+    // Ref for Quill
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const quillRef = useRef<any>(null);
+
+    // Custom Image Handler for Quill
+    const imageHandler = () => {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+
+        input.onchange = async () => {
+            const file = input.files?.[0];
+            if (!file) return;
+
+            try {
+                // Upload to Supabase
+                const fileExt = file.name.split('.').pop();
+                const fileName = `content/${Math.random().toString(36).substring(2)}.${fileExt}`;
+                const { error: uploadError } = await supabase.storage
+                    .from('images')
+                    .upload(fileName, file);
+
+                if (uploadError) throw uploadError;
+
+                const { data } = supabase.storage
+                    .from('images')
+                    .getPublicUrl(fileName);
+
+                // Insert into Editor
+                const quill = quillRef.current?.getEditor();
+                if (quill) {
+                    const range = quill.getSelection();
+                    const index = range ? range.index : 0;
+                    quill.insertEmbed(index, 'image', data.publicUrl);
+                }
+            } catch (error) {
+                console.error('Error uploading image:', error);
+                alert('Failed to upload image. Please try again.');
+            }
+        };
+    };
+
+    const modules = useMemo(() => ({
+        toolbar: {
+            container: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                ['link', 'image'],
+                ['clean']
+            ],
+            handlers: {
+                image: imageHandler
+            }
+        }
+    }), []); // eslint-disable-line react-hooks/exhaustive-deps
 
     if (roleLoading) {
         return <div className="p-8 text-center text-stone-500">Checking permissions...</div>
@@ -429,10 +487,13 @@ export default function PostForm({ initialData }: PostFormProps) {
                             </button>
                         )}
                     </div>
+                    {/* @ts-ignore */}
                     <ReactQuill
+                        ref={quillRef}
                         theme="snow"
                         value={formData.content}
                         onChange={(content) => setFormData(prev => ({ ...prev, content }))}
+                        modules={modules}
                         className="bg-white h-96 mb-12"
                     />
                 </div>
@@ -579,3 +640,4 @@ export default function PostForm({ initialData }: PostFormProps) {
         </form >
     )
 }
+

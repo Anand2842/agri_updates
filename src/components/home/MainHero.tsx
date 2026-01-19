@@ -29,7 +29,7 @@ export default function MainHero({ post }: { post: Post }) {
                     </span>
 
                     {/* Title */}
-                    <h3 className="font-serif text-2xl md:text-3xl font-black leading-tight mb-2">
+                    <h3 className="font-serif text-2xl md:text-3xl font-black leading-tight mb-2 break-words [overflow-wrap:anywhere]">
                         {post.title}
                     </h3>
 

@@ -8,6 +8,7 @@ import ResearchPapers from '@/components/home/ResearchPapers';
 import StartupsSection from '@/components/home/StartupsSection';
 import LatestJobs from '@/components/home/LatestJobs';
 import QuickFAQ from '@/components/home/QuickFAQ';
+import AdBanner from '@/components/ads/AdBanner';
 import { supabase } from '@/lib/supabase';
 import { Post, Job } from '@/types/database';
 import { Metadata } from 'next';
@@ -406,6 +407,10 @@ export default async function Home() {
       {/* Subscribe Block */}
       <SubscribeBlock />
 
+      <div className="container mx-auto px-4 my-8">
+        <AdBanner placement="banner" />
+      </div>
+
       {/* Main Content Grid */}
       <section className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 py-12">
         {/* Left Column: Trending */}
@@ -426,6 +431,10 @@ export default async function Home() {
 
       {/* Don't Miss Section */}
       <DontMiss posts={dontMissPosts} />
+
+      <div className="container mx-auto px-4 my-8">
+        <AdBanner placement="banner" />
+      </div>
 
       {/* Bottom Categories Section */}
       <section className="container mx-auto px-4 py-12 border-t border-stone-200">

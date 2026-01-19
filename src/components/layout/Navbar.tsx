@@ -88,7 +88,7 @@ export default function Navbar() {
             {/* Main Masthead */}
             <div className="container mx-auto px-4 py-6 md:py-10 text-center border-b-2 border-black">
                 <Link href="/" onClick={() => setIsMenuOpen(false)}>
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-black tracking-tight text-black uppercase" style={{ fontStretch: 'condensed' }}>
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight text-black uppercase" style={{ fontStretch: 'condensed' }}>
                         AGRI UPDATES
                     </h1>
                 </Link>
@@ -146,7 +146,7 @@ export default function Navbar() {
             {isMenuOpen && (
                 <div className="md:hidden fixed inset-0 z-50 bg-white overflow-y-auto animate-in slide-in-from-right">
                     <div className="p-4 flex justify-between items-center border-b border-stone-200">
-                        <span className="font-serif font-bold text-xl">Menu</span>
+                        <span className="font-bold text-xl">Menu</span>
                         <button onClick={() => setIsMenuOpen(false)} className="p-2">
                             <X className="w-6 h-6" />
                         </button>
@@ -157,7 +157,7 @@ export default function Navbar() {
                                 key={cat.href}
                                 href={cat.href}
                                 onClick={() => setIsMenuOpen(false)}
-                                className="py-3 text-lg font-serif border-b border-stone-100 hover:text-agri-green"
+                                className="py-3 text-lg font-medium border-b border-stone-100 hover:text-agri-green"
                             >
                                 {cat.label}
                             </Link>
@@ -165,13 +165,13 @@ export default function Navbar() {
                         <div className="mt-6 pt-6 border-t border-stone-200">
                             {user ? (
                                 <>
-                                    <Link href="/admin/posts" onClick={() => setIsMenuOpen(false)} className="block py-3 text-lg font-serif text-agri-green">Admin Dashboard</Link>
-                                    <button onClick={() => { handleSignOut(); setIsMenuOpen(false); }} className="block py-3 text-lg font-serif text-red-500">Sign Out</button>
+                                    <Link href="/admin/posts" onClick={() => setIsMenuOpen(false)} className="block py-3 text-lg text-agri-green">Admin Dashboard</Link>
+                                    <button onClick={() => { handleSignOut(); setIsMenuOpen(false); }} className="block py-3 text-lg text-red-500">Sign Out</button>
                                 </>
                             ) : (
                                 <>
-                                    <Link href="/login" onClick={() => setIsMenuOpen(false)} className="block py-3 text-lg font-serif text-stone-500">Login</Link>
-                                    <Link href="/newsletter" onClick={() => setIsMenuOpen(false)} className="block py-3 text-lg font-serif text-agri-green font-bold">Subscribe</Link>
+                                    <Link href="/login" onClick={() => setIsMenuOpen(false)} className="block py-3 text-lg text-stone-500">Login</Link>
+                                    <Link href="/newsletter" onClick={() => setIsMenuOpen(false)} className="block py-3 text-lg text-agri-green font-bold">Subscribe</Link>
                                 </>
                             )}
                         </div>

@@ -38,7 +38,7 @@ export default function FeaturedGrid({ posts }: Props) {
                                 </div>
 
                                 {/* Title */}
-                                <h3 className="font-serif text-xl font-bold leading-tight mb-2 group-hover:text-agri-green transition-colors">
+                                <h3 className="font-serif text-xl font-bold leading-tight mb-2 group-hover:text-agri-green transition-colors break-words [overflow-wrap:anywhere]">
                                     {post.title}
                                 </h3>
 

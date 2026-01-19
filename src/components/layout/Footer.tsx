@@ -61,8 +61,8 @@ export default function Footer() {
     }
 
     return (
-        <footer className="bg-white border-t-2 border-black mt-16 pt-12 pb-8">
-            <div className="container mx-auto px-4">
+        <footer className="bg-white border-t-2 border-black mt-16 pt-12 pb-8 w-full overflow-x-hidden">
+            <div className="max-w-7xl mx-auto px-4">
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-16">
                     <div className="col-span-1 md:col-span-1">
                         <h3 className="font-serif text-2xl font-bold mb-4">AGRI UPDATES</h3>
