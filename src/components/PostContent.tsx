@@ -1,15 +1,10 @@
 import React from 'react';
-import { JSDOM } from 'jsdom';
-import createDOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 
 interface PostContentProps {
     html: string;
     // canonicalUrl prop removed as it was unused
 }
-
-const window = new JSDOM('').window;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const DOMPurify = createDOMPurify(window as any);
 
 export default function PostContent({ html }: PostContentProps) {
     // Helper to format plain text content into paragraphs and sanitize non-breaking spaces
