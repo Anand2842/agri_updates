@@ -1,0 +1,24 @@
+# Render Blueprint for WhatsApp Bot
+# Deploy as a Background Worker (not a web service)
+
+services:
+  - type: worker
+    name: whatsapp-bot
+    runtime: docker
+    dockerfilePath: ./scripts/whatsapp-bot/Dockerfile
+    dockerContext: ./scripts/whatsapp-bot
+    region: oregon
+    plan: starter
+    envVars:
+      - key: WEBHOOK_URL
+        sync: false  # Set manually in Render dashboard
+      - key: WHATSAPP_WEBHOOK_SECRET
+        sync: false  # Set manually in Render dashboard
+      - key: GROUP_NAME
+        value: news
+      - key: PUPPETEER_EXECUTABLE_PATH
+        value: /usr/bin/google-chrome-stable
+    disk:
+      name: whatsapp-session
+      mountPath: /app/.wwebjs_auth
+      sizeGB: 1
