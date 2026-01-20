@@ -2,6 +2,7 @@
 'use client';
 
 import { Comment } from '@/types/database';
+import { safeDateFormat } from '@/lib/utils/date';
 import { useState, useEffect, useCallback } from 'react';
 import CommentForm from './CommentForm';
 
@@ -44,7 +45,7 @@ function CommentItem({ comment, allComments, onRefresh }: CommentItemProps) {
                             {comment.user_name.charAt(0).toUpperCase()}
                         </div>
                         <span className="font-bold text-stone-800 text-sm">{comment.user_name}</span>
-                        <span className="text-xs text-stone-400">• {new Date(comment.created_at).toLocaleDateString()}</span>
+                        <span className="text-xs text-stone-400">• {safeDateFormat(comment.created_at)}</span>
                     </div>
                 </div>
 

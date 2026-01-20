@@ -1,6 +1,7 @@
 import { Search, Plus, Filter, Download, ExternalLink, MapPin, Mail, Phone, Linkedin, Twitter, CheckCircle, Briefcase } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Company } from '@/types/database';
+import { safeDateFormat } from '@/lib/utils/date';
 
 export const revalidate = 0;
 
@@ -81,10 +82,10 @@ export default async function CompaniesCRM() {
                                 <tr key={company.id} className={`hover:bg-stone-50 cursor-pointer transition-colors ${i === 0 ? 'bg-green-50/30 border-l-4 border-l-agri-green' : 'border-l-4 border-l-transparent'}`}>
                                     <td className="px-6 py-4 flex items-center gap-3">
                                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold ${company.logo_type === 'leaf' ? 'bg-green-600' :
-                                                company.logo_type === 'micro' ? 'bg-purple-600' :
-                                                    company.logo_type === 'soil' ? 'bg-orange-500' :
-                                                        company.logo_type === 'drone' ? 'bg-stone-700' :
-                                                            company.logo_type === 'water' ? 'bg-blue-500' : 'bg-stone-400'
+                                            company.logo_type === 'micro' ? 'bg-purple-600' :
+                                                company.logo_type === 'soil' ? 'bg-orange-500' :
+                                                    company.logo_type === 'drone' ? 'bg-stone-700' :
+                                                        company.logo_type === 'water' ? 'bg-blue-500' : 'bg-stone-400'
                                             }`}>
                                             {company.name[0]}
                                         </div>
@@ -93,16 +94,16 @@ export default async function CompaniesCRM() {
                                     <td className="px-6 py-4 text-stone-500">{company.industry}</td>
                                     <td className="px-6 py-4">
                                         <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${company.status === 'Active Partner' ? 'bg-green-100 text-green-800' :
-                                                company.status === 'Lead' ? 'bg-yellow-100 text-yellow-800' :
-                                                    company.status === 'Research Partner' ? 'bg-blue-100 text-blue-800' :
-                                                        'bg-stone-200 text-stone-600'
+                                            company.status === 'Lead' ? 'bg-yellow-100 text-yellow-800' :
+                                                company.status === 'Research Partner' ? 'bg-blue-100 text-blue-800' :
+                                                    'bg-stone-200 text-stone-600'
                                             }`}>
                                             {company.status}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-right text-stone-400 text-xs">
                                         {/* If date parsing fails, fallback to static text or "Recently" */}
-                                        {company.last_interaction ? new Date(company.last_interaction).toLocaleDateString() : 'Recently'}
+                                        {safeDateFormat(company.last_interaction, undefined, undefined, 'Recently')}
                                     </td>
                                 </tr>
                             ))}

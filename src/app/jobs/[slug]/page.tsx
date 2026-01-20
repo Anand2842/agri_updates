@@ -6,6 +6,7 @@ import { Share2, MapPin, Building, Calendar, ArrowLeft, ExternalLink } from 'luc
 import { formatRelativeDate } from '@/lib/utils/date';
 import PostContent from '@/components/PostContent';
 import { getAllHubs } from '@/lib/hubs';
+import AdBanner from '@/components/ads/AdBanner';
 
 export const revalidate = 3600;
 
@@ -264,6 +265,10 @@ export default async function JobPage({ params }: JobPageProps) {
                                 </div>
                             </div>
                         )}
+
+                        <div className="mt-8">
+                            <AdBanner placement="sidebar" />
+                        </div>
                     </div>
                 </div>
             </div>

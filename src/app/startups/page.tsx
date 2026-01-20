@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase';
 import { Startup } from '@/types/database';
 import { Metadata } from 'next';
+import AdBanner from '@/components/ads/AdBanner';
 
 export const revalidate = 0;
 
@@ -178,6 +179,10 @@ export default async function StartupsPage({ searchParams }: StartupsPageProps) 
                     >
                         Exits
                     </Link>
+                </div>
+
+                <div className="mb-12">
+                    <AdBanner placement="banner" />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

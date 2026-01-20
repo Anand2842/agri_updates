@@ -72,7 +72,7 @@ export default function AdBanner({ placement, className = '' }: AdBannerProps) {
                 href={ad.link_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block relative overflow-hidden rounded-lg hover:opacity-95 transition-opacity"
+                className="block relative overflow-hidden rounded-lg hover:shadow-lg hover:brightness-105 transition-all duration-300"
                 onClick={() => {
                     // TODO: Increment Click Count
                 }}

@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server';
 import { Search, Bell, Plus, Filter, Grid, List as ListIcon, MoreVertical, Star, Video, Mail, Users, FileText } from 'lucide-react';
 import Link from 'next/link';
+import { safeDateFormat } from '@/lib/utils/date';
 
 export const revalidate = 0;
 
@@ -144,14 +145,14 @@ export default async function ApplicantsCRM() {
                                     </td>
                                     <td className="p-4">
                                         <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${app.status === 'Hired' ? 'bg-green-100 text-green-700 border-green-200' :
-                                                app.status === 'Rejected' ? 'bg-red-50 text-red-500 border-red-100' :
-                                                    'bg-stone-100 text-stone-600 border-stone-200'
+                                            app.status === 'Rejected' ? 'bg-red-50 text-red-500 border-red-100' :
+                                                'bg-stone-100 text-stone-600 border-stone-200'
                                             }`}>
                                             {app.status || 'New'}
                                         </span>
                                     </td>
                                     <td className="p-4 text-xs text-stone-500">
-                                        {new Date(app.applied_at).toLocaleDateString()}
+                                        {safeDateFormat(app.applied_at)}
                                     </td>
                                 </tr>
                             ))}

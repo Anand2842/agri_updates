@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Post } from '@/types/database';
+import { safeDateFormat } from '@/lib/utils/date';
 
 type Props = {
     posts: Post[];
@@ -44,7 +45,7 @@ export default function FeaturedGrid({ posts }: Props) {
 
                                 {/* Meta */}
                                 <div className="text-[10px] uppercase tracking-widest text-stone-400 mb-2">
-                                    By {post.author_name} • {new Date(post.published_at).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
+                                    By {post.author_name} • {safeDateFormat(post.published_at, { month: 'short', day: 'numeric' }, 'en-IN')}
                                 </div>
 
                                 {/* Excerpt */}

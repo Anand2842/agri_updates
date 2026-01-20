@@ -2,6 +2,8 @@ import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
+import { safeDateFormat } from '@/lib/utils/date';
+import AdBanner from '@/components/ads/AdBanner';
 
 export const revalidate = 0;
 
@@ -96,6 +98,10 @@ export default async function UpdatesPage({ searchParams }: UpdatesPageProps) {
             </div>
 
             <div className="container mx-auto px-4 py-12">
+                <div className="mb-12">
+                    <AdBanner placement="banner" />
+                </div>
+
                 {/* Posts Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {paginatedPosts.map((post) => (
@@ -118,7 +124,7 @@ export default async function UpdatesPage({ searchParams }: UpdatesPageProps) {
                                         {post.category}
                                     </span>
                                     <span className="text-[10px] text-stone-400">
-                                        {new Date(post.published_at).toLocaleDateString()}
+                                        {safeDateFormat(post.published_at)}
                                     </span>
                                 </div>
                                 <h2 className="font-serif text-xl font-bold leading-tight group-hover:text-agri-dark transition-colors mb-3">

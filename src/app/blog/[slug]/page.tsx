@@ -7,6 +7,8 @@ import CommentSection from '@/components/blog/CommentSection';
 import RelatedPosts from '@/components/blog/RelatedPosts';
 import AdBanner from '@/components/ads/AdBanner';
 import PostContent from '@/components/PostContent';
+import SocialShare from '@/components/blog/SocialShare';
+import { safeDateFormat } from '@/lib/utils/date';
 
 export const revalidate = 0;
 
@@ -189,8 +191,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/50 to-transparent" />
 
                 {/* Content - Positioned relatively to push down content below */}
-                <div className="relative z-10 container mx-auto px-4 py-16 md:py-24 lg:py-32">
-                    <div className="max-w-3xl pt-16">
+                <div className="relative z-10 container mx-auto px-4 py-12 md:py-24 lg:py-32">
+                    <div className="max-w-3xl pt-8 md:pt-16">
                         {post.is_featured && (
                             <span className="inline-block bg-agri-green text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 mb-3 mr-2">
                                 Featured
@@ -199,10 +201,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         <span className="inline-block bg-agri-green text-white text-[10px] md:text-xs font-bold uppercase tracking-widest px-3 py-1 mb-3">
                             {post.category}
                         </span>
-                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white leading-snug mb-4">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6 drop-shadow-md">
                             {post.title}
                         </h1>
-                        <div className="flex flex-wrap items-center gap-2 md:gap-4 text-white/80 text-xs md:text-sm font-bold uppercase tracking-wider">
+                        <div className="flex flex-wrap items-center gap-3 md:gap-4 text-white/90 text-[11px] md:text-sm font-bold uppercase tracking-wider">
                             {(post.authors?.avatar_url || post.author_image) && (
                                 <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border-2 border-white/20 flex-shrink-0">
                                     <Image
@@ -214,9 +216,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                                     />
                                 </div>
                             )}
-                            <span>By {post.authors?.name || post.author_name}</span>
-                            <span className="hidden sm:inline">•</span>
-                            <span>{new Date(post.published_at).toLocaleDateString()}</span>
+                            <div className="flex flex-col md:flex-row md:items-center gap-0.5 md:gap-4">
+                                <span>By {post.authors?.name || post.author_name}</span>
+                                <span className="hidden md:inline">•</span>
+                                <span className="text-white/70 font-medium md:text-white/90 md:font-bold">{safeDateFormat(post.published_at)}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -225,6 +229,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <div className="container mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
                 <div className="lg:col-span-8 lg:col-start-3">
                     <AdBanner placement="banner" className="my-8" />
+                    <div className="flex justify-between items-center mb-6">
+                        <SocialShare title={post.title} />
+                    </div>
                     <PostContent html={post.content || post.excerpt} />
 
                     <div className="mt-16 p-8 bg-stone-50 rounded-xl border border-stone-100 flex flex-col md:flex-row gap-8 items-start">

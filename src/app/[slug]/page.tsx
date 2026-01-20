@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { Post } from '@/types/database';
 import { ArrowLeft } from 'lucide-react';
+import { safeDateFormat } from '@/lib/utils/date';
 
 // Revalidate every hour
 export const revalidate = 3600;
@@ -136,7 +137,7 @@ export default async function HubPage({ params }: PageProps) {
                                                     <div className="flex flex-wrap gap-2 text-sm text-stone-500 mb-3">
                                                         {post.company && <span className="font-medium text-stone-900">{post.company}</span>}
                                                         {post.location && <span>• {post.location}</span>}
-                                                        <span>• {new Date(post.published_at).toLocaleDateString()}</span>
+                                                        <span>• {safeDateFormat(post.published_at)}</span>
                                                     </div>
                                                 </div>
                                                 {post.job_type && (

@@ -12,7 +12,12 @@ export function formatRelativeDate(date: string | Date): string {
  * Safely format a date, returning fallback if date is invalid or corrupted.
  * Handles malformed dates like "+058008-03-14" that can crash rendering.
  */
-export function safeDateFormat(date: string | Date | null | undefined, fallback = 'Unknown date'): string {
+export function safeDateFormat(
+    date: string | Date | null | undefined,
+    options?: Intl.DateTimeFormatOptions,
+    locale = 'en-US',
+    fallback = 'Unknown date'
+): string {
     if (!date) return fallback;
 
     try {
@@ -21,7 +26,7 @@ export function safeDateFormat(date: string | Date | null | undefined, fallback 
         if (isNaN(parsed.getTime()) || parsed.getFullYear() < 1900 || parsed.getFullYear() > 2100) {
             return fallback;
         }
-        return parsed.toLocaleDateString();
+        return parsed.toLocaleDateString(locale, options);
     } catch {
         return fallback;
     }

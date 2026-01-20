@@ -2,6 +2,7 @@ import { supabase } from '@/lib/supabase';
 import { Post } from '@/types/database';
 import Link from 'next/link';
 import { Metadata } from 'next';
+import AdBanner from '@/components/ads/AdBanner';
 
 export const revalidate = 0;
 
@@ -153,6 +154,10 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                         </div>
                     </form>
                 </div>
+            </div>
+
+            <div className="container mx-auto px-4 py-8">
+                <AdBanner placement="banner" />
             </div>
 
             <div className="container mx-auto px-4 py-12">

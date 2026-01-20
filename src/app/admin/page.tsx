@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
+import { safeDateFormat } from '@/lib/utils/date';
 
 export const revalidate = 0;
 
@@ -81,7 +82,7 @@ export default async function AdminDashboard() {
                                     <h4 className="font-bold text-stone-800 line-clamp-1">{post.title}</h4>
                                     <div className="flex gap-2 text-xs text-stone-500 mt-1">
                                         <span className="uppercase text-[10px] font-bold bg-stone-100 px-1 rounded">{post.category}</span>
-                                        <span>• {new Date(post.published_at).toLocaleDateString()}</span>
+                                        <span>• {safeDateFormat(post.published_at)}</span>
                                     </div>
                                 </div>
                                 <div className="text-right">
