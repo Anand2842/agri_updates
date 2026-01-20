@@ -21,9 +21,18 @@ async function getPost(slug: string) {
             .eq('status', 'published')
             .single();
 
+        if (error) {
+            // PGRST116 is the error code for "The result contains 0 rows" (no data found)
+            // This is expected when a slug doesn't exist, so we shouldn't log it as an error
+            if (error.code !== 'PGRST116') {
+                console.error('Supabase fetch error:', error);
+            }
+        }
+
         if (error || !data) {
             // Fallback Mock Check
-            console.log(`Supabase fetch failed or empty for slug: ${slug}, checking mock/fallback logic.`);
+            // Only log if we're actually looking for something that might be a mock
+            // console.log(`Checking mock/fallback logic for slug: ${slug}`);
             // Quick Mock Match for Demo Purposes
             if (slug === 'ai-crop-yield-model') return {
                 id: 'mock-id-1', // Added mock ID for comments

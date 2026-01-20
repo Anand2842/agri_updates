@@ -17,7 +17,7 @@ const nextConfig = {
       },
     ],
   },
-
+  serverExternalPackages: ['jsdom'],
 };
 
 export default nextConfig;
