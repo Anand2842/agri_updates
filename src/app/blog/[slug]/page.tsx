@@ -208,8 +208,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                             {(post.authors?.avatar_url || post.author_image) && (
                                 <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border-2 border-white/20 flex-shrink-0">
                                     <Image
-                                        src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name)}&background=22c55e&color=fff`}
-                                        alt={post.authors?.name || post.author_name}
+                                        src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name || 'Agri Updates')}&background=22c55e&color=fff`}
+                                        alt={post.authors?.name || post.author_name || 'Agri Updates Team'}
                                         fill
                                         sizes="40px"
                                         className="object-cover"
@@ -217,7 +217,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                                 </div>
                             )}
                             <div className="flex flex-col md:flex-row md:items-center gap-0.5 md:gap-4">
-                                <span>By {post.authors?.name || post.author_name}</span>
+                                <span>By {post.authors?.name || post.author_name || 'Agri Updates Team'}</span>
                                 <span className="hidden md:inline">•</span>
                                 <span className="text-white/70 font-medium md:text-white/90 md:font-bold">{safeDateFormat(post.published_at)}</span>
                             </div>
@@ -238,22 +238,22 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         <div className="relative w-24 h-24 flex-shrink-0 rounded-full overflow-hidden bg-stone-200 border-2 border-white shadow-sm">
                             {(post.authors?.avatar_url || post.author_image) ? (
                                 <Image
-                                    src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name)}&background=22c55e&color=fff`}
-                                    alt={post.authors?.name || post.author_name}
+                                    src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name || 'Agri Updates')}&background=22c55e&color=fff`}
+                                    alt={post.authors?.name || post.author_name || 'Agri Updates Team'}
                                     fill
                                     sizes="96px"
                                     className="object-cover"
                                 />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center text-stone-400 text-2xl font-bold">
-                                    {(post.authors?.name || post.author_name).charAt(0)}
+                                    {(post.authors?.name || post.author_name || 'A').charAt(0)}
                                 </div>
                             )}
                         </div>
                         <div>
-                            <h3 className="text-xl font-bold mb-2">About {post.authors?.name || post.author_name}</h3>
+                            <h3 className="text-xl font-bold mb-2">About {post.authors?.name || post.author_name || 'The Author'}</h3>
                             <p className="text-stone-600 mb-4 leading-relaxed">
-                                {post.authors?.bio || post.author_bio || `${post.authors?.name || post.author_name} is a regular contributor to Agri Updates, covering the latest in agricultural research and innovation.`}
+                                {post.authors?.bio || post.author_bio || `${post.authors?.name || post.author_name || 'This author'} is a regular contributor to Agri Updates, covering the latest in agricultural research and innovation.`}
                             </p>
                             <div className="flex gap-4">
                                 {(post.authors?.social_links?.linkedin || post.author_social_linkedin) && (
