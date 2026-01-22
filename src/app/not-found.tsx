@@ -2,8 +2,11 @@
 
 import Link from 'next/link';
 import { Home, ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function NotFound() {
+    const router = useRouter();
+
     return (
         <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
             <h2 className="text-9xl font-serif font-bold text-agri-green/20 mb-4">404</h2>
@@ -20,7 +23,7 @@ export default function NotFound() {
                     Go Home
                 </Link>
                 <button
-                    onClick={() => window.history.back()}
+                    onClick={() => router.back()}
                     className="flex items-center gap-2 px-6 py-3 border border-stone-200 text-stone-600 font-bold rounded-lg hover:border-black hover:text-black transition-colors"
                 >
                     <ArrowLeft className="w-4 h-4" />

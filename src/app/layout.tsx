@@ -103,7 +103,9 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        <GoogleAnalytics GA_MEASUREMENT_ID="G-LLDWYS27VF" />
+        <Suspense fallback={null}>
+          <GoogleAnalytics GA_MEASUREMENT_ID="G-LLDWYS27VF" />
+        </Suspense>
         <CookieConsent />
       </body>
     </html>
