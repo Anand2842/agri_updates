@@ -1,21 +1,16 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import { Post, Author } from '@/types/database'
-import dynamic from 'next/dynamic'
 import { getUserRole, UserRole } from '@/lib/auth'
-
-import { Wand2, Sparkles, Lock } from 'lucide-react'
+import { Wand2, Sparkles, Lock, Smartphone, Monitor, Globe, Search } from 'lucide-react'
 import ImageUpload from './ImageUpload'
-
-// Dynamically import Quill to avoid SSR issues
-const ReactQuill = dynamic(
-    () => import('react-quill-new').then((mod) => mod.default),
-    { ssr: false, loading: () => <p>Loading Editor...</p> }
-);
-import 'react-quill-new/dist/quill.snow.css';
+import RichTextEditor from './editor/RichTextEditor'
+import TableOfContents from './editor/TableOfContents'
+import Scratchpad from './editor/Scratchpad'
+import { Editor } from '@tiptap/react'
 
 interface PostFormProps {
     initialData?: Post
@@ -29,6 +24,15 @@ export default function PostForm({ initialData }: PostFormProps) {
     const [authors, setAuthors] = useState<Author[]>([])
     const [userRole, setUserRole] = useState<UserRole>('user')
     const [roleLoading, setRoleLoading] = useState(true)
+    const [editorInstance, setEditorInstance] = useState<Editor | null>(null)
+
+    // Device Preview Configuration
+    type DeviceType = 'desktop' | 'mobile';
+    const deviceConfig: Record<DeviceType, { name: string, width: string, icon: any }> = {
+        'desktop': { name: 'Desktop', width: '100%', icon: Monitor },
+        'mobile': { name: 'Mobile', width: '375px', icon: Smartphone },
+    };
+    const [previewDevice, setPreviewDevice] = useState<DeviceType>('desktop')
 
     // Fetch authors and user role on mount
     useEffect(() => {
@@ -58,7 +62,7 @@ export default function PostForm({ initialData }: PostFormProps) {
         featured_until: initialData?.featured_until || '',
         display_location: initialData?.display_location || 'standard',
         tags: initialData?.tags?.join(', ') || '',
-        scheduled_for: initialData?.scheduled_for || '', // NEW: Scheduling
+        scheduled_for: initialData?.scheduled_for || '',
         // Job-specific fields
         company: initialData?.company || '',
         location: initialData?.location || '',
@@ -137,6 +141,12 @@ export default function PostForm({ initialData }: PostFormProps) {
                 salary_range: data.job_details?.salary_range || '',
                 application_link: data.job_details?.application_link || '',
             }));
+
+            // Allow editor to update
+            if (editorInstance) {
+                editorInstance.commands.setContent(data.content)
+            }
+
             alert('Content polished & structured successfully!');
         } catch (error) {
             console.error('Polish error:', error);
@@ -146,11 +156,27 @@ export default function PostForm({ initialData }: PostFormProps) {
         }
     }
 
+    const uploadImage = async (file: File): Promise<string> => {
+        const fileExt = file.name.split('.').pop();
+        const fileName = `content/${Math.random().toString(36).substring(2)}.${fileExt}`;
+        const { error: uploadError } = await supabase.storage
+            .from('images')
+            .upload(fileName, file);
+
+        if (uploadError) throw uploadError;
+
+        const { data } = supabase.storage
+            .from('images')
+            .getPublicUrl(fileName);
+
+        return data.publicUrl
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
 
-        // RBAC Check: Moderators cannot publish directly
+        // RBAC Check
         if (userRole === 'moderator' && formData.status === 'published') {
             alert("Moderators cannot publish posts directly. Please save as Draft or Pending.");
             setLoading(false);
@@ -171,7 +197,7 @@ export default function PostForm({ initialData }: PostFormProps) {
             display_location: formData.display_location,
             tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean),
             published_at: initialData?.published_at || new Date().toISOString(),
-            scheduled_for: formData.scheduled_for || null, // Save schedule time
+            scheduled_for: formData.scheduled_for || null,
         }
 
         if (formData.category === 'Jobs') {
@@ -213,82 +239,21 @@ export default function PostForm({ initialData }: PostFormProps) {
         }
     }
 
-    // Ref for Quill
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const quillRef = useRef<any>(null);
-
-    // Custom Image Handler for Quill
-    const imageHandler = () => {
-        const input = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.setAttribute('accept', 'image/*');
-        input.click();
-
-        input.onchange = async () => {
-            const file = input.files?.[0];
-            if (!file) return;
-
-            try {
-                // Upload to Supabase
-                const fileExt = file.name.split('.').pop();
-                const fileName = `content/${Math.random().toString(36).substring(2)}.${fileExt}`;
-                const { error: uploadError } = await supabase.storage
-                    .from('images')
-                    .upload(fileName, file);
-
-                if (uploadError) throw uploadError;
-
-                const { data } = supabase.storage
-                    .from('images')
-                    .getPublicUrl(fileName);
-
-                // Insert into Editor
-                const quill = quillRef.current?.getEditor();
-                if (quill) {
-                    const range = quill.getSelection();
-                    const index = range ? range.index : 0;
-                    quill.insertEmbed(index, 'image', data.publicUrl);
-                }
-            } catch (error) {
-                console.error('Error uploading image:', error);
-                alert('Failed to upload image. Please try again.');
-            }
-        };
-    };
-
-    const modules = useMemo(() => ({
-        toolbar: {
-            container: [
-                [{ 'header': [1, 2, 3, false] }],
-                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                ['link', 'image'],
-                ['clean']
-            ],
-            handlers: {
-                image: imageHandler
-            }
-        }
-    }), []); // eslint-disable-line react-hooks/exhaustive-deps
-
     if (roleLoading) {
         return <div className="p-8 text-center text-stone-500">Checking permissions...</div>
     }
 
     const isModLocked = userRole === 'moderator' && initialData?.status === 'published';
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const ReactQuillCasted = ReactQuill as any;
-
     return (
-        <form onSubmit={handleSubmit} className="bg-white p-8 border border-stone-200 shadow-sm max-w-4xl relative">
+        <form onSubmit={handleSubmit} className="min-h-screen pb-20 relative">
             {isModLocked && (
-                <div className="absolute inset-0 z-50 bg-stone-50/50 backdrop-blur-sm flex items-center justify-center">
+                <div className="fixed inset-0 z-50 bg-stone-50/50 backdrop-blur-sm flex items-center justify-center">
                     <div className="bg-white p-8 rounded-xl shadow-xl border border-red-200 text-center max-w-md">
                         <Lock className="w-12 h-12 text-red-500 mx-auto mb-4" />
                         <h3 className="font-serif text-xl font-bold text-red-900 mb-2">Protected Content</h3>
                         <p className="text-stone-600 mb-6">
-                            This post is <strong>Published</strong>. Moderators cannot make changes to live content to prevent accidental issues.
+                            This post is <strong>Published</strong>. Moderators cannot make changes to live content.
                         </p>
                         <button
                             type="button"
@@ -301,345 +266,337 @@ export default function PostForm({ initialData }: PostFormProps) {
                 </div>
             )}
 
-            <div className="flex justify-between items-center mb-6">
+            {/* Top Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 bg-white p-4 border-b border-stone-200 sticky top-0 z-20">
                 <h2 className="font-serif text-2xl font-bold">
-                    {initialData ? 'Edit Post' : 'Write New Post'}
+                    {initialData ? 'Edit Post' : 'New Post'}
                 </h2>
-                {!initialData && (
+                <div className="flex gap-3">
+                    {!initialData && (
+                        <button
+                            type="button"
+                            onClick={() => router.push('/admin/posts/generate')}
+                            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-indigo-600 hover:bg-indigo-50 px-3 py-2 rounded-lg transition-colors border border-indigo-100"
+                        >
+                            <Wand2 className="w-4 h-4" />
+                            AI Gen
+                        </button>
+                    )}
                     <button
-                        type="button"
-                        onClick={() => router.push('/admin/posts/generate')}
-                        className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-indigo-600 hover:bg-indigo-50 px-3 py-2 rounded-lg transition-colors"
+                        type="submit"
+                        disabled={loading || isModLocked}
+                        className={`text-white px-6 py-2 rounded font-bold uppercase tracking-widest text-xs disabled:opacity-50 transition-colors shadow-sm
+                            ${formData.status === 'scheduled' ? 'bg-purple-600 hover:bg-purple-700' :
+                                formData.status === 'pending_review' ? 'bg-amber-600 hover:bg-amber-700' :
+                                    'bg-green-700 hover:bg-green-800'}`}
                     >
-                        <Wand2 className="w-4 h-4" />
-                        Generate with AI
+                        {loading ? 'Saving...' :
+                            (formData.status === 'scheduled' ? 'Confirm Schedule' :
+                                formData.status === 'pending_review' ? 'Submit for Review' :
+                                    userRole === 'moderator' ? 'Save Draft' : 'Publish')}
                     </button>
-                )}
+                </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 mb-6">
-                {/* Title & Slug */}
-                <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Title</label>
-                    <input
-                        required
-                        value={formData.title}
-                        onChange={handleTitleChange}
-                        className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black font-serif text-lg"
-                    />
-                </div>
-                <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 px-4 md:px-8 max-w-[1600px] mx-auto">
+
+                {/* LEFT: Main Editor (8 cols) */}
+                <div className="lg:col-span-8 space-y-8">
+                    {/* Title Input */}
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Slug (URL)</label>
                         <input
                             required
-                            value={formData.slug}
-                            onChange={e => setFormData({ ...formData, slug: e.target.value })}
-                            className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black font-mono text-sm"
+                            value={formData.title}
+                            onChange={handleTitleChange}
+                            placeholder="Post Title"
+                            className="w-full p-4 bg-transparent border-none outline-none font-serif text-4xl font-bold placeholder-stone-300"
                         />
                     </div>
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Category *</label>
-                        <select
-                            value={formData.category}
-                            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                            className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black transition-colors"
-                            required
-                        >
-                            <option value="">Select Category</option>
-                            <option value="Research">Research & News</option>
-                            <option value="Jobs">Jobs & Opportunities</option>
-                            <option value="Fellowships">Fellowships</option>
-                            <option value="Scholarships">Scholarships</option>
-                            <option value="Grants">Grants & Funding</option>
-                            <option value="Exams">Exams & Admissions</option>
-                            <option value="Events">Conferences & Events</option>
-                            <option value="Guidance">Application Guidance</option>
-                            <option value="Warnings">Warnings & Awareness</option>
-                        </select>
-                    </div>
-                </div>
 
-                {/* Author Selection */}
-                <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Author</label>
-                    <div className="flex gap-4">
-                        <div className="flex-1">
-                            <select
-                                value={formData.author_id}
-                                onChange={e => {
-                                    const selectedId = e.target.value;
-                                    const selectedAuthor = authors.find(a => a.id === selectedId);
-                                    setFormData({
-                                        ...formData,
-                                        author_id: selectedId,
-                                        author_name: selectedAuthor ? selectedAuthor.name : formData.author_name
-                                    })
-                                }}
-                                className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black"
-                            >
-                                <option value="">-- Select Author --</option>
-                                {authors.map(author => (
-                                    <option key={author.id} value={author.id}>
-                                        {author.name} ({author.role})
-                                    </option>
+                    {/* Editor Controls & Container */}
+                    <div className="relative">
+                        <div className="flex justify-between mb-2">
+                            {/* Device Switcher */}
+                            <div className="flex bg-stone-100 rounded-lg p-1 gap-1">
+                                {(Object.entries(deviceConfig) as [DeviceType, typeof deviceConfig['desktop']][]).map(([key, config]) => (
+                                    <button
+                                        key={key}
+                                        type="button"
+                                        onClick={() => setPreviewDevice(key)}
+                                        className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all
+                                            ${previewDevice === key
+                                                ? 'bg-white shadow text-black'
+                                                : 'text-stone-500 hover:text-stone-900'
+                                            }`}
+                                        title={`${config.name} (${config.width})`}
+                                    >
+                                        <config.icon className="w-3.5 h-3.5" />
+                                        <span className="hidden xl:inline">{config.name}</span>
+                                    </button>
                                 ))}
-                            </select>
-                        </div>
-                        <div className="flex-1">
-                            <input
-                                value={formData.author_name}
-                                onChange={e => setFormData({ ...formData, author_name: e.target.value })}
-                                className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black"
-                                placeholder="Or type custom name..."
-                            />
-                        </div>
-                    </div>
-                    <p className="text-xs text-stone-400 mt-2">Select a verified author from the list, or override the display name manually.</p>
-                </div>
-
-                <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Tags (Comma separated)</label>
-                    <input
-                        value={formData.tags}
-                        onChange={e => setFormData({ ...formData, tags: e.target.value })}
-                        className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black"
-                        placeholder="e.g. Maharashtra, Sales, BSc Agri, Govt Job"
-                    />
-                    <p className="text-xs text-stone-400 mt-2">Critical for Job Hubs! Add location (State/District), Role, and Qualification tags.</p>
-                </div>
-
-
-                {/* Job-specific fields - shown only when category is Jobs */}
-                {formData.category === 'Jobs' && (
-                    <div className="grid grid-cols-2 gap-6 p-6 bg-blue-50 border border-blue-200 rounded">
-                        <h3 className="col-span-2 font-serif text-lg font-bold text-blue-900">Job Details</h3>
-
-                        <div>
-                            <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Company Name *</label>
-                            <input
-                                required={formData.category === 'Jobs'}
-                                value={formData.company}
-                                onChange={e => setFormData({ ...formData, company: e.target.value })}
-                                className="w-full p-3 bg-white border border-stone-200 outline-none focus:border-black"
-                                placeholder="e.g. AgriTech Solutions"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Location</label>
-                            <input
-                                value={formData.location}
-                                onChange={e => setFormData({ ...formData, location: e.target.value })}
-                                className="w-full p-3 bg-white border border-stone-200 outline-none focus:border-black"
-                                placeholder="e.g. Bangalore, Remote, Pan India"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Job Type</label>
-                            <select
-                                value={formData.job_type}
-                                onChange={e => setFormData({ ...formData, job_type: e.target.value })}
-                                className="w-full p-3 bg-white border border-stone-200 outline-none focus:border-black"
-                            >
-                                <option value="">Select Type</option>
-                                <option value="Full-time">Full-time</option>
-                                <option value="Contract">Contract</option>
-                                <option value="Internship">Internship</option>
-                                <option value="Remote">Remote</option>
-                                <option value="Part-time">Part-time</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Salary Range</label>
-                            <input
-                                value={formData.salary_range}
-                                onChange={e => setFormData({ ...formData, salary_range: e.target.value })}
-                                className="w-full p-3 bg-white border border-stone-200 outline-none focus:border-black"
-                                placeholder="e.g. ₹5-8 LPA, Not Disclosed"
-                            />
-                        </div>
-
-                        <div className="col-span-2">
-                            <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Application Link</label>
-                            <input
-                                value={formData.application_link}
-                                onChange={e => setFormData({ ...formData, application_link: e.target.value })}
-                                className="w-full p-3 bg-white border border-stone-200 outline-none focus:border-black font-mono text-sm"
-                                placeholder="/jobs/apply/[slug] or external URL"
-                            />
-                            <p className="text-xs text-stone-500 mt-1">Use /jobs/apply/[slug] for internal applications or paste external URL</p>
-                        </div>
-                    </div>
-                )}
-
-                <div className="prose-editor">
-                    <div className="flex justify-between items-center mb-2">
-                        <label className="block text-xs font-bold uppercase tracking-widest text-stone-500">Content</label>
-                        {userRole === 'admin' && (
-                            <button
-                                type="button"
-                                onClick={handlePolish}
-                                disabled={isPolishing}
-                                className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-purple-600 hover:bg-purple-50 px-3 py-1 rounded transition-colors disabled:opacity-50"
-                            >
-                                <Sparkles className="w-3 h-3" />
-                                {isPolishing ? 'Polishing...' : 'Magic Polish'}
-                            </button>
-                        )}
-                    </div>
-                    <ReactQuillCasted
-                        ref={quillRef}
-                        theme="snow"
-                        value={formData.content}
-                        onChange={(content: string) => setFormData(prev => ({ ...prev, content }))}
-                        modules={modules}
-                        className="bg-white h-96 mb-12"
-                    />
-                </div>
-
-            </div>
-
-            <div className="mt-8">
-                <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-4">Cover Image</label>
-                <ImageUpload
-                    value={formData.image_url}
-                    onChange={(url) => setFormData({ ...formData, image_url: url })}
-                />
-            </div>
-
-            <div className="mt-8 p-6 bg-stone-50 border border-stone-200">
-                <h3 className="font-serif text-lg font-bold mb-4">Display Settings</h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Display Location</label>
-                        <select
-                            value={formData.display_location}
-                            onChange={(e) => setFormData({ ...formData, display_location: e.target.value as 'standard' | 'hero' | 'featured' | 'trending' | 'dont_miss' })}
-                            className="w-full p-3 bg-white border border-stone-200 outline-none focus:border-black"
-                        >
-                            <option value="standard">Standard (Feed)</option>
-                            <option value="hero">Main Hero (Big Center)</option>
-                            <option value="featured">Featured Grid (Top 3)</option>
-                            <option value="trending">Trending (Numbered List)</option>
-                            <option value="dont_miss">Don&apos;t Miss (Bottom)</option>
-                        </select>
-                        <p className="text-xs text-stone-400 mt-2">
-                            Controls where this post appears on the home page.
-                        </p>
-                    </div>
-
-                    <div>
-                        <span className="block font-bold uppercase text-xs tracking-widest text-stone-500 mb-2">Post Status</span>
-                        <select
-                            value={formData.status}
-                            onChange={e => setFormData({ ...formData, status: e.target.value as 'draft' | 'published' | 'archived' | 'scheduled' | 'pending_review' })}
-                            className={`w-full p-3 border outline-none font-bold uppercase text-xs tracking-widest ${formData.status === 'published' ? 'bg-green-50 text-green-700 border-green-200' :
-                                formData.status === 'scheduled' ? 'bg-purple-50 text-purple-700 border-purple-200' :
-                                    formData.status === 'pending_review' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                                        formData.status === 'archived' ? 'bg-red-50 text-red-700 border-red-200' :
-                                            'bg-stone-50 text-stone-600 border-stone-200'
-                                }`}
-                        >
-                            <option value="draft">Draft</option>
-                            <option value="pending_review">Pending Review</option>
-                            {userRole !== 'moderator' && <option value="scheduled">Scheduled</option>}
-                            {userRole !== 'moderator' && <option value="published">Published</option>}
-                            <option value="archived">Archived</option>
-                        </select>
-                        {userRole === 'moderator' && (
-                            <p className="text-xs text-amber-600 mt-2 font-bold">
-                                🔒 Moderators can only submit for review.
-                            </p>
-                        )}
-                    </div>
-                </div>
-
-                {/* Scheduling Input */}
-                {formData.status === 'scheduled' && (
-                    <div className="mt-6 p-4 bg-purple-50 border border-purple-200 rounded-lg animate-in fade-in slide-in-from-top-2">
-                        <label className="block text-xs font-bold uppercase tracking-widest text-purple-700 mb-2">
-                            Scheduled Publication Time
-                        </label>
-                        <input
-                            type="datetime-local"
-                            value={formData.scheduled_for}
-                            onChange={(e) => setFormData({ ...formData, scheduled_for: e.target.value })}
-                            className="w-full p-3 bg-white border border-purple-300 rounded text-sm focus:outline-none focus:border-purple-500"
-                            required
-                        />
-                        <p className="text-xs text-purple-600 mt-2">
-                            This post will automatically go live on {formData.scheduled_for ? new Date(formData.scheduled_for).toLocaleString() : '...'}
-                        </p>
-                    </div>
-                )}
-
-                <div className="mt-6 border-t border-stone-200 pt-6">
-                    <label className="flex items-center gap-3 cursor-pointer group">
-                        <input
-                            type="checkbox"
-                            checked={formData.is_featured}
-                            onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked, featured_until: e.target.checked ? formData.featured_until : '' })}
-                            className="w-5 h-5 rounded border-stone-300 text-amber-500 focus:ring-amber-500"
-                        />
-                        <div>
-                            <span className="block font-bold uppercase text-xs tracking-widest text-amber-600 group-hover:text-amber-800">💰 Featured Listing (Paid)</span>
-                            <span className="text-xs text-stone-400">Mark this post as a paid/featured listing (adds badge & priority).</span>
-                        </div>
-                    </label>
-
-                    {/* Featured Duration Picker */}
-                    {formData.is_featured && (
-                        <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                            <label className="block text-xs font-bold uppercase tracking-widest text-amber-700 mb-3">Featured Until (Auto-Expires)</label>
-                            <div className="flex flex-wrap gap-2 mb-3">
-                                <button type="button" onClick={() => setFeaturedDuration(7)} className="px-3 py-1.5 text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-800 rounded transition-colors">7 Days</button>
-                                <button type="button" onClick={() => setFeaturedDuration(14)} className="px-3 py-1.5 text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-800 rounded transition-colors">14 Days</button>
-                                <button type="button" onClick={() => setFeaturedDuration(30)} className="px-3 py-1.5 text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-800 rounded transition-colors">30 Days</button>
-                                <button type="button" onClick={() => setFormData(prev => ({ ...prev, featured_until: '' }))} className="px-3 py-1.5 text-xs font-bold bg-stone-100 hover:bg-stone-200 text-stone-600 rounded transition-colors">Forever</button>
                             </div>
-                            <input
-                                type="datetime-local"
-                                value={formData.featured_until}
-                                onChange={(e) => setFormData({ ...formData, featured_until: e.target.value })}
-                                className="w-full p-2 bg-white border border-amber-300 rounded text-sm focus:outline-none focus:border-amber-500"
+
+                            {userRole === 'admin' && (
+                                <button
+                                    type="button"
+                                    onClick={handlePolish}
+                                    disabled={isPolishing}
+                                    className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-purple-600 hover:bg-purple-50 px-3 py-1 rounded transition-colors disabled:opacity-50 border border-purple-100 bg-white shadow-sm"
+                                >
+                                    <Sparkles className="w-3 h-3" />
+                                    {isPolishing ? 'Polishing...' : 'Polish Content'}
+                                </button>
+                            )}
+                        </div>
+
+                        <div
+                            className={`transition-all duration-300 mx-auto bg-white overflow-hidden shadow-sm border border-stone-200
+                                ${previewDevice !== 'desktop' ? 'rounded-2xl border-stone-300 shadow-xl my-4 ring-4 ring-stone-900/5' : 'rounded-lg'}
+                            `}
+                            style={{
+                                maxWidth: deviceConfig[previewDevice].width,
+                                minHeight: '600px'
+                            }}
+                        >
+                            <RichTextEditor
+                                content={formData.content}
+                                onChange={(html) => setFormData(prev => ({ ...prev, content: html }))}
+                                onImageUpload={uploadImage}
+                                isEditable={!isModLocked}
+                                onEditorReady={setEditorInstance}
                             />
-                            <p className="text-xs text-amber-600 mt-2">
-                                {formData.featured_until
-                                    ? `Will auto-demote to standard feed on ${new Date(formData.featured_until).toLocaleString()}.`
-                                    : '"Forever" means no expiration - manually remove when needed.'}
-                            </p>
+                        </div>
+                    </div>
+
+                    {/* Job Specifics moved down for better flow */}
+                    {formData.category === 'Jobs' && (
+                        <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                            <h3 className="font-serif text-lg font-bold text-blue-900 mb-4">Job Details</h3>
+                            <div className="grid grid-cols-2 gap-4">
+                                <input
+                                    value={formData.company}
+                                    onChange={e => setFormData({ ...formData, company: e.target.value })}
+                                    className="p-3 border rounded"
+                                    placeholder="Company Name"
+                                />
+                                <input
+                                    value={formData.location}
+                                    onChange={e => setFormData({ ...formData, location: e.target.value })}
+                                    className="p-3 border rounded"
+                                    placeholder="Location"
+                                />
+                                <select
+                                    value={formData.job_type}
+                                    onChange={e => setFormData({ ...formData, job_type: e.target.value })}
+                                    className="p-3 border rounded bg-white"
+                                >
+                                    <option value="">Job Type</option>
+                                    <option value="Full-time">Full-time</option>
+                                    <option value="Part-time">Part-time</option>
+                                    <option value="Contract">Contract</option>
+                                    <option value="Internship">Internship</option>
+                                </select>
+                                <input
+                                    value={formData.salary_range}
+                                    onChange={e => setFormData({ ...formData, salary_range: e.target.value })}
+                                    className="p-3 border rounded"
+                                    placeholder="Salary Range"
+                                />
+                                <input
+                                    value={formData.application_link}
+                                    onChange={e => setFormData({ ...formData, application_link: e.target.value })}
+                                    className="col-span-2 p-3 border rounded"
+                                    placeholder="Application Link"
+                                />
+                            </div>
                         </div>
                     )}
                 </div>
-            </div>
 
-            <div className="flex gap-4 mt-8">
-                <button
-                    type="submit"
-                    disabled={loading || isModLocked}
-                    className={`text-white px-8 py-3 font-bold uppercase tracking-widest disabled:opacity-50 transition-colors
-                        ${formData.status === 'scheduled' ? 'bg-purple-600 hover:bg-purple-700' :
-                            formData.status === 'pending_review' ? 'bg-amber-600 hover:bg-amber-700' :
-                                'bg-black hover:bg-agri-green'}`}
-                >
-                    {loading ? 'Saving...' :
-                        (formData.status === 'scheduled' ? 'Confirm Schedule' :
-                            formData.status === 'pending_review' ? 'Submit for Review' :
-                                userRole === 'moderator' ? 'Save Draft' : 'Publish Post')}
-                </button>
-                <button
-                    type="button"
-                    onClick={() => router.back()}
-                    className="px-8 py-3 font-bold uppercase tracking-widest hover:bg-stone-100 border border-transparent hover:border-stone-200"
-                >
-                    Cancel
-                </button>
+                {/* RIGHT: Sidebar (4 cols) */}
+                <div className="lg:col-span-4 space-y-6">
+
+                    {/* Status Card */}
+                    <div className="bg-white p-6 border border-stone-200 rounded-xl shadow-sm">
+                        <h3 className="font-bold uppercase text-xs tracking-widest text-stone-500 mb-4">Publishing</h3>
+
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-bold text-stone-400 mb-1">Status</label>
+                                <select
+                                    value={formData.status}
+                                    onChange={e => setFormData({ ...formData, status: e.target.value as any })}
+                                    className="w-full p-2 border rounded bg-stone-50"
+                                >
+                                    <option value="draft">Draft</option>
+                                    <option value="pending_review">Pending Review</option>
+                                    <option value="scheduled">Scheduled</option>
+                                    <option value="published">Published</option>
+                                </select>
+                            </div>
+
+                            {formData.status === 'scheduled' && (
+                                <div>
+                                    <label className="block text-xs font-bold text-stone-400 mb-1">Schedule For</label>
+                                    <input
+                                        type="datetime-local"
+                                        value={formData.scheduled_for}
+                                        onChange={(e) => setFormData({ ...formData, scheduled_for: e.target.value })}
+                                        className="w-full p-2 border rounded bg-stone-50"
+                                    />
+                                </div>
+                            )}
+
+                            <div>
+                                <label className="block text-xs font-bold text-stone-400 mb-1">Category</label>
+                                <select
+                                    value={formData.category}
+                                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                                    className="w-full p-2 border rounded bg-stone-50"
+                                >
+                                    <option value="Research">Research & News</option>
+                                    <option value="Jobs">Jobs & Opportunities</option>
+                                    <option value="Fellowships">Fellowships</option>
+                                    <option value="Scholarships">Scholarships</option>
+                                    <option value="Grants">Grants & Funding</option>
+                                    <option value="Exams">Exams & Admissions</option>
+                                    <option value="Events">Conferences & Events</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* SEO Card (New) */}
+                    <div className="bg-white p-6 border border-stone-200 rounded-xl shadow-sm">
+                        <div className="flex items-center gap-2 mb-4 text-blue-600">
+                            <Search className="w-4 h-4" />
+                            <h3 className="font-bold uppercase text-xs tracking-widest">SEO & Metadata</h3>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-bold text-stone-400 mb-1">URL Slug</label>
+                                <div className="flex items-center bg-stone-50 border rounded px-2">
+                                    <span className="text-stone-400 text-xs">/</span>
+                                    <input
+                                        value={formData.slug}
+                                        onChange={e => setFormData({ ...formData, slug: e.target.value })}
+                                        className="w-full p-2 bg-transparent text-sm border-none outline-none font-mono"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-bold text-stone-400 mb-1">Meta Description (Excerpt)</label>
+                                <textarea
+                                    value={formData.excerpt}
+                                    onChange={e => setFormData({ ...formData, excerpt: e.target.value })}
+                                    className="w-full p-2 border rounded bg-stone-50 text-sm h-24 resize-none"
+                                    placeholder="Brief summary for Google results..."
+                                />
+                                <div className="flex justify-between mt-1">
+                                    <p className="text-[10px] text-stone-400">Recommended: 150-160 characters</p>
+                                    <p className={`text-[10px] ${formData.excerpt.length > 160 ? 'text-red-500' : 'text-stone-400'}`}>
+                                        {formData.excerpt.length} chars
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-xs font-bold text-stone-400 mb-1">Canonical URL</label>
+                                <div className="flex items-center gap-2 text-xs text-stone-500 bg-stone-50 p-2 rounded truncate">
+                                    <Globe className="w-3 h-3" />
+                                    <span className="truncate">https://agriupdates.online/blog/{formData.slug || '...'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Table of Contents */}
+                    <TableOfContents editor={editorInstance} />
+
+                    {/* Scratchpad */}
+                    <Scratchpad />
+
+                    {/* Meta Card (Author, Tags, Image) */}
+                    <div className="bg-white p-6 border border-stone-200 rounded-xl shadow-sm space-y-4">
+                        <h3 className="font-bold uppercase text-xs tracking-widest text-stone-500">Post Details</h3>
+
+                        <div>
+                            <label className="block text-xs font-bold text-stone-400 mb-1">Author</label>
+                            <input
+                                value={formData.author_name}
+                                onChange={e => setFormData({ ...formData, author_name: e.target.value })}
+                                className="w-full p-2 border rounded bg-stone-50"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-bold text-stone-400 mb-1">Tags</label>
+                            <input
+                                value={formData.tags}
+                                onChange={e => setFormData({ ...formData, tags: e.target.value })}
+                                className="w-full p-2 border rounded bg-stone-50"
+                                placeholder="Comma separated"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-bold text-stone-400 mb-1">Cover Image</label>
+                            <ImageUpload
+                                value={formData.image_url}
+                                onChange={(url) => setFormData({ ...formData, image_url: url })}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Featured settings */}
+                    <div className="bg-amber-50 p-6 border border-amber-200 rounded-xl shadow-sm">
+                        <label className="flex items-center gap-2 mb-4 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={formData.is_featured}
+                                onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })}
+                                className="w-4 h-4 text-amber-600 rounded"
+                            />
+                            <span className="font-bold uppercase text-xs tracking-widest text-amber-800">Featured Post</span>
+                        </label>
+
+                        {formData.is_featured && (
+                            <div>
+                                <label className="block text-xs font-bold text-amber-700 mb-1">Featured Until</label>
+                                <div className="flex gap-2 mb-2">
+                                    <button type="button" onClick={() => setFeaturedDuration(7)} className="xs-btn bg-white border px-2 py-1 text-xs rounded">7d</button>
+                                    <button type="button" onClick={() => setFeaturedDuration(14)} className="xs-btn bg-white border px-2 py-1 text-xs rounded">14d</button>
+                                    <button type="button" onClick={() => setFeaturedDuration(30)} className="xs-btn bg-white border px-2 py-1 text-xs rounded">30d</button>
+                                </div>
+                                <input
+                                    type="datetime-local"
+                                    value={formData.featured_until}
+                                    onChange={(e) => setFormData({ ...formData, featured_until: e.target.value })}
+                                    className="w-full p-2 border rounded bg-white text-sm"
+                                />
+                            </div>
+                        )}
+
+                        <div className="mt-4 pt-4 border-t border-amber-200">
+                            <label className="block text-xs font-bold text-amber-700 mb-1">Display Location</label>
+                            <select
+                                value={formData.display_location}
+                                onChange={e => setFormData({ ...formData, display_location: e.target.value as any })}
+                                className="w-full p-2 border rounded bg-white text-sm"
+                            >
+                                <option value="standard">Standard Feed</option>
+                                <option value="hero">Main Hero</option>
+                                <option value="featured">Featured Grid</option>
+                                <option value="trending">Trending</option>
+                                <option value="dont_miss">Don't Miss</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-        </form >
+        </form>
     )
 }
-

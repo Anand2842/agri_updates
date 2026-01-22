@@ -16,13 +16,16 @@ export default function Navbar() {
     const searchParams = useSearchParams();
     const currentCategory = searchParams.get('category');
 
-    // Get current date for newspaper-style header
-    const currentDate = new Date().toLocaleDateString('en-IN', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
+    const [currentDate, setCurrentDate] = useState<string>('');
+
+    useEffect(() => {
+        setCurrentDate(new Date().toLocaleDateString('en-IN', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }));
+    }, []);
 
     useEffect(() => {
         const getUser = async () => {
@@ -133,10 +136,10 @@ export default function Navbar() {
             {/* --- MOBILE HEADER & NAV --- */}
             <div className="md:hidden">
                 {/* 1. Main Mobile Header (Logo + Actions) */}
-                <header className="bg-white border-b border-stone-200 px-4 py-3 sticky top-0 z-50 flex justify-between items-center">
+                <header className="bg-white/95 backdrop-blur-md border-b border-stone-200 px-4 py-3 sticky top-0 z-50 flex justify-between items-center shadow-sm transition-all">
                     {/* Left: Hamburger */}
                     <button
-                        className="p-1 -ml-1 text-stone-800"
+                        className="p-2 -ml-2 text-stone-800 hover:bg-stone-100 rounded-full transition-colors"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                     >
                         {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -144,20 +147,20 @@ export default function Navbar() {
 
                     {/* Center: Brand */}
                     <Link href="/" onClick={() => setIsMenuOpen(false)}>
-                        <h1 className="text-2xl font-black tracking-tight text-black uppercase" style={{ fontStretch: 'condensed' }}>
+                        <h1 className="text-2xl font-black tracking-tight text-black uppercase scale-y-90 origin-center">
                             AGRI UPDATES
                         </h1>
                     </Link>
 
                     {/* Right: Search */}
-                    <Link href="/search" className="p-1 -mr-1 text-stone-800">
+                    <Link href="/search" className="p-2 -mr-2 text-stone-800 hover:bg-stone-100 rounded-full transition-colors">
                         <Search className="w-5 h-5" />
                     </Link>
                 </header>
 
                 {/* 2. Mobile Sub-Nav (Horizontal Scroll) */}
-                <div className="bg-white border-b border-stone-200 sticky top-[57px] z-40 overflow-x-auto no-scrollbar">
-                    <div className="flex px-4 py-2 gap-6 min-w-max">
+                <div className="bg-white/95 backdrop-blur border-b border-stone-200 sticky top-[57px] z-40 overflow-x-auto no-scrollbar shadow-sm">
+                    <div className="flex px-4 py-3 gap-6 min-w-max">
                         {navCategories.map((cat) => {
                             let isActive = false;
                             if (cat.href === '/jobs' && pathname === '/jobs') isActive = true;
@@ -171,7 +174,7 @@ export default function Navbar() {
                                 <Link
                                     key={cat.href}
                                     href={cat.href}
-                                    className={`text-[11px] font-bold uppercase tracking-widest whitespace-nowrap py-1 ${isActive ? 'text-agri-green border-b-2 border-agri-green' : 'text-stone-500'}`}
+                                    className={`text-[11px] font-bold uppercase tracking-widest whitespace-nowrap py-1 transition-colors ${isActive ? 'text-agri-green border-b-2 border-agri-green' : 'text-stone-500 hover:text-black'}`}
                                 >
                                     {cat.label}
                                 </Link>
@@ -184,34 +187,36 @@ export default function Navbar() {
 
             {/* Mobile Menu Overlay */}
             {isMenuOpen && (
-                <div className="md:hidden fixed inset-0 top-[57px] z-50 bg-white overflow-y-auto animate-in slide-in-from-left duration-200">
-                    <div className="flex flex-col p-6 pb-24">
-                        <div className="mb-8 p-4 bg-stone-50 rounded-lg">
-                            <span className="text-xs font-bold uppercase tracking-widest text-stone-500 block mb-1">Today</span>
-                            <span className="font-serif text-lg text-stone-800">{currentDate}</span>
+                <div className="md:hidden fixed inset-0 top-[57px] z-50 bg-white/98 backdrop-blur-xl overflow-y-auto animate-in slide-in-from-left duration-300">
+                    <div className="flex flex-col p-6 pb-32">
+                        <div className="mb-8 p-5 bg-stone-50/50 border border-stone-100 rounded-xl">
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400 block mb-1">Today's Date</span>
+                            <span className="font-serif text-xl font-medium text-stone-800">{currentDate}</span>
                         </div>
 
-                        {navCategories.map((cat) => (
-                            <Link
-                                key={cat.href}
-                                href={cat.href}
-                                onClick={() => setIsMenuOpen(false)}
-                                className="py-4 text-xl font-bold text-stone-800 border-b border-stone-100 hover:text-agri-green"
-                            >
-                                {cat.label}
-                            </Link>
-                        ))}
+                        <div className="space-y-1">
+                            {navCategories.map((cat) => (
+                                <Link
+                                    key={cat.href}
+                                    href={cat.href}
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="block py-4 text-xl font-bold text-stone-800 border-b border-stone-100 hover:text-agri-green hover:pl-2 transition-all duration-200"
+                                >
+                                    {cat.label}
+                                </Link>
+                            ))}
+                        </div>
 
-                        <div className="mt-8 pt-6 border-t border-stone-200 flex flex-col gap-4">
+                        <div className="mt-10 pt-8 border-t border-stone-200 flex flex-col gap-4">
                             {user ? (
                                 <>
-                                    <Link href="/admin/posts" onClick={() => setIsMenuOpen(false)} className="py-3 px-4 bg-stone-100 rounded-lg text-center font-bold text-stone-800">Admin Dashboard</Link>
-                                    <button onClick={() => { handleSignOut(); setIsMenuOpen(false); }} className="py-3 px-4 border border-red-200 text-red-600 rounded-lg font-bold">Sign Out</button>
+                                    <Link href="/admin/posts" onClick={() => setIsMenuOpen(false)} className="btn-secondary text-center w-full">Admin Dashboard</Link>
+                                    <button onClick={() => { handleSignOut(); setIsMenuOpen(false); }} className="py-3 px-4 border border-red-200 text-red-600 rounded-lg font-bold text-xs uppercase tracking-wider hover:bg-red-50 transition-colors">Sign Out</button>
                                 </>
                             ) : (
                                 <>
-                                    <Link href="/login" onClick={() => setIsMenuOpen(false)} className="py-3 px-4 border border-stone-300 rounded-lg text-center font-bold text-stone-600">Login</Link>
-                                    <Link href="/newsletter" onClick={() => setIsMenuOpen(false)} className="py-3 px-4 bg-agri-green text-white rounded-lg text-center font-bold shadow-md">Subscribe Free</Link>
+                                    <Link href="/login" onClick={() => setIsMenuOpen(false)} className="btn-secondary text-center w-full">Login</Link>
+                                    <Link href="/newsletter" onClick={() => setIsMenuOpen(false)} className="btn-primary text-center w-full shadow-lg">Subscribe Free</Link>
                                 </>
                             )}
                         </div>

@@ -11,7 +11,7 @@ export async function getUserRole(supabase: SupabaseClient): Promise<UserRole> {
             .from('profiles')
             .select('role')
             .eq('id', user.id)
-            .single();
+            .maybeSingle();
 
         return (profile?.role as UserRole) || 'user';
     } catch (e) {

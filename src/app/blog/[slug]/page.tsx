@@ -9,6 +9,7 @@ import AdBanner from '@/components/ads/AdBanner';
 import PostContent from '@/components/PostContent';
 import SocialShare from '@/components/blog/SocialShare';
 import { safeDateFormat } from '@/lib/utils/date';
+import MotionWrapper from '@/components/ui/MotionWrapper';
 
 export const revalidate = 0;
 
@@ -30,39 +31,6 @@ async function getPost(slug: string) {
         }
 
         if (error || !data) {
-            // Fallback Mock Check
-            // Only log if we're actually looking for something that might be a mock
-            // console.log(`Checking mock/fallback logic for slug: ${slug}`);
-            // Quick Mock Match for Demo Purposes
-            if (slug === 'ai-crop-yield-model') return {
-                id: 'mock-id-1', // Added mock ID for comments
-                title: 'New AI Model Predicts Crop Yield with 98% Accuracy',
-                category: 'Research',
-                author_name: 'Dr. Sarah Jenkins',
-                published_at: new Date().toISOString(),
-                image_url: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80',
-                excerpt: 'Researchers at MIT have developed a new machine learning algorithm that significantly improves yield predictions.',
-                content: `
-              <p class="mb-4">Researchers at MIT have developed a new machine learning algorithm that significantly improves yield predictions.</p>
-              <p class="mb-4">The model analyzes satellite imagery, weather patterns, and soil data to predict crop yields with unprecedented accuracy. This breakthrough could help farmers optimize their harvest schedules and reduce waste.</p>
-              <h3 class="text-xl font-serif font-bold mt-6 mb-3">The Methodology</h3>
-              <p class="mb-4">Using a convolutional neural network (CNN), the team trained the model on over 10,000 hours of aerial footage. The results showed a 15% improvement over traditional statistical models.</p>
-            `
-            };
-            if (slug === 'autonomous-drones') return {
-                id: 'mock-id-2',
-                title: 'The Rise of Autonomous Drones in Precision Agriculture',
-                category: 'Technology',
-                author_name: 'Dr. Arjun Singh',
-                published_at: new Date().toISOString(),
-                image_url: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&q=80',
-                excerpt: 'Startup swarms are deploying AI-powered drones to plant, monitor, and harvest.',
-                content: `
-               <p class="mb-4">Amid growing concerns over labor shortages and climate change, startups are deploying swarms of AI-powered drones to plant, monitor, and harvest crops with unprecedented efficiency.</p>
-               <p class="mb-4">These drones act as autonomous agents, communicating with each other to cover vast areas of farmland without human intervention.</p>
-             `
-            };
-
             return null;
         }
 
@@ -201,7 +169,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
                 {/* Content - Positioned relatively to push down content below */}
                 <div className="relative z-10 container mx-auto px-4 py-12 md:py-24 lg:py-32">
-                    <div className="max-w-3xl pt-8 md:pt-16">
+                    <MotionWrapper className="max-w-3xl pt-8 md:pt-16">
                         {post.is_featured && (
                             <span className="inline-block bg-agri-green text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 mb-3 mr-2">
                                 Featured
@@ -231,7 +199,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                                 <span className="text-white/70 font-medium md:text-white/90 md:font-bold">{safeDateFormat(post.published_at)}</span>
                             </div>
                         </div>
-                    </div>
+                    </MotionWrapper>
                 </div>
             </div>
 

@@ -10,6 +10,13 @@ function rateLimit(request: NextRequest) {
     const ip = request.headers.get('x-forwarded-for') || 'unknown';
     const now = Date.now();
 
+    const MAX_IP_MAP_SIZE = 10000;
+
+    // Preventive cleanup if map grows too large
+    if (ipRequests.size > MAX_IP_MAP_SIZE) {
+        ipRequests.clear();
+    }
+
     // Clean up expired entries (simple optimization)
     if (Math.random() < 0.01) { // 1% chance to clean up
         for (const [key, data] of ipRequests.entries()) {

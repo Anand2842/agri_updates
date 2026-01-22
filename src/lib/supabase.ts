@@ -10,7 +10,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 // Only use this in API routes that need admin privileges
 export const supabaseAdmin = createClient(
     supabaseUrl,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || supabaseAnonKey,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!, // This MUST be the service role key. Do not fallback to anon key.
     {
         auth: {
             autoRefreshToken: false,

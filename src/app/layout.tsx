@@ -59,6 +59,8 @@ export const metadata: Metadata = {
 import { Suspense } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import CookieConsent from "@/components/ui/CookieConsent";
 
 export default function RootLayout({
   children,
@@ -101,20 +103,8 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        {/* Google Analytics */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-LLDWYS27VF"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-LLDWYS27VF');
-          `}
-        </Script>
+        <GoogleAnalytics GA_MEASUREMENT_ID="G-LLDWYS27VF" />
+        <CookieConsent />
       </body>
     </html>
   );

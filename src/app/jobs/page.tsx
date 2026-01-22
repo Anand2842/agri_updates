@@ -3,6 +3,7 @@ import { Post } from '@/types/database';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import AdBanner from '@/components/ads/AdBanner';
+import JobsGrid from '@/components/jobs/JobsGrid';
 
 export const revalidate = 0;
 
@@ -112,25 +113,28 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
             </div>
 
             {/* Filters & Search */}
-            <div className="sticky top-0 z-10 bg-white/95 backdrop-blur border-b border-stone-100 shadow-sm py-4">
+            <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-sm py-4 transition-all">
                 <div className="container mx-auto px-4">
-                    <form className="flex flex-col md:flex-row gap-4 items-center justify-center">
-                        <div className="relative w-full md:w-96">
+                    <form className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between max-w-6xl mx-auto">
+
+                        {/* Search Input */}
+                        <div className="relative w-full lg:max-w-md">
                             <input
                                 type="text"
                                 name="q"
                                 defaultValue={qFilter}
-                                placeholder="Search jobs, companies..."
-                                className="w-full pl-10 pr-4 py-2 border border-stone-200 rounded-lg text-sm bg-stone-50 focus:bg-white focus:border-agri-green outline-none transition-all"
+                                placeholder="Search jobs, companies, roles..."
+                                className="input-premium pl-10"
                             />
-                            <svg className="w-4 h-4 text-stone-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <svg className="w-5 h-5 text-stone-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                         </div>
 
-                        <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+                        {/* Filters & Action */}
+                        <div className="grid grid-cols-2 md:grid-cols-[1fr_1fr_auto] gap-3 w-full lg:w-auto">
                             <select
                                 name="type"
                                 defaultValue={typeFilter}
-                                className="px-4 py-2 border border-stone-200 rounded-lg text-sm bg-stone-50 focus:bg-white outline-none cursor-pointer"
+                                className="select-premium"
                             >
                                 <option value="">All Types</option>
                                 <option value="Full-time">Full-time</option>
@@ -142,7 +146,7 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                             <select
                                 name="location"
                                 defaultValue={locationFilter}
-                                className="px-4 py-2 border border-stone-200 rounded-lg text-sm bg-stone-50 focus:bg-white outline-none cursor-pointer"
+                                className="select-premium"
                             >
                                 <option value="">All Locations</option>
                                 <option value="Remote">Remote</option>
@@ -150,7 +154,9 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                                 <option value="USA">USA</option>
                             </select>
 
-                            <button type="submit" className="px-4 py-2 bg-agri-green text-white text-sm font-bold rounded-lg hover:bg-agri-dark transition-colors">Filter</button>
+                            <button type="submit" className="col-span-2 md:col-span-1 btn-primary w-full md:w-auto flex items-center justify-center gap-2 shadow-lg">
+                                <span>Filter</span>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -229,40 +235,7 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
 
                     {/* Job List */}
                     <div className="flex-grow">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                            {displayedJobs.map((job: Post) => (
-                                <div key={job.id} className="border border-stone-200 p-6 group hover:border-agri-green transition-colors bg-white flex flex-col h-full">
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div className="flex flex-col">
-                                            <h2 className="font-serif text-xl font-bold leading-tight group-hover:text-agri-dark transition-colors mb-1">
-                                                <Link href={`/jobs/${job.slug}`}>{job.title}</Link>
-                                            </h2>
-                                            <span className="text-stone-500 text-sm">{job.company}</span>
-                                        </div>
-                                        <span className="text-[10px] font-bold uppercase bg-stone-100 text-stone-600 px-2 py-1 rounded">
-                                            {job.job_type || 'Not Specified'}
-                                        </span>
-                                    </div>
-
-                                    <div className="text-sm text-stone-500 mb-6 line-clamp-2">
-                                        {job.excerpt || job.content ? (job.excerpt || job.content)!.substring(0, 150) + '...' : 'Click to view full job details and application instructions.'}
-                                    </div>
-
-                                    <div className="flex justify-between items-end mt-auto gap-4">
-                                        <div className="flex flex-wrap gap-2">
-                                            {Array.isArray(job.tags) && job.tags.slice(0, 4).map((tag: string) => (
-                                                <span key={tag} className="text-[10px] uppercase font-bold text-agri-green tracking-wider whitespace-nowrap">
-                                                    #{tag}
-                                                </span>
-                                            ))}
-                                        </div>
-                                        <Link href={`/jobs/${job.slug}`} className="bg-black text-white text-[10px] font-bold uppercase px-4 py-2 hover:bg-agri-green transition-colors whitespace-nowrap flex-shrink-0 mb-1">
-                                            View Details
-                                        </Link>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        <JobsGrid jobs={displayedJobs} />
 
                         {/* Pagination Controls */}
                         {totalPages > 1 && (
@@ -286,12 +259,6 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                                         Next
                                     </Link>
                                 )}
-                            </div>
-                        )}
-
-                        {jobs.length === 0 && (
-                            <div className="text-center py-12 text-stone-500">
-                                No jobs found matching your criteria.
                             </div>
                         )}
                     </div>

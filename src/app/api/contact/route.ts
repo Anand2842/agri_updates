@@ -15,6 +15,14 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return NextResponse.json(
+                { error: 'Invalid email address' },
+                { status: 400 }
+            );
+        }
+
         const fullName = `${firstName} ${lastName}`;
 
         // 1. Save to Supabase (Database)

@@ -1,44 +1,30 @@
+'use client';
+
 import Link from 'next/link';
 import { Post } from '@/types/database';
-
-// Mock data for when DB is empty
-const MOCK_JOBS: Partial<Post>[] = [
-    {
-        id: 'mock-j1',
-        slug: 'data-scientist-agritech',
-        title: 'Senior Data Scientist - Climate Analytics',
-        company: 'AgriMind Labs',
-        location: 'Bangalore',
-        category: 'Jobs',
-        published_at: new Date().toISOString(),
-    },
-    {
-        id: 'mock-j2',
-        slug: 'greenhouse-manager',
-        title: 'Greenhouse Manager - Poultry',
-        company: 'Green Growth Corp',
-        location: 'Remote',
-        category: 'Jobs',
-        published_at: new Date().toISOString(),
-    },
-    {
-        id: 'mock-j3',
-        slug: 'soil-scientist-internship',
-        title: 'Soil Scientist Intern',
-        company: 'Earth Labs',
-        location: 'Chennai',
-        category: 'Jobs',
-        published_at: new Date().toISOString(),
-    },
-];
+import { motion } from 'framer-motion';
 
 type Props = {
     posts: Post[];
 };
 
+const container = {
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1
+        }
+    }
+};
+
+const item = {
+    hidden: { opacity: 0, x: -20 },
+    show: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 50, damping: 20 } }
+};
+
 export default function LatestJobs({ posts }: Props) {
-    // Use real data or fallback to mock
-    const displayPosts = (posts && posts.length > 0) ? posts : MOCK_JOBS as Post[];
+    const displayPosts = posts || [];
 
     return (
         <div>
@@ -46,9 +32,15 @@ export default function LatestJobs({ posts }: Props) {
             <h3 className="section-header">Latest Jobs</h3>
 
             {/* List */}
-            <div className="flex flex-col gap-6">
+            <motion.div
+                className="flex flex-col gap-6"
+                variants={container}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+            >
                 {displayPosts.slice(0, 4).map((post) => (
-                    <div key={post.id} className="newspaper-card-minimal group">
+                    <motion.div key={post.id} variants={item} className="newspaper-card-minimal group">
                         <Link href={`/blog/${post.slug}`} className="block">
                             <h4 className="text-lg font-bold leading-snug mb-2 group-hover:text-agri-green transition-colors">
                                 {post.title}
@@ -57,9 +49,9 @@ export default function LatestJobs({ posts }: Props) {
                                 {post.company || 'Company'} • {post.location || 'Location'}
                             </p>
                         </Link>
-                    </div>
+                    </motion.div>
                 ))}
-            </div>
+            </motion.div>
 
             {/* View All */}
             <div className="mt-4 pt-4 border-t border-stone-200">
