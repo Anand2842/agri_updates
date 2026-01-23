@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase';
 
 // Helper to get all routes
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = 'https://agriupdates.com';
+    const baseUrl = 'https://www.agriupdates.online';
 
     // 1. Static Routes
     const routes = [

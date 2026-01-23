@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: ['/admin/', '/api/'], // Disallow admin and internal APIs
         },
-        sitemap: 'https://agriupdates.com/sitemap.xml',
+        sitemap: 'https://www.agriupdates.online/sitemap.xml',
     };
 }

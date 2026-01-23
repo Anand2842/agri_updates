@@ -19,7 +19,7 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://agriupdates.com'), // Replace with actual domain when live
+  metadataBase: new URL('https://www.agriupdates.online'), // Replace with actual domain when live
   title: {
     template: '%s | Agri Updates',
     default: 'Agri Updates | Agricultural Jobs & Innovation Platform for India',
