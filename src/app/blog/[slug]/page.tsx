@@ -1,3 +1,4 @@
+// ... imports
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
@@ -10,6 +11,11 @@ import PostContent from '@/components/PostContent';
 import SocialShare from '@/components/blog/SocialShare';
 import { safeDateFormat } from '@/lib/utils/date';
 import MotionWrapper from '@/components/ui/MotionWrapper';
+import BlogSidebar from '@/components/blog/BlogSidebar';
+import ReadingProgress from '@/components/blog/ReadingProgress';
+import StickySidebar from '@/components/blog/StickySidebar';
+import TableOfContents from '@/components/blog/TableOfContents';
+import BackToTop from '@/components/ui/BackToTop';
 
 export const revalidate = 0;
 
@@ -23,8 +29,6 @@ async function getPost(slug: string) {
             .single();
 
         if (error) {
-            // PGRST116 is the error code for "The result contains 0 rows" (no data found)
-            // This is expected when a slug doesn't exist, so we shouldn't log it as an error
             if (error.code !== 'PGRST116') {
                 console.error('Supabase fetch error:', error);
             }
@@ -72,8 +76,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         },
     };
 }
-
-
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
@@ -143,7 +145,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     };
 
     return (
-        <article className="min-h-screen bg-white pb-20 overflow-hidden">
+        <article className="min-h-screen bg-white pb-20 overflow-x-hidden">
+            <ReadingProgress />
+            <BackToTop />
+
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -152,109 +157,154 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
             />
-            {post.id && <ViewCounter postId={post.id} />}
-            {/* Hero Section with Background */}
-            <div className="relative bg-stone-900">
-                {/* Background Image - Absolute positioned */}
-                <Image
-                    src={post.image_url || '/placeholder.jpg'}
-                    alt={post.title}
-                    fill
-                    sizes="100vw"
-                    className="object-cover opacity-60"
-                    priority
-                />
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/50 to-transparent" />
 
-                {/* Content - Positioned relatively to push down content below */}
-                <div className="relative z-10 container mx-auto px-4 py-12 md:py-24 lg:py-32">
-                    <MotionWrapper className="max-w-3xl pt-8 md:pt-16">
+            {post.id && <ViewCounter postId={post.id} />}
+
+            <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 relative pt-8 md:pt-12">
+                {/* Main Content Column - 9 cols */}
+                <div className="lg:col-span-9 lg:col-start-1">
+                    {/* Header Zone - Moved Inside for Alignment */}
+                    <header className="max-w-[700px] mx-auto mb-8 text-center md:text-left">
                         {post.is_featured && (
-                            <span className="inline-block bg-agri-green text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 mb-3 mr-2">
-                                Featured
+                            <span className="inline-block bg-agri-gold/20 text-agri-dark text-[10px] font-black uppercase tracking-widest px-3 py-1 mb-4 rounded-full">
+                                Featured Story
                             </span>
                         )}
-                        <span className="inline-block bg-agri-green text-white text-[10px] md:text-xs font-bold uppercase tracking-widest px-3 py-1 mb-3">
+
+                        <span className="block text-agri-green font-bold uppercase tracking-widest text-xs mb-3">
                             {post.category}
                         </span>
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6 drop-shadow-md">
+
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-charcoal leading-[1.05] mb-3 tracking-tight">
                             {post.title}
                         </h1>
-                        <div className="flex flex-wrap items-center gap-3 md:gap-4 text-white/90 text-[11px] md:text-sm font-bold uppercase tracking-wider">
+
+                        {post.excerpt && (
+                            <p className="text-xl md:text-2xl text-stone-500 font-serif leading-relaxed mb-4">
+                                {post.excerpt}
+                            </p>
+                        )}
+
+                        <div className="flex items-center gap-3 text-sm mt-4 justify-center md:justify-start">
                             {(post.authors?.avatar_url || post.author_image) && (
-                                <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-full overflow-hidden border-2 border-white/20 flex-shrink-0">
+                                <div className="relative w-8 h-8 rounded-full overflow-hidden border border-stone-200">
                                     <Image
-                                        src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name || 'Agri Updates')}&background=22c55e&color=fff`}
+                                        src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name || 'Agri Updates')}&background=2D5016&color=fff`}
                                         alt={post.authors?.name || post.author_name || 'Agri Updates Team'}
                                         fill
-                                        sizes="40px"
                                         className="object-cover"
                                     />
                                 </div>
                             )}
-                            <div className="flex flex-col md:flex-row md:items-center gap-0.5 md:gap-4">
-                                <span>By {post.authors?.name || post.author_name || 'Agri Updates Team'}</span>
-                                <span className="hidden md:inline">•</span>
-                                <span className="text-white/70 font-medium md:text-white/90 md:font-bold">{safeDateFormat(post.published_at)}</span>
+                            <div className="flex items-center text-stone-500 font-medium text-xs gap-2">
+                                <span className="text-charcoal font-bold">{post.authors?.name || post.author_name || 'Agri Updates Team'}</span>
+                                <span className="text-stone-300">•</span>
+                                <span>{safeDateFormat(post.published_at)}</span>
+                                <span className="text-stone-300">•</span>
+                                <span>5 min read</span>
                             </div>
                         </div>
-                    </MotionWrapper>
-                </div>
-            </div>
+                    </header>
 
-            <div className="container mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
-                <div className="lg:col-span-8 lg:col-start-3">
-                    <AdBanner placement="banner" className="my-8" />
-                    <div className="flex justify-between items-center mb-6">
-                        <SocialShare title={post.title} />
-                    </div>
-                    <PostContent html={post.content || post.excerpt} />
-
-                    <div className="mt-16 p-8 bg-stone-50 rounded-xl border border-stone-100 flex flex-col md:flex-row gap-8 items-start">
-                        <div className="relative w-24 h-24 flex-shrink-0 rounded-full overflow-hidden bg-stone-200 border-2 border-white shadow-sm">
-                            {(post.authors?.avatar_url || post.author_image) ? (
-                                <Image
-                                    src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name || 'Agri Updates')}&background=22c55e&color=fff`}
-                                    alt={post.authors?.name || post.author_name || 'Agri Updates Team'}
-                                    fill
-                                    sizes="96px"
-                                    className="object-cover"
-                                />
-                            ) : (
-                                <div className="w-full h-full flex items-center justify-center text-stone-400 text-2xl font-bold">
-                                    {(post.authors?.name || post.author_name || 'A').charAt(0)}
-                                </div>
-                            )}
+                    {/* Hero Image - Wider than text (Full 9-col width) but contained boundaries */}
+                    <div className="w-full mb-10">
+                        <div className="relative w-full aspect-[16/9] md:aspect-[21/9] bg-stone-100 overflow-hidden rounded-xl shadow-sm">
+                            <Image
+                                src={post.image_url || '/placeholder.jpg'}
+                                alt={post.title}
+                                fill
+                                priority
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 900px"
+                            />
                         </div>
-                        <div>
-                            <h3 className="text-xl font-bold mb-2">About {post.authors?.name || post.author_name || 'The Author'}</h3>
-                            <p className="text-stone-600 mb-4 leading-relaxed">
-                                {post.authors?.bio || post.author_bio || `${post.authors?.name || post.author_name || 'This author'} is a regular contributor to Agri Updates, covering the latest in agricultural research and innovation.`}
+                        <div className="mt-2 text-center md:text-left">
+                            <p className="text-[10px] text-stone-400 uppercase tracking-widest">
+                                Credit: Agri Updates
                             </p>
-                            <div className="flex gap-4">
-                                {(post.authors?.social_links?.linkedin || post.author_social_linkedin) && (
-                                    <a href={post.authors?.social_links?.linkedin || post.author_social_linkedin} target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-blue-700 transition-colors">
-                                        Linkedin
-                                    </a>
-                                )}
-                                {(post.authors?.social_links?.twitter || post.author_social_twitter) && (
-                                    <a href={post.authors?.social_links?.twitter || post.author_social_twitter} target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-black transition-colors">
-                                        Twitter
-                                    </a>
-                                )}
-                            </div>
                         </div>
                     </div>
 
-                    <AdBanner placement="banner" />
+                    <div className="container-reading">
+                        {/* Mobile TOC - Collapsible */}
+                        <div className="mb-8 block lg:hidden">
+                            <details className="bg-stone-50 border border-stone-200 rounded-lg p-4">
+                                <summary className="font-bold text-stone-700 cursor-pointer list-none flex justify-between items-center text-sm uppercase tracking-wide">
+                                    In this guide
+                                    <svg className="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </summary>
+                                <div className="mt-4 pt-4 border-t border-stone-200">
+                                    <TableOfContents />
+                                </div>
+                            </details>
+                        </div>
+
+                        <PostContent html={post.content || post.excerpt} />
+
+                        {/* Interactive "Mid-Article" Elements */}
+                        <div className="my-12">
+                            <AdBanner placement="banner" />
+                        </div>
+
+                        <div className="mt-16 pt-8 border-t border-stone-200">
+                            <h3 className="text-sm font-bold uppercase tracking-widest text-stone-500 mb-6">About the Author</h3>
+                            <div className="flex flex-col sm:flex-row gap-6 items-start bg-stone-50 p-6 rounded-xl">
+                                <div className="relative w-20 h-20 flex-shrink-0 rounded-full overflow-hidden bg-white border border-stone-200">
+                                    <Image
+                                        src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name || 'Agri Updates')}&background=2D5016&color=fff`}
+                                        alt={post.authors?.name || post.author_name || 'Agri Updates Team'}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-bold text-charcoal mb-2">
+                                        {post.authors?.name || post.author_name || 'Agri Updates Team'}
+                                    </h4>
+                                    <p className="text-stone-600 text-sm leading-relaxed mb-3">
+                                        {post.authors?.bio || post.author_bio || "Reporting on the latest developments in Indian agriculture, technology, and policy."}
+                                    </p>
+                                    <div className="flex gap-4">
+                                        {(post.authors?.social_links?.linkedin || post.author_social_linkedin) && (
+                                            <a href={post.authors?.social_links?.linkedin || post.author_social_linkedin} target="_blank" rel="noopener noreferrer" className="text-agri-green text-sm font-bold hover:underline">
+                                                Connect on LinkedIn
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-12 flex justify-center">
+                            <SocialShare title={post.title} />
+                        </div>
+                    </div>
                 </div>
+
+                {/* Sticky Sidebar - Added border-l divider */}
+                <aside className="hidden lg:block lg:col-span-3 lg:col-start-10 relative pl-8 border-l border-stone-100">
+                    <StickySidebar triggerId="article-header" offset={100}>
+                        <div className="mb-8 p-0">
+                            <h5 className="text-xs font-black uppercase tracking-widest text-stone-900 mb-4 pb-2">In this guide</h5>
+                            <TableOfContents />
+                        </div>
+
+                        <div className="mb-8 pt-4">
+                            <h5 className="text-xs font-black uppercase tracking-widest text-stone-900 mb-4 pb-2">Share</h5>
+                            <SocialShare title={post.title} />
+                        </div>
+                    </StickySidebar>
+                </aside>
             </div>
 
             {/* Related Posts */}
-            {post.id && post.category && (
-                <RelatedPosts currentPostId={post.id} category={post.category} />
-            )}
+            <div className="bg-stone-50 py-16 mt-12 border-t border-stone-200">
+                <div className="container mx-auto px-4">
+                    {post.id && post.category && (
+                        <RelatedPosts currentPostId={post.id} category={post.category} />
+                    )}
+                </div>
+            </div>
 
             {post.id && <CommentSection postId={post.id} />}
         </article>
