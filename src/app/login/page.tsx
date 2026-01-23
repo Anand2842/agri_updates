@@ -35,7 +35,13 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-stone-50 px-4">
             <div className="max-w-md w-full bg-white p-8 border border-stone-200 shadow-sm">
-                <h1 className="font-serif text-3xl font-bold text-center mb-8">Admin Login</h1>
+                <div className="text-center mb-8">
+                    <Link href="/" className="inline-block mb-4">
+                        <span className="font-black text-2xl tracking-tighter uppercase">AGRI UPDATES</span>
+                    </Link>
+                    <h1 className="font-serif text-3xl font-bold mb-2">Sign In</h1>
+                    <p className="text-stone-500 text-sm">Welcome back to your dashboard</p>
+                </div>
 
                 {error && (
                     <div className="bg-red-50 text-red-600 p-3 text-sm mb-6 border border-red-100">

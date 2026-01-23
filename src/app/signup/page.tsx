@@ -54,7 +54,13 @@ export default function SignupPage() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-stone-50 px-4">
             <div className="max-w-md w-full bg-white p-8 border border-stone-200 shadow-sm">
-                <h1 className="font-serif text-3xl font-bold text-center mb-8">Admin Sign Up</h1>
+                <div className="text-center mb-8">
+                    <Link href="/" className="inline-block mb-4">
+                        <span className="font-black text-2xl tracking-tighter uppercase">AGRI UPDATES</span>
+                    </Link>
+                    <h1 className="font-serif text-3xl font-bold mb-2">Create Account</h1>
+                    <p className="text-stone-500 text-sm">Join the Agri Updates community</p>
+                </div>
 
                 {error && (
                     <div className="bg-red-50 text-red-600 p-3 text-sm mb-6 border border-red-100">
