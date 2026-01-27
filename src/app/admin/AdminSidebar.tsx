@@ -26,11 +26,18 @@ import {
 interface AdminSidebarProps {
     isCollapsed: boolean;
     toggleCollapse: () => void;
+    user: any;
 }
 
-export default function AdminSidebar({ isCollapsed, toggleCollapse }: AdminSidebarProps) {
+export default function AdminSidebar({ isCollapsed, toggleCollapse, user }: AdminSidebarProps) {
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const pathname = usePathname();
+
+    // Get initials and name
+    const email = user?.email || '';
+    const name = user?.user_metadata?.full_name || email.split('@')[0] || 'Admin';
+    const initials = name.slice(0, 2).toUpperCase();
+    const role = user?.app_metadata?.role || 'Admin Access';
 
     const menuItems = [
         {
@@ -199,12 +206,12 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse }: AdminSideb
             {/* User Profile */}
             <div className={`p-4 border-t border-stone-100 flex items-center ${collapsed ? 'justify-center' : 'gap-3'}`}>
                 <div className="w-8 h-8 rounded-full bg-agri-green text-white flex-shrink-0 flex items-center justify-center font-bold text-xs ring-2 ring-white">
-                    AA
+                    {initials}
                 </div>
                 {!collapsed && (
                     <div className="flex flex-col overflow-hidden">
-                        <span className="text-xs font-bold truncate">Anand Admin</span>
-                        <span className="text-[10px] text-stone-400 truncate">Admin Access</span>
+                        <span className="text-xs font-bold truncate" title={name}>{name}</span>
+                        <span className="text-[10px] text-stone-400 truncate">{email}</span>
                     </div>
                 )}
             </div>

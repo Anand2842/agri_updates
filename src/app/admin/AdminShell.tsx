@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import AdminSidebar from './AdminSidebar';
 
-export default function AdminShell({ children }: { children: React.ReactNode }) {
+export default function AdminShell({ children, user }: { children: React.ReactNode, user: any }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
 
@@ -31,6 +31,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             <AdminSidebar
                 isCollapsed={isMounted ? isCollapsed : false}
                 toggleCollapse={toggleCollapse}
+                user={user}
             />
 
             <main

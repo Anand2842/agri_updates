@@ -1,14 +1,31 @@
 
-import OpenAI from 'openai';
+import { OpenAI, AzureOpenAI } from 'openai';
 
-const apiKey = process.env.AI_API_KEY || process.env.GROQ_API_KEY; // Fallback to old key if present
-const baseURL = process.env.AI_BASE_URL || 'https://openrouter.ai/api/v1';
-const modelName = process.env.AI_MODEL || 'xiaomi/mimo-v2-flash:free';
+const useAzure = !!process.env.AZURE_OPENAI_API_KEY;
 
-const client = new OpenAI({
-    apiKey: apiKey || 'dummy', // Prevent crash if missing, handled below
-    baseURL: baseURL,
-});
+const client = useAzure
+    ? new AzureOpenAI({
+        apiKey: process.env.AZURE_OPENAI_API_KEY,
+        endpoint: process.env.AZURE_OPENAI_ENDPOINT,
+        deployment: process.env.AZURE_OPENAI_DEPLOYMENT,
+        apiVersion: process.env.AZURE_OPENAI_API_VERSION,
+    })
+    : new OpenAI({
+        apiKey: process.env.AI_API_KEY || process.env.GROQ_API_KEY || 'dummy',
+        baseURL: process.env.AI_BASE_URL || 'https://openrouter.ai/api/v1',
+    });
+
+const modelName = useAzure
+    ? process.env.AZURE_OPENAI_DEPLOYMENT || 'gpt-4.1'
+    : (process.env.AI_MODEL || 'xiaomi/mimo-v2-flash:free');
+
+const hasApiKey = useAzure || !!(process.env.AI_API_KEY || process.env.GROQ_API_KEY);
+
+
+export interface ExistingPost {
+    title: string;
+    slug: string;
+}
 
 const POLISH_PROMPT = `
 You are an expert SEO Content Editor & Data Structurer. Your goal is to transform messy, unstructured text (like WhatsApp forwards, raw emails, or job descriptions) into a **clean, professional, and high-ranking blog post**.
@@ -73,7 +90,8 @@ CONTACT_PHONE: [COPY EXACT phone from input, or "Not provided"]
 4. **NO FIELD LABELS IN VALUES**: The value should NEVER contain other field names.
    ✅ VALID: "LOCATION: Mirzapur, Uttar Pradesh"
    ❌ INVALID: "LOCATION: Mirzapur Salary Experience" (contaminated)
-5. **UNKNOWN = "Not specified"**: If truly unknown, write exactly "Not specified".
+5. **UNKNOWN = "Not specified"**: If truly unknown, write exactly "Not specified", EXCEPT for SALARY.
+6. **MISSING SALARY**: If salary is not explicitly mentioned, you MUST write "Not Disclosed". Do NOT invent a range.
 
 ### FIELD EXTRACTION PRIORITY:
 - POSITION: Look for "Position:", "Role:", "Hiring for:", job title mentions
@@ -175,8 +193,8 @@ function extractCriticalData(text: string): { salaries: string[], dates: string[
     };
 }
 
-export async function polishContent(text: string): Promise<string> {
-    if (!apiKey) {
+export async function polishContent(text: string, existingPosts: ExistingPost[] = []): Promise<string> {
+    if (!hasApiKey) {
         console.warn('No AI API Key found. Using basic polish.');
         return basicPolish(text);
     }
@@ -192,10 +210,25 @@ export async function polishContent(text: string): Promise<string> {
         // Pre-extract critical data for post-validation
         const originalCriticalData = extractCriticalData(text);
 
+        let systemPrompt = POLISH_PROMPT;
+        if (existingPosts && existingPosts.length > 0) {
+            const postsList = existingPosts.map(p => `- [${p.title}](/blog/${p.slug})`).join('\n');
+            systemPrompt += `\n\n### 🔗 INTERNAL LINKING INSTRUCTIONS:
+You have access to the following existing blog posts.
+If the content you are generating mentions any of these topics, you MUST naturally link to them using the provided Relative URL.
+Use the format: <a href="/blog/slug">Title</a>.
+Do NOT force links if they are not relevant.
+Include links naturally within sentences, e.g., "reading our guide on <a href='/blog/slug'>Topic</a>".
+
+EXISTING POSTS:
+${postsList}
+`;
+        }
+
         const response = await client.chat.completions.create({
             model: modelName,
             messages: [
-                { role: 'system', content: POLISH_PROMPT },
+                { role: 'system', content: systemPrompt },
                 { role: 'user', content: text }
             ],
             temperature: temperature,

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import { Post, Author } from '@/types/database'
+import EligibilityEditor, { PolicyConfig } from './editor/EligibilityEditor'
 import { getUserRole, UserRole } from '@/lib/auth'
 import { Wand2, Sparkles, Lock, Smartphone, Monitor, Globe, Search } from 'lucide-react'
 import ImageUpload from './ImageUpload'
@@ -70,7 +71,8 @@ export default function PostForm({ initialData }: PostFormProps) {
         salary_range: initialData?.salary_range || '',
         application_link: initialData?.application_link || '',
         status: initialData?.status || 'draft',
-        is_active: initialData?.is_active ?? true
+        is_active: initialData?.is_active ?? true,
+        policy_rules: initialData?.policy_rules || null
     })
 
     // Helper to set featured duration
@@ -142,6 +144,10 @@ export default function PostForm({ initialData }: PostFormProps) {
                 application_link: data.job_details?.application_link || '',
             }));
 
+            // Also try to generate policy rules if available
+            // This is a future enhancement to parse PDF content
+
+
             // Allow editor to update
             if (editorInstance) {
                 editorInstance.commands.setContent(data.content)
@@ -198,6 +204,7 @@ export default function PostForm({ initialData }: PostFormProps) {
             tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean),
             published_at: initialData?.published_at || new Date().toISOString(),
             scheduled_for: formData.scheduled_for || null,
+            policy_rules: formData.policy_rules,
         }
 
         if (formData.category === 'Jobs') {
@@ -455,12 +462,14 @@ export default function PostForm({ initialData }: PostFormProps) {
                                     className="w-full p-2 border rounded bg-stone-50"
                                 >
                                     <option value="Research">Research & News</option>
+                                    <option value="Startups">Agri-Startups</option>
                                     <option value="Jobs">Jobs & Opportunities</option>
                                     <option value="Fellowships">Fellowships</option>
                                     <option value="Scholarships">Scholarships</option>
                                     <option value="Grants">Grants & Funding</option>
                                     <option value="Exams">Exams & Admissions</option>
                                     <option value="Events">Conferences & Events</option>
+                                    <option value="Policy">Policy & Schemes</option>
                                 </select>
                             </div>
                         </div>
@@ -514,6 +523,13 @@ export default function PostForm({ initialData }: PostFormProps) {
 
                     {/* Table of Contents */}
                     <TableOfContents editor={editorInstance} />
+
+                    {/* Eligibility Rules Editor (New) */}
+                    <EligibilityEditor
+                        value={formData.policy_rules}
+                        onChange={(rules) => setFormData({ ...formData, policy_rules: rules })}
+                        onGenerate={() => alert('AI Generation coming soon! For now, add rules manually.')}
+                    />
 
                     {/* Scratchpad */}
                     <Scratchpad />
@@ -594,6 +610,8 @@ export default function PostForm({ initialData }: PostFormProps) {
                             </select>
                         </div>
                     </div>
+
+
 
                 </div>
             </div>

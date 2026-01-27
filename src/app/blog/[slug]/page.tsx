@@ -16,6 +16,7 @@ import ReadingProgress from '@/components/blog/ReadingProgress';
 import StickySidebar from '@/components/blog/StickySidebar';
 import TableOfContents from '@/components/blog/TableOfContents';
 import BackToTop from '@/components/ui/BackToTop';
+import EligibilityChecker from '@/components/blog/EligibilityChecker'; // Import
 
 export const revalidate = 0;
 
@@ -192,6 +193,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                                         src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name || 'Agri Updates')}&background=2D5016&color=fff`}
                                         alt={post.authors?.name || post.author_name || 'Agri Updates Team'}
                                         fill
+                                        sizes="32px"
                                         className="object-cover"
                                     />
                                 </div>
@@ -239,6 +241,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                             </details>
                         </div>
 
+                        {/* Eligibility Checker Widget */}
+                        {post.policy_rules && (
+                            <EligibilityChecker rules={post.policy_rules} />
+                        )}
+
                         <PostContent html={post.content || post.excerpt} />
 
                         {/* Interactive "Mid-Article" Elements */}
@@ -254,6 +261,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                                         src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name || 'Agri Updates')}&background=2D5016&color=fff`}
                                         alt={post.authors?.name || post.author_name || 'Agri Updates Team'}
                                         fill
+                                        sizes="80px"
                                         className="object-cover"
                                     />
                                 </div>

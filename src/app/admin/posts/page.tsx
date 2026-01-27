@@ -4,13 +4,20 @@ import DeletePostButton from '@/components/admin/DeletePostButton'
 import DisplayLocationSelector from '@/components/admin/DisplayLocationSelector'
 
 interface AdminPostsPageProps {
-    searchParams: Promise<{ category?: string; status?: string }>
+    searchParams: Promise<{
+        category?: string;
+        status?: string;
+        is_featured?: string;
+        display?: string;
+    }>
 }
 
 export default async function AdminPostsPage({ searchParams }: AdminPostsPageProps) {
     const params = await searchParams
     const categoryFilter = params.category
     const statusFilter = params.status
+    const isFeaturedFilter = params.is_featured === 'true'
+    const displayFilter = params.display
 
     const supabase = await createClient()
 
@@ -25,6 +32,12 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
     }
     if (statusFilter) {
         query = query.eq('status', statusFilter)
+    }
+    if (isFeaturedFilter) {
+        query = query.eq('is_featured', true)
+    }
+    if (displayFilter) {
+        query = query.eq('display_location', displayFilter)
     }
 
     const { data: posts } = await query
@@ -48,12 +61,27 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
         { value: 'archived', label: 'Archived' },
     ]
 
+    // Determine page title based on active filter
+    let pageTitle = "Content Management";
+    let pageSubtitle = "Manage, publish, and archive your posts.";
+
+    if (displayFilter === 'hero') {
+        pageTitle = "Hero & Highlights";
+        pageSubtitle = "Managing posts displayed in the main hero section.";
+    } else if (displayFilter === 'trending') {
+        pageTitle = "Trending Posts";
+        pageSubtitle = "Managing posts appearing in the trending sidebar.";
+    } else if (isFeaturedFilter) {
+        pageTitle = "Featured Posts";
+        pageSubtitle = "Managing posts marked as featured.";
+    }
+
     return (
         <div>
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="font-serif text-3xl font-bold">Content Management</h1>
-                    <p className="text-stone-500 text-sm mt-1">Manage, publish, and archive your posts.</p>
+                    <h1 className="font-serif text-3xl font-bold">{pageTitle}</h1>
+                    <p className="text-stone-500 text-sm mt-1">{pageSubtitle}</p>
                 </div>
                 <Link href="/admin/posts/new" className="bg-black text-white px-4 py-2 font-bold uppercase tracking-widest text-xs hover:bg-agri-green">
                     + New Post

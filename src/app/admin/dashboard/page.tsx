@@ -1,4 +1,4 @@
-import { Search, Bell, Users, Building, Briefcase, TrendingUp, MoreVertical, Rocket, FileText, ArrowUpRight } from 'lucide-react';
+import { Users, Building, Briefcase, TrendingUp, Rocket, ArrowUpRight } from 'lucide-react';
 import Image from 'next/image';
 import { supabaseAdmin } from '@/lib/supabase';
 import DashboardCharts from './DashboardCharts';
@@ -104,15 +104,7 @@ export default async function AdminDashboard() {
                     <p className="text-stone-500 text-sm">Welcome back, Admin. Here&apos;s what&apos;s happening today.</p>
                 </div>
                 <div className="flex items-center gap-4">
-                    <div className="relative">
-                        <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
-                        <input type="text" placeholder="Search..." className="pl-10 pr-4 py-2 border border-stone-200 rounded-full text-sm bg-white focus:outline-none focus:border-agri-green w-64" />
-                    </div>
-                    <button className="p-2 bg-white border border-stone-200 rounded-full text-stone-600 hover:text-black hover:border-black transition-colors relative">
-                        <Bell className="w-5 h-5" />
-                        <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
-                    </button>
-                    <div className="flex items-center gap-3 pl-4 border-l border-stone-200">
+                    <div className="flex items-center gap-3 pl-4">
                         <div className="text-right hidden md:block">
                             <div className="text-sm font-bold">Anand Admin</div>
                             <div className="text-xs text-stone-500">Super Admin</div>

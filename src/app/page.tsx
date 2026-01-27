@@ -7,7 +7,9 @@ import SubscribeBlock from '@/components/home/SubscribeBlock';
 import ResearchPapers from '@/components/home/ResearchPapers';
 import StartupsSection from '@/components/home/StartupsSection';
 import LatestJobs from '@/components/home/LatestJobs';
+
 import QuickFAQ from '@/components/home/QuickFAQ';
+// import PolicySection from '@/components/home/PolicySection'; // Hidden for now
 import AdBanner from '@/components/ads/AdBanner';
 import { supabase } from '@/lib/supabase';
 import { Post, Job } from '@/types/database';
@@ -395,6 +397,7 @@ export default async function Home() {
   const researchPosts = posts.filter(p => p.category === 'Research');
   const startupPosts = posts.filter(p => p.category === 'Startups');
   const jobPosts = posts.filter(p => p.category === 'Jobs');
+  const policyPosts = posts.filter(p => p.category === 'Policy'); // Filter policy posts
 
   return (
     <div className="bg-paper-bg min-h-screen">

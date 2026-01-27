@@ -17,5 +17,5 @@ export default async function AdminLayout({
         redirect('/login')
     }
 
-    return <AdminShell>{children}</AdminShell>
+    return <AdminShell user={user}>{children}</AdminShell>
 }

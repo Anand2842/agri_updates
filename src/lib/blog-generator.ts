@@ -510,11 +510,11 @@ export class BlogGenerator {
     }
 
     let position = "Agricultural Professional";
-    let company = "Private Agri Company";
-    let location = "Pan India";
-    let salary = "As per industry standards";
-    let experience = "As per company norms";
-    let qualification = "Relevant Degree";
+    let company = "Hiring Organization";
+    let location = "As per advertisement";
+    let salary = "Not Disclosed";
+    let experience = "Relevant Experience";
+    let qualification = "As per advertisement";
     let deadline: string | null = null;
     let email: string | null = null;
     let contact: string | null = null;
@@ -668,14 +668,27 @@ export class BlogGenerator {
 
   <section class="how-to-apply mb-8">
     <h2 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">How to Apply</h2>
-    <div class="bg-stone-900 text-white p-6 rounded-xl text-center">
-      <p class="mb-4">Interested candidates can apply by contacting the recruiter directly:</p>
+    <div class="bg-gradient-to-r from-red-600 to-red-700 text-white p-8 rounded-2xl text-center shadow-lg border-4 border-white ring-4 ring-red-500/20 transform hover:scale-[1.01] transition-all">
+      <h3 class="text-2xl font-black uppercase tracking-wider mb-2">🚀 Apply Now</h3>
+      <p class="mb-6 text-red-50 font-medium text-lg">Don't miss this opportunity! Contact the recruiter directly below:</p>
+      
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        ${contact ? `<a href="tel:${contact}" class="bg-stone-800 hover:bg-stone-700 px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"><span>📞</span><span class="font-mono">${contact}</span></a>` : ''}
-        ${email ? `<a href="mailto:${email}" class="bg-green-700 hover:bg-green-600 px-6 py-3 rounded-lg flex items-center gap-2 transition-colors"><span>📧</span><span class="font-mono">${email}</span></a>` : ''}
+        ${contact ? `<a href="tel:${contact}" class="bg-white text-red-700 hover:bg-stone-100 px-8 py-4 rounded-xl flex items-center gap-3 transition-transform hover:-translate-y-1 shadow-md font-bold text-lg group">
+            <span class="bg-red-100 p-1 rounded-full group-hover:bg-red-200">📞</span>
+            <span class="font-mono">${contact}</span>
+        </a>` : ''}
+        
+        ${email ? `<a href="mailto:${email}" class="bg-white text-red-700 hover:bg-stone-100 px-8 py-4 rounded-xl flex items-center gap-3 transition-transform hover:-translate-y-1 shadow-md font-bold text-lg group">
+            <span class="bg-red-100 p-1 rounded-full group-hover:bg-red-200">📧</span>
+            <span class="font-mono">${email}</span>
+        </a>` : ''}
       </div>
-      ${!contact && !email ? '<p class="text-stone-400 mt-4">Please check the description above for application details.</p>' : ''}
-      <p class="text-xs text-stone-400 mt-4">Mention "Agri Updates" in your application subject for priority consideration.</p>
+      
+      ${!contact && !email ? '<p class="text-red-200 mt-4 bg-red-800/30 p-2 rounded">⚠️ Please check the description above for specific application instructions.</p>' : ''}
+      
+      <p class="text-xs text-red-200 mt-6 font-medium bg-red-800/20 inline-block px-3 py-1 rounded-full">
+        💡 Tip: Mention "Agri Updates" in your application for priority.
+      </p>
     </div>
   </section>
 

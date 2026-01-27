@@ -28,6 +28,7 @@ export default function FeaturedGrid({ posts }: Props) {
                                         src={post.image_url || '/placeholder.jpg'}
                                         alt={post.title}
                                         fill
+                                        priority={idx === 0}
                                         sizes="(max-width: 768px) 100vw, 33vw"
                                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                                     />

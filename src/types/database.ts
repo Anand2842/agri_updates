@@ -125,6 +125,7 @@ export type Post = {
 
     // Relation
     authors?: Author | null
+    policy_rules?: any | null
 }
 
 export type Ad = {
