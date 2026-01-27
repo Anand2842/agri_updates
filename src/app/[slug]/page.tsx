@@ -8,7 +8,7 @@ import { ArrowLeft } from 'lucide-react';
 import { safeDateFormat } from '@/lib/utils/date';
 
 // Revalidate every hour
-export const revalidate = 3600;
+export const revalidate = 60;
 
 // Allow dynamic params for new hubs created via admin
 export const dynamicParams = true;

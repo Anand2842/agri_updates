@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description: "Agri Updates is India's premier platform for agricultural careers, research breakthroughs, fellowships, and startup innovation. Find your next opportunity today.",
 };
 
-export const revalidate = 3600; // Dynamic for now
+export const revalidate = 60; // Dynamic for now
 
 // MOCK DATA for Fallback
 const MOCK_POSTS: Post[] = [

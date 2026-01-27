@@ -410,11 +410,65 @@ export default function PostForm({ initialData }: PostFormProps) {
                                     placeholder="Salary Range"
                                 />
                                 <input
-                                    value={formData.application_link}
-                                    onChange={e => setFormData({ ...formData, application_link: e.target.value })}
-                                    className="col-span-2 p-3 border rounded"
                                     placeholder="Application Link"
                                 />
+
+                                {/* Job Attributes */}
+                                <div className="col-span-2 flex gap-6 pt-4 border-t border-blue-200">
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <div className="relative">
+                                            <input
+                                                type="checkbox"
+                                                checked={formData.tags.toLowerCase().includes('urgent')}
+                                                onChange={(e) => {
+                                                    const currentTags = formData.tags.split(',').map(t => t.trim()).filter(Boolean);
+                                                    let newTags;
+                                                    if (e.target.checked) {
+                                                        if (!currentTags.some(t => t.toLowerCase() === 'urgent')) {
+                                                            newTags = [...currentTags, 'Urgent'];
+                                                        } else {
+                                                            newTags = currentTags;
+                                                        }
+                                                    } else {
+                                                        newTags = currentTags.filter(t => t.toLowerCase() !== 'urgent');
+                                                    }
+                                                    setFormData({ ...formData, tags: newTags.join(', ') });
+                                                }}
+                                                className="peer sr-only"
+                                            />
+                                            <div className="w-5 h-5 border-2 border-rose-400 rounded transition-colors peer-checked:bg-rose-500 peer-checked:border-rose-500"></div>
+                                            <svg className="absolute top-0.5 left-0.5 w-4 h-4 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
+                                        </div>
+                                        <span className="text-sm font-bold text-rose-700 group-hover:text-rose-800">🔥 Urgent Listing</span>
+                                    </label>
+
+                                    <label className="flex items-center gap-2 cursor-pointer group">
+                                        <div className="relative">
+                                            <input
+                                                type="checkbox"
+                                                checked={formData.tags.toLowerCase().includes('verified')}
+                                                onChange={(e) => {
+                                                    const currentTags = formData.tags.split(',').map(t => t.trim()).filter(Boolean);
+                                                    let newTags;
+                                                    if (e.target.checked) {
+                                                        if (!currentTags.some(t => t.toLowerCase() === 'verified')) {
+                                                            newTags = [...currentTags, 'Verified'];
+                                                        } else {
+                                                            newTags = currentTags;
+                                                        }
+                                                    } else {
+                                                        newTags = currentTags.filter(t => t.toLowerCase() !== 'verified');
+                                                    }
+                                                    setFormData({ ...formData, tags: newTags.join(', ') });
+                                                }}
+                                                className="peer sr-only"
+                                            />
+                                            <div className="w-5 h-5 border-2 border-green-400 rounded transition-colors peer-checked:bg-green-500 peer-checked:border-green-500"></div>
+                                            <svg className="absolute top-0.5 left-0.5 w-4 h-4 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
+                                        </div>
+                                        <span className="text-sm font-bold text-green-700 group-hover:text-green-800">✅ Verified Job</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     )}

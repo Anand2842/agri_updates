@@ -8,7 +8,7 @@ import PostContent from '@/components/PostContent';
 import { getAllHubs } from '@/lib/hubs';
 import AdBanner from '@/components/ads/AdBanner';
 
-export const revalidate = 3600;
+export const revalidate = 60;
 
 interface JobPageProps {
     params: Promise<{ slug: string }>;
