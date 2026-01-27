@@ -20,7 +20,7 @@ export default function DashboardCharts({ trendData, stageData }: { trendData: a
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 bg-white p-6 rounded-xl border border-stone-100 shadow-sm">
                 <div className="flex justify-between items-center mb-6">
-                    <h3 className="font-serif text-lg font-bold">New Applicants</h3>
+                    <h3 className="font-serif text-lg font-bold">Content Growth</h3>
                     <select className="text-xs bg-stone-50 border border-stone-200 rounded px-2 py-1">
                         <option>Last 7 Days</option>
                     </select>
@@ -37,7 +37,7 @@ export default function DashboardCharts({ trendData, stageData }: { trendData: a
                             </defs>
                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
                             <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9CA3AF' }} />
-                            <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9CA3AF' }} />
+                            <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9CA3AF' }} width={30} />
                             <Tooltip
                                 contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                                 cursor={{ stroke: '#10B981', strokeWidth: 2 }}
@@ -57,7 +57,7 @@ export default function DashboardCharts({ trendData, stageData }: { trendData: a
             </div>
 
             <div className="bg-white p-6 rounded-xl border border-stone-100 shadow-sm">
-                <h3 className="font-serif text-lg font-bold mb-6">Applicant Stages</h3>
+                <h3 className="font-serif text-lg font-bold mb-6">Content Categories</h3>
                 <div className="h-64">
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
