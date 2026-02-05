@@ -20,7 +20,7 @@ export default function FeaturedGrid({ posts }: Props) {
                     </div>
                 ) : (
                     posts.slice(0, 3).map((post, idx) => (
-                        <article key={post.id} className={`group px-6 py-4 ${idx === 0 ? 'pl-0' : ''} ${idx === 2 ? 'pr-0' : ''}`}>
+                        <article key={post.id} className={`group py-4 md:px-6 ${idx === 0 ? 'md:pl-0' : ''} ${idx === 2 ? 'md:pr-0' : ''} border-b md:border-b-0 border-stone-200 last:border-b-0`}>
                             <Link href={`/blog/${post.slug}`} className="block">
                                 {/* Image */}
                                 <div className="relative aspect-[16/10] mb-4 overflow-hidden bg-stone-100">

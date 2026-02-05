@@ -85,11 +85,20 @@ export default async function UpdatesPage({ searchParams }: UpdatesPageProps) {
 
     return (
         <div className="bg-white min-h-screen pb-20">
-            {/* Header */}
-            <div className="bg-stone-900 text-white py-16">
+            {/* Light Header - YourStory Style */}
+            <div className="bg-white border-b border-stone-200 pt-12 pb-8">
                 <div className="container mx-auto px-4 text-center">
-                    <h1 className="font-serif text-4xl md:text-5xl font-bold mb-4">{currentCategory.label}</h1>
-                    <p className="text-stone-300 max-w-2xl mx-auto">
+                    {/* Category Pill */}
+                    <div className="flex justify-center mb-6">
+                        <span className="inline-flex items-center gap-1 px-4 py-2 border border-stone-300 rounded-sm text-sm font-medium text-stone-800">
+                            {currentCategory.label} <span className="text-stone-400">›</span>
+                        </span>
+                    </div>
+
+                    <h1 className="font-serif text-3xl md:text-5xl font-bold text-stone-900 mb-4">
+                        {currentCategory.label}
+                    </h1>
+                    <p className="text-stone-500 max-w-2xl mx-auto">
                         {categoryFilter
                             ? `Browse the latest ${currentCategory.label.toLowerCase()} opportunities in agriculture.`
                             : 'Stay updated with fellowships, scholarships, grants, exams, events, and more.'}
@@ -103,7 +112,7 @@ export default async function UpdatesPage({ searchParams }: UpdatesPageProps) {
                 </div>
 
                 {/* Posts Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
                     {paginatedPosts.map((post) => (
                         <article key={post.id} className="border border-stone-200 group hover:border-agri-green transition-colors bg-white">
                             {post.image_url && (
@@ -118,8 +127,8 @@ export default async function UpdatesPage({ searchParams }: UpdatesPageProps) {
                                     </div>
                                 </Link>
                             )}
-                            <div className="p-6">
-                                <div className="flex items-center gap-2 mb-3">
+                            <div className="p-3 md:p-6 flex flex-col h-full">
+                                <div className="flex items-center gap-2 mb-2 md:mb-3">
                                     <span className="text-[10px] font-bold uppercase tracking-widest text-agri-green border border-agri-green px-2 py-0.5 rounded-full">
                                         {post.category}
                                     </span>
@@ -127,17 +136,17 @@ export default async function UpdatesPage({ searchParams }: UpdatesPageProps) {
                                         {safeDateFormat(post.published_at)}
                                     </span>
                                 </div>
-                                <h2 className="font-serif text-xl font-bold leading-tight group-hover:text-agri-dark transition-colors mb-3">
+                                <h2 className="font-serif text-sm md:text-xl font-bold leading-tight group-hover:text-agri-dark transition-colors mb-2 md:mb-3 line-clamp-3 md:line-clamp-2">
                                     <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                                 </h2>
-                                <p className="text-sm text-stone-500 line-clamp-3 leading-relaxed mb-4">
+                                <p className="text-sm text-stone-500 line-clamp-2 leading-relaxed mb-3 hidden md:block">
                                     {post.excerpt || 'Click to read more...'}
                                 </p>
-                                <div className="flex items-center justify-between">
-                                    <span className="text-xs text-stone-400">By {post.author_name}</span>
+                                <div className="flex items-center justify-between mt-auto">
+                                    <span className="text-[10px] md:text-xs text-stone-400 truncate max-w-[100px]">By {post.author_name}</span>
                                     <Link
                                         href={`/blog/${post.slug}`}
-                                        className="text-xs font-bold uppercase tracking-widest text-agri-green hover:underline"
+                                        className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-agri-green hover:underline hidden md:block"
                                     >
                                         Read More →
                                     </Link>

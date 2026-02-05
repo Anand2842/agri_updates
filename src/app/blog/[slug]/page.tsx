@@ -16,7 +16,8 @@ import ReadingProgress from '@/components/blog/ReadingProgress';
 import StickySidebar from '@/components/blog/StickySidebar';
 import TableOfContents from '@/components/blog/TableOfContents';
 import BackToTop from '@/components/ui/BackToTop';
-import EligibilityChecker from '@/components/blog/EligibilityChecker'; // Import
+import EligibilityChecker from '@/components/blog/EligibilityChecker';
+import StickyReadingBar from '@/components/blog/StickyReadingBar';
 
 export const revalidate = 0;
 
@@ -148,6 +149,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     return (
         <article className="min-h-screen bg-white pb-20 overflow-x-hidden">
             <ReadingProgress />
+            <div className="hidden md:block">
+                <StickyReadingBar title={post.title} />
+            </div>
             <BackToTop />
 
             <script
@@ -164,78 +168,66 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <div className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 relative pt-8 md:pt-12">
                 {/* Main Content Column - 9 cols */}
                 <div className="lg:col-span-9 lg:col-start-1">
-                    {/* Header Zone - Moved Inside for Alignment */}
-                    <header className="max-w-[700px] mx-auto mb-8 text-center md:text-left">
-                        {post.is_featured && (
-                            <span className="inline-block bg-agri-gold/20 text-agri-dark text-[10px] font-black uppercase tracking-widest px-3 py-1 mb-4 rounded-full">
-                                Featured Story
+                    {/* Header Zone - YourStory-Inspired Premium Design */}
+                    <header className="max-w-[680px] mx-auto mb-10 px-5 sm:px-6 text-center">
+                        {/* Category - Centered Pill with Border like YourStory */}
+                        <div className="flex justify-center mb-8">
+                            <span className="inline-flex items-center gap-1 px-4 py-2 border border-stone-300 rounded-sm text-sm font-medium text-stone-800 hover:bg-stone-50 transition-colors">
+                                {post.category} <span className="text-stone-400">›</span>
                             </span>
-                        )}
+                        </div>
 
-                        <span className="block text-agri-green font-bold uppercase tracking-widest text-xs mb-3">
-                            {post.category}
-                        </span>
-
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-charcoal leading-[1.05] mb-3 tracking-tight">
+                        {/* Title - Centered, Serif, Big Gaps */}
+                        <h1 className="font-serif text-2xl sm:text-[32px] md:text-[40px] font-bold text-stone-900 leading-tight mb-6 tracking-tight">
                             {post.title}
                         </h1>
 
                         {post.excerpt && (
-                            <p className="text-xl md:text-2xl text-stone-500 font-serif leading-relaxed mb-4">
+                            <p className="text-[17px] md:text-lg text-stone-500 leading-relaxed mb-8 max-w-[560px] mx-auto">
                                 {post.excerpt}
                             </p>
                         )}
 
-                        <div className="flex items-center gap-3 text-sm mt-4 justify-center md:justify-start">
-                            {(post.authors?.avatar_url || post.author_image) && (
-                                <div className="relative w-8 h-8 rounded-full overflow-hidden border border-stone-200">
-                                    <Image
-                                        src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name || 'Agri Updates')}&background=2D5016&color=fff`}
-                                        alt={post.authors?.name || post.author_name || 'Agri Updates Team'}
-                                        fill
-                                        sizes="32px"
-                                        className="object-cover"
-                                    />
-                                </div>
-                            )}
-                            <div className="flex items-center text-stone-500 font-medium text-xs gap-2">
-                                <span className="text-charcoal font-bold">{post.authors?.name || post.author_name || 'Agri Updates Team'}</span>
-                                <span className="text-stone-300">•</span>
-                                <span>{safeDateFormat(post.published_at)}</span>
-                                <span className="text-stone-300">•</span>
-                                <span>5 min read</span>
+                        {/* Author Row - Avatar + Name + Stats like YourStory */}
+                        <div className="flex items-center justify-center gap-3 text-sm">
+                            <div className="relative w-10 h-10 rounded-full overflow-hidden bg-stone-100 border border-stone-200">
+                                <Image
+                                    src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(post.authors?.name || post.author_name || 'AU')}&background=2D5016&color=fff&size=40`}
+                                    alt={post.authors?.name || post.author_name || 'Author'}
+                                    fill
+                                    sizes="40px"
+                                    className="object-cover"
+                                />
                             </div>
+                            <span className="font-medium text-stone-900">{post.authors?.name || post.author_name || 'Agri Updates'}</span>
+                            <span className="text-stone-300">•</span>
+                            <span className="text-stone-500">{safeDateFormat(post.published_at)}</span>
                         </div>
                     </header>
 
-                    {/* Hero Image - Wider than text (Full 9-col width) but contained boundaries */}
-                    <div className="w-full mb-10">
-                        <div className="relative w-full aspect-[16/9] md:aspect-[21/9] bg-stone-100 overflow-hidden rounded-xl shadow-sm">
+                    {/* Hero Image - Clean, elegant */}
+                    <div className="w-full mb-8 max-w-[680px] mx-auto px-5 sm:px-6">
+                        <div className="relative w-full aspect-video bg-stone-100 overflow-hidden rounded-lg shadow-sm">
                             <Image
                                 src={post.image_url || '/placeholder.jpg'}
                                 alt={post.title}
                                 fill
                                 priority
                                 className="object-cover"
-                                sizes="(max-width: 1024px) 100vw, 900px"
+                                sizes="(max-width: 1024px) 100vw, 680px"
                             />
-                        </div>
-                        <div className="mt-2 text-center md:text-left">
-                            <p className="text-[10px] text-stone-400 uppercase tracking-widest">
-                                Credit: Agri Updates
-                            </p>
                         </div>
                     </div>
 
-                    <div className="container-reading">
-                        {/* Mobile TOC - Collapsible */}
-                        <div className="mb-8 block lg:hidden">
-                            <details className="bg-stone-50 border border-stone-200 rounded-lg p-4">
-                                <summary className="font-bold text-stone-700 cursor-pointer list-none flex justify-between items-center text-sm uppercase tracking-wide">
-                                    In this guide
-                                    <svg className="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <div className="max-w-[680px] mx-auto px-5 sm:px-6">
+                        {/* Mobile TOC - Minimal, elegant */}
+                        <div className="mb-6 block lg:hidden">
+                            <details className="group">
+                                <summary className="font-medium text-stone-500 cursor-pointer list-none flex justify-between items-center text-xs uppercase tracking-wider py-3 border-b border-stone-100">
+                                    In this article
+                                    <svg className="w-4 h-4 text-stone-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7"></path></svg>
                                 </summary>
-                                <div className="mt-4 pt-4 border-t border-stone-200">
+                                <div className="pt-4 pb-2">
                                     <TableOfContents />
                                 </div>
                             </details>
@@ -243,7 +235,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
                         {/* Eligibility Checker Widget */}
                         {post.policy_rules && (
-                            <EligibilityChecker rules={post.policy_rules} />
+                            <div className="hidden md:block">
+                                <EligibilityChecker rules={post.policy_rules} />
+                            </div>
                         )}
 
                         <PostContent html={post.content || post.excerpt} />
@@ -286,6 +280,22 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         <div className="mt-12 flex justify-center">
                             <SocialShare title={post.title} />
                         </div>
+
+                        {/* Tags - YourStory-style Pill Buttons */}
+                        {post.tags && post.tags.length > 0 && (
+                            <div className="mt-12 pt-8 border-t border-stone-200">
+                                <div className="flex flex-wrap justify-center gap-3">
+                                    {post.tags.map((tag: string) => (
+                                        <span
+                                            key={tag}
+                                            className="inline-flex items-center gap-1 px-4 py-2 border border-stone-300 rounded-sm text-sm font-medium text-stone-800 hover:bg-stone-50 transition-colors cursor-pointer"
+                                        >
+                                            {tag} <span className="text-stone-400">›</span>
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 

@@ -16,7 +16,7 @@ export default function Trending({ posts }: { posts: Post[] }) {
                 {posts.slice(0, 5).map((post, index) => (
                     <div key={post.id} className="newspaper-card-minimal group flex gap-4">
                         {/* Large Number */}
-                        <span className="text-4xl font-serif font-black text-stone-200 group-hover:text-agri-green/30 transition-colors leading-none w-8 flex-shrink-0">
+                        <span className="text-3xl md:text-4xl font-serif font-black text-stone-200 group-hover:text-agri-green/30 transition-colors leading-none w-8 flex-shrink-0">
                             {index + 1}
                         </span>
 

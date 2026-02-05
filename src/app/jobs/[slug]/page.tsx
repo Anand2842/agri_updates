@@ -170,7 +170,7 @@ export default async function JobPage({ params }: JobPageProps) {
                             href={job.application_link || '#'}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-agri-green text-white px-8 py-4 font-bold uppercase tracking-widest hover:bg-agri-dark transition-all rounded shadow-lg flex items-center gap-2"
+                            className="hidden md:flex bg-agri-green text-white px-8 py-4 font-bold uppercase tracking-widest hover:bg-agri-dark transition-all rounded shadow-lg items-center gap-2"
                         >
                             Apply Now
                             <ExternalLink className="w-5 h-5" />
@@ -271,6 +271,18 @@ export default async function JobPage({ params }: JobPageProps) {
                         </div>
                     </div>
                 </div>
+            </div>
+            {/* Sticky Bottom Apply Bar (Mobile Only) */}
+            <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-stone-200 md:hidden z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] pb-[calc(1rem+env(safe-area-inset-bottom))]">
+                <a
+                    href={job.application_link || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex text-lg items-center justify-center gap-2 w-full bg-agri-green text-white py-3.5 rounded-lg font-bold uppercase tracking-widest hover:bg-agri-dark transition-all"
+                >
+                    Apply Now
+                    <ExternalLink className="w-4 h-4" />
+                </a>
             </div>
         </div >
     );

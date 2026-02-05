@@ -265,35 +265,35 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                                 <h2 className="font-serif text-2xl font-bold mb-6">
                                     Job Results ({jobs.length})
                                 </h2>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-6">
                                     {jobs.map((job) => (
-                                        <div key={job.id} className="border border-stone-200 p-6 group hover:border-agri-green transition-colors bg-white">
-                                            <div className="flex justify-between items-start mb-4">
+                                        <div key={job.id} className="border border-stone-200 p-3 md:p-6 group hover:border-agri-green transition-colors bg-white flex flex-col h-full">
+                                            <div className="flex justify-between items-start mb-2 md:mb-4">
                                                 <div className="flex flex-col">
-                                                    <h3 className="font-serif text-xl font-bold leading-tight group-hover:text-agri-dark transition-colors mb-1">
+                                                    <h3 className="font-serif text-sm md:text-xl font-bold leading-tight group-hover:text-agri-dark transition-colors mb-1 line-clamp-2">
                                                         <Link href={`/jobs/${job.id}`}>{job.title}</Link>
                                                     </h3>
-                                                    <span className="text-stone-500 text-sm">{job.company}</span>
+                                                    <span className="text-stone-500 text-[10px] md:text-sm line-clamp-1">{job.company}</span>
                                                 </div>
-                                                <span className="text-[10px] font-bold uppercase bg-stone-100 text-stone-600 px-2 py-1 rounded">
+                                                <span className="text-[9px] md:text-[10px] font-bold uppercase bg-stone-100 text-stone-600 px-1.5 py-0.5 md:px-2 md:py-1 rounded shrink-0 ml-2">
                                                     {job.type}
                                                 </span>
                                             </div>
 
-                                            <div className="text-sm text-stone-500 mb-4">
+                                            <div className="text-[10px] md:text-sm text-stone-500 mb-2 md:mb-4 line-clamp-1">
                                                 {job.location || 'Location not specified'} {job.salary_range && `• ${job.salary_range}`}
                                             </div>
 
-                                            <div className="flex justify-between items-center mt-auto">
-                                                <div className="flex gap-2">
-                                                    {job.tags?.slice(0, 3).map((tag: string) => (
-                                                        <span key={tag} className="text-[10px] uppercase font-bold text-agri-green tracking-wider">
+                                            <div className="flex justify-between items-end mt-auto">
+                                                <div className="flex gap-1 flex-wrap">
+                                                    {job.tags?.slice(0, 2).map((tag: string) => (
+                                                        <span key={tag} className="text-[9px] md:text-[10px] uppercase font-bold text-agri-green tracking-wider hidden md:inline-block">
                                                             #{tag}
                                                         </span>
                                                     ))}
                                                 </div>
-                                                <Link href={`/jobs/${job.id}`} className="bg-black text-white text-xs font-bold uppercase px-4 py-2 hover:bg-agri-green transition-colors">
-                                                    View Details
+                                                <Link href={`/jobs/${job.id}`} className="bg-black text-white text-[10px] md:text-xs font-bold uppercase px-2 py-1 md:px-4 md:py-2 hover:bg-agri-green transition-colors shrink-0">
+                                                    Details
                                                 </Link>
                                             </div>
                                         </div>
@@ -308,7 +308,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                                 <h2 className="font-serif text-2xl font-bold mb-6">
                                     Article Results ({posts.length})
                                 </h2>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                                     {posts.map((post) => (
                                         <div key={post.id} className="border border-stone-200 group hover:border-agri-green transition-colors bg-white">
                                             {post.image_url && (
@@ -328,20 +328,20 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                                                     </div>
                                                 </Link>
                                             )}
-                                            <div className="p-6">
-                                                <div className="flex items-center gap-2 mb-3">
-                                                    <span className="text-[10px] font-bold uppercase tracking-widest text-agri-green border border-agri-green px-2 py-0.5 rounded-full">
+                                            <div className="p-3 md:p-6 flex flex-col h-full">
+                                                <div className="flex items-center gap-2 mb-2 md:mb-3">
+                                                    <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-agri-green border border-agri-green px-1.5 py-0.5 md:px-2 md:py-0.5 rounded-full">
                                                         {post.category}
                                                     </span>
                                                 </div>
-                                                <h3 className="font-serif text-lg font-bold leading-tight group-hover:text-agri-dark transition-colors mb-3">
+                                                <h3 className="font-serif text-sm md:text-lg font-bold leading-tight group-hover:text-agri-dark transition-colors mb-2 md:mb-3 line-clamp-2">
                                                     <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                                                 </h3>
-                                                <p className="text-sm text-stone-500 line-clamp-3 leading-relaxed mb-4">
+                                                <p className="text-sm text-stone-500 line-clamp-2 leading-relaxed mb-3 hidden md:block">
                                                     {post.excerpt || 'No description available'}
                                                 </p>
-                                                <div className="flex items-center justify-between text-xs text-stone-400">
-                                                    <span>By {post.author_name}</span>
+                                                <div className="flex items-center justify-between text-[10px] md:text-xs text-stone-400 mt-auto">
+                                                    <span className="truncate max-w-[80px]">By {post.author_name}</span>
                                                     <span>{new Date(post.published_at).toLocaleDateString()}</span>
                                                 </div>
                                             </div>

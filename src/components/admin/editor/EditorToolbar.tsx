@@ -23,7 +23,8 @@ import {
     Trash2,
     Undo,
     Redo,
-    Type
+    Type,
+    Megaphone
 } from 'lucide-react'
 
 interface EditorToolbarProps {
@@ -241,6 +242,12 @@ export default function EditorToolbar({ editor, onImageUpload }: EditorToolbarPr
                     title="Insert Image"
                 >
                     <ImageIcon className="w-4 h-4" />
+                </ToolbarBtn>
+                <ToolbarBtn
+                    onClick={() => editor.chain().focus().insertContent('[[ad:mid]]').run()}
+                    title="Insert Ad Break"
+                >
+                    <Megaphone className="w-4 h-4" />
                 </ToolbarBtn>
                 <ToolbarBtn
                     onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}

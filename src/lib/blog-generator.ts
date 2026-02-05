@@ -313,7 +313,7 @@ export class BlogGenerator {
 
   private static generateStandardPost(cleanText: string, lines: string[]): GeneratedPost {
     const suggestedTitle = lines[0]?.substring(0, 100) || "New Agri Update";
-    const paragraphs = cleanText.split('\n').filter(p => p.length > 50).map(p => `<p class="mb-4">${p}</p>`).join('');
+    const paragraphs = cleanText.split('\n').filter(p => p.length > 50).map(p => `<p class="mb-4">${this.formatLine(p)}</p>`).join('');
 
     const contentHtml = `
       <div class="agri-post-content font-sans text-stone-800">
@@ -604,7 +604,10 @@ export class BlogGenerator {
     const descriptionParagraphs = lines
       .filter(l => l.length > 20 && !/^(?:POSITION|COMPANY|LOCATION|SALARY|EXPERIENCE|QUALIFICATION|DEADLINE|CONTACT|---)/i.test(l))
       .slice(0, 10)
-      .map(p => `<p class="mb-4">${p}</p>`)
+      .map(p => {
+        const formatted = this.formatLine(p);
+        return `<p class="mb-4">${formatted}</p>`;
+      })
       .join('');
 
     const contentHtml = `
@@ -666,29 +669,25 @@ export class BlogGenerator {
     </div>
   </section>
 
-  <section class="how-to-apply mb-8">
+  <section class="how-to-apply mb-6">
     <h2 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">How to Apply</h2>
-    <div class="bg-gradient-to-r from-red-600 to-red-700 text-white p-8 rounded-2xl text-center shadow-lg border-4 border-white ring-4 ring-red-500/20 transform hover:scale-[1.01] transition-all">
-      <h3 class="text-2xl font-black uppercase tracking-wider mb-2">🚀 Apply Now</h3>
-      <p class="mb-6 text-red-50 font-medium text-lg">Don't miss this opportunity! Contact the recruiter directly below:</p>
+    <div class="bg-gradient-to-r from-red-600 to-red-700 text-white p-6 rounded-xl text-center shadow-md border-4 border-white ring-4 ring-red-500/20">
+      <h3 class="text-xl font-black uppercase tracking-wider mb-2">🚀 Apply Now</h3>
+      <p class="mb-4 text-red-50 font-medium">Don't miss this opportunity! Contact the recruiter directly below:</p>
       
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        ${contact ? `<a href="tel:${contact}" class="bg-white text-red-700 hover:bg-stone-100 px-8 py-4 rounded-xl flex items-center gap-3 transition-transform hover:-translate-y-1 shadow-md font-bold text-lg group">
-            <span class="bg-red-100 p-1 rounded-full group-hover:bg-red-200">📞</span>
-            <span class="font-mono">${contact}</span>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
+        ${contact ? `<a href="tel:${contact}" class="bg-white text-red-700 hover:bg-stone-100 px-6 py-3 rounded-lg flex items-center gap-2 transition-transform hover:-translate-y-1 shadow-sm font-bold group">
+            <span class="bg-red-100 p-1 rounded-full group-hover:bg-red-200 text-sm">📞</span>
+            <span class="font-mono text-base">${contact}</span>
         </a>` : ''}
         
-        ${email ? `<a href="mailto:${email}" class="bg-white text-red-700 hover:bg-stone-100 px-8 py-4 rounded-xl flex items-center gap-3 transition-transform hover:-translate-y-1 shadow-md font-bold text-lg group">
-            <span class="bg-red-100 p-1 rounded-full group-hover:bg-red-200">📧</span>
-            <span class="font-mono">${email}</span>
+        ${email ? `<a href="mailto:${email}" class="bg-white text-red-700 hover:bg-stone-100 px-6 py-3 rounded-lg flex items-center gap-2 transition-transform hover:-translate-y-1 shadow-sm font-bold group">
+            <span class="bg-red-100 p-1 rounded-full group-hover:bg-red-200 text-sm">📧</span>
+            <span class="font-mono text-base">${email}</span>
         </a>` : ''}
       </div>
       
-      ${!contact && !email ? '<p class="text-red-200 mt-4 bg-red-800/30 p-2 rounded">⚠️ Please check the description above for specific application instructions.</p>' : ''}
-      
-      <p class="text-xs text-red-200 mt-6 font-medium bg-red-800/20 inline-block px-3 py-1 rounded-full">
-        💡 Tip: Mention "Agri Updates" in your application for priority.
-      </p>
+      ${!contact && !email ? '<p class="text-red-200 mt-4 bg-red-800/30 p-2 rounded text-sm">⚠️ Please check the description above for specific application instructions.</p>' : ''}
     </div>
   </section>
 
@@ -745,6 +744,13 @@ export class BlogGenerator {
         contact: contact || undefined
       }
     };
+  }
+
+  private static formatLine(text: string): string {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold **text**
+      .replace(/\*([^\s*].*?)\*/g, '<strong>$1</strong>') // Bold *text* (if not a bullet point)
+      .replace(/^\s*[-*]\s+(.*)/, '• $1'); // Standardize list items
   }
 
   private static getDisclaimerHtml(): string {
