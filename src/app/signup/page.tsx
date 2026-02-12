@@ -76,6 +76,7 @@ export default function SignupPage() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black transition-colors"
+                            autoComplete="email"
                             required
                         />
                     </div>
@@ -86,6 +87,7 @@ export default function SignupPage() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black transition-colors"
+                            autoComplete="new-password"
                             required
                             minLength={6}
                         />

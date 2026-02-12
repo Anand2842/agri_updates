@@ -9,41 +9,97 @@ const MOCK_STARTUPS: Startup[] = [
     {
         id: '1',
         name: 'Carbon Robotics',
-        description: 'Uses high-powered lasers to weed fields without chemicals, leveraging computer vision for precision targeting.',
-        funding_stage: 'Series B',
-        location: 'Seattle, USA',
+        slug: 'carbon-robotics',
         logo_url: null,
+        description: 'Uses high-powered lasers to weed fields without chemicals.',
+        elevator_pitch: 'Laser weeding robots for autonomous agriculture.',
+        long_description: 'Carbon Robotics is pioneering the next revolution in agriculture...',
+        funding_stage: 'Series B',
+        funding_amount: '$85M',
+        investors: ['Founders Fund', 'Ignition Partners'],
+        location: 'Seattle, USA',
+        founded_year: 2018,
+        team_size: '51-200',
+        founder_names: 'Paul Mikesell',
         website_url: 'https://carbonrobotics.com',
+        social_links: { twitter: 'https://twitter.com/carbonrobotics' },
+        tags: ['Robotics', 'AI', 'Sustainable'],
+        success_highlights: [],
+        challenges: [],
+        milestones: [],
+        is_featured: true,
         created_at: new Date().toISOString()
     },
     {
         id: '2',
         name: 'Pivot Bio',
-        description: 'Replacing synthetic nitrogen fertilizer with microbes that adhere to corn roots and produce nitrogen naturally.',
-        funding_stage: 'Series D',
-        location: 'Berkeley, USA',
+        slug: 'pivot-bio',
         logo_url: null,
+        description: 'Replacing synthetic nitrogen fertilizer with microbes.',
+        elevator_pitch: 'Microbes that produce nitrogen naturally for corn.',
+        long_description: 'Pivot Bio extracts nitrogen from the air...',
+        funding_stage: 'Series D',
+        funding_amount: '$600M',
+        investors: ['Breakthrough Energy', 'Temasek'],
+        location: 'Berkeley, USA',
+        founded_year: 2011,
+        team_size: '200+',
+        founder_names: 'Karsten Temme, Alvin Tamsir',
         website_url: 'https://pivotbio.com',
+        social_links: {},
+        tags: ['Biotech', 'Sustainable'],
+        success_highlights: [],
+        challenges: [],
+        milestones: [],
+        is_featured: true,
         created_at: new Date().toISOString()
     },
     {
         id: '3',
         name: 'DeHaat',
-        description: 'Full-stack agricultural service provider offering end-to-end solutions for Indian farmers via AI-driven tech.',
-        funding_stage: 'Series E',
-        location: 'Patna, India',
+        slug: 'dehaat',
         logo_url: null,
+        description: 'Full-stack agricultural service provider for Indian farmers.',
+        elevator_pitch: 'End-to-end solutions for Indian farmers via AI-driven tech.',
+        long_description: 'DeHaat is one of the fastest growing Agri Tech start-ups in India...',
+        funding_stage: 'Series E',
+        funding_amount: '$221M',
+        investors: ['Sequoia India', 'Sofina'],
+        location: 'Patna, India',
+        founded_year: 2012,
+        team_size: '500+',
+        founder_names: 'Shashank Kumar',
         website_url: 'https://dehaat.com',
+        social_links: {},
+        tags: ['Marketplace', 'Services'],
+        success_highlights: [],
+        challenges: [],
+        milestones: [],
+        is_featured: false,
         created_at: new Date().toISOString()
     },
     {
         id: '4',
         name: 'Kilimo',
-        description: 'Big data solution for water management in agriculture, using satellite data to verify water savings.',
-        funding_stage: 'Seed',
-        location: 'Cordoba, ARG',
+        slug: 'kilimo',
         logo_url: null,
+        description: 'Big data solution for water management in agriculture.',
+        elevator_pitch: 'Using satellite data to verify water savings.',
+        long_description: 'Kilimo verifies, improves, and offsets water consumption...',
+        funding_stage: 'Seed',
+        funding_amount: '$3M',
+        investors: ['The Yield Lab'],
+        location: 'Cordoba, ARG',
+        founded_year: 2014,
+        team_size: '11-50',
+        founder_names: 'Jairo Trad',
         website_url: 'https://kilimo.com',
+        social_links: {},
+        tags: ['Water', 'Big Data'],
+        success_highlights: [],
+        challenges: [],
+        milestones: [],
+        is_featured: false,
         created_at: new Date().toISOString()
     }
 ];
@@ -187,10 +243,13 @@ export default async function StartupsPage({ searchParams }: StartupsPageProps) 
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {paginatedStartups.map((startup) => (
-                        <div key={startup.id} className="bg-stone-50 p-8 flex flex-col items-center text-center group hover:shadow-lg transition-shadow h-full">
-                            <div className="w-16 h-16 bg-stone-200 rounded-full mb-6 flex items-center justify-center text-stone-400">
-                                {/* Placeholder Icon */}
-                                <div className="w-8 h-8 bg-stone-300 rounded-sm"></div>
+                        <Link href={`/startups/${startup.slug || startup.id}`} key={startup.id} className="bg-stone-50 p-8 flex flex-col items-center text-center group hover:shadow-lg transition-shadow h-full block">
+                            <div className="w-16 h-16 bg-white border border-stone-100 rounded-full mb-6 flex items-center justify-center text-stone-400 overflow-hidden relative">
+                                {startup.logo_url ? (
+                                    <img src={startup.logo_url} alt={startup.name} className="w-full h-full object-contain p-2" />
+                                ) : (
+                                    <div className="text-2xl font-serif font-bold text-stone-300">{startup.name.charAt(0)}</div>
+                                )}
                             </div>
 
                             <div className="mb-4">
@@ -210,7 +269,7 @@ export default async function StartupsPage({ searchParams }: StartupsPageProps) 
                                 <span>{startup.funding_stage}</span>
                                 <span>{startup.location}</span>
                             </div>
-                        </div>
+                        </Link>
                     ))}
 
                     {startups.length === 0 && (

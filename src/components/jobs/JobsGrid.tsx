@@ -111,7 +111,13 @@ export default function JobsGrid({ jobs }: JobsGridProps) {
                                 {/* Company */}
                                 <div className="flex items-start gap-2 text-stone-600">
                                     <Building2 className="w-4 h-4 text-stone-400 mt-0.5 shrink-0" />
-                                    <span className="text-sm font-medium leading-tight line-clamp-2">{job.company || 'Company'}</span>
+                                    <Link
+                                        href={`/startups/${job.company?.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                                        className="text-sm font-medium leading-tight line-clamp-2 hover:text-agri-green hover:underline decoration-1 underline-offset-2 transition-colors z-20 relative"
+                                        onClick={(e) => e.stopPropagation()} // Prevent triggering the card click
+                                    >
+                                        {job.company || 'Company'}
+                                    </Link>
                                 </div>
 
                                 {/* Posted Date */}

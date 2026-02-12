@@ -18,12 +18,30 @@ export type Job = {
 export type Startup = {
     id: string
     name: string
-    description: string | null
-    funding_stage: string | null
-    location: string | null
+    slug: string | null
     logo_url: string | null
-    website_url: string | null // Added
+    description: string | null // Short description
+    elevator_pitch: string | null
+    long_description: string | null // Markdown content
+    funding_stage: string | null
+    funding_amount: string | null
+    investors: string[] | null
+    location: string | null
+    founded_year: number | null
+    team_size: string | null
+    founder_names: string | null
+    website_url: string | null
+    social_links: {
+        twitter?: string
+        linkedin?: string
+        instagram?: string
+        facebook?: string
+    } | null
     tags?: string[] | null
+    success_highlights: { title: string; description: string; icon?: string }[] | null
+    challenges: { title: string; description: string }[] | null
+    milestones: { date: string; title: string; description: string }[] | null
+    is_featured: boolean
     created_at: string
 }
 
