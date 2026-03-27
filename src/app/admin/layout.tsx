@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import AdminShell from './AdminShell'
+import { requireStaff } from '@/lib/auth'
 
 export default async function AdminLayout({
     children,
@@ -17,5 +18,7 @@ export default async function AdminLayout({
         redirect('/login')
     }
 
-    return <AdminShell user={user}>{children}</AdminShell>
+    const role = await requireStaff(supabase)
+
+    return <AdminShell user={user} role={role}>{children}</AdminShell>
 }

@@ -17,7 +17,6 @@ import {
     Crown,
     TrendingUp,
     Eye,
-    Megaphone,
     ChevronLeft,
     ChevronRight,
     LogOut,
@@ -25,13 +24,26 @@ import {
     Users
 } from 'lucide-react';
 
+import type { User } from '@supabase/supabase-js';
+
 interface AdminSidebarProps {
     isCollapsed: boolean;
     toggleCollapse: () => void;
-    user: any;
+    user: User | null;
+    role?: string;
 }
 
-export default function AdminSidebar({ isCollapsed, toggleCollapse, user }: AdminSidebarProps) {
+type MenuItemType = {
+    name: string;
+    icon: any;
+    href: string;
+    highlight?: boolean;
+    adminOnly?: boolean;
+    special?: boolean;
+    money?: boolean;
+}
+
+export default function AdminSidebar({ isCollapsed, toggleCollapse, user, role = 'user' }: AdminSidebarProps) {
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const pathname = usePathname();
 
@@ -39,22 +51,22 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse, user }: Admi
     const email = user?.email || '';
     const name = user?.user_metadata?.full_name || email.split('@')[0] || 'Admin';
     const initials = name.slice(0, 2).toUpperCase();
-    const role = user?.app_metadata?.role || 'Admin Access';
 
-    const menuItems = [
+    // Base menu items
+    const rawMenuItems = [
         {
             section: 'Quick Actions',
             items: [
                 { name: 'New Post', icon: Plus, href: '/admin/posts/new', highlight: true },
-                { name: 'Add Job', icon: Briefcase, href: '/admin/jobs/new' },
+                { name: 'Add Job', icon: Briefcase, href: '/admin/jobs/new', adminOnly: true },
                 { name: 'Blog Generator', icon: Wand2, href: '/admin/posts/generate', special: true },
-            ]
+            ] as MenuItemType[]
         },
         {
             section: 'Overview',
             items: [
                 { name: 'Dashboard', icon: LayoutDashboard, href: '/admin/dashboard' }
-            ]
+            ] as MenuItemType[]
         },
         {
             section: 'Content Management',
@@ -64,20 +76,30 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse, user }: Admi
                 { name: 'Featured Manager', icon: Crown, href: '/admin/posts?is_featured=true', money: true },
                 { name: 'Hero & Highlights', icon: Star, href: '/admin/posts?display=hero' },
                 { name: 'Trending', icon: TrendingUp, href: '/admin/posts?display=trending' },
-                { name: 'Categories', icon: Tag, href: '/admin/categories' },
-                { name: 'Authors Directory', icon: Users, href: '/admin/authors' },
-            ]
+                { name: 'Categories', icon: Tag, href: '/admin/categories', adminOnly: true },
+                { name: 'Authors Directory', icon: Users, href: '/admin/authors', adminOnly: true },
+            ] as MenuItemType[]
         },
         {
             section: 'Categories',
+            adminOnly: true,
             items: [
                 { name: 'Jobs', icon: Briefcase, href: '/admin/jobs' },
                 { name: 'Startups', icon: Zap, href: '/admin/startups' },
-            ]
+            ] as MenuItemType[]
         }
     ];
 
-    const SidebarContent = ({ collapsed = false }: { collapsed?: boolean }) => (
+    // Filter based on role
+    const menuItems = rawMenuItems
+        .filter(group => role === 'admin' || !('adminOnly' in group) || !group.adminOnly)
+        .map(group => ({
+            ...group,
+            items: group.items.filter(item => role === 'admin' || !item.adminOnly)
+        }))
+        .filter(group => group.items.length > 0);
+
+    const renderSidebarContent = (collapsed = false) => (
         <div className={`flex flex-col h-full bg-white border-r border-stone-200 transition-all duration-300 ${collapsed ? 'w-20' : 'w-64'}`}>
             {/* Header */}
             <div className={`h-16 flex items-center shrink-0 border-b border-stone-100 ${collapsed ? 'justify-center' : 'px-6'}`}>
@@ -178,20 +200,19 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse, user }: Admi
                 ))}
 
                 <div className={`mt-auto pt-4 border-t border-stone-100 ${collapsed ? 'flex flex-col items-center' : ''}`}>
-                    {/* Toggle Button (Desktop Only) */}
-
-
-                    <Link
-                        href="/admin/settings"
-                        title="Settings"
-                        className={`
-                            flex items-center text-stone-600 hover:bg-stone-50 hover:text-black transition-colors font-medium rounded-lg
-                            ${collapsed ? 'justify-center w-10 h-10 p-0' : 'gap-3 px-3 py-2 text-sm w-full'}
-                        `}
-                    >
-                        <Settings className="w-4 h-4" />
-                        {!collapsed && <span>Settings</span>}
-                    </Link>
+                    {role === 'admin' && (
+                        <Link
+                            href="/admin/settings"
+                            title="Settings"
+                            className={`
+                                flex items-center text-stone-600 hover:bg-stone-50 hover:text-black transition-colors font-medium rounded-lg
+                                ${collapsed ? 'justify-center w-10 h-10 p-0' : 'gap-3 px-3 py-2 text-sm w-full'}
+                            `}
+                        >
+                            <Settings className="w-4 h-4" />
+                            {!collapsed && <span>Settings</span>}
+                        </Link>
+                    )}
                     <Link
                         href="/"
                         target="_blank"
@@ -234,7 +255,7 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse, user }: Admi
 
             {/* Desktop Sidebar (Fixed) */}
             <aside className={`hidden md:block fixed inset-y-0 z-40 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
-                <SidebarContent collapsed={isCollapsed} />
+                {renderSidebarContent(isCollapsed)}
             </aside>
 
             {/* Mobile Sidebar (Overlay) */}
@@ -242,7 +263,7 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse, user }: Admi
                 <div className="fixed inset-0 z-50 md:hidden">
                     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsMobileOpen(false)} />
                     <div className="absolute inset-y-0 left-0 w-64 bg-white shadow-2xl animate-in slide-in-from-left">
-                        <SidebarContent collapsed={false} />
+                        {renderSidebarContent(false)}
                     </div>
                 </div>
             )}

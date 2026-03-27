@@ -1,13 +1,14 @@
 import { FileText, Briefcase, Clock, TrendingUp, ArrowUpRight, CheckCircle, Edit3, Eye } from 'lucide-react';
-import { supabaseAdmin } from '@/lib/supabase';
+import { createClient } from '@/utils/supabase/server';
 import DashboardCharts from './DashboardCharts';
 import Link from 'next/link';
-import { Post } from '@/types/database';
 
 export const revalidate = 0;
 
 async function getDashboardStats() {
     try {
+        const supabase = await createClient();
+
         // Parallel data fetching for core metrics
         const [
             { count: totalPosts },
@@ -20,41 +21,41 @@ async function getDashboardStats() {
             { data: allPostsViews }
         ] = await Promise.all([
             // 1. Total Posts
-            supabaseAdmin.from('posts').select('*', { count: 'exact', head: true }),
+            supabase.from('posts').select('*', { count: 'exact', head: true }),
 
             // 2. Active Jobs
-            supabaseAdmin.from('posts').select('*', { count: 'exact', head: true })
+            supabase.from('posts').select('*', { count: 'exact', head: true })
                 .eq('category', 'Jobs')
                 .eq('is_active', true),
 
             // 3. Pending Reviews
-            supabaseAdmin.from('posts').select('*', { count: 'exact', head: true })
+            supabase.from('posts').select('*', { count: 'exact', head: true })
                 .eq('status', 'pending_review'),
 
             // 4. Recent Posts (Activity Feed)
-            supabaseAdmin.from('posts')
+            supabase.from('posts')
                 .select('id, title, category, status, created_at, author_name')
                 .order('created_at', { ascending: false })
                 .limit(7),
 
             // 5. Trend (Last 7 days posts)
-            supabaseAdmin.from('posts')
+            supabase.from('posts')
                 .select('created_at')
                 .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
                 .order('created_at', { ascending: true }),
 
             // 6. Category Distribution
-            supabaseAdmin.from('posts').select('category'),
+            supabase.from('posts').select('category'),
 
             // 7. Top Performing Posts by Views
-            supabaseAdmin.from('posts')
+            supabase.from('posts')
                 .select('id, title, category, views, author_name, slug')
                 .eq('status', 'published')
                 .order('views', { ascending: false, nullsFirst: false })
                 .limit(5),
 
             // 8. Total Views aggregation
-            supabaseAdmin.from('posts').select('views')
+            supabase.from('posts').select('views')
         ]);
 
         // Process Recent Activity Feed
@@ -133,7 +134,7 @@ async function getDashboardStats() {
             topPosts
         };
     } catch (e) {
-        console.error("Dashboard Load Error:", e);
+        console.error('Dashboard query failed:', e);
         return {
             counts: { posts: 0, jobs: 0, pending: 0, views: 0 },
             activityFeed: [],
@@ -144,8 +145,21 @@ async function getDashboardStats() {
     }
 }
 
+import { requireStaff } from '@/lib/auth';
+
 export default async function AdminDashboard() {
-    const { counts, activityFeed, stageData, trendData, topPosts } = await getDashboardStats();
+    const supabase = await createClient();
+    const [statsResult, role, { data: { user } }] = await Promise.all([
+        getDashboardStats(),
+        requireStaff(supabase),
+        supabase.auth.getUser()
+    ]);
+    const { counts, activityFeed, stageData, trendData, topPosts } = statsResult;
+
+    const email = user?.email || '';
+    const name = user?.user_metadata?.full_name || email.split('@')[0] || 'Admin';
+    const initials = name.slice(0, 1).toUpperCase();
+    const displayRole = role.charAt(0).toUpperCase() + role.slice(1);
 
     return (
         <div className="space-y-8">
@@ -162,11 +176,11 @@ export default async function AdminDashboard() {
                     </Link>
                     <div className="flex items-center gap-3 pl-4 border-l border-stone-200">
                         <div className="text-right hidden md:block">
-                            <div className="text-sm font-bold">Admin User</div>
-                            <div className="text-xs text-stone-500">Super Admin</div>
+                            <div className="text-sm font-bold truncate max-w-[150px]">{name}</div>
+                            <div className="text-xs text-stone-500">{displayRole}</div>
                         </div>
-                        <div className="w-10 h-10 bg-agri-green/20 text-agri-green rounded-full flex items-center justify-center border-2 border-white shadow-sm font-bold text-sm">
-                            A
+                        <div className="w-10 h-10 bg-agri-green/20 text-agri-green rounded-full flex items-center justify-center border-2 border-white shadow-sm font-bold text-sm uppercase">
+                            {initials}
                         </div>
                     </div>
                 </div>
@@ -248,7 +262,7 @@ export default async function AdminDashboard() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-stone-100 text-sm">
-                            {activityFeed.length > 0 ? activityFeed.map((item, i) => (
+                            {activityFeed.length > 0 ? activityFeed.map((item) => (
                                 <tr key={item.id} className="hover:bg-stone-50 group transition-colors">
                                     <td className="px-6 py-4">
                                         <div className="font-bold text-stone-900 line-clamp-1">{item.name}</div>

@@ -485,17 +485,31 @@ export default function PostForm({ initialData }: PostFormProps) {
                         <h3 className="font-bold uppercase text-xs tracking-widest text-stone-500 mb-4">Publishing</h3>
 
                         <div className="space-y-4">
+                            {userRole === 'moderator' && (
+                                <div className="p-3 bg-blue-50 border border-blue-200 text-blue-800 rounded-lg text-xs leading-relaxed font-medium">
+                                    <span className="font-bold flex items-center gap-1.5 mb-1">
+                                        <Lock className="w-3.5 h-3.5" />
+                                        Moderator Access
+                                    </span>
+                                    You can save drafts or submit posts for review. Only Admins can publish live content.
+                                </div>
+                            )}
+
                             <div>
                                 <label className="block text-xs font-bold text-stone-400 mb-1">Status</label>
                                 <select
                                     value={formData.status}
                                     onChange={e => setFormData({ ...formData, status: e.target.value as any })}
-                                    className="w-full p-2 border rounded bg-stone-50"
+                                    className="w-full p-2 border border-stone-200 rounded-lg bg-stone-50 shadow-sm focus:ring-2 focus:ring-agri-green/20 outline-none transition-all font-medium"
                                 >
                                     <option value="draft">Draft</option>
                                     <option value="pending_review">Pending Review</option>
-                                    <option value="scheduled">Scheduled</option>
-                                    <option value="published">Published</option>
+                                    {userRole === 'admin' && (
+                                        <>
+                                            <option value="scheduled">Scheduled</option>
+                                            <option value="published">Published</option>
+                                        </>
+                                    )}
                                 </select>
                             </div>
 

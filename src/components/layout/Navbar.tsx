@@ -95,71 +95,130 @@ export default function Navbar() {
     return (
         <>
             {/* --- DESKTOP HEADER --- */}
-            <header className="hidden md:block bg-white relative z-50">
-                {/* Top Utility Bar */}
-                <div className="container mx-auto px-4 py-2 flex justify-between items-center text-[10px] uppercase tracking-[0.15em] text-stone-500 border-b border-stone-200">
-                    <span className="font-medium">{currentDate}</span>
-                    <div className="flex items-center gap-6">
-                        {user ? (
-                            <>
-                                <Link href="/admin/posts" className="hover:text-black font-bold text-agri-green">
-                                    Dashboard
-                                </Link>
-                                <button onClick={handleSignOut} className="hover:text-red-500">
-                                    Sign Out
-                                </button>
-                            </>
-                        ) : (
-                            <>
-                                <Link href="/login" className="hover:text-black">Login</Link>
-                                <Link href="/newsletter" className="hover:text-black font-bold text-agri-green">Subscribe</Link>
-                            </>
-                        )}
-                    </div>
-                </div>
-
-                {/* Main Masthead */}
-                <div className="container mx-auto px-4 py-10 text-center border-b-2 border-black">
-                    <Link href="/" onClick={() => setIsMenuOpen(false)}>
-                        <h1 className="text-6xl lg:text-7xl font-black tracking-tight text-black uppercase" style={{ fontStretch: 'condensed' }}>
-                            AGRI UPDATES
-                        </h1>
-                    </Link>
-                </div>
-
-                {/* Desktop Sticky Nav */}
-                <nav className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-stone-200/50 shadow-sm transition-all duration-300 supports-[backdrop-filter]:bg-white/60">
-                    <div className="container mx-auto px-4 flex justify-center items-center gap-x-1 py-3 text-[10px] font-bold tracking-[0.15em] uppercase text-stone-700">
-                        {navCategories.map((cat, idx) => {
-                            let isActive = false;
-                            if (cat.href === '/jobs' && pathname === '/jobs') isActive = true;
-                            else if (cat.href === '/internships' && pathname === '/internships') isActive = true;
-                            else if (cat.href === '/startups' && pathname === '/startups') isActive = true;
-                            else if (cat.href.startsWith('/updates')) {
-                                const catParam = new URL(cat.href, 'http://a').searchParams.get('category');
-                                isActive = pathname === '/updates' && currentCategory === catParam;
-                            }
-
-                            return (
-                                <span key={cat.href} className="flex items-center">
-                                    {idx > 0 && <span className="mx-3 text-stone-300 font-light">|</span>}
-                                    <Link
-                                        href={cat.href}
-                                        className={`relative group py-1 whitespace-nowrap transition-colors duration-300 ${isActive ? 'text-agri-green' : 'hover:text-agri-green text-stone-600'}`}
-                                    >
-                                        {cat.label}
-                                        <span className={`absolute -bottom-1 left-0 h-0.5 bg-agri-green transition-all duration-300 ease-out ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+            {pathname === '/' ? (
+                <header className="hidden md:block bg-white relative z-50">
+                    {/* Top Utility Bar */}
+                    <div className="container mx-auto px-4 py-2 flex justify-between items-center text-[10px] uppercase tracking-[0.15em] text-stone-500 border-b border-stone-200">
+                        <span className="font-medium">{currentDate}</span>
+                        <div className="flex items-center gap-6">
+                            {user ? (
+                                <>
+                                    <Link href="/admin/posts" className="hover:text-black font-bold text-agri-green">
+                                        Dashboard
                                     </Link>
-                                </span>
-                            );
-                        })}
-                        <span className="mx-3 text-stone-300 font-light">|</span>
-                        <Link href="/search" className="text-stone-400 hover:text-agri-green p-1 transition-colors duration-300">
-                            <Search className="w-4 h-4" />
+                                    <button onClick={handleSignOut} className="hover:text-red-500">
+                                        Sign Out
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link href="/login" className="hover:text-black">Login</Link>
+                                    <Link href="/newsletter" className="hover:text-black font-bold text-agri-green">Subscribe</Link>
+                                </>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Main Masthead */}
+                    <div className="container mx-auto px-4 py-10 text-center border-b-2 border-black">
+                        <Link href="/" onClick={() => setIsMenuOpen(false)}>
+                            <h1 className="text-6xl lg:text-7xl font-black tracking-tight text-black uppercase" style={{ fontStretch: 'condensed' }}>
+                                AGRI UPDATES
+                            </h1>
                         </Link>
                     </div>
-                </nav>
-            </header>
+
+                    {/* Desktop Sticky Nav */}
+                    <nav className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-stone-200/50 shadow-sm transition-all duration-300 supports-[backdrop-filter]:bg-white/60">
+                        <div className="container mx-auto px-4 flex justify-center items-center gap-x-1 py-3 text-[10px] font-bold tracking-[0.15em] uppercase text-stone-700">
+                            {navCategories.map((cat, idx) => {
+                                let isActive = false;
+
+                                return (
+                                    <span key={cat.href} className="flex items-center">
+                                        {idx > 0 && <span className="mx-3 text-stone-300 font-light">|</span>}
+                                        <Link
+                                            href={cat.href}
+                                            className={`relative group py-1 whitespace-nowrap transition-colors duration-300 ${isActive ? 'text-agri-green' : 'hover:text-agri-green text-stone-600'}`}
+                                        >
+                                            {cat.label}
+                                            <span className={`absolute -bottom-1 left-0 h-0.5 bg-agri-green transition-all duration-300 ease-out ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                                        </Link>
+                                    </span>
+                                );
+                            })}
+                            <span className="mx-3 text-stone-300 font-light">|</span>
+                            <Link href="/search" className="text-stone-400 hover:text-agri-green p-1 transition-colors duration-300">
+                                <Search className="w-4 h-4" />
+                            </Link>
+                        </div>
+                    </nav>
+                </header>
+            ) : (
+                <header className="hidden md:block sticky top-0 z-50 bg-white border-b border-stone-200/80 shadow-sm transition-all">
+                    <div className="container mx-auto px-4 w-full">
+                        <div className="flex items-center justify-between h-[72px]">
+                            
+                            {/* Brand Logo */}
+                            <Link href="/" onClick={() => setIsMenuOpen(false)} className="shrink-0 mr-6 lg:mr-8">
+                                <h1 className="text-3xl lg:text-4xl font-black tracking-tighter text-[#37522d] uppercase" style={{ fontStretch: 'condensed' }}>
+                                    AGRI UPDATES
+                                </h1>
+                            </Link>
+
+                            {/* Middle: Horizontal Nav Links */}
+                            <nav className="flex-grow flex items-center gap-3 lg:gap-5 overflow-x-auto no-scrollbar text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.05em] lg:tracking-wider text-stone-800">
+                                {navCategories.map((cat, idx) => {
+                                    let isActive = false;
+                                    if (cat.href === '/jobs' && pathname === '/jobs') isActive = true;
+                                    else if (cat.href === '/internships' && pathname === '/internships') isActive = true;
+                                    else if (cat.href === '/startups' && pathname === '/startups') isActive = true;
+                                    else if (cat.href.startsWith('/updates')) {
+                                        const catParam = new URL(cat.href, 'http://a').searchParams.get('category');
+                                        isActive = pathname === '/updates' && currentCategory === catParam;
+                                    }
+
+                                    return (
+                                        <Link
+                                            key={cat.href}
+                                            href={cat.href}
+                                            className={`relative py-2 whitespace-nowrap transition-colors duration-200 group ${isActive ? 'text-[#37522d]' : 'hover:text-[#37522d]'}`}
+                                        >
+                                            {cat.label}
+                                            <span className={`absolute bottom-0 left-0 h-0.5 bg-[#37522d] transition-all duration-300 ease-out ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                                        </Link>
+                                    );
+                                })}
+                            </nav>
+
+                            {/* Right: Search & Utils */}
+                            <div className="flex items-center gap-3 shrink-0 ml-4">
+                                <span className="text-stone-300 font-light">|</span>
+                                
+                                {/* Search */}
+                                <Link href="/search" className="text-stone-400 hover:text-[#37522d] p-1 transition-colors">
+                                    <Search className="w-5 h-5" />
+                                </Link>
+
+                                {/* Auth */}
+                                <div className="flex items-center gap-3 text-[10px] uppercase font-bold tracking-wider ml-2">
+                                    {user ? (
+                                        <>
+                                            <Link href="/admin/posts" className="text-[#37522d] hover:text-black">Dash</Link>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Link href="/login" className="text-stone-400 hover:text-black">Login</Link>
+                                            <Link href="/newsletter" className="text-white bg-[#37522d] px-3 py-1.5 rounded-sm hover:bg-black transition-colors">Subscribe</Link>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </header>
+            )}
 
 
             {/* --- MOBILE HEADER & NAV (Redesigned) --- */}

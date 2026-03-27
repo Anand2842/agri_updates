@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import AdminSidebar from './AdminSidebar';
+import type { User } from '@supabase/supabase-js';
 
-export default function AdminShell({ children, user }: { children: React.ReactNode, user: any }) {
+export default function AdminShell({ children, user, role }: { children: React.ReactNode, user: User | null, role?: string }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
 
@@ -32,6 +33,7 @@ export default function AdminShell({ children, user }: { children: React.ReactNo
                 isCollapsed={isMounted ? isCollapsed : false}
                 toggleCollapse={toggleCollapse}
                 user={user}
+                role={role}
             />
 
             <main

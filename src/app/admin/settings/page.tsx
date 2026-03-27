@@ -1,8 +1,12 @@
 import { createClient } from '@/utils/supabase/server';
+import { getUserRole } from '@/lib/auth';
 
 export default async function AdminSettings() {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const [{ data: { user } }, role] = await Promise.all([
+        supabase.auth.getUser(),
+        getUserRole(supabase)
+    ]);
 
     return (
         <div className="max-w-4xl mx-auto">
@@ -36,7 +40,7 @@ export default async function AdminSettings() {
                     <div>
                         <label className="block text-xs font-bold uppercase text-stone-500 mb-2">Role</label>
                         <div className="p-3 bg-stone-50 border border-stone-200 rounded text-stone-800 text-sm capitalize">
-                            {user?.role || 'User'}
+                            {role}
                         </div>
                     </div>
                 </div>

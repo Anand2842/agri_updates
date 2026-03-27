@@ -199,49 +199,107 @@ export default async function StartupsPage({ searchParams }: StartupsPageProps) 
 
     return (
         <div className="bg-white min-h-screen pb-20">
-            <div className="bg-stone-900 text-white py-20">
-                <div className="container mx-auto px-4 text-center">
-                    <h1 className="font-serif text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-md">Startup Radar</h1>
-                    <p className="text-stone-200 max-w-2xl mx-auto text-lg leading-relaxed drop-shadow-sm">
-                        Everything from Seed Stage to Exits. Tracking the next unicorns in AgriTech.
-                    </p>
+            {/* Compact Title Bar */}
+            <div className="bg-white border-b border-stone-200 py-4 mb-8">
+                <div className="container mx-auto px-4 flex items-center justify-between">
+                    <div>
+                        <h1 className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-1">
+                            Startup Radar
+                        </h1>
+                        <p className="text-sm text-stone-500">Tracking the next unicorns in AgriTech</p>
+                    </div>
+                    <span className="text-sm font-medium text-stone-600 bg-stone-100 px-3 py-1 border border-stone-200 rounded-full shrink-0">
+                        {totalStartups} result{totalStartups !== 1 ? 's' : ''}
+                    </span>
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-16">
+            <div className="container mx-auto px-4">
+                <div className="flex flex-col md:flex-row gap-8">
+                    {/* Sidebar */}
+                    <div className="w-full md:w-64 lg:w-72 flex-shrink-0">
+                        <div className="sticky top-24 space-y-8">
+                            {/* Search */}
+                            <div className="bg-white p-5 border border-stone-200 rounded-xl shadow-sm">
+                                <h3 className="font-bold uppercase text-xs tracking-widest text-stone-900 mb-4 flex items-center gap-2">
+                                    <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    Search Startups
+                                </h3>
+                                <form className="flex flex-col gap-3">
+                                    {stageFilter && <input type="hidden" name="stage" value={stageFilter} />}
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            name="q"
+                                            placeholder="Company name..."
+                                            className="w-full px-4 py-2.5 bg-stone-50 border border-stone-200 rounded-md focus:ring-1 focus:ring-agri-green focus:border-agri-green outline-none text-stone-900 text-sm transition-all shadow-inner"
+                                        />
+                                    </div>
+                                    <button type="submit" className="w-full px-4 py-2.5 bg-agri-green hover:bg-agri-dark text-white font-bold rounded-md transition-colors text-xs uppercase tracking-widest mt-1 shadow-sm">
+                                        Apply Filters
+                                    </button>
+                                </form>
+                            </div>
 
-                <div className="flex justify-center gap-8 mb-16 text-xs font-bold uppercase tracking-widest text-stone-400 border-b border-stone-200 pb-4">
-                    <Link
-                        href="/startups"
-                        className={`cursor-pointer transition-colors ${!stageFilter ? 'text-black border-b-2 border-black pb-4 -mb-4.5' : 'hover:text-black'}`}
-                    >
-                        All
-                    </Link>
-                    <Link
-                        href="/startups?stage=seed"
-                        className={`cursor-pointer transition-colors ${stageFilter === 'seed' ? 'text-black border-b-2 border-black pb-4 -mb-4.5' : 'hover:text-black'}`}
-                    >
-                        Seed Stage
-                    </Link>
-                    <Link
-                        href="/startups?stage=series-a-plus"
-                        className={`cursor-pointer transition-colors ${stageFilter === 'series-a-plus' ? 'text-black border-b-2 border-black pb-4 -mb-4.5' : 'hover:text-black'}`}
-                    >
-                        Series A+
-                    </Link>
-                    <Link
-                        href="/startups?stage=exits"
-                        className={`cursor-pointer transition-colors ${stageFilter === 'exits' ? 'text-black border-b-2 border-black pb-4 -mb-4.5' : 'hover:text-black'}`}
-                    >
-                        Exits
-                    </Link>
-                </div>
+                            {/* Filters */}
+                            <div>
+                                <h3 className="font-bold uppercase text-xs tracking-widest text-stone-900 mb-4 px-1">Filter By Stage</h3>
+                                <div className="space-y-2 text-sm text-stone-600 px-1">
+                                    <Link
+                                        href="/startups"
+                                        className={`flex items-center gap-2 cursor-pointer hover:text-black ${!stageFilter ? 'text-agri-green font-bold' : ''}`}
+                                    >
+                                        <span className="w-4 h-4 border border-stone-300 flex items-center justify-center">
+                                            {!stageFilter && <span className="text-xs">✓</span>}
+                                        </span>
+                                        All Stages
+                                    </Link>
+                                    <Link
+                                        href="/startups?stage=seed"
+                                        className={`flex items-center gap-2 cursor-pointer hover:text-black ${stageFilter === 'seed' ? 'text-agri-green font-bold' : ''}`}
+                                    >
+                                        <span className="w-4 h-4 border border-stone-300 flex items-center justify-center">
+                                            {stageFilter === 'seed' && <span className="text-xs">✓</span>}
+                                        </span>
+                                        Seed Stage
+                                    </Link>
+                                    <Link
+                                        href="/startups?stage=series-a-plus"
+                                        className={`flex items-center gap-2 cursor-pointer hover:text-black ${stageFilter === 'series-a-plus' ? 'text-agri-green font-bold' : ''}`}
+                                    >
+                                        <span className="w-4 h-4 border border-stone-300 flex items-center justify-center">
+                                            {stageFilter === 'series-a-plus' && <span className="text-xs">✓</span>}
+                                        </span>
+                                        Series A+
+                                    </Link>
+                                    <Link
+                                        href="/startups?stage=exits"
+                                        className={`flex items-center gap-2 cursor-pointer hover:text-black ${stageFilter === 'exits' ? 'text-agri-green font-bold' : ''}`}
+                                    >
+                                        <span className="w-4 h-4 border border-stone-300 flex items-center justify-center">
+                                            {stageFilter === 'exits' && <span className="text-xs">✓</span>}
+                                        </span>
+                                        Exits
+                                    </Link>
+                                </div>
+                                
+                                {stageFilter && (
+                                    <div className="mt-6 pt-4 border-t border-stone-200 px-1">
+                                        <Link
+                                            href="/startups"
+                                            className="text-xs text-stone-500 hover:text-agri-green underline"
+                                        >
+                                            Clear all filters
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
 
-                <div className="mb-12">
-                    <AdBanner placement="banner" />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {/* Content List */}
+                    <div className="flex-grow">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {paginatedStartups.map((startup) => (
                         <Link href={`/startups/${startup.slug || startup.id}`} key={startup.id} className="bg-stone-50 p-8 flex flex-col items-center text-center group hover:shadow-lg transition-shadow h-full block">
                             <div className="w-16 h-16 bg-white border border-stone-100 rounded-full mb-6 flex items-center justify-center text-stone-400 overflow-hidden relative">
@@ -303,6 +361,8 @@ export default async function StartupsPage({ searchParams }: StartupsPageProps) 
                         )}
                     </div>
                 )}
+            </div>
+            </div>
             </div>
         </div>
     );
