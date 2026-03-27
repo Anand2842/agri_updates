@@ -153,7 +153,7 @@ export type Post = {
 
     // Relation
     authors?: Author | null
-    policy_rules?: any | null
+    policy_rules?: Record<string, unknown> | null
 }
 
 export type Ad = {
