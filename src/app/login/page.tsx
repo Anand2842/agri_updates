@@ -4,10 +4,12 @@ import { createClient } from '@/utils/supabase/client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { Eye, EyeOff } from 'lucide-react'
 
 export default function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const router = useRouter()
@@ -62,15 +64,29 @@ export default function LoginPage() {
                         />
                     </div>
                     <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Password</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black transition-colors"
-                            autoComplete="current-password"
-                            required
-                        />
+                        <div className="flex justify-between items-end mb-2">
+                            <label className="block text-xs font-bold uppercase tracking-widest text-stone-500">Password</label>
+                            <Link href="/forgot-password" className="text-xs font-bold text-agri-green hover:underline">
+                                Forgot Password?
+                            </Link>
+                        </div>
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black transition-colors pr-12"
+                                autoComplete="current-password"
+                                required
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 focus:outline-none"
+                            >
+                                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                            </button>
+                        </div>
                     </div>
                     <button
                         type="submit"

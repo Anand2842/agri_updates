@@ -76,37 +76,37 @@ export default function CookieConsent() {
 
             {/* Main Banner */}
             {showBanner && !showPreferences && (
-                <div className="w-full bg-white border-t border-stone-200 shadow-[0_-4px_20px_rgba(0,0,0,0.1)] p-4 md:p-6 pointer-events-auto animate-in slide-in-from-bottom duration-500">
-                    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-                        <div className="flex-1 space-y-2 text-center md:text-left">
-                            <h3 className="text-lg font-serif font-bold text-stone-900 flex items-center justify-center md:justify-start gap-2">
-                                <Cookie className="w-5 h-5 text-agri-green" />
-                                We value your privacy
+                <div className="fixed bottom-4 left-4 z-50 w-[calc(100%-2rem)] md:w-[400px] bg-white border border-stone-200 rounded-xl shadow-xl p-5 pointer-events-auto animate-in slide-in-from-bottom-5 duration-300">
+                    <button 
+                        onClick={handleRejectAll}
+                        className="absolute top-3 right-3 text-stone-400 hover:text-stone-600 transition-colors"
+                        aria-label="Dismiss and Reject All"
+                    >
+                        <X className="w-5 h-5" />
+                    </button>
+                    <div className="flex flex-col gap-4">
+                        <div className="space-y-2 pr-6">
+                            <h3 className="text-base font-bold text-stone-900 flex items-center gap-2">
+                                <Cookie className="w-4 h-4 text-agri-green" />
+                                Cookie Consent
                             </h3>
-                            <p className="text-sm text-stone-600 max-w-3xl leading-relaxed">
-                                We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic.
-                                By clicking "Accept All", you consent to our use of cookies.
-                                Read our <Link href="/privacy-policy" className="underline hover:text-agri-green">Privacy Policy</Link>.
+                            <p className="text-xs text-stone-500 leading-relaxed">
+                                We use cookies to enhance your experience. 
+                                Read our <Link href="/privacy" className="underline hover:text-agri-green">Privacy Policy</Link>.
                             </p>
                         </div>
-                        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-                            <button
-                                onClick={() => setShowPreferences(true)}
-                                className="px-6 py-2.5 text-sm font-bold text-stone-600 bg-stone-100 hover:bg-stone-200 rounded-lg transition-colors border border-stone-200"
-                            >
-                                Customize
-                            </button>
-                            <button
-                                onClick={handleRejectAll}
-                                className="px-6 py-2.5 text-sm font-bold text-stone-600 bg-white border border-stone-300 hover:bg-stone-50 rounded-lg transition-colors"
-                            >
-                                Reject All
-                            </button>
+                        <div className="flex gap-2 w-full pt-1">
                             <button
                                 onClick={handleAcceptAll}
-                                className="px-6 py-2.5 text-sm font-bold text-white bg-agri-green hover:bg-agri-dark rounded-lg shadow-sm transition-colors"
+                                className="flex-1 py-2 px-3 text-xs font-bold text-white bg-agri-green hover:bg-agri-dark rounded-lg transition-colors"
                             >
                                 Accept All
+                            </button>
+                            <button
+                                onClick={() => setShowPreferences(true)}
+                                className="flex-1 py-2 px-3 text-xs font-bold text-stone-600 bg-stone-100 hover:bg-stone-200 rounded-lg transition-colors border border-stone-200"
+                            >
+                                Customize
                             </button>
                         </div>
                     </div>

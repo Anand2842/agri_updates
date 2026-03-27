@@ -1,23 +1,31 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
-import { Post } from '@/types/database';
 
 interface RelatedPostsProps {
     currentPostId: string;
     category: string;
+    offset?: number;
+    limit?: number;
+    className?: string;
 }
 
-export default async function RelatedPosts({ currentPostId, category }: RelatedPostsProps) {
+export default async function RelatedPosts({
+    currentPostId,
+    category,
+    offset = 0,
+    limit = 3,
+    className = '',
+}: RelatedPostsProps) {
     // Fetch related posts from same category, excluding current post
     const { data: relatedPosts } = await supabase
         .from('posts')
-        .select('id, title, slug, image_url, excerpt, category, published_at')
+        .select('id, title, slug, image_url, excerpt, category, published_at, content')
         .eq('category', category)
         .neq('id', currentPostId)
         .eq('status', 'published')
         .order('published_at', { ascending: false })
-        .limit(3);
+        .range(offset, offset + limit - 1);
 
     if (!relatedPosts || relatedPosts.length === 0) {
         return null;
@@ -25,7 +33,7 @@ export default async function RelatedPosts({ currentPostId, category }: RelatedP
 
     return (
 
-        <section className="py-12 md:py-16 md:border-t md:border-stone-200 bg-white">
+        <section className={`border-t border-stone-100 bg-stone-50 py-12 md:py-16 ${className}`}>
             <div className="container mx-auto px-4 max-w-[680px] lg:max-w-5xl">
 
                 {/* Section Title */}
@@ -44,7 +52,7 @@ export default async function RelatedPosts({ currentPostId, category }: RelatedP
                                         {post.category}
                                     </span>
                                     <span className="text-[9px] text-stone-300">•</span>
-                                    <span className="text-[9px] text-stone-400 font-medium">5 min read</span>
+                                    <span className="text-[9px] text-stone-400 font-medium">{Math.max(1, Math.ceil(((post.content || post.excerpt || '').replace(/<[^>]*>/g, '').split(/\s+/).length) / 200))} min read</span>
                                 </div>
                                 <h3 className="font-serif text-[17px] font-semibold leading-[1.35] text-stone-800 group-hover:text-agri-green transition-colors line-clamp-3">
                                     {post.title}

@@ -1,0 +1,94 @@
+[     793ms] Error: Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/blog/big-..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth" ...>
+                          <head>
+                          <body className="inter_786c...">
+                            <noscript>
+                            <Suspense>
++                           <main className="flex-grow">
+-                           <Suspense>
+                            ...
+                  ...
+
+    at throwOnHydrationMismatch (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:3348:56)
+    at beginWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:6775:918)
+    at replayBeginWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:9585:156)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:965:74)
+    at replaySuspendedUnitOfWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:9567:20)
+    at renderRootConcurrent (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:9500:141)
+    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:9068:150)
+    at performWorkOnRootViaSchedulerTask (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js:10230:9)
+    at MessagePort.performWorkUntilDeadline (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_a0e4c7b4._.js:2647:64)
+[    1176ms] TypeError: Cannot read properties of null (reading 'parentNode')
+    at $RS (http://localhost:3000/blog/big-opportunity-for-agri-startups-9016:9:9499)
+    at http://localhost:3000/blog/big-opportunity-for-agri-startups-9016:9:10684
+[    1204ms] TypeError: Cannot read properties of null (reading 'parentNode')
+    at $RS (http://localhost:3000/blog/big-opportunity-for-agri-startups-9016:9:9457)
+    at http://localhost:3000/blog/big-opportunity-for-agri-startups-9016:9:58822
+[ 3073732ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZwqPjq31NZJVehTq5uMHQ' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10876
+[ 3074741ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZwqPjq31NZJVehTq5uMHQ' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10876
+[ 3075743ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZwqPjq31NZJVehTq5uMHQ' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10876
+[ 3076748ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZwqPjq31NZJVehTq5uMHQ' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10876
+[ 3077754ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZwqPjq31NZJVehTq5uMHQ' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10876
+[ 3082758ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=ZwqPjq31NZJVehTq5uMHQ' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10876
+[ 3088701ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/blog/big-opportunity-for-agri-startups-9016:0
+[ 3089552ms] Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at createServerClient (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/node_modules_f76aabff._.js:9330:15)
+    at updateSession (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/[root-of-the-server]__577ae54c._.js:56:226)
+    at middleware (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/[root-of-the-server]__577ae54c._.js:142:182)
+    at <unknown> (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/node_modules_next_dist_4a502595._.js:12015:26)
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)
+    at <unknown> (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/node_modules_next_dist_4a502595._.js:7310:655)
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)
+    at <unknown> (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/node_modules_next_dist_4a502595._.js:7310:325)
+    at async adapter (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/node_modules_next_dist_4a502595._.js:7265:16)
+    at async (file:///Users/anand/Downloads/agri_updates/node_modules/next/dist/server/web/sandbox/sandbox.js:112:26)
+[ 3192992ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/blog/big-opportunity-for-agri-startups-9016:0
+[ 3193356ms] Error: supabaseKey is required.
+    at new SupabaseClient (file:///Users/anand/Downloads/agri_updates/.next/dev/server/chunks/ssr/node_modules_b34f9b41._.js:14312:33)
+    at createClient (file:///Users/anand/Downloads/agri_updates/.next/dev/server/chunks/ssr/node_modules_b34f9b41._.js:14502:12)
+    at module evaluation (file:///Users/anand/Downloads/agri_updates/.next/dev/server/chunks/ssr/[root-of-the-server]__8777058b._.js:54:218)
+    at instantiateModule (file:///Users/anand/Downloads/agri_updates/.next/dev/server/chunks/ssr/[turbopack]_runtime.js:740:9)
+    at getOrInstantiateModuleFromParent (file:///Users/anand/Downloads/agri_updates/.next/dev/server/chunks/ssr/[turbopack]_runtime.js:763:12)
+    at Context.esmImport [as i] (file:///Users/anand/Downloads/agri_updates/.next/dev/server/chunks/ssr/[turbopack]_runtime.js:228:20)
+    at module evaluation (file:///Users/anand/Downloads/agri_updates/.next/dev/server/chunks/ssr/[root-of-the-server]__8777058b._.js:1008:148)
+    at instantiateModule (file:///Users/anand/Downloads/agri_updates/.next/dev/server/chunks/ssr/[turbopack]_runtime.js:740:9)
+    at getOrInstantiateModuleFromParent (file:///Users/anand/Downloads/agri_updates/.next/dev/server/chunks/ssr/[turbopack]_runtime.js:763:12)
+    at Context.esmImport [as i] (file:///Users/anand/Downloads/agri_updates/.next/dev/server/chunks/ssr/[turbopack]_runtime.js:228:20)
+[ 3253168ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=XIFNi1XAeELGF3dlOmBDo' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10876
+[ 3254170ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=XIFNi1XAeELGF3dlOmBDo' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10876
+[ 3255175ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=XIFNi1XAeELGF3dlOmBDo' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10876

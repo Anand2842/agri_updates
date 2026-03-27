@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { getRequiredSupabaseClientConfig } from '@/lib/supabase-config'
 
 export async function updateSession(request: NextRequest) {
     let response = NextResponse.next({
@@ -32,11 +33,11 @@ export async function updateSession(request: NextRequest) {
     response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), browsing-topics=()');
     // Pass nonce to request (for potential usage in layout)
     response.headers.set('x-nonce', nonce);
-
+    const { url, publishableKey } = getRequiredSupabaseClientConfig()
 
     const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        url,
+        publishableKey,
         {
             cookies: {
                 getAll() {

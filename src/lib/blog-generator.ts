@@ -324,30 +324,6 @@ export class BlogGenerator {
         <div class="prose prose-lg max-w-none text-stone-700">
             ${paragraphs || cleanText.split('\n').map(p => `<p>${p}</p>`).join('')}
         </div>
-
-        <hr className="my-8 border-stone-200" />
-        
-        <h3 class="text-2xl font-bold text-agri-green mb-4">Agri Updates Analysis</h3>
-        <p class="mb-4">This development is significant for the sector. It offers new opportunities for growth and modernization.</p>
-        
-        <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500 my-6">
-            <h4 class="font-bold text-blue-900 mb-2">Key Highlights</h4>
-             <ul class="list-disc pl-5 space-y-2 text-blue-800">
-                <li><strong>Impact:</strong> High relevance for the farming community.</li>
-                <li><strong>Action:</strong> Review the details and apply/participate if eligible.</li>
-            </ul>
-        </div>
-
-        <h3 class="text-2xl font-bold text-agri-green mb-4">FAQ</h3>
-        <details class="mb-4 group bg-white rounded-lg border border-stone-200 shadow-sm">
-          <summary class="font-bold cursor-pointer p-4 hover:bg-stone-50 transition-colors flex justify-between items-center">
-            <span>What is the source of this news?</span>
-            <span class="transform group-open:rotate-180 transition-transform">▼</span>
-          </summary>
-          <div class="p-4 border-t border-stone-200 text-stone-600">
-            <p>This update is curated from recent announcements and community reports.</p>
-          </div>
-        </details>
       </div>`;
 
     return {
@@ -754,15 +730,7 @@ export class BlogGenerator {
   }
 
   private static getDisclaimerHtml(): string {
-    return `
-      <hr class="my-8 border-stone-200" />
-      <div class="bg-stone-50 p-6 rounded-lg border border-stone-200">
-        <p class="font-bold text-stone-700 mb-2">Disclaimer</p>
-        <p class="text-stone-600 text-sm">
-          Agri Updates shares opportunities sourced from trusted networks. Applicants are advised to verify all details directly with the issuing organisation before submission.
-        </p>
-      </div>
-    `;
+    return '';
   }
 
 }

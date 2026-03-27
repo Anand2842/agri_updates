@@ -20,7 +20,9 @@ import {
     Megaphone,
     ChevronLeft,
     ChevronRight,
-    LogOut
+    LogOut,
+    Tag,
+    Users
 } from 'lucide-react';
 
 interface AdminSidebarProps {
@@ -58,10 +60,12 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse, user }: Admi
             section: 'Content Management',
             items: [
                 { name: 'All Posts', icon: FileText, href: '/admin/posts' },
+                { name: 'Review Queue', icon: Eye, href: '/admin/review', special: true },
                 { name: 'Featured Manager', icon: Crown, href: '/admin/posts?is_featured=true', money: true },
                 { name: 'Hero & Highlights', icon: Star, href: '/admin/posts?display=hero' },
                 { name: 'Trending', icon: TrendingUp, href: '/admin/posts?display=trending' },
-                { name: 'Ads Manager', icon: Megaphone, href: '/admin/ads' },
+                { name: 'Categories', icon: Tag, href: '/admin/categories' },
+                { name: 'Authors Directory', icon: Users, href: '/admin/authors' },
             ]
         },
         {

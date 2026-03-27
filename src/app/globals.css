@@ -265,6 +265,24 @@
   overflow-wrap: anywhere;
 }
 
+/* NUCLEAR UNDERLINE KILL — Legacy DB content contains <u> tags, unclosed <a> tags,
+   and inline text-decoration styles from the CMS editor. This single wildcard rule
+   eliminates ALL underlines from every element inside the article body, AND the container itself.
+   Only link :hover underline is explicitly re-enabled below. */
+.prose-article,
+.prose-article *,
+.prose-article u,
+.prose-article a {
+  text-decoration: none !important;
+}
+.prose-article a {
+  color: var(--color-agri-green);
+}
+.prose-article a:hover {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+
 /* Tables must scroll horizontally if too wide */
 .prose table {
   display: block;

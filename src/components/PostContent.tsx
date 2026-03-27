@@ -1,10 +1,84 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import AdBanner from '@/components/ads/AdBanner';
+import { useState, useEffect } from 'react';
 
 interface PostContentProps {
     html: string;
+}
+
+function unwrapElement(element: Element) {
+    const parent = element.parentNode;
+    if (!parent) return;
+
+    while (element.firstChild) {
+        parent.insertBefore(element.firstChild, element);
+    }
+
+    parent.removeChild(element);
+}
+
+function stripUnderlineStyles(styleValue: string | null) {
+    if (!styleValue) return null;
+
+    const cleaned = styleValue
+        .replace(/text-decoration(?:-line|-style|-color|-thickness)?\s*:[^;]+;?/gi, '')
+        .replace(/text-underline-offset\s*:[^;]+;?/gi, '')
+        .trim()
+        .replace(/;\s*;/g, ';')
+        .replace(/^;|;$/g, '')
+        .trim();
+
+    return cleaned || null;
+}
+
+function normalizeEditorialMarkup(content: string) {
+    if (typeof DOMParser === 'undefined') {
+        return content;
+    }
+
+    const doc = new DOMParser().parseFromString(`<div data-post-root="true">${content}</div>`, 'text/html');
+    const root = doc.body.firstElementChild;
+
+    if (!root) {
+        return content;
+    }
+
+    root.querySelectorAll('u').forEach((element) => {
+        unwrapElement(element);
+    });
+
+    root.querySelectorAll<HTMLElement>('[style]').forEach((element) => {
+        const cleanedStyle = stripUnderlineStyles(element.getAttribute('style'));
+        if (cleanedStyle) {
+            element.setAttribute('style', cleanedStyle);
+        } else {
+            element.removeAttribute('style');
+        }
+    });
+
+    root.querySelectorAll('a').forEach((anchor) => {
+        const href = (anchor.getAttribute('href') || '').trim();
+        const normalizedHref = href.toLowerCase();
+        const text = (anchor.textContent || '').trim();
+        const classes = `${anchor.getAttribute('class') || ''} ${anchor.getAttribute('className') || ''}`.toLowerCase();
+
+        const hasMeaningfulHref =
+            Boolean(href) &&
+            normalizedHref !== '#' &&
+            !normalizedHref.startsWith('javascript:');
+        const isMeaningfulExternal = /^(https?:\/\/|mailto:|tel:)/i.test(href);
+        const isMeaningfulInternal = /^\/(blog|updates|jobs|internships|startups|search|author|newsletter)\b/i.test(href);
+        const isDownloadLink = /\.(pdf|docx?|xlsx?|csv)([#?].*)?$/i.test(href);
+        const looksLikeCta =
+            /(apply|register|subscribe|download|learn more|read more|official|source)/i.test(text) ||
+            /(button|btn|cta|inline-block|rounded|bg-|shadow)/.test(classes);
+
+        if (!hasMeaningfulHref || (!isMeaningfulExternal && !isMeaningfulInternal && !isDownloadLink && !looksLikeCta)) {
+            unwrapElement(anchor);
+        }
+    });
+
+    return root.innerHTML;
 }
 
 export default function PostContent({ html }: PostContentProps) {
@@ -119,9 +193,27 @@ export default function PostContent({ html }: PostContentProps) {
                 '<div class="my-10 text-center"><a href="$2" class="inline-block px-8 py-4 bg-agri-green text-white !text-white font-bold uppercase tracking-widest text-sm rounded-lg shadow-md hover:bg-agri-dark hover:shadow-lg hover:!text-white transition-all duration-200 !no-underline">$1</a></div>'
             );
 
+            // 5. Render-Time Normalization (Remove Hallucinated Brand Fillers)
+            // Strip entire block-level elements containing the branded lead-in + optional date
+            content = content.replace(/<(p|div|span|em|strong|i)[^>]*>[^<]*Updated\s+for\s+Agri\s+Updates[^<]*<\/\1>/gi, '');
+            // Strip standalone instances including trailing dates like "/ January 2026"
+            content = content.replace(/Updated\s+for\s+Agri\s+Updates\s*[\/\-–—]?\s*(?:January|February|March|April|May|June|July|August|September|October|November|December)?\s*\d{0,4}/gi, '');
+            // Catch any remaining bare instances
+            content = content.replace(/Updated\s+for\s+Agri\s+Updates/gi, '');
+            // Neutralize branded author references in body text
+            content = content.replace(/Agri\s+Updates?\s+Editor/gi, 'Editorial Desk');
+            content = content.replace(/Agri\s+Updates?\s+Desk/gi, 'Editorial Desk');
+            // Strip empty paragraphs left behind after cleanup
+            content = content.replace(/<p[^>]*>\s*<\/p>/gi, '');
+
+            // Harden imported HTML so malformed links or inline underline styles
+            // cannot turn the whole article into link-like text.
+            content = normalizeEditorialMarkup(content);
+
             const clean = purify.sanitize(content, {
                 ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'ul', 'ol', 'li', 'strong', 'em', 'a', 'img', 'blockquote', 'div', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'details', 'summary', 'span', 'hr', 'br', 'pre', 'code', 'iframe'],
-                ALLOWED_ATTR: ['href', 'src', 'alt', 'target', 'rel', 'class', 'className', 'style', 'width', 'height', 'frameborder', 'allow', 'allowfullscreen']
+                ALLOWED_ATTR: ['href', 'src', 'alt', 'target', 'rel', 'class', 'className', 'style', 'width', 'height', 'frameborder', 'allow', 'allowfullscreen'],
+                FORBID_TAGS: ['u']
             });
 
             setCleanHtml(clean);
@@ -141,94 +233,62 @@ export default function PostContent({ html }: PostContentProps) {
         );
     }
 
-    // Split content by the Ad Marker
-    const contentParts = cleanHtml.split('<!--__AD_MID_BREAK__-->');
-
     return (
         <article className="w-full max-w-full overflow-hidden">
-            {contentParts.map((part, index) => (
-                <React.Fragment key={index}>
-                    <div
-                        className="
-                            prose prose-stone max-w-none mx-auto
-                            text-[17px] leading-[1.85] text-stone-600 font-normal
-                            
-                            /* Headings - Serif for editorial feel, clean black like YourStory */
-                            prose-headings:font-serif prose-headings:text-stone-900
-                            [&_h2]:text-[24px] [&_h2]:sm:text-[28px] [&_h2]:font-bold [&_h2]:tracking-tight
-                            [&_h2]:mt-16 [&_h2]:mb-8 [&_h2]:leading-[1.2]
-                            [&_h3]:text-[20px] [&_h3]:sm:text-[22px] [&_h3]:font-bold [&_h3]:tracking-tight
-                            [&_h3]:mt-14 [&_h3]:mb-6 [&_h3]:text-stone-800 [&_h3]:leading-snug
-                            [&_h4]:text-[16px] [&_h4]:font-medium [&_h4]:mt-8 [&_h4]:mb-3 [&_h4]:text-stone-700
-                            
-                            /* Paragraphs - MASSIVE spacing like YourStory */
-                            prose-p:text-stone-600 prose-p:mb-8 prose-p:font-normal
-                            
-                            /* Links - subtle but clickable */
-                            prose-a:text-agri-green prose-a:font-medium prose-a:no-underline 
-                            prose-a:border-b prose-a:border-agri-green/30 
-                            hover:prose-a:border-agri-green hover:prose-a:text-agri-dark
-                            
-                            /* Images */
-                            prose-img:rounded-lg prose-img:my-8 prose-img:w-full
-                            
-                            /* Strong/Bold - subtle emphasis, not shouty */
-                            prose-strong:text-stone-800 prose-strong:font-normal
-                            
-                            /* Lists - refined styling with more breathing room */
-                            [&_ul]:list-none [&_ul]:pl-0 [&_ul]:mb-6 [&_ul]:space-y-4
-                            [&_ul>li]:relative [&_ul>li]:pl-6 [&_ul>li]:text-stone-600
-                            [&_ul>li]:before:content-['•'] [&_ul>li]:before:absolute [&_ul>li]:before:left-0
-                            [&_ul>li]:before:text-agri-green [&_ul>li]:before:font-bold
-                            
-                            /* Numbered Lists */
-                            [&_ol]:list-none [&_ol]:pl-0 [&_ol]:mb-6 [&_ol]:space-y-4 [&_ol]:counter-reset-[item]
-                            [&_ol>li]:relative [&_ol>li]:pl-8 [&_ol>li]:text-stone-600
-                            [&_ol>li]:before:absolute [&_ol>li]:before:left-0 [&_ol>li]:before:text-agri-green
-                            [&_ol>li]:before:font-semibold [&_ol>li]:before:text-[15px]
-                            
-                            /* Nested lists */
-                            [&_ul_ul]:mt-3 [&_ul_ul]:mb-0 [&_ol_ol]:mt-3 [&_ol_ol]:mb-0
-                            [&_ul_ul>li]:before:content-['◦'] [&_ul_ul>li]:before:text-stone-400
-                            
-                            /* Blockquotes */
-                            [&_blockquote]:border-l-2 [&_blockquote]:border-agri-green/40 
-                            [&_blockquote]:pl-5 [&_blockquote]:py-1 [&_blockquote]:italic 
-                            [&_blockquote]:text-lg [&_blockquote]:text-stone-500 
-                            [&_blockquote]:my-8 [&_blockquote]:bg-transparent
-                            
-                            /* Drop Cap for the first paragraph (Only for the first part) */
-                            ${index === 0 ? `
-                            [&>p:first-of-type::first-letter]:float-left 
-                            [&>p:first-of-type::first-letter]:text-5xl 
-                            [&>p:first-of-type::first-letter]:pr-0
-                            [&>p:first-of-type::first-letter]:mr-3
-                            [&>p:first-of-type::first-letter]:font-serif 
-                            [&>p:first-of-type::first-letter]:font-bold 
-                            [&>p:first-of-type::first-letter]:text-agri-green 
-                            [&>p:first-of-type::first-letter]:leading-[0.75] 
-                            [&>p:first-of-type::first-letter]:mt-1
-                            ` : ''}
-                        "
-                        style={{ wordBreak: 'normal', overflowWrap: 'anywhere' }}
-                        dangerouslySetInnerHTML={{ __html: part }}
-                    />
-                    {/* Render Ad Banner if not the last part */}
-                    {index < contentParts.length - 1 && (
-                        <div className="my-8">
-                            <AdBanner placement="in-content" />
-                        </div>
-                    )}
-                </React.Fragment>
-            ))}
-
-            <hr className="my-10 border-stone-100" />
-            <div className="p-5 bg-stone-50/50 border border-stone-100 rounded-lg text-sm">
-                <p className="font-medium text-stone-500 mb-1">Disclaimer</p>
-                <p className="text-stone-400 leading-relaxed">
-                    Agri Updates shares opportunities sourced from trusted networks. Applicants are advised to verify all details directly with the issuing organisation.
-                </p>
-            </div>
+            <div
+                className="
+                    prose-article
+                    prose prose-stone max-w-none mx-auto
+                    text-[18px] leading-[1.9] text-stone-700 font-normal
+                    
+                    prose-headings:font-serif prose-headings:text-[#111]
+                    [&_h2]:text-[26px] [&_h2]:sm:text-[32px] [&_h2]:font-bold [&_h2]:tracking-tight
+                    [&_h2]:mt-16 [&_h2]:mb-6 [&_h2]:leading-[1.25]
+                    [&_h3]:text-[22px] [&_h3]:sm:text-[24px] [&_h3]:font-bold [&_h3]:tracking-tight
+                    [&_h3]:mt-12 [&_h3]:mb-4 [&_h3]:text-stone-800 [&_h3]:leading-snug
+                    [&_h4]:text-[18px] [&_h4]:font-semibold [&_h4]:mt-8 [&_h4]:mb-3 [&_h4]:text-stone-800
+                    
+                    prose-p:text-stone-700 prose-p:mb-8 prose-p:font-normal
+                    
+                    prose-a:text-agri-green prose-a:font-medium prose-a:no-underline
+                    hover:prose-a:underline hover:prose-a:decoration-agri-green
+                    hover:prose-a:underline-offset-4 hover:prose-a:text-agri-dark
+                    
+                    prose-img:rounded-xl prose-img:my-10 prose-img:w-full prose-img:shadow-sm
+                    
+                    prose-strong:text-stone-900 prose-strong:font-bold
+                    
+                    [&_ul]:list-none [&_ul]:pl-0 [&_ul]:mb-8 [&_ul]:space-y-4
+                    [&_ul>li]:relative [&_ul>li]:pl-6 [&_ul>li]:text-stone-700
+                    [&_ul>li]:before:content-['•'] [&_ul>li]:before:absolute [&_ul>li]:before:left-0
+                    [&_ul>li]:before:text-stone-400 [&_ul>li]:before:font-bold
+                    
+                    [&_ol]:list-none [&_ol]:pl-0 [&_ol]:mb-8 [&_ol]:space-y-4 [&_ol]:counter-reset-[item]
+                    [&_ol>li]:relative [&_ol>li]:pl-8 [&_ol>li]:text-stone-700
+                    [&_ol>li]:before:absolute [&_ol>li]:before:left-0 [&_ol>li]:before:text-stone-400
+                    [&_ol>li]:before:font-semibold [&_ol>li]:before:text-[15px]
+                    
+                    [&_ul_ul]:mt-3 [&_ul_ul]:mb-0 [&_ol_ol]:mt-3 [&_ol_ol]:mb-0
+                    [&_ul_ul>li]:before:content-['◦'] [&_ul_ul>li]:before:text-stone-400
+                    
+                    [&_blockquote]:border-l-4 [&_blockquote]:border-stone-900 
+                    [&_blockquote]:pl-6 [&_blockquote]:py-2 [&_blockquote]:italic 
+                    [&_blockquote]:text-[22px] [&_blockquote]:text-stone-800 [&_blockquote]:font-serif
+                    [&_blockquote]:my-10 [&_blockquote]:bg-stone-50 [&_blockquote]:pr-6
+                    
+                    [&>p:first-of-type::first-letter]:float-left 
+                    [&>p:first-of-type::first-letter]:text-[5.5rem] 
+                    [&>p:first-of-type::first-letter]:pr-4
+                    [&>p:first-of-type::first-letter]:mr-2
+                    [&>p:first-of-type::first-letter]:font-serif 
+                    [&>p:first-of-type::first-letter]:font-bold 
+                    [&>p:first-of-type::first-letter]:text-stone-900 
+                    [&>p:first-of-type::first-letter]:leading-[0.75] 
+                    [&>p:first-of-type::first-letter]:mt-3
+                "
+                style={{ wordBreak: 'normal', overflowWrap: 'anywhere' }}
+                dangerouslySetInnerHTML={{ __html: cleanHtml.replace(/<!--__AD_MID_BREAK__-->/g, '') }}
+            />
         </article>
     );
 }

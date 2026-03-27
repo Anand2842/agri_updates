@@ -201,8 +201,8 @@ export default async function StartupsPage({ searchParams }: StartupsPageProps) 
         <div className="bg-white min-h-screen pb-20">
             <div className="bg-stone-900 text-white py-20">
                 <div className="container mx-auto px-4 text-center">
-                    <h1 className="font-serif text-4xl md:text-6xl font-bold mb-6">Startup Radar</h1>
-                    <p className="text-stone-300 max-w-2xl mx-auto text-lg leading-relaxed">
+                    <h1 className="font-serif text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-md">Startup Radar</h1>
+                    <p className="text-stone-200 max-w-2xl mx-auto text-lg leading-relaxed drop-shadow-sm">
                         Everything from Seed Stage to Exits. Tracking the next unicorns in AgriTech.
                     </p>
                 </div>

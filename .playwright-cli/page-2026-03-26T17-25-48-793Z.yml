@@ -1,0 +1,82 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - article [ref=e3]:
+      - generic [ref=e5]:
+        - link "Back to Blog" [ref=e7] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e8]
+          - generic [ref=e10]: Back
+        - generic:
+          - 'heading "ORP-5 2026: International Conference on Organic & Natural Rice Farming" [level=2]'
+        - button "Share Article" [ref=e12]:
+          - img [ref=e13]
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - generic [ref=e24]:
+              - link "Events" [ref=e25] [cursor=pointer]:
+                - /url: /updates?category=Events
+              - generic [ref=e26]: 1 min read
+            - 'heading "ORP-5 2026: International Conference on Organic & Natural Rice Farming" [level=1] [ref=e27]'
+            - paragraph [ref=e28]: ORP-5 2026 is an international conference focused on organic and natural rice farming systems, bringing together researchers, practitioners, and institutions to exchange knowledge on sustainable rice production.
+            - generic [ref=e29]:
+              - generic [ref=e30]:
+                - img "Editorial Desk" [ref=e32]
+                - generic [ref=e33]:
+                  - generic [ref=e34]: Editorial Desk
+                  - text: 1/14/2026
+              - generic [ref=e36]:
+                - generic [ref=e37]: "Share:"
+                - link "Share on WhatsApp" [ref=e38] [cursor=pointer]:
+                  - /url: https://wa.me/?text=ORP-5%202026%3A%20International%20Conference%20on%20Organic%20%26%20Natural%20Rice%20Farming%20
+                  - img [ref=e39]
+                - link "Share on X (Twitter)" [ref=e41] [cursor=pointer]:
+                  - /url: https://twitter.com/intent/tweet?text=ORP-5%202026%3A%20International%20Conference%20on%20Organic%20%26%20Natural%20Rice%20Farming&url=
+                  - img [ref=e42]
+                - link "Share on LinkedIn" [ref=e44] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/sharing/share-offsite/?url=
+                  - img [ref=e45]
+                - link "Share on Facebook" [ref=e49] [cursor=pointer]:
+                  - /url: https://www.facebook.com/sharer/sharer.php?u=
+                  - img [ref=e50]
+                - button "Copy Link" [ref=e52]:
+                  - img [ref=e53]
+          - 'img "ORP-5 2026: International Conference on Organic & Natural Rice Farming" [ref=e58]'
+          - article [ref=e59]
+          - generic [ref=e65]:
+            - img "Editorial Desk" [ref=e67]
+            - generic [ref=e68]:
+              - heading "Editorial Desk" [level=4] [ref=e69]
+              - paragraph [ref=e70]: Dedicated to bringing you the latest in agricultural news and innovation.
+        - complementary [ref=e71]:
+          - generic [ref=e75]:
+            - generic [ref=e76]: Free Newsletter
+            - heading "The Agri Digest" [level=3] [ref=e77]
+            - paragraph [ref=e78]: Curated agricultural intelligence delivered to your inbox every quarter.
+            - generic [ref=e79]:
+              - textbox "Email address" [ref=e80]
+              - button "Subscribe" [ref=e81]
+            - paragraph [ref=e82]: No spam. Unsubscribe anytime.
+      - group [ref=e87] [cursor=pointer]:
+        - generic "Discussion View Comments" [ref=e88]:
+          - text: Discussion
+          - generic [ref=e89]:
+            - text: View Comments
+            - img [ref=e90]
+  - alert [ref=e92]
+  - generic [ref=e93]:
+    - button "Dismiss and Reject All" [ref=e94]:
+      - img [ref=e95]
+    - generic [ref=e98]:
+      - generic [ref=e99]:
+        - heading "Cookie Consent" [level=3] [ref=e100]:
+          - img [ref=e101]
+          - text: Cookie Consent
+        - paragraph [ref=e103]:
+          - text: We use cookies to enhance your experience. Read our
+          - link "Privacy Policy" [ref=e104] [cursor=pointer]:
+            - /url: /privacy
+          - text: .
+      - generic [ref=e105]:
+        - button "Accept All" [ref=e106]
+        - button "Customize" [ref=e107]

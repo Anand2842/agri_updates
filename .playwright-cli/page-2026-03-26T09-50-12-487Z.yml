@@ -1,0 +1,230 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "Login" [ref=e5] [cursor=pointer]:
+        - /url: /login
+      - link "Subscribe" [ref=e6] [cursor=pointer]:
+        - /url: /newsletter
+    - link "AGRI UPDATES" [ref=e8] [cursor=pointer]:
+      - /url: /
+      - heading "AGRI UPDATES" [level=1] [ref=e9]
+    - navigation [ref=e10]:
+      - generic [ref=e11]:
+        - link "Job Opportunities" [ref=e13] [cursor=pointer]:
+          - /url: /jobs
+          - text: Job Opportunities
+        - generic [ref=e14]:
+          - generic [ref=e15]: "|"
+          - link "Internships" [ref=e16] [cursor=pointer]:
+            - /url: /internships
+            - text: Internships
+        - generic [ref=e17]:
+          - generic [ref=e18]: "|"
+          - link "Fellowships" [ref=e19] [cursor=pointer]:
+            - /url: /updates?category=Fellowships
+            - text: Fellowships
+        - generic [ref=e20]:
+          - generic [ref=e21]: "|"
+          - link "Scholarships" [ref=e22] [cursor=pointer]:
+            - /url: /updates?category=Scholarships
+            - text: Scholarships
+        - generic [ref=e23]:
+          - generic [ref=e24]: "|"
+          - link "Grants & Funding" [ref=e25] [cursor=pointer]:
+            - /url: /updates?category=Grants
+            - text: Grants & Funding
+        - generic [ref=e26]:
+          - generic [ref=e27]: "|"
+          - link "Startups" [ref=e28] [cursor=pointer]:
+            - /url: /startups
+            - text: Startups
+        - generic [ref=e29]:
+          - generic [ref=e30]: "|"
+          - link "Exams" [ref=e31] [cursor=pointer]:
+            - /url: /updates?category=Exams
+            - text: Exams
+        - generic [ref=e32]:
+          - generic [ref=e33]: "|"
+          - link "Conferences & Events" [ref=e34] [cursor=pointer]:
+            - /url: /updates?category=Events
+            - text: Conferences & Events
+        - generic [ref=e35]:
+          - generic [ref=e36]: "|"
+          - link "Warnings" [ref=e37] [cursor=pointer]:
+            - /url: /updates?category=Warnings
+            - text: Warnings
+        - generic [ref=e38]: "|"
+        - link [ref=e39] [cursor=pointer]:
+          - /url: /search
+          - img [ref=e40]
+  - main [ref=e43]:
+    - generic [ref=e44]:
+      - generic [ref=e46]:
+        - heading "Frequently Asked Questions" [level=1] [ref=e47]
+        - paragraph [ref=e48]: Get answers to common queries about agriculture, market trends, government schemes, and using the Agri Updates platform.
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - group [ref=e51]:
+            - generic "Which agricultural news platforms offer subscription services with daily market updates?" [ref=e52] [cursor=pointer]:
+              - generic [ref=e53]: Which agricultural news platforms offer subscription services with daily market updates?
+              - img [ref=e55]
+          - group [ref=e57]:
+            - generic "Where can I find reliable agricultural commodity price alerts for Indian farmers?" [ref=e58] [cursor=pointer]:
+              - generic [ref=e59]: Where can I find reliable agricultural commodity price alerts for Indian farmers?
+              - img [ref=e61]
+          - group [ref=e63]:
+            - generic "What are the best agricultural news apps providing real-time weather forecasts for farming?" [ref=e64] [cursor=pointer]:
+              - generic [ref=e65]: What are the best agricultural news apps providing real-time weather forecasts for farming?
+              - img [ref=e67]
+          - group [ref=e69]:
+            - generic "Which companies provide agricultural news newsletters tailored for crop-specific updates?" [ref=e70] [cursor=pointer]:
+              - generic [ref=e71]: Which companies provide agricultural news newsletters tailored for crop-specific updates?
+              - img [ref=e73]
+          - group [ref=e75]:
+            - generic "Where can I subscribe to premium agricultural news services with expert analysis?" [ref=e76] [cursor=pointer]:
+              - generic [ref=e77]: Where can I subscribe to premium agricultural news services with expert analysis?
+              - img [ref=e79]
+          - group [ref=e81]:
+            - generic "Which digital platforms offer agricultural news with integrated pest and disease alerts?" [ref=e82] [cursor=pointer]:
+              - generic [ref=e83]: Which digital platforms offer agricultural news with integrated pest and disease alerts?
+              - img [ref=e85]
+          - group [ref=e87]:
+            - generic "What service provides comprehensive agricultural news including government policy updates?" [ref=e88] [cursor=pointer]:
+              - generic [ref=e89]: What service provides comprehensive agricultural news including government policy updates?
+              - img [ref=e91]
+          - group [ref=e93]:
+            - generic "Where can I access agricultural news portals that offer customized alerts for regional farming?" [ref=e94] [cursor=pointer]:
+              - generic [ref=e95]: Where can I access agricultural news portals that offer customized alerts for regional farming?
+              - img [ref=e97]
+          - group [ref=e99]:
+            - generic "Which agricultural news providers include market trend reports for organic farming products?" [ref=e100] [cursor=pointer]:
+              - generic [ref=e101]: Which agricultural news providers include market trend reports for organic farming products?
+              - img [ref=e103]
+          - group [ref=e105]:
+            - generic "What app offers agricultural news combined with expert advice on crop management?" [ref=e106] [cursor=pointer]:
+              - generic [ref=e107]: What app offers agricultural news combined with expert advice on crop management?
+              - img [ref=e109]
+          - group [ref=e111]:
+            - generic "Where can I find agricultural news services that deliver insights on farm equipment launches?" [ref=e112] [cursor=pointer]:
+              - generic [ref=e113]: Where can I find agricultural news services that deliver insights on farm equipment launches?
+              - img [ref=e115]
+          - group [ref=e117]:
+            - generic "Which digital subscriptions provide agricultural news and updates on farm subsidies?" [ref=e118] [cursor=pointer]:
+              - generic [ref=e119]: Which digital subscriptions provide agricultural news and updates on farm subsidies?
+              - img [ref=e121]
+          - group [ref=e123]:
+            - generic "What platforms offer agricultural news with live coverage of agri-expos and trade fairs?" [ref=e124] [cursor=pointer]:
+              - generic [ref=e125]: What platforms offer agricultural news with live coverage of agri-expos and trade fairs?
+              - img [ref=e127]
+          - group [ref=e129]:
+            - generic "Where can I get agricultural news updates that focus on livestock and dairy farming?" [ref=e130] [cursor=pointer]:
+              - generic [ref=e131]: Where can I get agricultural news updates that focus on livestock and dairy farming?
+              - img [ref=e133]
+          - group [ref=e135]:
+            - generic "Which agricultural news services offer video content with expert interviews and market forecasts?" [ref=e136] [cursor=pointer]:
+              - generic [ref=e137]: Which agricultural news services offer video content with expert interviews and market forecasts?
+              - img [ref=e139]
+          - group [ref=e141]:
+            - generic "Where can I find agricultural news platforms with in-depth coverage of sustainable farming practices?" [ref=e142] [cursor=pointer]:
+              - generic [ref=e143]: Where can I find agricultural news platforms with in-depth coverage of sustainable farming practices?
+              - img [ref=e145]
+          - group [ref=e147]:
+            - generic "Which providers offer agricultural news bundled with access to agritech product launches?" [ref=e148] [cursor=pointer]:
+              - generic [ref=e149]: Which providers offer agricultural news bundled with access to agritech product launches?
+              - img [ref=e151]
+          - group [ref=e153]:
+            - generic "What services offer agricultural news with real-time updates on export-import regulations?" [ref=e154] [cursor=pointer]:
+              - generic [ref=e155]: What services offer agricultural news with real-time updates on export-import regulations?
+              - img [ref=e157]
+          - group [ref=e159]:
+            - generic "Where can I subscribe to agricultural news channels that provide daily updates on seed and fertilizer markets?" [ref=e160] [cursor=pointer]:
+              - generic [ref=e161]: Where can I subscribe to agricultural news channels that provide daily updates on seed and fertilizer markets?
+              - img [ref=e163]
+          - group [ref=e165]:
+            - generic "Which digital agricultural news services provide tailored insights for small and marginal farmers?" [ref=e166] [cursor=pointer]:
+              - generic [ref=e167]: Which digital agricultural news services provide tailored insights for small and marginal farmers?
+              - img [ref=e169]
+        - generic [ref=e171]:
+          - heading "Still have questions?" [level=2] [ref=e172]
+          - paragraph [ref=e173]: We're here to help. Reach out to our support team.
+          - link "Contact Us" [ref=e174] [cursor=pointer]:
+            - /url: /contact
+  - contentinfo [ref=e175]:
+    - generic [ref=e176]:
+      - generic [ref=e177]:
+        - generic [ref=e178]:
+          - heading "AGRI UPDATES" [level=3] [ref=e179]
+          - paragraph [ref=e180]: Agri Updates is an innovation news platform connecting startups, funding updates, case studies, and artificial intelligence in the agricultural sector.
+          - generic [ref=e181]:
+            - link "Facebook" [ref=e182] [cursor=pointer]:
+              - /url: https://facebook.com
+              - img [ref=e183]
+            - link "Twitter" [ref=e185] [cursor=pointer]:
+              - /url: https://twitter.com
+              - img [ref=e186]
+            - link "LinkedIn" [ref=e188] [cursor=pointer]:
+              - /url: https://linkedin.com
+              - img [ref=e189]
+        - generic [ref=e194]:
+          - button "About Us" [ref=e195]:
+            - heading "About Us" [level=4] [ref=e196]
+          - list [ref=e198]:
+            - listitem [ref=e199]:
+              - link "Our Story" [ref=e200] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e201]:
+              - link "Contact" [ref=e202] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=e203]:
+              - link "Disclaimer" [ref=e204] [cursor=pointer]:
+                - /url: /disclaimer
+        - generic [ref=e206]:
+          - button "Categories" [ref=e207]:
+            - heading "Categories" [level=4] [ref=e208]
+          - list [ref=e210]:
+            - listitem [ref=e211]:
+              - link "Startups" [ref=e212] [cursor=pointer]:
+                - /url: /startups
+            - listitem [ref=e213]:
+              - link "Jobs" [ref=e214] [cursor=pointer]:
+                - /url: /jobs
+            - listitem [ref=e215]:
+              - link "Blog" [ref=e216] [cursor=pointer]:
+                - /url: /blog
+        - generic [ref=e218]:
+          - button "Job Collections" [ref=e219]:
+            - heading "Job Collections" [level=4] [ref=e220]
+          - list [ref=e222]:
+            - listitem [ref=e223]:
+              - link "Agriculture Jobs in Maharashtra 2024" [ref=e224] [cursor=pointer]:
+                - /url: /agriculture-jobs-maharashtra
+            - listitem [ref=e225]:
+              - link "Agriculture Sales Jobs in India" [ref=e226] [cursor=pointer]:
+                - /url: /agriculture-sales-jobs
+            - listitem [ref=e227]:
+              - link "BSc Agriculture Jobs" [ref=e228] [cursor=pointer]:
+                - /url: /bsc-agriculture-jobs
+            - listitem [ref=e229]:
+              - link "View All Jobs" [ref=e230] [cursor=pointer]:
+                - /url: /jobs
+        - generic [ref=e231]:
+          - heading "Subscribe" [level=4] [ref=e232]
+          - paragraph [ref=e233]: Get the latest updates delivered to your inbox.
+          - generic [ref=e234]:
+            - textbox "Email address" [ref=e235]
+            - button "Subscribe" [ref=e236]
+          - paragraph [ref=e237]:
+            - checkbox [ref=e238]
+            - generic [ref=e239]:
+              - text: I have read and accept the
+              - link "Privacy Policy" [ref=e240] [cursor=pointer]:
+                - /url: /privacy
+              - text: .
+      - generic [ref=e241]:
+        - paragraph [ref=e242]: © 2026 Agri Updates. All rights reserved.
+        - generic [ref=e243]:
+          - link "Privacy Policy" [ref=e244] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms" [ref=e245] [cursor=pointer]:
+            - /url: /terms
+  - alert [ref=e246]

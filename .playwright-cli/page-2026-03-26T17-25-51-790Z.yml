@@ -1,0 +1,148 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - article [ref=e3]:
+      - generic [ref=e5]:
+        - link "Back to Blog" [ref=e7] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e8]
+          - generic [ref=e10]: Back
+        - generic:
+          - 'heading "ORP-5 2026: International Conference on Organic & Natural Rice Farming" [level=2]'
+        - button "Share Article" [ref=e12]:
+          - img [ref=e13]
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - generic [ref=e24]:
+              - link "Events" [ref=e25] [cursor=pointer]:
+                - /url: /updates?category=Events
+              - generic [ref=e26]: 1 min read
+            - 'heading "ORP-5 2026: International Conference on Organic & Natural Rice Farming" [level=1] [ref=e27]'
+            - paragraph [ref=e28]: ORP-5 2026 is an international conference focused on organic and natural rice farming systems, bringing together researchers, practitioners, and institutions to exchange knowledge on sustainable rice production.
+            - generic [ref=e29]:
+              - generic [ref=e30]:
+                - img "Editorial Desk" [ref=e32]
+                - generic [ref=e33]:
+                  - generic [ref=e34]: Editorial Desk
+                  - text: 1/14/2026
+              - generic [ref=e36]:
+                - generic [ref=e37]: "Share:"
+                - link "Share on WhatsApp" [ref=e38] [cursor=pointer]:
+                  - /url: https://wa.me/?text=ORP-5%202026%3A%20International%20Conference%20on%20Organic%20%26%20Natural%20Rice%20Farming%20http%3A%2F%2Flocalhost%3A3000%2Fblog%2Forp-5-2026-international-conference-on-organic-natural-rice-farming
+                  - img [ref=e39]
+                - link "Share on X (Twitter)" [ref=e41] [cursor=pointer]:
+                  - /url: https://twitter.com/intent/tweet?text=ORP-5%202026%3A%20International%20Conference%20on%20Organic%20%26%20Natural%20Rice%20Farming&url=http%3A%2F%2Flocalhost%3A3000%2Fblog%2Forp-5-2026-international-conference-on-organic-natural-rice-farming
+                  - img [ref=e42]
+                - link "Share on LinkedIn" [ref=e44] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/sharing/share-offsite/?url=http%3A%2F%2Flocalhost%3A3000%2Fblog%2Forp-5-2026-international-conference-on-organic-natural-rice-farming
+                  - img [ref=e45]
+                - link "Share on Facebook" [ref=e49] [cursor=pointer]:
+                  - /url: https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fblog%2Forp-5-2026-international-conference-on-organic-natural-rice-farming
+                  - img [ref=e50]
+                - button "Copy Link" [ref=e52]:
+                  - img [ref=e53]
+          - 'img "ORP-5 2026: International Conference on Organic & Natural Rice Farming" [ref=e58]'
+          - article [ref=e59]:
+            - generic [ref=e60]:
+              - heading "Conference Overview" [level=2] [ref=e108]
+              - paragraph [ref=e109]:
+                - text: The
+                - strong [ref=e110]: 5th International Conference on Organic & Natural Rice Farming and Production Systems (ORP‑5)
+                - text: is a premier global event dedicated to advancing
+                - strong [ref=e111]: sustainable, organic, and natural rice production
+                - text: . Hosted in
+                - strong [ref=e112]: Greater Noida, Uttar Pradesh, India
+                - text: ", the conference blends academic sessions with field components to foster knowledge exchange among researchers, practitioners, and policymakers."
+              - separator [ref=e113]
+              - heading "Key Focus Areas" [level=2] [ref=e114]
+              - list [ref=e115]:
+                - listitem [ref=e116]: • Organic and natural rice farming systems
+                - listitem [ref=e117]: • Sustainable and regenerative agriculture
+                - listitem [ref=e118]: • Soil, water, and ecosystem health in rice cultivation
+                - listitem [ref=e119]: • Climate‑resilient rice production models
+                - listitem [ref=e120]: • Innovations in organic inputs and farm practices
+                - listitem [ref=e121]: • Policy, extension, and capacity building in organic agriculture
+              - separator [ref=e122]
+              - heading "Target Audience" [level=2] [ref=e123]
+              - paragraph [ref=e124]: "This conference is relevant for:"
+              - list [ref=e125]:
+                - listitem [ref=e126]: • Agricultural researchers and scientists
+                - listitem [ref=e127]: • Universities and academic institutions
+                - listitem [ref=e128]: • Organic and natural farming practitioners
+                - listitem [ref=e129]: • Students and scholars in agriculture and sustainability
+                - listitem [ref=e130]: • Policy professionals and development organisations
+                - listitem [ref=e131]: • NGOs, extension agencies, and agri‑innovation stakeholders
+              - separator [ref=e132]
+              - heading "Participation & Submissions" [level=2] [ref=e133]
+              - list [ref=e134]:
+                - listitem [ref=e135]:
+                  - text: •
+                  - strong [ref=e136]: "Registration Opens:"
+                  - strong [ref=e137]: January 2026
+                - listitem [ref=e138]:
+                  - text: •
+                  - strong [ref=e139]: "Abstract Submission Deadline:"
+                  - strong [ref=e140]: 15 July 2026
+              - paragraph [ref=e141]: Researchers and practitioners working on organic rice systems are invited to submit abstracts according to the official conference guidelines.
+              - separator [ref=e142]
+              - heading "Important Dates" [level=2] [ref=e143]
+              - list [ref=e144]:
+                - listitem [ref=e145]:
+                  - text: •
+                  - strong [ref=e146]: "Registration Opens:"
+                  - strong [ref=e147]: January 2026
+                - listitem [ref=e148]:
+                  - text: •
+                  - strong [ref=e149]: "Abstract Submission Deadline:"
+                  - strong [ref=e150]: 15 July 2026
+                - listitem [ref=e151]:
+                  - text: •
+                  - strong [ref=e152]: "Conference Dates:"
+                  - strong [ref=e153]: 21–25 September 2026
+              - separator [ref=e154]
+              - heading "How to Participate" [level=2] [ref=e155]
+              - paragraph [ref=e156]: "All registration details, abstract submission instructions, and updates are available on the official website:"
+              - paragraph [ref=e157]:
+                - link "https://www.orp5ic.com/" [ref=e158] [cursor=pointer]:
+                  - /url: https://www.orp5ic.com/?utm_source=chatgpt.com
+              - paragraph [ref=e159]: Applicants should follow the guidelines provided by the organisers to ensure a smooth registration process.
+              - separator [ref=e160]
+              - heading "Additional Information" [level=2] [ref=e161]
+              - paragraph [ref=e162]: This listing is featured for increased visibility and does not constitute an endorsement by Agri Updates. Participants are encouraged to verify all details directly with the conference organisers before submitting any materials.
+          - generic [ref=e65]:
+            - img "Editorial Desk" [ref=e67]
+            - generic [ref=e68]:
+              - heading "Editorial Desk" [level=4] [ref=e69]
+              - paragraph [ref=e70]: Dedicated to bringing you the latest in agricultural news and innovation.
+        - complementary [ref=e71]:
+          - generic [ref=e75]:
+            - generic [ref=e76]: Free Newsletter
+            - heading "The Agri Digest" [level=3] [ref=e77]
+            - paragraph [ref=e78]: Curated agricultural intelligence delivered to your inbox every quarter.
+            - generic [ref=e79]:
+              - textbox "Email address" [ref=e80]
+              - button "Subscribe" [ref=e81]
+            - paragraph [ref=e82]: No spam. Unsubscribe anytime.
+      - group [ref=e87] [cursor=pointer]:
+        - generic "Discussion View Comments" [ref=e88]:
+          - text: Discussion
+          - generic [ref=e89]:
+            - text: View Comments
+            - img [ref=e90]
+  - alert [ref=e92]
+  - generic [ref=e93]:
+    - button "Dismiss and Reject All" [ref=e94]:
+      - img [ref=e95]
+    - generic [ref=e98]:
+      - generic [ref=e99]:
+        - heading "Cookie Consent" [level=3] [ref=e100]:
+          - img [ref=e101]
+          - text: Cookie Consent
+        - paragraph [ref=e103]:
+          - text: We use cookies to enhance your experience. Read our
+          - link "Privacy Policy" [ref=e104] [cursor=pointer]:
+            - /url: /privacy
+          - text: .
+      - generic [ref=e105]:
+        - button "Accept All" [ref=e106]
+        - button "Customize" [ref=e107]

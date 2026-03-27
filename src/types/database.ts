@@ -100,10 +100,20 @@ export type Comment = {
 export type Author = {
     id: string
     name: string
+    slug: string | null
     bio: string | null
     role: string | null
     avatar_url: string | null
     social_links: Record<string, string> | null
+    is_active: boolean
+    created_at: string
+}
+
+export type Category = {
+    id: string
+    slug: string
+    name: string
+    description: string | null
     is_active: boolean
     created_at: string
 }

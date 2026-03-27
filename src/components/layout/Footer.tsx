@@ -62,8 +62,14 @@ export default function Footer() {
     };
     const pathname = usePathname();
 
-    // Hide Footer on Admin pages
-    if (pathname?.startsWith('/admin')) {
+    // Hide Footer on Admin, Auth, and Article pages
+    if (
+        pathname?.startsWith('/admin') || 
+        pathname?.startsWith('/login') || 
+        pathname?.startsWith('/signup') || 
+        pathname?.startsWith('/forgot-password') ||
+        pathname?.startsWith('/blog/')
+    ) {
         return null;
     }
 

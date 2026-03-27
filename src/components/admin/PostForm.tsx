@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
-import { Post, Author } from '@/types/database'
+import { Post, Author, Category } from '@/types/database'
 import EligibilityEditor, { PolicyConfig } from './editor/EligibilityEditor'
 import { getUserRole, UserRole } from '@/lib/auth'
 import { Wand2, Sparkles, Lock, Smartphone, Monitor, Globe, Search } from 'lucide-react'
@@ -23,6 +23,7 @@ export default function PostForm({ initialData }: PostFormProps) {
     const [loading, setLoading] = useState(false)
     const [isPolishing, setIsPolishing] = useState(false)
     const [authors, setAuthors] = useState<Author[]>([])
+    const [categories, setCategories] = useState<Category[]>([])
     const [userRole, setUserRole] = useState<UserRole>('user')
     const [roleLoading, setRoleLoading] = useState(true)
     const [editorInstance, setEditorInstance] = useState<Editor | null>(null)
@@ -38,12 +39,14 @@ export default function PostForm({ initialData }: PostFormProps) {
     // Fetch authors and user role on mount
     useEffect(() => {
         const init = async () => {
-            const [roleData, { data: authorsData }] = await Promise.all([
+            const [roleData, { data: authorsData }, { data: categoriesData }] = await Promise.all([
                 getUserRole(supabase),
-                supabase.from('authors').select('*').eq('is_active', true)
+                supabase.from('authors').select('*').eq('is_active', true),
+                supabase.from('categories').select('*').eq('is_active', true).order('name')
             ])
             setUserRole(roleData)
             if (authorsData) setAuthors(authorsData)
+            if (categoriesData) setCategories(categoriesData)
             setRoleLoading(false)
         }
         init()
@@ -376,7 +379,7 @@ export default function PostForm({ initialData }: PostFormProps) {
                     </div>
 
                     {/* Job Specifics moved down for better flow */}
-                    {formData.category === 'Jobs' && (
+                    {(formData.category === 'Jobs' || formData.category === 'Internships') && (
                         <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
                             <h3 className="font-serif text-lg font-bold text-blue-900 mb-4">Job Details</h3>
                             <div className="grid grid-cols-2 gap-4">
@@ -515,15 +518,12 @@ export default function PostForm({ initialData }: PostFormProps) {
                                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                                     className="w-full p-2 border rounded bg-stone-50"
                                 >
-                                    <option value="Research">Research & News</option>
-                                    <option value="Startups">Agri-Startups</option>
-                                    <option value="Jobs">Jobs & Opportunities</option>
-                                    <option value="Fellowships">Fellowships</option>
-                                    <option value="Scholarships">Scholarships</option>
-                                    <option value="Grants">Grants & Funding</option>
-                                    <option value="Exams">Exams & Admissions</option>
-                                    <option value="Events">Conferences & Events</option>
-                                    <option value="Policy">Policy & Schemes</option>
+                                    {categories.map((cat) => (
+                                        <option key={cat.id} value={cat.name}>{cat.name}</option>
+                                    ))}
+                                    {categories.length === 0 && (
+                                        <option value="Research">Research & News</option>
+                                    )}
                                 </select>
                             </div>
                         </div>

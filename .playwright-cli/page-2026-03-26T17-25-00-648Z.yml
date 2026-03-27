@@ -1,0 +1,120 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - article [ref=e3]:
+      - generic [ref=e5]:
+        - link "Back to Blog" [ref=e7] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e8]
+          - generic [ref=e10]: Back
+        - generic:
+          - 'heading "Scheme: Big Opportunity for Agri-Startups''" [level=2]'
+        - button "Share Article" [ref=e12]:
+          - img [ref=e13]
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - generic [ref=e24]:
+              - link "Grants" [ref=e25] [cursor=pointer]:
+                - /url: /updates?category=Grants
+              - generic [ref=e26]: 3 min read
+            - 'heading "Scheme: Big Opportunity for Agri-Startups''" [level=1] [ref=e27]'
+            - paragraph [ref=e28]: "New scheme announced: Big Opportunity for Agri-Startups'. Subsidy: Available. Check eligibility."
+            - generic [ref=e29]:
+              - generic [ref=e30]:
+                - img "Anand" [ref=e32]
+                - generic [ref=e33]:
+                  - link "Anand" [ref=e35] [cursor=pointer]:
+                    - /url: /author/agri-updates-editor
+                  - text: 1/14/2026
+              - generic [ref=e37]:
+                - generic [ref=e38]: "Share:"
+                - link "Share on WhatsApp" [ref=e39] [cursor=pointer]:
+                  - /url: https://wa.me/?text=Scheme%3A%20Big%20Opportunity%20for%20Agri-Startups'%20
+                  - img [ref=e40]
+                - link "Share on X (Twitter)" [ref=e42] [cursor=pointer]:
+                  - /url: https://twitter.com/intent/tweet?text=Scheme%3A%20Big%20Opportunity%20for%20Agri-Startups'&url=
+                  - img [ref=e43]
+                - link "Share on LinkedIn" [ref=e45] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/sharing/share-offsite/?url=
+                  - img [ref=e46]
+                - link "Share on Facebook" [ref=e50] [cursor=pointer]:
+                  - /url: https://www.facebook.com/sharer/sharer.php?u=
+                  - img [ref=e51]
+                - button "Copy Link" [ref=e53]:
+                  - img [ref=e54]
+          - 'img "Scheme: Big Opportunity for Agri-Startups''" [ref=e59]'
+          - article [ref=e60]
+          - generic [ref=e65]:
+            - generic [ref=e66]:
+              - link "#Scheme" [ref=e67] [cursor=pointer]:
+                - /url: /search?q=Scheme
+              - link "#Subsidy" [ref=e68] [cursor=pointer]:
+                - /url: /search?q=Subsidy
+              - link "#Grant" [ref=e69] [cursor=pointer]:
+                - /url: /search?q=Grant
+              - link "#Agriculture" [ref=e70] [cursor=pointer]:
+                - /url: /search?q=Agriculture
+            - generic [ref=e71]:
+              - img "Anand" [ref=e73]
+              - generic [ref=e74]:
+                - heading "Anand" [level=4] [ref=e75]
+                - paragraph [ref=e76]: Dedicated to bringing you the latest in agricultural news and innovation.
+        - complementary [ref=e77]:
+          - generic [ref=e78]:
+            - generic [ref=e80]: More in Grants
+            - list [ref=e81]:
+              - listitem [ref=e82]:
+                - 'link "01 Grants USDA AFRI 2026: Inside the $407 Million Agriculture Research Grant 4d ago" [ref=e83] [cursor=pointer]':
+                  - /url: /blog/usda-afri-2026-inside-the-407-million-agriculture-research-grant
+                  - generic [ref=e84]: "01"
+                  - generic [ref=e85]:
+                    - generic [ref=e86]: Grants
+                    - 'heading "USDA AFRI 2026: Inside the $407 Million Agriculture Research Grant" [level=3] [ref=e87]'
+                    - generic [ref=e88]: 4d ago
+              - listitem [ref=e89]:
+                - 'link "02 Grants RKVY-RAFTAAR Incubators in India (2026): A Founder''s Comparison Guide 2mo ago" [ref=e90] [cursor=pointer]':
+                  - /url: /blog/rkvy-raftaar-incubators-comparison-2026
+                  - generic [ref=e91]: "02"
+                  - generic [ref=e92]:
+                    - generic [ref=e93]: Grants
+                    - 'heading "RKVY-RAFTAAR Incubators in India (2026): A Founder''s Comparison Guide" [level=3] [ref=e94]'
+                    - generic [ref=e95]: 2mo ago
+              - listitem [ref=e96]:
+                - 'link "03 Grants BHU RKVY-RAFTAAR 2026: The Definitive Founder''s Guide 2mo ago" [ref=e97] [cursor=pointer]':
+                  - /url: /blog/bhu-rkvy-raftaar-2026-the-definitive-founders-guide
+                  - generic [ref=e98]: "03"
+                  - generic [ref=e99]:
+                    - generic [ref=e100]: Grants
+                    - 'heading "BHU RKVY-RAFTAAR 2026: The Definitive Founder''s Guide" [level=3] [ref=e101]'
+                    - generic [ref=e102]: 2mo ago
+          - generic [ref=e106]:
+            - generic [ref=e107]: Free Newsletter
+            - heading "The Agri Digest" [level=3] [ref=e108]
+            - paragraph [ref=e109]: Curated agricultural intelligence delivered to your inbox every quarter.
+            - generic [ref=e110]:
+              - textbox "Email address" [ref=e111]
+              - button "Subscribe" [ref=e112]
+            - paragraph [ref=e113]: No spam. Unsubscribe anytime.
+      - group [ref=e118] [cursor=pointer]:
+        - generic "Discussion View Comments" [ref=e119]:
+          - text: Discussion
+          - generic [ref=e120]:
+            - text: View Comments
+            - img [ref=e121]
+  - alert [ref=e123]
+  - generic [ref=e124]:
+    - button "Dismiss and Reject All" [ref=e125]:
+      - img [ref=e126]
+    - generic [ref=e129]:
+      - generic [ref=e130]:
+        - heading "Cookie Consent" [level=3] [ref=e131]:
+          - img [ref=e132]
+          - text: Cookie Consent
+        - paragraph [ref=e134]:
+          - text: We use cookies to enhance your experience. Read our
+          - link "Privacy Policy" [ref=e135] [cursor=pointer]:
+            - /url: /privacy
+          - text: .
+      - generic [ref=e136]:
+        - button "Accept All" [ref=e137]
+        - button "Customize" [ref=e138]

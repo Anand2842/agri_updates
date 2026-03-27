@@ -1,0 +1,214 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e7] [cursor=pointer]:
+    - button "Open issues overlay" [ref=e8]:
+      - img [ref=e10]
+      - generic [ref=e12]:
+        - generic [ref=e13]: "0"
+        - generic [ref=e14]: "1"
+      - generic [ref=e15]: Issue
+    - button "Collapse issues badge" [ref=e16]:
+      - img [ref=e17]
+  - banner [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e21]: Thursday, 26 March 2026
+      - generic [ref=e22]:
+        - link "Login" [ref=e23] [cursor=pointer]:
+          - /url: /login
+        - link "Subscribe" [ref=e24] [cursor=pointer]:
+          - /url: /newsletter
+    - link "AGRI UPDATES" [ref=e26] [cursor=pointer]:
+      - /url: /
+      - heading "AGRI UPDATES" [level=1] [ref=e27]
+    - navigation [ref=e28]:
+      - generic [ref=e29]:
+        - link "Job Opportunities" [ref=e31] [cursor=pointer]:
+          - /url: /jobs
+          - text: Job Opportunities
+        - generic [ref=e32]:
+          - generic [ref=e33]: "|"
+          - link "Internships" [ref=e34] [cursor=pointer]:
+            - /url: /internships
+            - text: Internships
+        - generic [ref=e35]:
+          - generic [ref=e36]: "|"
+          - link "Fellowships" [ref=e37] [cursor=pointer]:
+            - /url: /updates?category=Fellowships
+            - text: Fellowships
+        - generic [ref=e38]:
+          - generic [ref=e39]: "|"
+          - link "Scholarships" [ref=e40] [cursor=pointer]:
+            - /url: /updates?category=Scholarships
+            - text: Scholarships
+        - generic [ref=e41]:
+          - generic [ref=e42]: "|"
+          - link "Grants & Funding" [ref=e43] [cursor=pointer]:
+            - /url: /updates?category=Grants
+            - text: Grants & Funding
+        - generic [ref=e44]:
+          - generic [ref=e45]: "|"
+          - link "Startups" [ref=e46] [cursor=pointer]:
+            - /url: /startups
+            - text: Startups
+        - generic [ref=e47]:
+          - generic [ref=e48]: "|"
+          - link "Exams" [ref=e49] [cursor=pointer]:
+            - /url: /updates?category=Exams
+            - text: Exams
+        - generic [ref=e50]:
+          - generic [ref=e51]: "|"
+          - link "Conferences & Events" [ref=e52] [cursor=pointer]:
+            - /url: /updates?category=Events
+            - text: Conferences & Events
+        - generic [ref=e53]:
+          - generic [ref=e54]: "|"
+          - link "Warnings" [ref=e55] [cursor=pointer]:
+            - /url: /updates?category=Warnings
+            - text: Warnings
+        - generic [ref=e56]: "|"
+        - link [ref=e57] [cursor=pointer]:
+          - /url: /search
+          - img [ref=e58]
+  - main [ref=e61]:
+    - generic [ref=e62]:
+      - generic [ref=e64]:
+        - heading "Connect With Agri Updates" [level=1] [ref=e65]
+        - paragraph [ref=e66]: Agri Updates is a curated digital platform sharing verified agricultural jobs, opportunities, programs, and ecosystem updates across India.
+        - paragraph [ref=e67]: If you have a query, partnership idea, or opportunity to share, feel free to reach out.
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - generic [ref=e70]:
+            - heading "Get In Touch" [level=2] [ref=e71]
+            - generic [ref=e72]:
+              - generic [ref=e73]:
+                - img [ref=e75]
+                - generic [ref=e78]:
+                  - heading "Email" [level=3] [ref=e79]
+                  - paragraph [ref=e80]: aanand.ak15@gmail.com
+                  - paragraph [ref=e81]: All communications are handled via email to ensure clarity and timely response.
+              - generic [ref=e82]:
+                - heading "For:" [level=4] [ref=e83]
+                - list [ref=e84]:
+                  - listitem [ref=e85]: General inquiries
+                  - listitem [ref=e87]: Partnerships & collaborations
+                  - listitem [ref=e89]: Featured Listings & visibility requests
+            - generic [ref=e91]:
+              - heading "About Agri Updates" [level=3] [ref=e92]
+              - paragraph [ref=e93]: Agri Updates is an innovation news platform connecting startups, funding updates, case studies, and artificial intelligence in the agricultural sector.
+          - generic [ref=e94]:
+            - heading "Send Us a Message" [level=2] [ref=e95]
+            - paragraph [ref=e96]: Use the form below to contact us directly.
+            - generic [ref=e97]:
+              - generic [ref=e98]:
+                - generic [ref=e99]:
+                  - generic [ref=e100]: First Name
+                  - textbox "First Name" [ref=e101]
+                - generic [ref=e102]:
+                  - generic [ref=e103]: Last Name
+                  - textbox "Last Name" [ref=e104]
+              - generic [ref=e105]:
+                - generic [ref=e106]: Email Address
+                - textbox "Email Address" [ref=e107]:
+                  - /placeholder: email@example.com
+              - generic [ref=e108]:
+                - generic [ref=e109]: Subject
+                - textbox "Subject" [ref=e110]:
+                  - /placeholder: How can we help?
+              - generic [ref=e111]:
+                - generic [ref=e112]: Message
+                - textbox "Message" [ref=e113]:
+                  - /placeholder: Write your message here...
+              - generic [ref=e114]:
+                - checkbox "I have read and agree to the Privacy Policy and Terms of Use." [ref=e115]
+                - generic [ref=e116]:
+                  - text: I have read and agree to the
+                  - link "Privacy Policy" [ref=e117] [cursor=pointer]:
+                    - /url: /privacy
+                  - text: and
+                  - link "Terms of Use" [ref=e118] [cursor=pointer]:
+                    - /url: /terms
+                  - text: .
+              - button "Send Message" [ref=e119]
+        - generic [ref=e120]:
+          - heading "Transparency Note" [level=3] [ref=e121]
+          - generic [ref=e122]:
+            - paragraph [ref=e123]: Agri Updates is an independent, remote-first digital platform. We currently operate without a physical office address or public phone line.
+            - paragraph [ref=e124]: This allows us to focus on content quality, verification, and timely responses.
+  - contentinfo [ref=e125]:
+    - generic [ref=e126]:
+      - generic [ref=e127]:
+        - generic [ref=e128]:
+          - heading "AGRI UPDATES" [level=3] [ref=e129]
+          - paragraph [ref=e130]: Agri Updates is an innovation news platform connecting startups, funding updates, case studies, and artificial intelligence in the agricultural sector.
+          - generic [ref=e131]:
+            - link "Facebook" [ref=e132] [cursor=pointer]:
+              - /url: https://facebook.com
+              - img [ref=e133]
+            - link "Twitter" [ref=e135] [cursor=pointer]:
+              - /url: https://twitter.com
+              - img [ref=e136]
+            - link "LinkedIn" [ref=e138] [cursor=pointer]:
+              - /url: https://linkedin.com
+              - img [ref=e139]
+        - generic [ref=e144]:
+          - button "About Us" [ref=e145]:
+            - heading "About Us" [level=4] [ref=e146]
+          - list [ref=e148]:
+            - listitem [ref=e149]:
+              - link "Our Story" [ref=e150] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e151]:
+              - link "Contact" [ref=e152] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=e153]:
+              - link "Disclaimer" [ref=e154] [cursor=pointer]:
+                - /url: /disclaimer
+        - generic [ref=e156]:
+          - button "Categories" [ref=e157]:
+            - heading "Categories" [level=4] [ref=e158]
+          - list [ref=e160]:
+            - listitem [ref=e161]:
+              - link "Startups" [ref=e162] [cursor=pointer]:
+                - /url: /startups
+            - listitem [ref=e163]:
+              - link "Jobs" [ref=e164] [cursor=pointer]:
+                - /url: /jobs
+            - listitem [ref=e165]:
+              - link "Blog" [ref=e166] [cursor=pointer]:
+                - /url: /blog
+        - generic [ref=e168]:
+          - button "Job Collections" [ref=e169]:
+            - heading "Job Collections" [level=4] [ref=e170]
+          - list [ref=e172]:
+            - listitem [ref=e173]:
+              - link "Agriculture Jobs in Maharashtra 2024" [ref=e174] [cursor=pointer]:
+                - /url: /agriculture-jobs-maharashtra
+            - listitem [ref=e175]:
+              - link "Agriculture Sales Jobs in India" [ref=e176] [cursor=pointer]:
+                - /url: /agriculture-sales-jobs
+            - listitem [ref=e177]:
+              - link "BSc Agriculture Jobs" [ref=e178] [cursor=pointer]:
+                - /url: /bsc-agriculture-jobs
+            - listitem [ref=e179]:
+              - link "View All Jobs" [ref=e180] [cursor=pointer]:
+                - /url: /jobs
+        - generic [ref=e181]:
+          - heading "Subscribe" [level=4] [ref=e182]
+          - paragraph [ref=e183]: Get the latest updates delivered to your inbox.
+          - generic [ref=e184]:
+            - textbox "Email address" [ref=e185]
+            - button "Subscribe" [ref=e186]
+          - paragraph [ref=e187]:
+            - checkbox [ref=e188]
+            - generic [ref=e189]:
+              - text: I have read and accept the
+              - link "Privacy Policy" [ref=e190] [cursor=pointer]:
+                - /url: /privacy
+              - text: .
+      - generic [ref=e191]:
+        - paragraph [ref=e192]: © 2026 Agri Updates. All rights reserved.
+        - generic [ref=e193]:
+          - link "Privacy Policy" [ref=e194] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms" [ref=e195] [cursor=pointer]:
+            - /url: /terms
+  - alert [ref=e196]

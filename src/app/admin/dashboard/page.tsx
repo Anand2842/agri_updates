@@ -1,4 +1,4 @@
-import { FileText, Briefcase, Clock, TrendingUp, ArrowUpRight, CheckCircle, Edit3 } from 'lucide-react';
+import { FileText, Briefcase, Clock, TrendingUp, ArrowUpRight, CheckCircle, Edit3, Eye } from 'lucide-react';
 import { supabaseAdmin } from '@/lib/supabase';
 import DashboardCharts from './DashboardCharts';
 import Link from 'next/link';
@@ -15,7 +15,9 @@ async function getDashboardStats() {
             { count: pendingReviews },
             { data: recentPosts },
             { data: trendDataRaw },
-            { data: categoryDataRaw }
+            { data: categoryDataRaw },
+            { data: topPostsData },
+            { data: allPostsViews }
         ] = await Promise.all([
             // 1. Total Posts
             supabaseAdmin.from('posts').select('*', { count: 'exact', head: true }),
@@ -42,7 +44,17 @@ async function getDashboardStats() {
                 .order('created_at', { ascending: true }),
 
             // 6. Category Distribution
-            supabaseAdmin.from('posts').select('category')
+            supabaseAdmin.from('posts').select('category'),
+
+            // 7. Top Performing Posts by Views
+            supabaseAdmin.from('posts')
+                .select('id, title, category, views, author_name, slug')
+                .eq('status', 'published')
+                .order('views', { ascending: false, nullsFirst: false })
+                .limit(5),
+
+            // 8. Total Views aggregation
+            supabaseAdmin.from('posts').select('views')
         ]);
 
         // Process Recent Activity Feed
@@ -97,29 +109,43 @@ async function getDashboardStats() {
 
         const trendData = Object.entries(trendMap).map(([name, value]) => ({ name, value }));
 
+        const totalViews = (allPostsViews || []).reduce((acc, post) => acc + (post.views || 0), 0);
+        
+        const topPosts = (topPostsData || []).map(p => ({
+            id: p.id,
+            title: p.title,
+            category: p.category,
+            views: p.views || 0,
+            author_name: p.author_name || 'Agri Updates',
+            slug: p.slug
+        }));
+
         return {
             counts: {
                 posts: totalPosts || 0,
                 jobs: activeJobs || 0,
-                pending: pendingReviews || 0
+                pending: pendingReviews || 0,
+                views: totalViews
             },
             activityFeed,
             stageData,
-            trendData
+            trendData,
+            topPosts
         };
     } catch (e) {
         console.error("Dashboard Load Error:", e);
         return {
-            counts: { posts: 0, jobs: 0, pending: 0 },
+            counts: { posts: 0, jobs: 0, pending: 0, views: 0 },
             activityFeed: [],
             stageData: [],
-            trendData: []
+            trendData: [],
+            topPosts: []
         };
     }
 }
 
 export default async function AdminDashboard() {
-    const { counts, activityFeed, stageData, trendData } = await getDashboardStats();
+    const { counts, activityFeed, stageData, trendData, topPosts } = await getDashboardStats();
 
     return (
         <div className="space-y-8">
@@ -188,6 +214,16 @@ export default async function AdminDashboard() {
                     <div className="text-3xl font-serif font-bold mb-1">{counts.pending}</div>
                     <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Pending Review</div>
                 </div>
+
+                <div className="bg-white p-6 rounded-xl border border-stone-100 shadow-sm transition-transform hover:-translate-y-1 duration-300">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-3 bg-purple-50 text-purple-600 rounded-lg">
+                            <Eye className="w-6 h-6" />
+                        </div>
+                    </div>
+                    <div className="text-3xl font-serif font-bold mb-1">{counts.views.toLocaleString()}</div>
+                    <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Total Platform Views</div>
+                </div>
             </div>
 
             {/* Client-side Charts */}
@@ -250,6 +286,56 @@ export default async function AdminDashboard() {
                                 <tr>
                                     <td colSpan={4} className="px-6 py-8 text-center text-stone-500 text-sm">
                                         No recent activity found.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            {/* Top Posts Table */}
+            <div className="bg-white border border-stone-100 rounded-xl shadow-sm overflow-hidden mt-8">
+                <div className="p-6 border-b border-stone-100 flex justify-between items-center">
+                    <h3 className="font-serif text-lg font-bold">Top Performing Content</h3>
+                </div>
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                        <thead className="bg-stone-50 text-[10px] font-bold uppercase tracking-widest text-stone-500">
+                            <tr>
+                                <th className="px-6 py-3">Rank</th>
+                                <th className="px-6 py-3">Title</th>
+                                <th className="px-6 py-3">Category</th>
+                                <th className="px-6 py-3 text-right">Total Views</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-stone-100 text-sm">
+                            {topPosts.length > 0 ? topPosts.map((post, i) => (
+                                <tr key={post.id} className="hover:bg-stone-50 group transition-colors">
+                                    <td className="px-6 py-4 font-bold text-stone-300 w-12 text-center text-lg font-serif">
+                                        #{i + 1}
+                                    </td>
+                                    <td className="px-6 py-4 max-w-sm">
+                                        <Link href={`/blog/${post.slug}`} className="font-bold text-stone-900 line-clamp-1 hover:text-agri-green" target="_blank">
+                                            {post.title}
+                                        </Link>
+                                        <div className="text-xs text-stone-400 mt-1">by {post.author_name}</div>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <span className="px-2 py-1 bg-stone-100 text-stone-600 rounded text-[10px] font-bold uppercase tracking-wider">
+                                            {post.category}
+                                        </span>
+                                    </td>
+                                    <td className="px-6 py-4 text-right">
+                                        <div className="font-bold text-lg font-mono text-purple-600">
+                                            {post.views.toLocaleString()}
+                                        </div>
+                                    </td>
+                                </tr>
+                            )) : (
+                                <tr>
+                                    <td colSpan={4} className="px-6 py-8 text-center text-stone-500 text-sm">
+                                        No top posts found.
                                     </td>
                                 </tr>
                             )}

@@ -1,0 +1,337 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: Thursday, 26 March 2026
+      - generic [ref=e5]:
+        - link "Login" [ref=e6] [cursor=pointer]:
+          - /url: /login
+        - link "Subscribe" [ref=e7] [cursor=pointer]:
+          - /url: /newsletter
+    - link "AGRI UPDATES" [ref=e9] [cursor=pointer]:
+      - /url: /
+      - heading "AGRI UPDATES" [level=1] [ref=e10]
+    - navigation [ref=e11]:
+      - generic [ref=e12]:
+        - link "Job Opportunities" [ref=e14] [cursor=pointer]:
+          - /url: /jobs
+          - text: Job Opportunities
+        - generic [ref=e15]:
+          - generic [ref=e16]: "|"
+          - link "Internships" [ref=e17] [cursor=pointer]:
+            - /url: /internships
+            - text: Internships
+        - generic [ref=e18]:
+          - generic [ref=e19]: "|"
+          - link "Fellowships" [ref=e20] [cursor=pointer]:
+            - /url: /updates?category=Fellowships
+            - text: Fellowships
+        - generic [ref=e21]:
+          - generic [ref=e22]: "|"
+          - link "Scholarships" [ref=e23] [cursor=pointer]:
+            - /url: /updates?category=Scholarships
+            - text: Scholarships
+        - generic [ref=e24]:
+          - generic [ref=e25]: "|"
+          - link "Grants & Funding" [ref=e26] [cursor=pointer]:
+            - /url: /updates?category=Grants
+            - text: Grants & Funding
+        - generic [ref=e27]:
+          - generic [ref=e28]: "|"
+          - link "Startups" [ref=e29] [cursor=pointer]:
+            - /url: /startups
+            - text: Startups
+        - generic [ref=e30]:
+          - generic [ref=e31]: "|"
+          - link "Exams" [ref=e32] [cursor=pointer]:
+            - /url: /updates?category=Exams
+            - text: Exams
+        - generic [ref=e33]:
+          - generic [ref=e34]: "|"
+          - link "Conferences & Events" [ref=e35] [cursor=pointer]:
+            - /url: /updates?category=Events
+            - text: Conferences & Events
+        - generic [ref=e36]:
+          - generic [ref=e37]: "|"
+          - link "Warnings" [ref=e38] [cursor=pointer]:
+            - /url: /updates?category=Warnings
+            - text: Warnings
+        - generic [ref=e39]: "|"
+        - link [ref=e40] [cursor=pointer]:
+          - /url: /search
+          - img [ref=e41]
+  - main [ref=e44]:
+    - generic [ref=e45]:
+      - generic [ref=e47]:
+        - generic [ref=e49]:
+          - text: All Updates
+          - generic [ref=e50]: ›
+        - heading "All Updates" [level=1] [ref=e51]
+        - paragraph [ref=e52]: Stay updated with fellowships, scholarships, grants, exams, events, and more.
+      - generic [ref=e53]:
+        - generic [ref=e56]:
+          - article [ref=e57]:
+            - 'link "USDA AFRI 2026: Inside the $407 Million Agriculture Research Grant" [ref=e58] [cursor=pointer]':
+              - /url: /blog/usda-afri-2026-inside-the-407-million-agriculture-research-grant
+              - 'img "USDA AFRI 2026: Inside the $407 Million Agriculture Research Grant" [ref=e60]'
+            - generic [ref=e61]:
+              - generic [ref=e62]:
+                - generic [ref=e63]: Grants
+                - generic [ref=e64]: 3/21/2026
+              - 'heading "USDA AFRI 2026: Inside the $407 Million Agriculture Research Grant" [level=2] [ref=e65]':
+                - 'link "USDA AFRI 2026: Inside the $407 Million Agriculture Research Grant" [ref=e66] [cursor=pointer]':
+                  - /url: /blog/usda-afri-2026-inside-the-407-million-agriculture-research-grant
+              - paragraph [ref=e67]: USDA AFRI 2026 offers $407M in agriculture research funding with grants up to $10M. Eligibility, priority areas, and how to apply explained.
+              - generic [ref=e68]:
+                - generic [ref=e69]: By Agri Updates
+                - link "Read More →" [ref=e70] [cursor=pointer]:
+                  - /url: /blog/usda-afri-2026-inside-the-407-million-agriculture-research-grant
+          - article [ref=e71]:
+            - generic [ref=e72]:
+              - generic [ref=e73]:
+                - generic [ref=e74]: Jobs
+                - generic [ref=e75]: 3/6/2026
+              - heading "Sales Officer & Area Sales Manager Job Opening – Ribho Chem Agro Industries Pvt. Ltd – Kurnool Region – 2026" [level=2] [ref=e76]:
+                - link "Sales Officer & Area Sales Manager Job Opening – Ribho Chem Agro Industries Pvt. Ltd – Kurnool Region – 2026" [ref=e77] [cursor=pointer]:
+                  - /url: /blog/sales-officer-area-sales-manager-job-opening-ribho-chem-agro-industries-pvt-ltd-kurnool-region-2026
+              - paragraph [ref=e78]: Ribho Chem Agro Industries hiring Sales Officer & ASM in Kurnool region. 5–6 years agri-input sales experience required. Apply via WhatsApp.
+              - generic [ref=e79]:
+                - generic [ref=e80]: By Agri Updates
+                - link "Read More →" [ref=e81] [cursor=pointer]:
+                  - /url: /blog/sales-officer-area-sales-manager-job-opening-ribho-chem-agro-industries-pvt-ltd-kurnool-region-2026
+          - article [ref=e82]:
+            - link "Retail Store Manager Job Opening – Coromandel International Limited (Retail Division) – Karnataka – 2026" [ref=e83] [cursor=pointer]:
+              - /url: /blog/retail-store-manager-job-opening-coromandel-international-limited-retail-division-karnataka-2026
+              - img "Retail Store Manager Job Opening – Coromandel International Limited (Retail Division) – Karnataka – 2026" [ref=e85]
+            - generic [ref=e86]:
+              - generic [ref=e87]:
+                - generic [ref=e88]: Jobs
+                - generic [ref=e89]: 3/6/2026
+              - heading "Retail Store Manager Job Opening – Coromandel International Limited (Retail Division) – Karnataka – 2026" [level=2] [ref=e90]:
+                - link "Retail Store Manager Job Opening – Coromandel International Limited (Retail Division) – Karnataka – 2026" [ref=e91] [cursor=pointer]:
+                  - /url: /blog/retail-store-manager-job-opening-coromandel-international-limited-retail-division-karnataka-2026
+              - paragraph [ref=e92]: Coromandel International hiring Retail Store Manager in Karnataka. B.Sc Agri freshers welcome. Kannada mandatory. Apply now.
+              - generic [ref=e93]:
+                - generic [ref=e94]: By Agri Updates
+                - link "Read More →" [ref=e95] [cursor=pointer]:
+                  - /url: /blog/retail-store-manager-job-opening-coromandel-international-limited-retail-division-karnataka-2026
+          - article [ref=e96]:
+            - link "Territory Manager – Sales Job Opening – Godrej Agrovet (Crop Protection Business) – Madhya Pradesh – 2026" [ref=e97] [cursor=pointer]:
+              - /url: /blog/territory-manager-sales-job-opening-godrej-agrovet-crop-protection-business-madhya-pradesh-2026
+              - img "Territory Manager – Sales Job Opening – Godrej Agrovet (Crop Protection Business) – Madhya Pradesh – 2026" [ref=e99]
+            - generic [ref=e100]:
+              - generic [ref=e101]:
+                - generic [ref=e102]: Jobs
+                - generic [ref=e103]: 3/6/2026
+              - heading "Territory Manager – Sales Job Opening – Godrej Agrovet (Crop Protection Business) – Madhya Pradesh – 2026" [level=2] [ref=e104]:
+                - link "Territory Manager – Sales Job Opening – Godrej Agrovet (Crop Protection Business) – Madhya Pradesh – 2026" [ref=e105] [cursor=pointer]:
+                  - /url: /blog/territory-manager-sales-job-opening-godrej-agrovet-crop-protection-business-madhya-pradesh-2026
+              - paragraph [ref=e106]: Godrej Agrovet hiring Territory Manager – Sales in Madhya Pradesh for Crop Protection Business. 5+ years agriculture experience required.
+              - generic [ref=e107]:
+                - generic [ref=e108]: By Agri Updates
+                - link "Read More →" [ref=e109] [cursor=pointer]:
+                  - /url: /blog/territory-manager-sales-job-opening-godrej-agrovet-crop-protection-business-madhya-pradesh-2026
+          - article [ref=e110]:
+            - link "Territory Manager Job Opening – Shriram Bioseed Genetics – Rewari/Mahendragarh (Haryana) – 2026" [ref=e111] [cursor=pointer]:
+              - /url: /blog/territory-manager-job-opening-shriram-bioseed-genetics-rewarimahendragarh-haryana-2026
+              - img "Territory Manager Job Opening – Shriram Bioseed Genetics – Rewari/Mahendragarh (Haryana) – 2026" [ref=e113]
+            - generic [ref=e114]:
+              - generic [ref=e115]:
+                - generic [ref=e116]: Jobs
+                - generic [ref=e117]: 3/6/2026
+              - heading "Territory Manager Job Opening – Shriram Bioseed Genetics – Rewari/Mahendragarh (Haryana) – 2026" [level=2] [ref=e118]:
+                - link "Territory Manager Job Opening – Shriram Bioseed Genetics – Rewari/Mahendragarh (Haryana) – 2026" [ref=e119] [cursor=pointer]:
+                  - /url: /blog/territory-manager-job-opening-shriram-bioseed-genetics-rewarimahendragarh-haryana-2026
+              - paragraph [ref=e120]: Shriram Bioseed Genetics hiring Territory Manager in Rewari/Mahendragarh (Haryana). 2–5 years seeds experience required. Freshers not eligible.
+              - generic [ref=e121]:
+                - generic [ref=e122]: By Agri Updates
+                - link "Read More →" [ref=e123] [cursor=pointer]:
+                  - /url: /blog/territory-manager-job-opening-shriram-bioseed-genetics-rewarimahendragarh-haryana-2026
+          - article [ref=e124]:
+            - generic [ref=e125]:
+              - generic [ref=e126]:
+                - generic [ref=e127]: Research
+                - generic [ref=e128]: 2/28/2026
+              - heading "India likely to face hotter-than-normal summer — IMD warning (Mar–May 2026), possible crop impacts — important for climate-risk research." [level=2] [ref=e129]:
+                - link "India likely to face hotter-than-normal summer — IMD warning (Mar–May 2026), possible crop impacts — important for climate-risk research." [ref=e130] [cursor=pointer]:
+                  - /url: /blog/india-likely-to-face-hotter-than-normal-summer-imd-warning-marmay-2026-possible-crop-impacts-important-for-climate-risk-research
+              - paragraph [ref=e131]: Click to read more...
+              - generic [ref=e132]:
+                - generic [ref=e133]: By Agri Updates
+                - link "Read More →" [ref=e134] [cursor=pointer]:
+                  - /url: /blog/india-likely-to-face-hotter-than-normal-summer-imd-warning-marmay-2026-possible-crop-impacts-important-for-climate-risk-research
+          - article [ref=e135]:
+            - link "Sales Officer Job Opening – Lohakane Patil Agro Pro Com Ltd – Baramati Region – 2026" [ref=e136] [cursor=pointer]:
+              - /url: /blog/sales-officer-job-opening-lohakane-patil-agro-pro-com-ltd-baramati-region-2026
+              - img "Sales Officer Job Opening – Lohakane Patil Agro Pro Com Ltd – Baramati Region – 2026" [ref=e138]
+            - generic [ref=e139]:
+              - generic [ref=e140]:
+                - generic [ref=e141]: Jobs
+                - generic [ref=e142]: 2/28/2026
+              - heading "Sales Officer Job Opening – Lohakane Patil Agro Pro Com Ltd – Baramati Region – 2026" [level=2] [ref=e143]:
+                - link "Sales Officer Job Opening – Lohakane Patil Agro Pro Com Ltd – Baramati Region – 2026" [ref=e144] [cursor=pointer]:
+                  - /url: /blog/sales-officer-job-opening-lohakane-patil-agro-pro-com-ltd-baramati-region-2026
+              - paragraph [ref=e145]: Lohakane Patil Agro Pro Com Ltd hiring Sales Officer in Baramati region. B.Sc Agri/Diploma/MBA eligible. Two-wheeler mandatory.
+              - generic [ref=e146]:
+                - generic [ref=e147]: By Agri Updates
+                - link "Read More →" [ref=e148] [cursor=pointer]:
+                  - /url: /blog/sales-officer-job-opening-lohakane-patil-agro-pro-com-ltd-baramati-region-2026
+          - article [ref=e149]:
+            - link "Executive – Field Crop Sales Job Opening – Tierra Agrotech – Shahapur, Karnataka – 2026" [ref=e150] [cursor=pointer]:
+              - /url: /blog/executive-field-crop-sales-job-opening-tierra-agrotech-shahapur-karnataka-2026
+              - img "Executive – Field Crop Sales Job Opening – Tierra Agrotech – Shahapur, Karnataka – 2026" [ref=e152]
+            - generic [ref=e153]:
+              - generic [ref=e154]:
+                - generic [ref=e155]: Jobs
+                - generic [ref=e156]: 2/28/2026
+              - heading "Executive – Field Crop Sales Job Opening – Tierra Agrotech – Shahapur, Karnataka – 2026" [level=2] [ref=e157]:
+                - link "Executive – Field Crop Sales Job Opening – Tierra Agrotech – Shahapur, Karnataka – 2026" [ref=e158] [cursor=pointer]:
+                  - /url: /blog/executive-field-crop-sales-job-opening-tierra-agrotech-shahapur-karnataka-2026
+              - paragraph [ref=e159]: Tierra Agrotech hiring Executive – Field Crop Sales in Shahapur, Karnataka. B.Sc Agri with 2–3 years experience required. CTC up to 3 LPA.
+              - generic [ref=e160]:
+                - generic [ref=e161]: By Agri Updates
+                - link "Read More →" [ref=e162] [cursor=pointer]:
+                  - /url: /blog/executive-field-crop-sales-job-opening-tierra-agrotech-shahapur-karnataka-2026
+          - article [ref=e163]:
+            - link "IARI Ph.D Scholarship 2026 – ₹10,500/Month Senior Scholarship for Agricultural Sciences" [ref=e164] [cursor=pointer]:
+              - /url: /blog/iari-phd-scholarship-2026-10500month-senior-scholarship-for-agricultural-sciences
+              - img "IARI Ph.D Scholarship 2026 – ₹10,500/Month Senior Scholarship for Agricultural Sciences" [ref=e166]
+            - generic [ref=e167]:
+              - generic [ref=e168]:
+                - generic [ref=e169]: Scholarships
+                - generic [ref=e170]: 2/28/2026
+              - heading "IARI Ph.D Scholarship 2026 – ₹10,500/Month Senior Scholarship for Agricultural Sciences" [level=2] [ref=e171]:
+                - link "IARI Ph.D Scholarship 2026 – ₹10,500/Month Senior Scholarship for Agricultural Sciences" [ref=e172] [cursor=pointer]:
+                  - /url: /blog/iari-phd-scholarship-2026-10500month-senior-scholarship-for-agricultural-sciences
+              - paragraph [ref=e173]: IARI PhD Scholarship 2026 offers ₹10,500/month plus ₹6,000 contingency for ICAR AICE-JRF/SRF qualified candidates. Check eligibility and application process.
+              - generic [ref=e174]:
+                - generic [ref=e175]: By Agri Updates
+                - link "Read More →" [ref=e176] [cursor=pointer]:
+                  - /url: /blog/iari-phd-scholarship-2026-10500month-senior-scholarship-for-agricultural-sciences
+          - article [ref=e177]:
+            - generic [ref=e178]:
+              - generic [ref=e179]:
+                - generic [ref=e180]: Scholarships
+                - generic [ref=e181]: 2/28/2026
+              - heading "LPU Agriculture Scholarships 2026 – Up to 50% Fee Waiver for B.Sc (Hons) & M.Sc Agriculture | Apply Before 30 April 2026" [level=2] [ref=e182]:
+                - link "LPU Agriculture Scholarships 2026 – Up to 50% Fee Waiver for B.Sc (Hons) & M.Sc Agriculture | Apply Before 30 April 2026" [ref=e183] [cursor=pointer]:
+                  - /url: /blog/lpu-agriculture-scholarships-2026-up-to-50-fee-waiver-for-bsc-hons-msc-agriculture-apply-before-30-april-2026
+              - paragraph [ref=e184]: LPU Agriculture Scholarships 2026 offer up to 50% fee waiver for B.Sc (Hons) & M.Sc Agri based on LPUNEST and merit. Apply before 30 April 2026.
+              - generic [ref=e185]:
+                - generic [ref=e186]: By Agri Updates
+                - link "Read More →" [ref=e187] [cursor=pointer]:
+                  - /url: /blog/lpu-agriculture-scholarships-2026-up-to-50-fee-waiver-for-bsc-hons-msc-agriculture-apply-before-30-april-2026
+          - article [ref=e188]:
+            - link "Agri Advisor (Intern) Job Opening – Namdeo Umaji Agritech (India) Pvt. Ltd – Pune – 2026" [ref=e189] [cursor=pointer]:
+              - /url: /blog/agri-advisor-intern-job-opening-namdeo-umaji-agritech-india-pvt-ltd-pune-2026
+              - img "Agri Advisor (Intern) Job Opening – Namdeo Umaji Agritech (India) Pvt. Ltd – Pune – 2026" [ref=e191]
+            - generic [ref=e192]:
+              - generic [ref=e193]:
+                - generic [ref=e194]: Jobs
+                - generic [ref=e195]: 2/28/2026
+              - heading "Agri Advisor (Intern) Job Opening – Namdeo Umaji Agritech (India) Pvt. Ltd – Pune – 2026" [level=2] [ref=e196]:
+                - link "Agri Advisor (Intern) Job Opening – Namdeo Umaji Agritech (India) Pvt. Ltd – Pune – 2026" [ref=e197] [cursor=pointer]:
+                  - /url: /blog/agri-advisor-intern-job-opening-namdeo-umaji-agritech-india-pvt-ltd-pune-2026
+              - paragraph [ref=e198]: Namdeo Umaji Agritech hiring Agri Advisor (Intern) in Pune. Basic crop knowledge and Marathi/Hindi communication required. Apply now.
+              - generic [ref=e199]:
+                - generic [ref=e200]: By Agri Updates
+                - link "Read More →" [ref=e201] [cursor=pointer]:
+                  - /url: /blog/agri-advisor-intern-job-opening-namdeo-umaji-agritech-india-pvt-ltd-pune-2026
+          - article [ref=e202]:
+            - link "The position of Coordinator – Job Opening at Aaradhya Seeds (As per advertisement)" [ref=e203] [cursor=pointer]:
+              - /url: /blog/the-position-of-coordinator-job-opening-at-aaradhya-seeds-as-per-advertisement
+              - img "The position of Coordinator – Job Opening at Aaradhya Seeds (As per advertisement)" [ref=e205]
+            - generic [ref=e206]:
+              - generic [ref=e207]:
+                - generic [ref=e208]: Jobs
+                - generic [ref=e209]: 2/28/2026
+              - heading "The position of Coordinator – Job Opening at Aaradhya Seeds (As per advertisement)" [level=2] [ref=e210]:
+                - link "The position of Coordinator – Job Opening at Aaradhya Seeds (As per advertisement)" [ref=e211] [cursor=pointer]:
+                  - /url: /blog/the-position-of-coordinator-job-opening-at-aaradhya-seeds-as-per-advertisement
+              - paragraph [ref=e212]: Aaradhya Seeds hiring Coordinator in Jabalpur (M.P.). B.Sc Agri/Diploma with 1–3 years experience preferred. Apply at hr@kisansuvidha.com.
+              - generic [ref=e213]:
+                - generic [ref=e214]: By Agri Updates
+                - link "Read More →" [ref=e215] [cursor=pointer]:
+                  - /url: /blog/the-position-of-coordinator-job-opening-at-aaradhya-seeds-as-per-advertisement
+        - generic [ref=e216]:
+          - generic [ref=e217]: Page 1 of 8
+          - link "Next" [ref=e218] [cursor=pointer]:
+            - /url: /updates?page=2
+  - contentinfo [ref=e219]:
+    - generic [ref=e220]:
+      - generic [ref=e221]:
+        - generic [ref=e222]:
+          - heading "AGRI UPDATES" [level=3] [ref=e223]
+          - paragraph [ref=e224]: Agri Updates is an innovation news platform connecting startups, funding updates, case studies, and artificial intelligence in the agricultural sector.
+          - generic [ref=e225]:
+            - link "Facebook" [ref=e226] [cursor=pointer]:
+              - /url: https://facebook.com
+              - img [ref=e227]
+            - link "Twitter" [ref=e229] [cursor=pointer]:
+              - /url: https://twitter.com
+              - img [ref=e230]
+            - link "LinkedIn" [ref=e232] [cursor=pointer]:
+              - /url: https://linkedin.com
+              - img [ref=e233]
+        - generic [ref=e238]:
+          - button "About Us" [ref=e239]:
+            - heading "About Us" [level=4] [ref=e240]
+          - list [ref=e242]:
+            - listitem [ref=e243]:
+              - link "Our Story" [ref=e244] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e245]:
+              - link "Contact" [ref=e246] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=e247]:
+              - link "Disclaimer" [ref=e248] [cursor=pointer]:
+                - /url: /disclaimer
+        - generic [ref=e250]:
+          - button "Categories" [ref=e251]:
+            - heading "Categories" [level=4] [ref=e252]
+          - list [ref=e254]:
+            - listitem [ref=e255]:
+              - link "Startups" [ref=e256] [cursor=pointer]:
+                - /url: /startups
+            - listitem [ref=e257]:
+              - link "Jobs" [ref=e258] [cursor=pointer]:
+                - /url: /jobs
+            - listitem [ref=e259]:
+              - link "Blog" [ref=e260] [cursor=pointer]:
+                - /url: /blog
+        - generic [ref=e262]:
+          - button "Job Collections" [ref=e263]:
+            - heading "Job Collections" [level=4] [ref=e264]
+          - list [ref=e266]:
+            - listitem [ref=e267]:
+              - link "Agriculture Jobs in Maharashtra 2024" [ref=e268] [cursor=pointer]:
+                - /url: /agriculture-jobs-maharashtra
+            - listitem [ref=e269]:
+              - link "Agriculture Sales Jobs in India" [ref=e270] [cursor=pointer]:
+                - /url: /agriculture-sales-jobs
+            - listitem [ref=e271]:
+              - link "BSc Agriculture Jobs" [ref=e272] [cursor=pointer]:
+                - /url: /bsc-agriculture-jobs
+            - listitem [ref=e273]:
+              - link "View All Jobs" [ref=e274] [cursor=pointer]:
+                - /url: /jobs
+        - generic [ref=e275]:
+          - heading "Subscribe" [level=4] [ref=e276]
+          - paragraph [ref=e277]: Get the latest updates delivered to your inbox.
+          - generic [ref=e278]:
+            - textbox "Email address" [ref=e279]
+            - button "Subscribe" [ref=e280]
+          - paragraph [ref=e281]:
+            - checkbox [ref=e282]
+            - generic [ref=e283]:
+              - text: I have read and accept the
+              - link "Privacy Policy" [ref=e284] [cursor=pointer]:
+                - /url: /privacy
+              - text: .
+      - generic [ref=e285]:
+        - paragraph [ref=e286]: © 2026 Agri Updates. All rights reserved.
+        - generic [ref=e287]:
+          - link "Privacy Policy" [ref=e288] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms" [ref=e289] [cursor=pointer]:
+            - /url: /terms
+  - alert [ref=e290]

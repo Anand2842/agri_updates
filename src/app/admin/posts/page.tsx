@@ -9,6 +9,7 @@ interface AdminPostsPageProps {
         status?: string;
         is_featured?: string;
         display?: string;
+        mine?: string;
     }>
 }
 
@@ -18,8 +19,12 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
     const statusFilter = params.status
     const isFeaturedFilter = params.is_featured === 'true'
     const displayFilter = params.display
+    const mineFilter = params.mine === 'true'
 
     const supabase = await createClient()
+
+    // Get current user for "My Posts" filter
+    const { data: { user } } = await supabase.auth.getUser()
 
     let query = supabase
         .from('posts')
@@ -39,20 +44,23 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
     if (displayFilter) {
         query = query.eq('display_location', displayFilter)
     }
+    if (mineFilter && user) {
+        query = query.eq('user_id', user.id)
+    }
 
     const { data: posts } = await query
 
+    const { data: dbCategories } = await supabase
+        .from('categories')
+        .select('*')
+        .eq('is_active', true)
+        .order('name')
+
     const categories = [
         { value: '', label: 'All Categories' },
-        { value: 'Research', label: 'Research' },
-        { value: 'Fellowships', label: 'Fellowships' },
-        { value: 'Scholarships', label: 'Scholarships' },
-        { value: 'Grants', label: 'Grants' },
-        { value: 'Exams', label: 'Exams' },
-        { value: 'Events', label: 'Events' },
-        { value: 'Guidance', label: 'Guidance' },
-        { value: 'Warnings', label: 'Warnings' },
+        ...(dbCategories?.map(cat => ({ value: cat.name, label: cat.name })) || [])
     ]
+
 
     const statuses = [
         { value: '', label: 'All Status' },
@@ -120,6 +128,26 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
                             {cat.label}
                         </Link>
                     ))}
+                </div>
+                <div className="w-px bg-stone-200 h-6 self-center mx-2"></div>
+                <div className="flex gap-2 items-center">
+                    <Link
+                        href={`/admin/posts?status=${statusFilter || ''}&category=${categoryFilter || ''}&mine=true`}
+                        className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded transition-colors ${mineFilter
+                            ? 'bg-indigo-600 text-white'
+                            : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                        }`}
+                    >
+                        My Posts
+                    </Link>
+                    {mineFilter && (
+                        <Link
+                            href={`/admin/posts?status=${statusFilter || ''}&category=${categoryFilter || ''}`}
+                            className="text-xs text-stone-500 hover:text-red-500 underline"
+                        >
+                            Clear
+                        </Link>
+                    )}
                 </div>
             </div>
 

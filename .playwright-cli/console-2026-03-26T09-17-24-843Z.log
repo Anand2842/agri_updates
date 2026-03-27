@@ -1,0 +1,41 @@
+[     363ms] [ERROR] %c%s%c Supabase posts fetch error: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {
+  "message": "TypeError: fetch failed",
+  "details": "TypeError: fetch failed\n\nCaused by: Error: getaddrinfo ENOTFOUND placeholder.supabase.co (ENOTFOUND)\nError: getaddrinfo ENOTFOUND placeholder.supabase.co\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)",
+  "hint": "",
+  "code": ""
+} @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[     363ms] [ERROR] %c%s%c Supabase jobs fetch error: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {
+  "message": "TypeError: fetch failed",
+  "details": "TypeError: fetch failed\n\nCaused by: Error: getaddrinfo ENOTFOUND placeholder.supabase.co (ENOTFOUND)\nError: getaddrinfo ENOTFOUND placeholder.supabase.co\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)",
+  "hint": "",
+  "code": ""
+} @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[     817ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/ads?select=*&is_active=eq.true&placement=eq.banner&start_date=lte.2026-03-26T09%3A17%3A25.365Z&or=%28end_date.is.null%2Cend_date.gte.2026-03-26T09%3A17%3A25.366Z%29:0
+[     817ms] [ERROR] Error fetching ad: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…tatic/chunks/src_components_f198675a._.js:165:49), hint: , code: } @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[     819ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/ads?select=*&is_active=eq.true&placement=eq.banner&start_date=lte.2026-03-26T09%3A17%3A25.366Z&or=%28end_date.is.null%2Cend_date.gte.2026-03-26T09%3A17%3A25.366Z%29:0
+[     819ms] [ERROR] Error fetching ad: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…tatic/chunks/src_components_f198675a._.js:165:49), hint: , code: } @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[    2608ms] [WARNING] Image with src "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&q=80" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[ 1701186ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=GgpevDQaBtf-UgmSbJcEq' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10876
+[ 1702190ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=GgpevDQaBtf-UgmSbJcEq' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10876
+[ 1703193ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=GgpevDQaBtf-UgmSbJcEq' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:10876
+[ 1705285ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/:0
+[ 1705590ms] Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at <unknown> (https://supabase.com/dashboard/project/_/settings/api)
+    at createServerClient (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/node_modules_f76aabff._.js:9330:15)
+    at updateSession (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/[root-of-the-server]__577ae54c._.js:56:226)
+    at middleware (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/[root-of-the-server]__577ae54c._.js:142:182)
+    at <unknown> (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/node_modules_next_dist_4a502595._.js:12015:26)
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)
+    at <unknown> (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/node_modules_next_dist_4a502595._.js:7310:655)
+    at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)
+    at <unknown> (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/node_modules_next_dist_4a502595._.js:7310:325)
+    at async adapter (file:///Users/anand/Downloads/agri_updates/.next/dev/server/edge/chunks/node_modules_next_dist_4a502595._.js:7265:16)
+    at async (file:///Users/anand/Downloads/agri_updates/node_modules/next/dist/server/web/sandbox/sandbox.js:112:26)

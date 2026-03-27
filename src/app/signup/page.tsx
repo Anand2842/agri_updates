@@ -3,10 +3,12 @@
 import { createClient } from '@/utils/supabase/client'
 import { useState } from 'react'
 import Link from 'next/link'
+import { Eye, EyeOff } from 'lucide-react'
 
 export default function SignupPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [showPassword, setShowPassword] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState(false)
@@ -82,15 +84,37 @@ export default function SignupPage() {
                     </div>
                     <div>
                         <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Password</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black transition-colors"
-                            autoComplete="new-password"
-                            required
-                            minLength={6}
-                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black transition-colors pr-12"
+                                autoComplete="new-password"
+                                required
+                                minLength={6}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 focus:outline-none"
+                            >
+                                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                            </button>
+                        </div>
+                        {password.length > 0 && (
+                            <div className="mt-2 flex items-center justify-between">
+                                <div className="flex gap-1 flex-1 mr-4">
+                                    <div className={`h-1 flex-1 rounded-full ${password.length >= 6 ? (password.length > 8 && /[A-Z]/.test(password) && /[0-9]/.test(password) ? 'bg-green-500' : 'bg-yellow-400') : 'bg-red-400'}`}></div>
+                                    <div className={`h-1 flex-1 rounded-full ${password.length > 8 && /[A-Z]/.test(password) && /[0-9]/.test(password) ? 'bg-green-500' : (password.length >= 6 ? 'bg-yellow-400' : 'bg-stone-200')}`}></div>
+                                    <div className={`h-1 flex-1 rounded-full ${password.length > 8 && /[A-Z]/.test(password) && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password) ? 'bg-green-500' : 'bg-stone-200'}`}></div>
+                                </div>
+                                <span className="text-[10px] text-stone-500 uppercase tracking-wider font-bold">
+                                    {password.length < 6 ? 'Weak' : (password.length > 8 && /[A-Z]/.test(password) && /[0-9]/.test(password) ? 'Strong' : 'Medium')}
+                                </span>
+                            </div>
+                        )}
+                        <p className="text-[10px] text-stone-400 mt-2">Must be at least 6 characters long.</p>
                     </div>
                     <button
                         type="submit"

@@ -1,0 +1,131 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e7] [cursor=pointer]:
+    - button "Open issues overlay" [ref=e8]:
+      - img [ref=e10]
+      - generic [ref=e12]:
+        - generic [ref=e13]: "2"
+        - generic [ref=e14]: "3"
+      - generic [ref=e15]:
+        - text: Issue
+        - generic [ref=e16]: s
+    - button "Collapse issues badge" [ref=e17]:
+      - img [ref=e18]
+  - main [ref=e20]:
+    - article [ref=e21]:
+      - generic [ref=e23]:
+        - link "Back to Blog" [ref=e25] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e26]
+          - generic [ref=e28]: Back
+        - generic:
+          - 'heading "Scheme: Big Opportunity for Agri-Startups''" [level=2]'
+        - button "Share Article" [ref=e30]:
+          - img [ref=e31]
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - generic [ref=e42]:
+              - link "Grants" [ref=e43] [cursor=pointer]:
+                - /url: /updates?category=Grants
+              - generic [ref=e44]: 3 min read
+            - 'heading "Scheme: Big Opportunity for Agri-Startups''" [level=1] [ref=e45]'
+            - paragraph [ref=e46]: "New scheme announced: Big Opportunity for Agri-Startups'. Subsidy: Available. Check eligibility."
+            - generic [ref=e47]:
+              - generic [ref=e48]:
+                - img "Anand" [ref=e50]
+                - generic [ref=e51]:
+                  - link "Anand" [ref=e53] [cursor=pointer]:
+                    - /url: /author/agri-updates-editor
+                  - text: 1/14/2026
+              - generic [ref=e55]:
+                - generic [ref=e56]: "Share:"
+                - link "Share on WhatsApp" [ref=e57] [cursor=pointer]:
+                  - /url: https://wa.me/?text=Scheme%3A%20Big%20Opportunity%20for%20Agri-Startups'%20http%3A%2F%2Flocalhost%3A3000%2Fblog%2Fbig-opportunity-for-agri-startups-9016
+                  - img [ref=e58]
+                - link "Share on X (Twitter)" [ref=e60] [cursor=pointer]:
+                  - /url: https://twitter.com/intent/tweet?text=Scheme%3A%20Big%20Opportunity%20for%20Agri-Startups'&url=http%3A%2F%2Flocalhost%3A3000%2Fblog%2Fbig-opportunity-for-agri-startups-9016
+                  - img [ref=e61]
+                - link "Share on LinkedIn" [ref=e63] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/sharing/share-offsite/?url=http%3A%2F%2Flocalhost%3A3000%2Fblog%2Fbig-opportunity-for-agri-startups-9016
+                  - img [ref=e64]
+                - link "Share on Facebook" [ref=e68] [cursor=pointer]:
+                  - /url: https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fblog%2Fbig-opportunity-for-agri-startups-9016
+                  - img [ref=e69]
+                - button "Copy Link" [ref=e71]:
+                  - img [ref=e72]
+          - 'img "Scheme: Big Opportunity for Agri-Startups''" [ref=e77]'
+          - article [ref=e78]
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - link "#Scheme" [ref=e85] [cursor=pointer]:
+                - /url: /search?q=Scheme
+              - link "#Subsidy" [ref=e86] [cursor=pointer]:
+                - /url: /search?q=Subsidy
+              - link "#Grant" [ref=e87] [cursor=pointer]:
+                - /url: /search?q=Grant
+              - link "#Agriculture" [ref=e88] [cursor=pointer]:
+                - /url: /search?q=Agriculture
+            - generic [ref=e89]:
+              - img "Anand" [ref=e91]
+              - generic [ref=e92]:
+                - heading "Anand" [level=4] [ref=e93]
+                - paragraph [ref=e94]: Dedicated to bringing you the latest in agricultural news and innovation.
+        - complementary [ref=e95]:
+          - generic [ref=e96]:
+            - generic [ref=e98]: More in Grants
+            - list [ref=e99]:
+              - listitem [ref=e100]:
+                - 'link "01 Grants USDA AFRI 2026: Inside the $407 Million Agriculture Research Grant 4d ago" [ref=e101] [cursor=pointer]':
+                  - /url: /blog/usda-afri-2026-inside-the-407-million-agriculture-research-grant
+                  - generic [ref=e102]: "01"
+                  - generic [ref=e103]:
+                    - generic [ref=e104]: Grants
+                    - 'heading "USDA AFRI 2026: Inside the $407 Million Agriculture Research Grant" [level=3] [ref=e105]'
+                    - generic [ref=e106]: 4d ago
+              - listitem [ref=e107]:
+                - 'link "02 Grants RKVY-RAFTAAR Incubators in India (2026): A Founder''s Comparison Guide 2mo ago" [ref=e108] [cursor=pointer]':
+                  - /url: /blog/rkvy-raftaar-incubators-comparison-2026
+                  - generic [ref=e109]: "02"
+                  - generic [ref=e110]:
+                    - generic [ref=e111]: Grants
+                    - 'heading "RKVY-RAFTAAR Incubators in India (2026): A Founder''s Comparison Guide" [level=3] [ref=e112]'
+                    - generic [ref=e113]: 2mo ago
+              - listitem [ref=e114]:
+                - 'link "03 Grants BHU RKVY-RAFTAAR 2026: The Definitive Founder''s Guide 2mo ago" [ref=e115] [cursor=pointer]':
+                  - /url: /blog/bhu-rkvy-raftaar-2026-the-definitive-founders-guide
+                  - generic [ref=e116]: "03"
+                  - generic [ref=e117]:
+                    - generic [ref=e118]: Grants
+                    - 'heading "BHU RKVY-RAFTAAR 2026: The Definitive Founder''s Guide" [level=3] [ref=e119]'
+                    - generic [ref=e120]: 2mo ago
+          - generic [ref=e124]:
+            - generic [ref=e125]: Free Newsletter
+            - heading "The Agri Digest" [level=3] [ref=e126]
+            - paragraph [ref=e127]: Curated agricultural intelligence delivered to your inbox every quarter.
+            - generic [ref=e128]:
+              - textbox "Email address" [ref=e129]
+              - button "Subscribe" [ref=e130]
+            - paragraph [ref=e131]: No spam. Unsubscribe anytime.
+      - group [ref=e136] [cursor=pointer]:
+        - generic "Discussion View Comments" [ref=e137]:
+          - text: Discussion
+          - generic [ref=e138]:
+            - text: View Comments
+            - img [ref=e139]
+  - alert [ref=e141]
+  - generic [ref=e142]:
+    - button "Dismiss and Reject All" [ref=e143]:
+      - img [ref=e144]
+    - generic [ref=e147]:
+      - generic [ref=e148]:
+        - heading "Cookie Consent" [level=3] [ref=e149]:
+          - img [ref=e150]
+          - text: Cookie Consent
+        - paragraph [ref=e152]:
+          - text: We use cookies to enhance your experience. Read our
+          - link "Privacy Policy" [ref=e153] [cursor=pointer]:
+            - /url: /privacy
+          - text: .
+      - generic [ref=e154]:
+        - button "Accept All" [ref=e155]
+        - button "Customize" [ref=e156]

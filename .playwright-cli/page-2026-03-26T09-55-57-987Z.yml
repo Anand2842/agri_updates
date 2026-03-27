@@ -1,0 +1,168 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e7] [cursor=pointer]:
+    - button "Open issues overlay" [ref=e8]:
+      - img [ref=e10]
+      - generic [ref=e12]:
+        - generic [ref=e13]: "0"
+        - generic [ref=e14]: "1"
+      - generic [ref=e15]: Issue
+    - button "Collapse issues badge" [ref=e16]:
+      - img [ref=e17]
+  - banner [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e21]: Thursday, 26 March 2026
+      - generic [ref=e22]:
+        - link "Login" [ref=e23] [cursor=pointer]:
+          - /url: /login
+        - link "Subscribe" [ref=e24] [cursor=pointer]:
+          - /url: /newsletter
+    - link "AGRI UPDATES" [ref=e26] [cursor=pointer]:
+      - /url: /
+      - heading "AGRI UPDATES" [level=1] [ref=e27]
+    - navigation [ref=e28]:
+      - generic [ref=e29]:
+        - link "Job Opportunities" [ref=e31] [cursor=pointer]:
+          - /url: /jobs
+          - text: Job Opportunities
+        - generic [ref=e32]:
+          - generic [ref=e33]: "|"
+          - link "Internships" [ref=e34] [cursor=pointer]:
+            - /url: /internships
+            - text: Internships
+        - generic [ref=e35]:
+          - generic [ref=e36]: "|"
+          - link "Fellowships" [ref=e37] [cursor=pointer]:
+            - /url: /updates?category=Fellowships
+            - text: Fellowships
+        - generic [ref=e38]:
+          - generic [ref=e39]: "|"
+          - link "Scholarships" [ref=e40] [cursor=pointer]:
+            - /url: /updates?category=Scholarships
+            - text: Scholarships
+        - generic [ref=e41]:
+          - generic [ref=e42]: "|"
+          - link "Grants & Funding" [ref=e43] [cursor=pointer]:
+            - /url: /updates?category=Grants
+            - text: Grants & Funding
+        - generic [ref=e44]:
+          - generic [ref=e45]: "|"
+          - link "Startups" [ref=e46] [cursor=pointer]:
+            - /url: /startups
+            - text: Startups
+        - generic [ref=e47]:
+          - generic [ref=e48]: "|"
+          - link "Exams" [ref=e49] [cursor=pointer]:
+            - /url: /updates?category=Exams
+            - text: Exams
+        - generic [ref=e50]:
+          - generic [ref=e51]: "|"
+          - link "Conferences & Events" [ref=e52] [cursor=pointer]:
+            - /url: /updates?category=Events
+            - text: Conferences & Events
+        - generic [ref=e53]:
+          - generic [ref=e54]: "|"
+          - link "Warnings" [ref=e55] [cursor=pointer]:
+            - /url: /updates?category=Warnings
+            - text: Warnings
+        - generic [ref=e56]: "|"
+        - link [ref=e57] [cursor=pointer]:
+          - /url: /search
+          - img [ref=e58]
+  - main [ref=e61]:
+    - generic [ref=e63]:
+      - generic [ref=e64]:
+        - link "AGRI UPDATES" [ref=e65] [cursor=pointer]:
+          - /url: /
+        - heading "Sign In" [level=1] [ref=e66]
+        - paragraph [ref=e67]: Welcome back to your dashboard
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - generic [ref=e70]: Email
+          - textbox [ref=e71]
+        - generic [ref=e72]:
+          - generic [ref=e73]: Password
+          - textbox [ref=e74]
+        - button "Login" [ref=e75]
+      - generic [ref=e76]:
+        - text: Need an account?
+        - link "Sign up here" [ref=e77] [cursor=pointer]:
+          - /url: /signup
+  - contentinfo [ref=e78]:
+    - generic [ref=e79]:
+      - generic [ref=e80]:
+        - generic [ref=e81]:
+          - heading "AGRI UPDATES" [level=3] [ref=e82]
+          - paragraph [ref=e83]: Agri Updates is an innovation news platform connecting startups, funding updates, case studies, and artificial intelligence in the agricultural sector.
+          - generic [ref=e84]:
+            - link "Facebook" [ref=e85] [cursor=pointer]:
+              - /url: https://facebook.com
+              - img [ref=e86]
+            - link "Twitter" [ref=e88] [cursor=pointer]:
+              - /url: https://twitter.com
+              - img [ref=e89]
+            - link "LinkedIn" [ref=e91] [cursor=pointer]:
+              - /url: https://linkedin.com
+              - img [ref=e92]
+        - generic [ref=e97]:
+          - button "About Us" [ref=e98]:
+            - heading "About Us" [level=4] [ref=e99]
+          - list [ref=e101]:
+            - listitem [ref=e102]:
+              - link "Our Story" [ref=e103] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e104]:
+              - link "Contact" [ref=e105] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=e106]:
+              - link "Disclaimer" [ref=e107] [cursor=pointer]:
+                - /url: /disclaimer
+        - generic [ref=e109]:
+          - button "Categories" [ref=e110]:
+            - heading "Categories" [level=4] [ref=e111]
+          - list [ref=e113]:
+            - listitem [ref=e114]:
+              - link "Startups" [ref=e115] [cursor=pointer]:
+                - /url: /startups
+            - listitem [ref=e116]:
+              - link "Jobs" [ref=e117] [cursor=pointer]:
+                - /url: /jobs
+            - listitem [ref=e118]:
+              - link "Blog" [ref=e119] [cursor=pointer]:
+                - /url: /blog
+        - generic [ref=e121]:
+          - button "Job Collections" [ref=e122]:
+            - heading "Job Collections" [level=4] [ref=e123]
+          - list [ref=e125]:
+            - listitem [ref=e126]:
+              - link "Agriculture Jobs in Maharashtra 2024" [ref=e127] [cursor=pointer]:
+                - /url: /agriculture-jobs-maharashtra
+            - listitem [ref=e128]:
+              - link "Agriculture Sales Jobs in India" [ref=e129] [cursor=pointer]:
+                - /url: /agriculture-sales-jobs
+            - listitem [ref=e130]:
+              - link "BSc Agriculture Jobs" [ref=e131] [cursor=pointer]:
+                - /url: /bsc-agriculture-jobs
+            - listitem [ref=e132]:
+              - link "View All Jobs" [ref=e133] [cursor=pointer]:
+                - /url: /jobs
+        - generic [ref=e134]:
+          - heading "Subscribe" [level=4] [ref=e135]
+          - paragraph [ref=e136]: Get the latest updates delivered to your inbox.
+          - generic [ref=e137]:
+            - textbox "Email address" [ref=e138]
+            - button "Subscribe" [ref=e139]
+          - paragraph [ref=e140]:
+            - checkbox [ref=e141]
+            - generic [ref=e142]:
+              - text: I have read and accept the
+              - link "Privacy Policy" [ref=e143] [cursor=pointer]:
+                - /url: /privacy
+              - text: .
+      - generic [ref=e144]:
+        - paragraph [ref=e145]: © 2026 Agri Updates. All rights reserved.
+        - generic [ref=e146]:
+          - link "Privacy Policy" [ref=e147] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms" [ref=e148] [cursor=pointer]:
+            - /url: /terms
+  - alert [ref=e149]

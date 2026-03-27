@@ -3,7 +3,7 @@
 import { Post } from '@/types/database';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { MapPin, Building2, Clock, Briefcase, ChevronRight } from 'lucide-react';
+import { MapPin, Building2, Clock, Briefcase, ChevronRight, SearchX } from 'lucide-react';
 
 interface JobsGridProps {
     jobs: Post[];
@@ -35,9 +35,33 @@ const item = {
 export default function JobsGrid({ jobs }: JobsGridProps) {
     if (jobs.length === 0) {
         return (
-            <div className="text-center py-12 text-stone-500">
-                No jobs found matching your criteria.
-            </div>
+            <motion.div 
+                className="flex flex-col items-center justify-center text-center py-20 px-4 bg-white border border-stone-200 border-dashed rounded-xl"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+            >
+                <div className="w-16 h-16 bg-stone-100 rounded-full flex items-center justify-center mb-6 text-stone-400">
+                    <SearchX className="w-8 h-8" />
+                </div>
+                <h3 className="font-serif text-2xl font-bold text-stone-900 mb-2">No jobs found</h3>
+                <p className="text-stone-500 max-w-sm mb-8 leading-relaxed">
+                    We couldn't find any positions matching your selected filters. Try broadening your criteria.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                    <Link
+                        href="/internships"
+                        className="px-6 py-2.5 bg-agri-green text-white text-xs font-bold uppercase tracking-wider rounded-lg hover:bg-agri-dark transition-colors"
+                    >
+                        Clear Filters
+                    </Link>
+                    <Link
+                        href="/newsletter"
+                        className="px-6 py-2.5 bg-white border border-stone-200 text-stone-600 text-xs font-bold uppercase tracking-wider rounded-lg hover:border-black hover:text-black transition-colors"
+                    >
+                        Set Up Alerts
+                    </Link>
+                </div>
+            </motion.div>
         );
     }
 
@@ -134,7 +158,7 @@ export default function JobsGrid({ jobs }: JobsGridProps) {
                             </div>
 
                             {/* Salary (Optional Row) */}
-                            {job.salary_range && (
+                            {job.salary_range && job.salary_range.toLowerCase() !== 'not disclosed' && (
                                 <div className="mb-5 px-3 py-2 bg-stone-50 rounded-lg border border-stone-100 flex items-center justify-center">
                                     <span className="text-xs font-bold text-stone-700">{job.salary_range}</span>
                                 </div>
@@ -143,8 +167,8 @@ export default function JobsGrid({ jobs }: JobsGridProps) {
                             {/* Bottom Section: Ghost Action */}
                             <div className="mt-auto pt-4 border-t border-stone-100 flex items-center justify-between">
                                 {isVerified ? (
-                                    <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-1 rounded">
-                                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M10.641 21.014c.15.52.884.512 1.026-.008l1.79-6.533 6.307-2.618c.504-.209.435-1.002-.095-1.077l-6.685-.945-3.085-6.046c-.247-.484-.991-.476-1.229.013l-2.91 6.128-6.72.766c-.53.06-.615.845-.121 1.066l6.232 2.787 1.637 6.427c.075.293.364.63.853.04z" opacity="0"></path><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-stone-500 bg-stone-50 px-2 py-1 rounded border border-stone-200">
+                                        <svg className="w-3 h-3 text-agri-green" fill="currentColor" viewBox="0 0 24 24"><path d="M10.641 21.014c.15.52.884.512 1.026-.008l1.79-6.533 6.307-2.618c.504-.209.435-1.002-.095-1.077l-6.685-.945-3.085-6.046c-.247-.484-.991-.476-1.229.013l-2.91 6.128-6.72.766c-.53.06-.615.845-.121 1.066l6.232 2.787 1.637 6.427c.075.293.364.63.853.04z" opacity="0"></path><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         Verified
                                     </span>
                                 ) : (

@@ -1,0 +1,222 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - article [ref=e3]:
+      - generic [ref=e5]:
+        - link "Back to Blog" [ref=e7] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e8]
+          - generic [ref=e10]: Back
+        - generic:
+          - 'heading "Scheme: Big Opportunity for Agri-Startups''" [level=2]'
+        - button "Share Article" [ref=e12]:
+          - img [ref=e13]
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - generic [ref=e24]:
+              - link "Grants" [ref=e25] [cursor=pointer]:
+                - /url: /updates?category=Grants
+              - generic [ref=e26]: 3 min read
+            - 'heading "Scheme: Big Opportunity for Agri-Startups''" [level=1] [ref=e27]'
+            - paragraph [ref=e28]: "New scheme announced: Big Opportunity for Agri-Startups'. Subsidy: Available. Check eligibility."
+            - generic [ref=e29]:
+              - generic [ref=e30]:
+                - img "Anand" [ref=e32]
+                - generic [ref=e33]:
+                  - link "Anand" [ref=e35] [cursor=pointer]:
+                    - /url: /author/agri-updates-editor
+                  - text: 1/14/2026
+              - generic [ref=e37]:
+                - generic [ref=e38]: "Share:"
+                - link "Share on WhatsApp" [ref=e39] [cursor=pointer]:
+                  - /url: https://wa.me/?text=Scheme%3A%20Big%20Opportunity%20for%20Agri-Startups'%20http%3A%2F%2Flocalhost%3A3000%2Fblog%2Fbig-opportunity-for-agri-startups-9016
+                  - img [ref=e40]
+                - link "Share on X (Twitter)" [ref=e42] [cursor=pointer]:
+                  - /url: https://twitter.com/intent/tweet?text=Scheme%3A%20Big%20Opportunity%20for%20Agri-Startups'&url=http%3A%2F%2Flocalhost%3A3000%2Fblog%2Fbig-opportunity-for-agri-startups-9016
+                  - img [ref=e43]
+                - link "Share on LinkedIn" [ref=e45] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/sharing/share-offsite/?url=http%3A%2F%2Flocalhost%3A3000%2Fblog%2Fbig-opportunity-for-agri-startups-9016
+                  - img [ref=e46]
+                - link "Share on Facebook" [ref=e50] [cursor=pointer]:
+                  - /url: https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fblog%2Fbig-opportunity-for-agri-startups-9016
+                  - img [ref=e51]
+                - button "Copy Link" [ref=e53]:
+                  - img [ref=e54]
+          - 'img "Scheme: Big Opportunity for Agri-Startups''" [ref=e59]'
+          - article [ref=e60]:
+            - generic [ref=e61]:
+              - heading "Program Overview" [level=2] [ref=e62]
+              - paragraph [ref=e63]:
+                - text: The
+                - strong [ref=e64]: KSHITIJ Incubation Programme 2026
+                - text: is a
+                - strong [ref=e65]: government‑supported incubation opportunity
+                - text: for early‑stage
+                - strong [ref=e66]: agri‑startups
+                - text: focused on food processing, value addition, and waste‑to‑wealth innovations. Managed by the
+                - strong [ref=e67]: ICAR‑ABI Network
+                - text: ", the scheme aims to strengthen India’s agribusiness innovation ecosystem and accelerate commercialisation of agri‑tech solutions."
+              - separator [ref=e68]
+              - heading "Key Benefits & Support" [level=2] [ref=e69]
+              - paragraph [ref=e70]:
+                - text: Selected startups will join a
+                - strong [ref=e71]: one‑month virtual cohort
+                - text: that provides comprehensive mentorship and networking.
+              - list [ref=e72]:
+                - listitem [ref=e73]:
+                  - text: •
+                  - strong [ref=e74]: Mentorship & Technical Guidance
+                  - text: ": One‑on‑one sessions with domain experts and ICAR scientists, technology deep‑dives, and business model refinement."
+                - listitem [ref=e75]:
+                  - text: •
+                  - strong [ref=e76]: Business Growth & Networking
+                  - text: ": Market linkage support, connections with industry stakeholders, and advisory assistance on commercialisation, IP, and regulatory matters."
+                - listitem [ref=e77]:
+                  - text: •
+                  - strong [ref=e78]: Certification & Recognition
+                  - text: ": Certificate of completion and visibility within the ICAR incubation ecosystem and partner networks."
+              - separator [ref=e79]
+              - heading "Eligibility Criteria" [level=2] [ref=e80]
+              - paragraph [ref=e81]: "Startups must meet the following basic conditions:"
+              - list [ref=e82]:
+                - listitem [ref=e83]:
+                  - text: • Registered enterprise with a proven
+                  - strong [ref=e84]: proof of concept (PoC), prototype, or MVP
+                  - text: .
+                - listitem [ref=e85]:
+                  - text: • Core idea centred on
+                  - strong [ref=e86]: agriculture, food processing, or waste‑to‑wealth solutions
+                  - text: .
+                - listitem [ref=e87]:
+                  - text: • Founders ready to commit to a
+                  - strong [ref=e88]: one‑month virtual programme
+                  - text: .
+                - listitem [ref=e89]: • All application documents submitted accurately before the deadline.
+              - paragraph [ref=e90]: Exact eligibility details are available in the official application form.
+              - separator [ref=e91]
+              - heading "Application Process" [level=2] [ref=e92]
+              - list [ref=e93]:
+                - listitem [ref=e94]: Visit the official application link.
+                - listitem [ref=e95]: Complete all sections (team, product, market, stage, traction).
+                - listitem [ref=e96]: Upload required documents (pitch deck, prototype information, founder IDs).
+                - listitem [ref=e97]: Submit before the closing date.
+                - listitem [ref=e98]: Await shortlisting and further communication from the organisers.
+              - paragraph [ref=e99]: Incomplete or late submissions will not be considered.
+              - separator [ref=e100]
+              - heading "Important Dates" [level=2] [ref=e101]
+              - list [ref=e102]:
+                - listitem [ref=e103]:
+                  - text: •
+                  - strong [ref=e104]: "Application Start Date:"
+                  - strong [ref=e105]: 06 January 2026
+                - listitem [ref=e106]:
+                  - text: •
+                  - strong [ref=e107]: "Application Closing Date:"
+                  - strong [ref=e108]: 21 January 2026
+                - listitem [ref=e109]:
+                  - text: • Approximately
+                  - strong [ref=e110]: 15 days left
+                  - text: to apply (subject to confirmation).
+              - separator [ref=e111]
+              - heading "Selection Process" [level=2] [ref=e112]
+              - paragraph [ref=e113]: After submission, shortlisted startups are evaluated on innovation, viability, and impact. The final cohort is announced, and selected participants join the virtual incubation for structured training, mentorship sessions, and networking workshops throughout the month.
+              - separator [ref=e114]
+              - heading "Why This Scheme Matters for Agri‑Entrepreneurs" [level=2] [ref=e115]
+              - paragraph [ref=e116]:
+                - text: The KSHITIJ programme stands out because it is backed by
+                - strong [ref=e117]: ICAR’s national agri‑innovation ecosystem
+                - text: and involves multiple ICAR institutes and incubation partners. It offers early‑stage founders structured support, ecosystem access, and a practical pathway to scale technical and commercial aspects of their agri‑innovation.
+              - separator [ref=e118]
+              - heading "Frequently Asked Questions" [level=2] [ref=e119]
+              - paragraph [ref=e120]:
+                - strong [ref=e121]: Is this scheme open to international startups?
+                - text: No. The programme is primarily aimed at Indian startups and entrepreneurs (refer to official terms for details).
+              - paragraph [ref=e122]:
+                - strong [ref=e123]: Is there a participation fee?
+                - text: The incubation support is generally free, but applicants should verify any specific terms on the official form.
+              - paragraph [ref=e124]:
+                - strong [ref=e125]: Can students apply?
+                - text: Yes, student‑led startups with valid registrations and prototypes are eligible.
+              - paragraph [ref=e126]:
+                - strong [ref=e127]: What happens after the one‑month programme?
+                - text: Participating startups may gain access to next‑stage acceleration opportunities, funding channels, and broader industry connections.
+              - separator [ref=e128]
+              - heading "Apply Now" [level=2] [ref=e129]
+              - paragraph [ref=e130]: "Submit your application through the official link below:"
+              - paragraph [ref=e131]:
+                - link "https://nutrihub.accubate.app/ext/form/18443/1/apply" [ref=e132] [cursor=pointer]:
+                  - /url: https://nutrihub.accubate.app/ext/form/18443/1/apply
+          - generic [ref=e133]:
+            - generic [ref=e134]:
+              - link "#Scheme" [ref=e135] [cursor=pointer]:
+                - /url: /search?q=Scheme
+              - link "#Subsidy" [ref=e136] [cursor=pointer]:
+                - /url: /search?q=Subsidy
+              - link "#Grant" [ref=e137] [cursor=pointer]:
+                - /url: /search?q=Grant
+              - link "#Agriculture" [ref=e138] [cursor=pointer]:
+                - /url: /search?q=Agriculture
+            - generic [ref=e139]:
+              - img "Anand" [ref=e141]
+              - generic [ref=e142]:
+                - heading "Anand" [level=4] [ref=e143]
+                - paragraph [ref=e144]: Dedicated to bringing you the latest in agricultural news and innovation.
+        - complementary [ref=e145]:
+          - generic [ref=e146]:
+            - generic [ref=e148]: More in Grants
+            - list [ref=e149]:
+              - listitem [ref=e150]:
+                - 'link "01 Grants USDA AFRI 2026: Inside the $407 Million Agriculture Research Grant 4d ago" [ref=e151] [cursor=pointer]':
+                  - /url: /blog/usda-afri-2026-inside-the-407-million-agriculture-research-grant
+                  - generic [ref=e152]: "01"
+                  - generic [ref=e153]:
+                    - generic [ref=e154]: Grants
+                    - 'heading "USDA AFRI 2026: Inside the $407 Million Agriculture Research Grant" [level=3] [ref=e155]'
+                    - generic [ref=e156]: 4d ago
+              - listitem [ref=e157]:
+                - 'link "02 Grants RKVY-RAFTAAR Incubators in India (2026): A Founder''s Comparison Guide 2mo ago" [ref=e158] [cursor=pointer]':
+                  - /url: /blog/rkvy-raftaar-incubators-comparison-2026
+                  - generic [ref=e159]: "02"
+                  - generic [ref=e160]:
+                    - generic [ref=e161]: Grants
+                    - 'heading "RKVY-RAFTAAR Incubators in India (2026): A Founder''s Comparison Guide" [level=3] [ref=e162]'
+                    - generic [ref=e163]: 2mo ago
+              - listitem [ref=e164]:
+                - 'link "03 Grants BHU RKVY-RAFTAAR 2026: The Definitive Founder''s Guide 2mo ago" [ref=e165] [cursor=pointer]':
+                  - /url: /blog/bhu-rkvy-raftaar-2026-the-definitive-founders-guide
+                  - generic [ref=e166]: "03"
+                  - generic [ref=e167]:
+                    - generic [ref=e168]: Grants
+                    - 'heading "BHU RKVY-RAFTAAR 2026: The Definitive Founder''s Guide" [level=3] [ref=e169]'
+                    - generic [ref=e170]: 2mo ago
+          - generic [ref=e174]:
+            - generic [ref=e175]: Free Newsletter
+            - heading "The Agri Digest" [level=3] [ref=e176]
+            - paragraph [ref=e177]: Curated agricultural intelligence delivered to your inbox every quarter.
+            - generic [ref=e178]:
+              - textbox "Email address" [ref=e179]
+              - button "Subscribe" [ref=e180]
+            - paragraph [ref=e181]: No spam. Unsubscribe anytime.
+      - group [ref=e186] [cursor=pointer]:
+        - generic "Discussion View Comments" [ref=e187]:
+          - text: Discussion
+          - generic [ref=e188]:
+            - text: View Comments
+            - img [ref=e189]
+  - alert [ref=e191]
+  - generic [ref=e192]:
+    - button "Dismiss and Reject All" [ref=e193]:
+      - img [ref=e194]
+    - generic [ref=e197]:
+      - generic [ref=e198]:
+        - heading "Cookie Consent" [level=3] [ref=e199]:
+          - img [ref=e200]
+          - text: Cookie Consent
+        - paragraph [ref=e202]:
+          - text: We use cookies to enhance your experience. Read our
+          - link "Privacy Policy" [ref=e203] [cursor=pointer]:
+            - /url: /privacy
+          - text: .
+      - generic [ref=e204]:
+        - button "Accept All" [ref=e205]
+        - button "Customize" [ref=e206]

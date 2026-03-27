@@ -1,0 +1,76 @@
+[     984ms] [ERROR] %c%s%c Supabase posts fetch error: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {
+  "message": "TypeError: fetch failed",
+  "details": "TypeError: fetch failed\n\nCaused by: Error: getaddrinfo ENOTFOUND placeholder.supabase.co (ENOTFOUND)\nError: getaddrinfo ENOTFOUND placeholder.supabase.co\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)",
+  "hint": "",
+  "code": ""
+} @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[     984ms] [ERROR] %c%s%c Supabase jobs fetch error: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {
+  "message": "TypeError: fetch failed",
+  "details": "TypeError: fetch failed\n\nCaused by: Error: getaddrinfo ENOTFOUND placeholder.supabase.co (ENOTFOUND)\nError: getaddrinfo ENOTFOUND placeholder.supabase.co\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)",
+  "hint": "",
+  "code": ""
+} @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[    1333ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/ads?select=*&is_active=eq.true&placement=eq.banner&start_date=lte.2026-03-26T09%3A14%3A23.564Z&or=%28end_date.is.null%2Cend_date.gte.2026-03-26T09%3A14%3A23.564Z%29:0
+[    1334ms] [ERROR] Error fetching ad: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…tatic/chunks/src_components_f198675a._.js:165:49), hint: , code: } @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[    1336ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/ads?select=*&is_active=eq.true&placement=eq.banner&start_date=lte.2026-03-26T09%3A14%3A23.562Z&or=%28end_date.is.null%2Cend_date.gte.2026-03-26T09%3A14%3A23.564Z%29:0
+[    1336ms] [ERROR] Error fetching ad: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…tatic/chunks/src_components_f198675a._.js:165:49), hint: , code: } @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[    4001ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[    4510ms] [ERROR] %c%s%c Supabase posts fetch error: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {
+  "message": "TypeError: fetch failed",
+  "details": "TypeError: fetch failed\n\nCaused by: Error: getaddrinfo ENOTFOUND placeholder.supabase.co (ENOTFOUND)\nError: getaddrinfo ENOTFOUND placeholder.supabase.co\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)",
+  "hint": "",
+  "code": ""
+} @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[    4511ms] [ERROR] %c%s%c Supabase jobs fetch error: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {
+  "message": "TypeError: fetch failed",
+  "details": "TypeError: fetch failed\n\nCaused by: Error: getaddrinfo ENOTFOUND placeholder.supabase.co (ENOTFOUND)\nError: getaddrinfo ENOTFOUND placeholder.supabase.co\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)",
+  "hint": "",
+  "code": ""
+} @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[    4870ms] [ERROR] %c%s%c Supabase posts fetch error: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {
+  "message": "TypeError: fetch failed",
+  "details": "TypeError: fetch failed\n\nCaused by: Error: getaddrinfo ENOTFOUND placeholder.supabase.co (ENOTFOUND)\nError: getaddrinfo ENOTFOUND placeholder.supabase.co\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)",
+  "hint": "",
+  "code": ""
+} @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[    4870ms] [ERROR] %c%s%c Supabase jobs fetch error: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {
+  "message": "TypeError: fetch failed",
+  "details": "TypeError: fetch failed\n\nCaused by: Error: getaddrinfo ENOTFOUND placeholder.supabase.co (ENOTFOUND)\nError: getaddrinfo ENOTFOUND placeholder.supabase.co\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)",
+  "hint": "",
+  "code": ""
+} @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[    4971ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:2297
+[    5692ms] [ERROR] %c%s%c Supabase posts fetch error: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {
+  "message": "TypeError: fetch failed",
+  "details": "TypeError: fetch failed\n\nCaused by: Error: getaddrinfo ENOTFOUND placeholder.supabase.co (ENOTFOUND)\nError: getaddrinfo ENOTFOUND placeholder.supabase.co\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)",
+  "hint": "",
+  "code": ""
+} @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[    5692ms] [ERROR] %c%s%c Supabase jobs fetch error: background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Server   {
+  "message": "TypeError: fetch failed",
+  "details": "TypeError: fetch failed\n\nCaused by: Error: getaddrinfo ENOTFOUND placeholder.supabase.co (ENOTFOUND)\nError: getaddrinfo ENOTFOUND placeholder.supabase.co\n    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (node:internal/async_hooks:130:17)",
+  "hint": "",
+  "code": ""
+} @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[    7206ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/ads?select=*&is_active=eq.true&placement=eq.banner&start_date=lte.2026-03-26T09%3A14%3A28.328Z&or=%28end_date.is.null%2Cend_date.gte.2026-03-26T09%3A14%3A28.328Z%29:0
+[    7207ms] [ERROR] Error fetching ad: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…tatic/chunks/src_components_f198675a._.js:165:49), hint: , code: } @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127
+[    7208ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/ads?select=*&is_active=eq.true&placement=eq.banner&start_date=lte.2026-03-26T09%3A14%3A28.328Z&or=%28end_date.is.null%2Cend_date.gte.2026-03-26T09%3A14%3A28.328Z%29:0
+[    7208ms] [ERROR] Error fetching ad: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…tatic/chunks/src_components_f198675a._.js:165:49), hint: , code: } @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_f3530cac._.js:3127

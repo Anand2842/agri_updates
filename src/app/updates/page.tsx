@@ -107,9 +107,7 @@ export default async function UpdatesPage({ searchParams }: UpdatesPageProps) {
             </div>
 
             <div className="container mx-auto px-4 py-12">
-                <div className="mb-12">
-                    <AdBanner placement="banner" />
-                </div>
+                <AdBanner placement="banner" className="mb-12" />
 
                 {/* Posts Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">

@@ -1,0 +1,599 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - article [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - link "Back to Blog" [ref=e7] [cursor=pointer]:
+            - /url: /blog
+            - img [ref=e8]
+          - link "AU" [ref=e10] [cursor=pointer]:
+            - /url: /
+        - generic:
+          - 'heading "RKVY-RAFTAAR Agri Food Business Incubation Centre (AFBIC), IIT Kharagpur: Complete Verified Overview (Jan 2026)" [level=2]'
+        - generic [ref=e11]:
+          - button "Save Article" [ref=e12]:
+            - img [ref=e13]
+          - button "Share Article" [ref=e15]:
+            - img [ref=e16]
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - link "Research" [ref=e26] [cursor=pointer]:
+            - /url: /updates?category=Research
+          - 'heading "RKVY-RAFTAAR Agri Food Business Incubation Centre (AFBIC), IIT Kharagpur: Complete Verified Overview (Jan 2026)" [level=1] [ref=e27]'
+          - generic [ref=e28]:
+            - img "Agri Updates Editor" [ref=e30]
+            - generic [ref=e31]:
+              - link "Agri Updates Editor" [ref=e33] [cursor=pointer]:
+                - /url: /author/agri-updates-editor
+              - generic [ref=e34]:
+                - generic [ref=e35]: 1/19/2026
+                - generic [ref=e36]: •
+                - generic [ref=e37]: 2 min read
+        - 'img "RKVY-RAFTAAR Agri Food Business Incubation Centre (AFBIC), IIT Kharagpur: Complete Verified Overview (Jan 2026)" [ref=e40]'
+        - group [ref=e42]:
+          - generic "In this article" [ref=e43] [cursor=pointer]:
+            - text: In this article
+            - img [ref=e44]
+        - article [ref=e46]:
+          - generic [ref=e47]:
+            - blockquote [ref=e48]:
+              - emphasis [ref=e49]:
+                - text: Updated for
+                - link "Agri Updates" [ref=e50] [cursor=pointer]:
+                  - /url: https://www.agriupdates.online/
+                - text: "| January 2026"
+            - heading "Overview" [level=2] [ref=e51]:
+              - strong [ref=e52]: Overview
+            - paragraph [ref=e53]:
+              - text: The
+              - strong [ref=e54]:
+                - link "Agri Food Business Incubation Centre (AFBIC)" [ref=e55] [cursor=pointer]:
+                  - /url: https://afbic.iitkgp.ac.in/
+              - link "at" [ref=e56] [cursor=pointer]:
+                - /url: https://afbic.iitkgp.ac.in/
+              - strong [ref=e57]:
+                - link "IIT Kharagpur" [ref=e58] [cursor=pointer]:
+                  - /url: https://afbic.iitkgp.ac.in/
+              - text: functions as an
+              - strong [ref=e59]: RKVY-RAFTAAR Agri Business Incubator (R-ABI)
+              - text: .
+            - paragraph [ref=e60]:
+              - text: It operates within the
+              - strong [ref=e61]: Agricultural and Food Engineering Department
+              - text: and supports agri and agri-food startups through
+              - strong [ref=e62]: structured incubation, mentoring, and grant-in-aid funding
+              - text: under the
+              - strong [ref=e63]: RKVY-RAFTAAR scheme
+              - text: of the Government of India.
+            - paragraph [ref=e64]:
+              - text: AFBIC’s role is to
+              - strong [ref=e65]: identify, incubate, and support startups from ideation to scale-up
+              - text: ", aligned with national agripreneurship objectives."
+            - separator [ref=e66]
+            - heading "Administrative & Scheme Context" [level=2] [ref=e67]:
+              - strong [ref=e68]: Administrative & Scheme Context
+            - heading "RKVY-RAFTAAR Scheme" [level=3] [ref=e69]:
+              - strong [ref=e70]: RKVY-RAFTAAR Scheme
+            - list [ref=e71]:
+              - listitem [ref=e72]:
+                - text: •
+                - strong [ref=e73]: "Scheme Name:"
+                - link "Rashtriya Krishi Vikas Yojana" [ref=e74] [cursor=pointer]:
+                  - /url: https://rkvy.da.gov.in/
+                - text: – Remunerative Approaches for Agriculture and Allied Sector Rejuvenation (
+                - strong [ref=e75]: RKVY-RAFTAAR
+                - text: )
+              - listitem [ref=e76]:
+                - text: •
+                - strong [ref=e77]: "Administering Authority:"
+                - strong [ref=e78]: Ministry of Agriculture & Farmers' Welfare
+                - text: ", Government of India"
+              - listitem [ref=e79]:
+                - text: • Public scheme documentation references the
+                - strong [ref=e80]: Ministry
+                - text: as the administering authority.
+              - listitem [ref=e81]:
+                - text: • While the Ministry contains multiple departments,
+                - strong [ref=e82]: public R-ABI documentation does not explicitly define a separate departmental implementation hierarchy
+                - text: for incubators.
+              - listitem [ref=e83]:
+                - text: • For formal accuracy, RKVY-RAFTAAR should be cited as
+                - strong [ref=e84]: administered by MoA&FW
+                - text: unless quoting internal government documents.
+            - heading "National RKVY-RAFTAAR Ecosystem (as of 31 March 2025)" [level=3] [ref=e85]:
+              - strong [ref=e86]: National RKVY-RAFTAAR Ecosystem (as of 31 March 2025)
+            - paragraph [ref=e87]: "According to official scheme briefs:"
+            - list [ref=e88]:
+              - listitem [ref=e89]:
+                - text: •
+                - strong [ref=e90]: 1,943 agri-startups
+                - text: supported nationwide
+              - listitem [ref=e91]:
+                - text: •
+                - strong [ref=e92]: ₹146.38 crore
+                - text: released as grant-in-aid
+              - listitem [ref=e93]:
+                - text: •
+                - strong [ref=e94]: 5 Knowledge Partners (KPs)
+              - listitem [ref=e95]:
+                - text: •
+                - strong [ref=e96]: 24 R-ABIs
+                - text: across India, including
+                - strong [ref=e97]: AFBIC at IIT Kharagpur
+            - paragraph [ref=e98]: These figures are sourced from official RKVY-RAFTAAR publications and are updated periodically.
+            - separator [ref=e99]
+            - heading "Institutional Setup at IIT Kharagpur" [level=2] [ref=e100]:
+              - strong [ref=e101]: Institutional Setup at IIT Kharagpur
+            - heading "Agricultural and Food Engineering Department" [level=3] [ref=e102]:
+              - strong [ref=e103]: Agricultural and Food Engineering Department
+            - list [ref=e104]:
+              - listitem [ref=e105]:
+                - text: • Established in
+                - strong [ref=e106]: "1952"
+                - text: ", renamed in"
+                - strong [ref=e107]: "1994"
+              - listitem [ref=e108]:
+                - text: "• Focus areas include:"
+                - list [ref=e109]:
+                  - listitem [ref=e110]: ◦ Post-harvest technology
+                  - listitem [ref=e111]: ◦ Food processing and dairy engineering
+                  - listitem [ref=e112]: ◦ Farm machinery and power
+                  - listitem [ref=e113]: ◦ Aquaculture engineering
+              - listitem [ref=e114]:
+                - text: • The department is
+                - strong [ref=e115]: specialized and central to AFBIC’s incubation mandate at IIT Kharagpur
+              - listitem [ref=e116]:
+                - text: • While some institutional materials describe the department as unique,
+                - strong [ref=e117]: public RKVY-RAFTAAR scheme documents do not officially confirm exclusivity across all IITs
+              - listitem [ref=e118]:
+                - text: • Therefore, it is accurate to describe it as
+                - strong [ref=e119]: specialized and integral
+                - text: ", without asserting exclusivity"
+            - separator [ref=e120]
+            - heading "AFBIC as an R-ABI" [level=2] [ref=e121]:
+              - strong [ref=e122]:
+                - link "AFBIC" [ref=e123] [cursor=pointer]:
+                  - /url: https://afbic.iitkgp.ac.in/
+                - text: as an R-ABI
+            - list [ref=e124]:
+              - listitem [ref=e125]:
+                - text: •
+                - strong [ref=e126]: AFBIC
+                - text: is listed as an
+                - strong [ref=e127]: R-ABI under RKVY-RAFTAAR
+              - listitem [ref=e128]:
+                - text: • It operates under
+                - strong [ref=e129]: MoA&FW guidance
+              - listitem [ref=e130]:
+                - text: • It follows
+                - strong [ref=e131]: national RKVY-RAFTAAR grant-in-aid norms
+              - listitem [ref=e132]:
+                - text: • AFBIC is responsible for
+                - strong [ref=e133]: executing incubation programs, evaluations, mentoring, and grant facilitation
+            - separator [ref=e134]
+            - heading "AFBIC and ABIF – Clear Distinction" [level=2] [ref=e135]:
+              - strong [ref=e136]:
+                - text: AFBIC and
+                - link "ABIF" [ref=e137] [cursor=pointer]:
+                  - /url: https://abif.iitkgp.ac.in/
+                - text: – Clear Distinction
+            - paragraph [ref=e138]:
+              - text: IIT Kharagpur hosts
+              - strong [ref=e139]: two separate agri-incubation entities
+              - text: ":"
+            - heading "AFBIC (Agri Food Business Incubation Centre)" [level=3] [ref=e140]:
+              - strong [ref=e141]: AFBIC (Agri Food Business Incubation Centre)
+            - list [ref=e142]:
+              - listitem [ref=e143]:
+                - text: • Funded under
+                - strong [ref=e144]: RKVY-RAFTAAR
+              - listitem [ref=e145]:
+                - text: • Focuses on
+                - strong [ref=e146]: R-ABI mandate and grant-linked programs
+              - listitem [ref=e147]: • Operates incubation programs aligned with MoA&FW norms
+            - heading "ABIF (Agri Business Incubation Foundation)" [level=3] [ref=e148]:
+              - strong [ref=e149]: ABIF (Agri Business Incubation Foundation)
+            - list [ref=e150]:
+              - listitem [ref=e151]:
+                - text: • A
+                - strong [ref=e152]: NABARD-funded Section-8 company
+              - listitem [ref=e153]: • Broader scope in agriculture, rural development, and enterprise incubation
+              - listitem [ref=e154]:
+                - text: • Uses AgFE infrastructure but operates
+                - strong [ref=e155]: independently from RKVY-RAFTAAR
+            - paragraph [ref=e156]:
+              - text: Statements regarding departmental uniqueness appear in
+              - strong [ref=e157]: ABIF materials
+              - text: ", not in"
+              - strong [ref=e158]: AFBIC scheme documentation
+              - text: .
+            - separator [ref=e159]
+            - heading "Program Portfolio at AFBIC" [level=2] [ref=e160]:
+              - strong [ref=e161]: Program Portfolio at AFBIC
+            - heading "Programs Identified" [level=3] [ref=e162]:
+              - strong [ref=e163]: Programs Identified
+            - list [ref=e164]:
+              - listitem [ref=e165]:
+                - text: •
+                - strong [ref=e166]: Agri-Startup Incubation Programme (AIP)
+                - text: — publicly listed on
+                - link "AFBIC website" [ref=e167] [cursor=pointer]:
+                  - /url: https://afbic.iitkgp.ac.in/Sathi/aip
+              - listitem [ref=e168]:
+                - text: •
+                - strong [ref=e169]: Agripreneurship Orientation Programme (AOP)
+                - text: — confirmed via FAQs, call letters, and cohort announcements
+              - listitem [ref=e170]:
+                - text: •
+                - strong [ref=e171]: Student Orientation Programme (SOP)
+                - text: — confirmed via cohort advertisements and official calls
+            - paragraph [ref=e172]:
+              - strong [ref=e173]: "Important clarification:"
+            - list [ref=e174]:
+              - listitem [ref=e175]:
+                - text: •
+                - strong [ref=e176]: AIP
+                - text: is the
+                - strong [ref=e177]: core program permanently visible on the official website
+              - listitem [ref=e178]:
+                - text: •
+                - strong [ref=e179]: AOP and SOP
+                - text: are
+                - strong [ref=e180]: cohort-specific programs announced through call letters and notifications
+                - text: ", not permanently listed pages"
+            - separator [ref=e181]
+            - heading "Program Structure (Based on Verified Cohort Calls)" [level=2] [ref=e182]:
+              - strong [ref=e183]: Program Structure (Based on Verified Cohort Calls)
+            - heading "Agri-Startup Incubation Programme (AIP)" [level=3] [ref=e184]:
+              - strong [ref=e185]: Agri-Startup Incubation Programme (AIP)
+            - list [ref=e186]:
+              - listitem [ref=e187]:
+                - text: •
+                - strong [ref=e188]: "Target Stage:"
+                - text: MVP / early-traction startups
+              - listitem [ref=e189]:
+                - text: •
+                - strong [ref=e190]: "Grant-in-Aid:"
+                - text: Up to
+                - strong [ref=e191]: ₹25 lakh
+              - listitem [ref=e192]:
+                - text: •
+                - strong [ref=e193]: "Format:"
+                - list [ref=e194]:
+                  - listitem [ref=e195]: ◦ Online mentoring
+                  - listitem [ref=e196]: ◦ ~15 days intensive workshop
+              - listitem [ref=e197]:
+                - text: •
+                - strong [ref=e198]: "Stipend:"
+                - text: None (grant-based only)
+            - heading "Agripreneurship Orientation Programme (AOP)" [level=3] [ref=e199]:
+              - strong [ref=e200]: Agripreneurship Orientation Programme (AOP)
+            - list [ref=e201]:
+              - listitem [ref=e202]:
+                - text: •
+                - strong [ref=e203]: "Target Stage:"
+                - text: Idea / pre-seed
+              - listitem [ref=e204]:
+                - text: •
+                - strong [ref=e205]: "Grant-in-Aid:"
+                - text: Up to
+                - strong [ref=e206]: ₹5 lakh
+              - listitem [ref=e207]:
+                - text: •
+                - strong [ref=e208]: "Format:"
+                - list [ref=e209]:
+                  - listitem [ref=e210]: ◦ Online mentoring
+                  - listitem [ref=e211]: ◦ Offline/residential component only if explicitly announced
+              - listitem [ref=e212]:
+                - text: •
+                - strong [ref=e213]: "Stipend:"
+                - list [ref=e214]:
+                  - listitem [ref=e215]:
+                    - text: ◦ ₹10,000/month
+                    - strong [ref=e216]: only if residential/offline mode is officially declared
+            - heading "Student Orientation Programme (SOP)" [level=3] [ref=e217]:
+              - strong [ref=e218]:
+                - link "Student Orientation Programme (SOP)" [ref=e219] [cursor=pointer]:
+                  - /url: https://afbic.iitkgp.ac.in/Afbic/sop
+            - list [ref=e220]:
+              - listitem [ref=e221]:
+                - text: •
+                - strong [ref=e222]: "Target:"
+                - text: Students with agri/food innovation ideas
+              - listitem [ref=e223]:
+                - text: •
+                - strong [ref=e224]: "Grant-in-Aid:"
+                - text: Up to
+                - strong [ref=e225]: ₹4 lakh
+              - listitem [ref=e226]:
+                - text: •
+                - strong [ref=e227]: "Format:"
+                - text: Online mentoring
+              - listitem [ref=e228]:
+                - text: •
+                - strong [ref=e229]: "Stipend:"
+                - text: None
+            - paragraph [ref=e230]:
+              - strong [ref=e231]: "Historical note:"
+            - list [ref=e232]:
+              - listitem [ref=e233]:
+                - text: • Fully residential models with stipends (2019–2020) were
+                - strong [ref=e234]: cohort-specific and are no longer standard
+            - separator [ref=e235]
+            - heading "Focus Areas Supported by AFBIC" [level=2] [ref=e236]:
+              - strong [ref=e237]: Focus Areas Supported by AFBIC
+            - paragraph [ref=e238]: "Based on official calls and departmental strengths:"
+            - list [ref=e239]:
+              - listitem [ref=e240]: • Food technology and dairy processing
+              - listitem [ref=e241]: • Post-harvest technology
+              - listitem [ref=e242]: • AI, IoT, precision agriculture
+              - listitem [ref=e243]: • Drone applications
+              - listitem [ref=e244]: • Farm mechanization, robotics, automation
+              - listitem [ref=e245]: • Aquaculture and fisheries
+              - listitem [ref=e246]: • Waste-to-wealth solutions
+              - listitem [ref=e247]: • Sustainable packaging
+              - listitem [ref=e248]: • Green and renewable energy applications in agriculture
+            - separator [ref=e249]
+            - heading "Eligibility and Geographic Scope" [level=2] [ref=e250]:
+              - strong [ref=e251]: Eligibility and Geographic Scope
+            - heading "Geographic Focus" [level=3] [ref=e252]:
+              - strong [ref=e253]: Geographic Focus
+            - list [ref=e254]:
+              - listitem [ref=e255]:
+                - text: • AFBIC is the
+                - strong [ref=e256]: R-ABI designated for West Bengal
+              - listitem [ref=e257]:
+                - text: •
+                - strong [ref=e258]: "Primary mandate:"
+                - text: Support startups, agripreneurs, and students linked to West Bengal
+              - listitem [ref=e259]:
+                - text: •
+                - strong [ref=e260]: "Cohort-specific extensions:"
+                - list [ref=e261]:
+                  - listitem [ref=e262]: ◦ Some calls have included Odisha, Bihar, Jharkhand, Assam, and Sikkim
+                  - listitem [ref=e263]:
+                    - text: ◦ These extensions are
+                    - strong [ref=e264]: not permanent
+                    - text: and vary by cohort
+            - paragraph [ref=e265]:
+              - strong [ref=e266]: "Key point:"
+            - paragraph [ref=e267]:
+              - text: RKVY-RAFTAAR scheme documentation does
+              - strong [ref=e268]: not universally restrict applicants by state
+              - text: ", but"
+              - strong [ref=e269]: R-ABI designation defines regional focus
+              - text: .
+            - heading "Basic Eligibility (From Verified Calls)" [level=3] [ref=e270]:
+              - strong [ref=e271]: Basic Eligibility (From Verified Calls)
+            - list [ref=e272]:
+              - listitem [ref=e273]:
+                - text: "• Minimum education:"
+                - strong [ref=e274]: 10+2
+                - text: (graduates preferred)
+              - listitem [ref=e275]: • Applicable to individuals, teams, students, and registered startups
+              - listitem [ref=e276]:
+                - text: "• Program stage alignment:"
+                - list [ref=e277]:
+                  - listitem [ref=e278]: "◦ AOP/SOP: Idea or prototype"
+                  - listitem [ref=e279]: "◦ AIP: MVP or registered startup"
+              - listitem [ref=e280]:
+                - text: "• Willingness to comply with:"
+                - list [ref=e281]:
+                  - listitem [ref=e282]: ◦ Program timelines
+                  - listitem [ref=e283]: ◦ Mentoring
+                  - listitem [ref=e284]: ◦ Reporting and grant utilization norms
+            - separator [ref=e285]
+            - heading "Financial Norms (Scheme-Level)" [level=2] [ref=e286]:
+              - strong [ref=e287]: Financial Norms (Scheme-Level)
+            - list [ref=e288]:
+              - listitem [ref=e289]:
+                - text: •
+                - strong [ref=e290]: "Idea / Pre-Seed:"
+                - list [ref=e291]:
+                  - listitem [ref=e292]: ◦ Up to ₹5 lakh
+                  - listitem [ref=e293]: ◦ Typically ~90% grant, ~10% beneficiary contribution
+              - listitem [ref=e294]:
+                - text: •
+                - strong [ref=e295]: "Seed / MVP:"
+                - list [ref=e296]:
+                  - listitem [ref=e297]: ◦ Up to ₹25 lakh
+                  - listitem [ref=e298]: ◦ Typically ~85% grant, ~15% beneficiary contribution
+              - listitem [ref=e299]:
+                - text: •
+                - strong [ref=e300]: "Funding Pattern (Scheme Level):"
+                - list [ref=e301]:
+                  - listitem [ref=e302]: ◦ 60:40 (Centre:State) for most states
+                  - listitem [ref=e303]: ◦ 90:10 for NE/Himalayan states
+                  - listitem [ref=e304]: ◦ 100% Central for UTs
+            - separator [ref=e305]
+            - heading "Contact Details" [level=2] [ref=e306]:
+              - strong [ref=e307]: Contact Details
+            - heading "Permanent Official Contacts" [level=3] [ref=e308]:
+              - strong [ref=e309]: Permanent Official Contacts
+            - list [ref=e310]:
+              - listitem [ref=e311]:
+                - text: •
+                - strong [ref=e312]: "Address:"
+              - listitem [ref=e313]: • Agricultural and Food Engineering Department
+              - listitem [ref=e314]: • IIT Kharagpur, Paschim Medinipur, West Bengal – 721302
+              - listitem [ref=e315]:
+                - text: •
+                - strong [ref=e316]: "Email:"
+              - listitem [ref=e317]:
+                - text: •
+                - strong [ref=e318]:
+                  - link "iitkgpafbic@gmail.com" [ref=e319] [cursor=pointer]:
+                    - /url: mailto:iitkgpafbic@gmail.com
+            - heading "Cohort-Specific Contacts" [level=3] [ref=e320]:
+              - strong [ref=e321]: Cohort-Specific Contacts
+            - list [ref=e322]:
+              - listitem [ref=e323]:
+                - text: • Phone numbers circulated via social media or posters are
+                - strong [ref=e324]: valid only for that specific application cycle
+              - listitem [ref=e325]:
+                - text: • They should
+                - strong [ref=e326]: not be treated as permanent contacts
+              - listitem [ref=e327]:
+                - text: • Always verify via
+                - strong [ref=e328]: official call letters or email
+            - separator [ref=e329]
+            - heading "Official Update Channels" [level=2] [ref=e330]:
+              - strong [ref=e331]: Official Update Channels
+            - paragraph [ref=e332]: "For accurate and current information:"
+            - list [ref=e333]:
+              - listitem [ref=e334]:
+                - strong [ref=e335]: AFBIC Official Website / SATHI Portal
+              - listitem [ref=e336]:
+                - strong [ref=e337]: AFBIC LinkedIn Page
+              - listitem [ref=e338]:
+                - strong [ref=e339]:
+                  - text: AFBIC Instagram (
+                  - link "@agrifoodbusinessincubation" [ref=e340] [cursor=pointer]:
+                    - /url: https://www.instagram.com/agrifoodbusinessincubation/
+                  - text: )
+              - listitem [ref=e341]:
+                - strong [ref=e342]:
+                  - text: RKVY-RAFTAAR Portal (
+                  - link "agristartup.gov.in" [ref=e343] [cursor=pointer]:
+                    - /url: https://agristartup.gov.in/
+                  - text: )
+              - listitem [ref=e344]:
+                - strong [ref=e345]: AFBIC Facebook Page
+            - paragraph [ref=e346]:
+              - text: Secondary blogs and aggregators should be used
+              - strong [ref=e347]: only for awareness
+              - text: ", not as authoritative sources."
+            - separator [ref=e348]
+            - heading "Practical Guidance (As Documented)" [level=2] [ref=e349]:
+              - strong [ref=e350]: Practical Guidance (As Documented)
+            - list [ref=e351]:
+              - listitem [ref=e352]:
+                - text: •
+                - strong [ref=e353]: "Idea / Student stage:"
+                - text: AOP or SOP
+              - listitem [ref=e354]:
+                - text: •
+                - strong [ref=e355]: "MVP / early traction:"
+                - text: AIP
+              - listitem [ref=e356]:
+                - text: "• Non-West Bengal founders should:"
+                - list [ref=e357]:
+                  - listitem [ref=e358]:
+                    - text: ◦ Establish pilots or partnerships in West Bengal,
+                    - strong [ref=e359]: or
+                  - listitem [ref=e360]:
+                    - text: ◦ Apply to the R-ABI designated for their region (e.g.,
+                    - strong [ref=e361]:
+                      - link "IIT BHU Varanasi" [ref=e362] [cursor=pointer]:
+                        - /url: https://rkvy-raftaariitbhu.org/
+                    - link "R-ABI" [ref=e363] [cursor=pointer]:
+                      - /url: https://rkvy-raftaariitbhu.org/
+                    - text: )
+            - separator [ref=e364]
+            - heading "Final Statement" [level=2] [ref=e365]:
+              - strong [ref=e366]: Final Statement
+            - paragraph [ref=e367]:
+              - text: This Agri Update compiles
+              - strong [ref=e368]: only publicly verifiable, cited, and cohort-confirmed information
+              - text: regarding
+              - strong [ref=e369]: AFBIC IIT Kharagpur and RKVY-RAFTAAR
+              - text: .
+            - paragraph [ref=e370]: No assumptions, projections, or unofficial claims have been included.
+            - paragraph [ref=e371]:
+              - text: Program formats, eligibility, funding norms, and institutional roles are presented
+              - strong [ref=e372]: exactly as supported by official documentation and verified call letters
+              - text: .
+        - generic [ref=e373]:
+          - generic [ref=e375]:
+            - link "#RKVY-RAFTAAR" [ref=e376] [cursor=pointer]:
+              - /url: /search?q=RKVY-RAFTAAR
+            - link "#AFBIC IIT Kharagpur" [ref=e377] [cursor=pointer]:
+              - /url: /search?q=AFBIC%20IIT%20Kharagpur
+            - link "#Agri Startup Incubator" [ref=e378] [cursor=pointer]:
+              - /url: /search?q=Agri%20Startup%20Incubator
+            - link "#Agri Business Incubation" [ref=e379] [cursor=pointer]:
+              - /url: /search?q=Agri%20Business%20Incubation
+            - link "#AgriTech Funding India" [ref=e380] [cursor=pointer]:
+              - /url: /search?q=AgriTech%20Funding%20India
+            - link "#Government Scheme Agriculture" [ref=e381] [cursor=pointer]:
+              - /url: /search?q=Government%20Scheme%20Agriculture
+            - link "#Ministry of Agriculture and Farmers Welfare" [ref=e382] [cursor=pointer]:
+              - /url: /search?q=Ministry%20of%20Agriculture%20and%20Farmers%20Welfare
+            - link "#Agricultural Engineering" [ref=e383] [cursor=pointer]:
+              - /url: /search?q=Agricultural%20Engineering
+            - link "#Food Technology" [ref=e384] [cursor=pointer]:
+              - /url: /search?q=Food%20Technology
+            - link "#Agri Startup Grant" [ref=e385] [cursor=pointer]:
+              - /url: /search?q=Agri%20Startup%20Grant
+            - link "#West Bengal" [ref=e386] [cursor=pointer]:
+              - /url: /search?q=West%20Bengal
+            - link "#India" [ref=e387] [cursor=pointer]:
+              - /url: /search?q=India
+            - link "#Students Agriculture" [ref=e388] [cursor=pointer]:
+              - /url: /search?q=Students%20Agriculture
+            - link "#BSc Agriculture" [ref=e389] [cursor=pointer]:
+              - /url: /search?q=BSc%20Agriculture
+            - link "#Agri Entrepreneurship" [ref=e390] [cursor=pointer]:
+              - /url: /search?q=Agri%20Entrepreneurship
+            - link "#Startup Incubation India" [ref=e391] [cursor=pointer]:
+              - /url: /search?q=Startup%20Incubation%20India
+            - link "#Research & Policy" [ref=e392] [cursor=pointer]:
+              - /url: /search?q=Research%20%26%20Policy
+            - link "#Agri News India" [ref=e393] [cursor=pointer]:
+              - /url: /search?q=Agri%20News%20India
+          - generic [ref=e394]:
+            - heading "Share Article" [level=3] [ref=e395]
+            - generic [ref=e396]:
+              - generic [ref=e397]: "Share:"
+              - link "Share on WhatsApp" [ref=e398] [cursor=pointer]:
+                - /url: https://wa.me/?text=RKVY-RAFTAAR%20Agri%20Food%20Business%20Incubation%20Centre%20(AFBIC)%2C%20IIT%20Kharagpur%3A%20Complete%20Verified%20Overview%20(Jan%202026)%20http%3A%2F%2Flocalhost%3A3000%2Fblog%2Frkvy-raftaar-agri-food-business-incubation-centre-afbic-iit-kharagpur-complete-verified-overview-jan-2026
+                - img [ref=e399]
+              - link "Share on X (Twitter)" [ref=e401] [cursor=pointer]:
+                - /url: https://twitter.com/intent/tweet?text=RKVY-RAFTAAR%20Agri%20Food%20Business%20Incubation%20Centre%20(AFBIC)%2C%20IIT%20Kharagpur%3A%20Complete%20Verified%20Overview%20(Jan%202026)&url=http%3A%2F%2Flocalhost%3A3000%2Fblog%2Frkvy-raftaar-agri-food-business-incubation-centre-afbic-iit-kharagpur-complete-verified-overview-jan-2026
+                - img [ref=e402]
+              - link "Share on LinkedIn" [ref=e404] [cursor=pointer]:
+                - /url: https://www.linkedin.com/sharing/share-offsite/?url=http%3A%2F%2Flocalhost%3A3000%2Fblog%2Frkvy-raftaar-agri-food-business-incubation-centre-afbic-iit-kharagpur-complete-verified-overview-jan-2026
+                - img [ref=e405]
+              - link "Share on Facebook" [ref=e409] [cursor=pointer]:
+                - /url: https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Fblog%2Frkvy-raftaar-agri-food-business-incubation-centre-afbic-iit-kharagpur-complete-verified-overview-jan-2026
+                - img [ref=e410]
+              - button "Copy Link" [ref=e412]:
+                - img [ref=e413]
+          - generic [ref=e416]:
+            - img "Agri Updates Editor" [ref=e418]
+            - generic [ref=e419]:
+              - heading "Agri Updates Editor" [level=4] [ref=e420]:
+                - link "Agri Updates Editor" [ref=e421] [cursor=pointer]:
+                  - /url: /author/agri-updates-editor
+              - paragraph [ref=e422]: Dedicated to bringing you the latest in agricultural news and innovation.
+      - generic [ref=e426]:
+        - heading "You May Also Like" [level=2] [ref=e427]
+        - generic [ref=e428]:
+          - article [ref=e429]:
+            - link "Research India likely to face hotter-than-normal summer — IMD warning (Mar–May 2026), possible crop impacts — important for climate-risk research." [ref=e430] [cursor=pointer]:
+              - /url: /blog/india-likely-to-face-hotter-than-normal-summer-imd-warning-marmay-2026-possible-crop-impacts-important-for-climate-risk-research
+              - generic [ref=e431]: Research
+              - heading "India likely to face hotter-than-normal summer — IMD warning (Mar–May 2026), possible crop impacts — important for climate-risk research." [level=3] [ref=e432]
+          - article [ref=e433]:
+            - link "Research Past Scheduled Post (Should Publish)" [ref=e434] [cursor=pointer]:
+              - /url: /blog/past-scheduled-post-should-publish-1768759337636
+              - generic [ref=e435]: Research
+              - heading "Past Scheduled Post (Should Publish)" [level=3] [ref=e436]
+          - article [ref=e437]:
+            - link "Climate Policy Innovators Youth Camp 2.0 (Funded) – Asia-Pacific | Bangkok 2026 Research Climate Policy Innovators Youth Camp 2.0 (Funded) – Asia-Pacific | Bangkok 2026" [ref=e438] [cursor=pointer]:
+              - /url: /blog/climate-policy-innovators-youth-camp-20-funded-asia-pacific-bangkok-2026
+              - img "Climate Policy Innovators Youth Camp 2.0 (Funded) – Asia-Pacific | Bangkok 2026" [ref=e440]
+              - generic [ref=e441]: Research
+              - heading "Climate Policy Innovators Youth Camp 2.0 (Funded) – Asia-Pacific | Bangkok 2026" [level=3] [ref=e442]
+      - generic [ref=e446]:
+        - heading "Discussion" [level=2] [ref=e447]
+        - paragraph [ref=e448]: Join the conversation and share your insights.
+        - generic [ref=e449]:
+          - generic [ref=e450]:
+            - textbox "Your Name" [ref=e452]
+            - textbox "Share your thoughts..." [ref=e454]
+            - button "Post Comment" [ref=e456]
+          - generic [ref=e457]:
+            - heading "Comments (0)" [level=3] [ref=e458]
+            - paragraph [ref=e459]: No comments yet. Be the first to share your thoughts!
+  - alert [ref=e460]

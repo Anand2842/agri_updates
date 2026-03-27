@@ -52,15 +52,7 @@ export default function AdBanner({ placement, className = '' }: AdBannerProps) {
     if (loading) return <div className={`w-full bg-stone-50 animate-pulse rounded-lg ${className}`} style={{ height: placement === 'banner' ? 90 : 250 }}></div>;
 
     if (!ad) {
-        // Fallback or "Advertise Here"
-        return (
-            <div className={`w-full bg-stone-50 border border-dashed border-stone-200 flex flex-col items-center justify-center p-4 rounded-lg text-center ${className}`}>
-                <p className="font-bold uppercase tracking-widest text-xs text-stone-400 mb-1">Advertisement</p>
-                <Link href="/contact" className="text-agri-green text-xs font-bold hover:underline">
-                    Advertise with us
-                </Link>
-            </div>
-        );
+        return null;
     }
 
     return (

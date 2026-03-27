@@ -1,0 +1,150 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e7] [cursor=pointer]:
+    - button "Open issues overlay" [ref=e8]:
+      - img [ref=e10]
+      - generic [ref=e12]:
+        - generic [ref=e13]: "0"
+        - generic [ref=e14]: "1"
+      - generic [ref=e15]: Issue
+    - button "Collapse issues badge" [ref=e16]:
+      - img [ref=e17]
+  - banner [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e21]: Thursday, 26 March 2026
+      - generic [ref=e22]:
+        - link "Login" [ref=e23] [cursor=pointer]:
+          - /url: /login
+        - link "Subscribe" [ref=e24] [cursor=pointer]:
+          - /url: /newsletter
+    - link "AGRI UPDATES" [ref=e26] [cursor=pointer]:
+      - /url: /
+      - heading "AGRI UPDATES" [level=1] [ref=e27]
+    - navigation [ref=e28]:
+      - generic [ref=e29]:
+        - link "Job Opportunities" [ref=e31] [cursor=pointer]:
+          - /url: /jobs
+          - text: Job Opportunities
+        - generic [ref=e32]:
+          - generic [ref=e33]: "|"
+          - link "Internships" [ref=e34] [cursor=pointer]:
+            - /url: /internships
+            - text: Internships
+        - generic [ref=e35]:
+          - generic [ref=e36]: "|"
+          - link "Fellowships" [ref=e37] [cursor=pointer]:
+            - /url: /updates?category=Fellowships
+            - text: Fellowships
+        - generic [ref=e38]:
+          - generic [ref=e39]: "|"
+          - link "Scholarships" [ref=e40] [cursor=pointer]:
+            - /url: /updates?category=Scholarships
+            - text: Scholarships
+        - generic [ref=e41]:
+          - generic [ref=e42]: "|"
+          - link "Grants & Funding" [ref=e43] [cursor=pointer]:
+            - /url: /updates?category=Grants
+            - text: Grants & Funding
+        - generic [ref=e44]:
+          - generic [ref=e45]: "|"
+          - link "Startups" [ref=e46] [cursor=pointer]:
+            - /url: /startups
+            - text: Startups
+        - generic [ref=e47]:
+          - generic [ref=e48]: "|"
+          - link "Exams" [ref=e49] [cursor=pointer]:
+            - /url: /updates?category=Exams
+            - text: Exams
+        - generic [ref=e50]:
+          - generic [ref=e51]: "|"
+          - link "Conferences & Events" [ref=e52] [cursor=pointer]:
+            - /url: /updates?category=Events
+            - text: Conferences & Events
+        - generic [ref=e53]:
+          - generic [ref=e54]: "|"
+          - link "Warnings" [ref=e55] [cursor=pointer]:
+            - /url: /updates?category=Warnings
+            - text: Warnings
+        - generic [ref=e56]: "|"
+        - link [ref=e57] [cursor=pointer]:
+          - /url: /search
+          - img [ref=e58]
+  - main [ref=e61]
+  - contentinfo [ref=e72]:
+    - generic [ref=e73]:
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - heading "AGRI UPDATES" [level=3] [ref=e76]
+          - paragraph [ref=e77]: Agri Updates is an innovation news platform connecting startups, funding updates, case studies, and artificial intelligence in the agricultural sector.
+          - generic [ref=e78]:
+            - link "Facebook" [ref=e79] [cursor=pointer]:
+              - /url: https://facebook.com
+              - img [ref=e80]
+            - link "Twitter" [ref=e82] [cursor=pointer]:
+              - /url: https://twitter.com
+              - img [ref=e83]
+            - link "LinkedIn" [ref=e85] [cursor=pointer]:
+              - /url: https://linkedin.com
+              - img [ref=e86]
+        - generic [ref=e91]:
+          - button "About Us" [ref=e92]:
+            - heading "About Us" [level=4] [ref=e93]
+          - list [ref=e95]:
+            - listitem [ref=e96]:
+              - link "Our Story" [ref=e97] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e98]:
+              - link "Contact" [ref=e99] [cursor=pointer]:
+                - /url: /contact
+            - listitem [ref=e100]:
+              - link "Disclaimer" [ref=e101] [cursor=pointer]:
+                - /url: /disclaimer
+        - generic [ref=e103]:
+          - button "Categories" [ref=e104]:
+            - heading "Categories" [level=4] [ref=e105]
+          - list [ref=e107]:
+            - listitem [ref=e108]:
+              - link "Startups" [ref=e109] [cursor=pointer]:
+                - /url: /startups
+            - listitem [ref=e110]:
+              - link "Jobs" [ref=e111] [cursor=pointer]:
+                - /url: /jobs
+            - listitem [ref=e112]:
+              - link "Blog" [ref=e113] [cursor=pointer]:
+                - /url: /blog
+        - generic [ref=e115]:
+          - button "Job Collections" [ref=e116]:
+            - heading "Job Collections" [level=4] [ref=e117]
+          - list [ref=e119]:
+            - listitem [ref=e120]:
+              - link "Agriculture Jobs in Maharashtra 2024" [ref=e121] [cursor=pointer]:
+                - /url: /agriculture-jobs-maharashtra
+            - listitem [ref=e122]:
+              - link "Agriculture Sales Jobs in India" [ref=e123] [cursor=pointer]:
+                - /url: /agriculture-sales-jobs
+            - listitem [ref=e124]:
+              - link "BSc Agriculture Jobs" [ref=e125] [cursor=pointer]:
+                - /url: /bsc-agriculture-jobs
+            - listitem [ref=e126]:
+              - link "View All Jobs" [ref=e127] [cursor=pointer]:
+                - /url: /jobs
+        - generic [ref=e128]:
+          - heading "Subscribe" [level=4] [ref=e129]
+          - paragraph [ref=e130]: Get the latest updates delivered to your inbox.
+          - generic [ref=e131]:
+            - textbox "Email address" [ref=e132]
+            - button "Subscribe" [ref=e133]
+          - paragraph [ref=e134]:
+            - checkbox [ref=e135]
+            - generic [ref=e136]:
+              - text: I have read and accept the
+              - link "Privacy Policy" [ref=e137] [cursor=pointer]:
+                - /url: /privacy
+              - text: .
+      - generic [ref=e138]:
+        - paragraph [ref=e139]: © 2026 Agri Updates. All rights reserved.
+        - generic [ref=e140]:
+          - link "Privacy Policy" [ref=e141] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms" [ref=e142] [cursor=pointer]:
+            - /url: /terms
+  - alert [ref=e143]
