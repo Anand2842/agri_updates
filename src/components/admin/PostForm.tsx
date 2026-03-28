@@ -594,7 +594,7 @@ export default function PostForm({ initialData }: PostFormProps) {
 
                     {/* Eligibility Rules Editor (New) */}
                     <EligibilityEditor
-                        value={formData.policy_rules as PolicyConfig | null}
+                        value={formData.policy_rules}
                         onChange={(rules) => setFormData({ ...formData, policy_rules: rules })}
                         onGenerate={() => alert('AI Generation coming soon! For now, add rules manually.')}
                     />

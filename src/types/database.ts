@@ -1,4 +1,5 @@
 
+import type { PolicyConfig } from '@/components/admin/editor/EligibilityEditor'
 
 export type Job = {
     id: string
@@ -153,7 +154,7 @@ export type Post = {
 
     // Relation
     authors?: Author | null
-    policy_rules?: Record<string, unknown> | null
+    policy_rules?: PolicyConfig | null
 }
 
 export type Ad = {
