@@ -24,9 +24,8 @@ export async function getUserRole(supabase: SupabaseClient): Promise<UserRole> {
 export async function requireStaff(supabase: SupabaseClient): Promise<UserRole> {
     const role = await getUserRole(supabase);
     if (role === 'user') {
-        // Do NOT redirect to /login — a logged-in user on /login gets bounced
-        // back to /admin by middleware, creating an infinite loop.
-        redirect('/unauthorized');
+        // Non-staff users should never sit inside /admin; send them home to avoid loops.
+        redirect('/');
     }
     return role;
 }

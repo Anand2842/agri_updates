@@ -70,14 +70,38 @@ export async function updateSession(request: NextRequest) {
         data: { user },
     } = await supabase.auth.getUser()
 
+    // Fetch profile role once for downstream routing decisions.
+    // Profiles are publicly readable in our current RLS, so this is safe to run here.
+    let role: 'admin' | 'moderator' | 'user' = 'user'
+    if (user) {
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .maybeSingle()
+        if (profile?.role === 'admin' || profile?.role === 'moderator') {
+            role = profile.role
+        }
+    }
+
     // Protect Admin Routes — unauthenticated users go to /login
-    if (request.nextUrl.pathname.startsWith('/admin') && !user) {
-        return NextResponse.redirect(new URL('/login', request.url))
+    if (request.nextUrl.pathname.startsWith('/admin')) {
+        if (!user) {
+            return NextResponse.redirect(new URL('/login', request.url))
+        }
+        // If authenticated but not staff, send to home to avoid loops
+        if (role === 'user') {
+            return NextResponse.redirect(new URL('/', request.url))
+        }
     }
 
     // Redirect logged-in users away from /login — go straight to dashboard
     if (request.nextUrl.pathname === '/login' && user) {
-        return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+        if (role === 'admin' || role === 'moderator') {
+            return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+        }
+        // Non-staff users stay on site home when already authenticated
+        return NextResponse.redirect(new URL('/', request.url))
     }
 
     return response
