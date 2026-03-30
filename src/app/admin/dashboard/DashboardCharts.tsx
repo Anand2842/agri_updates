@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import {
     LineChart,
     Line,
@@ -16,6 +17,20 @@ import {
 } from 'recharts';
 
 export default function DashboardCharts({ trendData, stageData }: { trendData: any[], stageData: any[] }) {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2 bg-white p-6 rounded-xl border border-stone-100 shadow-sm h-80 animate-pulse" />
+                <div className="bg-white p-6 rounded-xl border border-stone-100 shadow-sm h-80 animate-pulse" />
+            </div>
+        );
+    }
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 bg-white p-6 rounded-xl border border-stone-100 shadow-sm">
