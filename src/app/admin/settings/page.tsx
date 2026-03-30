@@ -8,6 +8,8 @@ export default async function AdminSettings() {
         getUserRole(supabase)
     ]);
 
+    const roleDisplay = role.charAt(0).toUpperCase() + role.slice(1);
+
     return (
         <div className="max-w-4xl mx-auto">
             <header className="mb-8">
@@ -40,7 +42,7 @@ export default async function AdminSettings() {
                     <div>
                         <label className="block text-xs font-bold uppercase text-stone-500 mb-2">Role</label>
                         <div className="p-3 bg-stone-50 border border-stone-200 rounded text-stone-800 text-sm capitalize">
-                            {role}
+                            {roleDisplay}
                         </div>
                     </div>
                 </div>

@@ -21,7 +21,8 @@ import {
     ChevronRight,
     LogOut,
     Tag,
-    Users
+    Users,
+    type LucideIcon
 } from 'lucide-react';
 
 import type { User } from '@supabase/supabase-js';
@@ -35,7 +36,7 @@ interface AdminSidebarProps {
 
 type MenuItemType = {
     name: string;
-    icon: any;
+    icon: LucideIcon;
     href: string;
     highlight?: boolean;
     adminOnly?: boolean;

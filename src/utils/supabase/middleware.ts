@@ -47,8 +47,20 @@ export async function updateSession(request: NextRequest) {
                     cookiesToSet.forEach(({ name, value }) => {
                         request.cookies.set(name, value)
                     })
+
+                    // CRITICAL FIX: Explicitly sync Next.js's parsed cookies back into the raw HTTP 'cookie' header.
+                    // If we don't do this, Next.js Server Components reading `headers()` or `cookies()` will
+                    // completely ignore our refreshed token and throw an Auth error (causing redirect loops).
+                    const updatedCookieStr = request.cookies
+                        .getAll()
+                        .map((c) => `${c.name}=${c.value}`)
+                        .join('; ')
+                    request.headers.set('cookie', updatedCookieStr)
+
                     response = NextResponse.next({
-                        request,
+                        request: {
+                            headers: request.headers,
+                        },
                     })
                     // Re-apply headers to the new response object
                     response.headers.set('Content-Security-Policy', cspHeader);
@@ -70,6 +82,11 @@ export async function updateSession(request: NextRequest) {
         data: { user },
     } = await supabase.auth.getUser()
 
+    const adminEmailEnv = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || process.env.ADMIN_EMAILS || '')
+        .split(',')
+        .map((e) => e.trim().toLowerCase())
+        .filter(Boolean)
+    
     // Fetch profile role once for downstream routing decisions.
     // Profiles are publicly readable in our current RLS, so this is safe to run here.
     let role: 'admin' | 'moderator' | 'user' = 'user'
@@ -81,6 +98,8 @@ export async function updateSession(request: NextRequest) {
             .maybeSingle()
         if (profile?.role === 'admin' || profile?.role === 'moderator') {
             role = profile.role
+        } else if (user.email && adminEmailEnv.includes(user.email.toLowerCase())) {
+            role = 'admin'
         }
     }
 
