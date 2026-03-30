@@ -29,10 +29,11 @@ export default function LoginPage() {
             setError(error.message)
             setLoading(false)
         } else {
-            // refresh() first — flushes the new session cookie into the router cache
-            // before push() triggers a navigation that hits middleware.
-            router.refresh()
-            router.push('/admin/dashboard')
+            // Hard navigate to completely bypass the Next.js React router.
+            // This forces the browser to fully commit the auth cookie and perform a totally
+            // fresh HTTP GET request. This stops all Next.js app router race conditions
+            // and `fetch()` chunk errors (like ERR_CONNECTION_REFUSED on internal router chunks).
+            window.location.href = '/admin/dashboard'
         }
     }
 
