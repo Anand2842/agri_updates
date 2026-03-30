@@ -78,9 +78,14 @@ export async function updateSession(request: NextRequest) {
         }
     )
 
+    // Get both user AND session to verify authentication is actually valid
     const {
         data: { user },
     } = await supabase.auth.getUser()
+    
+    const {
+        data: { session },
+    } = await supabase.auth.getSession()
 
     const adminEmailEnv = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || process.env.ADMIN_EMAILS || '')
         .split(',')
@@ -105,8 +110,17 @@ export async function updateSession(request: NextRequest) {
 
     // Protect Admin Routes — unauthenticated users go to /login
     if (request.nextUrl.pathname.startsWith('/admin')) {
-        if (!user) {
-            return NextResponse.redirect(new URL('/login', request.url))
+        // CRITICAL: Check BOTH user AND session to prevent redirect loops with stale cookies
+        if (!user || !session) {
+            // Clear any stale auth cookies before redirecting to login
+            const loginRedirect = NextResponse.redirect(new URL('/login', request.url))
+            // Clear all Supabase auth cookies (they start with 'sb-')
+            request.cookies.getAll().forEach(cookie => {
+                if (cookie.name.startsWith('sb-')) {
+                    loginRedirect.cookies.delete(cookie.name)
+                }
+            })
+            return loginRedirect
         }
         // If authenticated but not staff, send to home to avoid loops
         if (role === 'user') {
@@ -115,12 +129,33 @@ export async function updateSession(request: NextRequest) {
     }
 
     // Redirect logged-in users away from /login — go straight to dashboard
-    if (request.nextUrl.pathname === '/login' && user) {
-        if (role === 'admin' || role === 'moderator') {
-            return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+    // CRITICAL FIX: Only redirect if BOTH user AND session exist (prevents stale cookie loops)
+    if (request.nextUrl.pathname === '/login') {
+        // If we have stale cookies but no valid session, clear them and stay on login
+        const hasSupabaseCookies = request.cookies.getAll().some(c => c.name.startsWith('sb-'))
+        if (!session && hasSupabaseCookies) {
+            const cleanResponse = NextResponse.next({
+                request: {
+                    headers: request.headers,
+                },
+            })
+            // Clear all Supabase auth cookies
+            request.cookies.getAll().forEach(cookie => {
+                if (cookie.name.startsWith('sb-')) {
+                    cleanResponse.cookies.delete(cookie.name)
+                }
+            })
+            return cleanResponse
         }
-        // Non-staff users stay on site home when already authenticated
-        return NextResponse.redirect(new URL('/', request.url))
+        
+        // Only redirect away from login if we have BOTH valid user AND session
+        if (user && session) {
+            if (role === 'admin' || role === 'moderator') {
+                return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+            }
+            // Non-staff users stay on site home when already authenticated
+            return NextResponse.redirect(new URL('/', request.url))
+        }
     }
 
     return response
