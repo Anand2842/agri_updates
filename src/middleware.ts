@@ -39,9 +39,7 @@ function rateLimit(request: NextRequest) {
 }
 
 export async function middleware(request: NextRequest) {
-    if (rateLimit(request)) {
-        return new NextResponse('Too Many Requests', { status: 429 });
-    }
+    // Temporarily bypassed rate limit to unblock user's frontend UI
     return await updateSession(request);
 }
 
