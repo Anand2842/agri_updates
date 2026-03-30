@@ -24,7 +24,9 @@ export async function getUserRole(supabase: SupabaseClient): Promise<UserRole> {
 export async function requireStaff(supabase: SupabaseClient): Promise<UserRole> {
     const role = await getUserRole(supabase);
     if (role === 'user') {
-        redirect('/login');
+        // Do NOT redirect to /login — a logged-in user on /login gets bounced
+        // back to /admin by middleware, creating an infinite loop.
+        redirect('/unauthorized');
     }
     return role;
 }
@@ -35,7 +37,7 @@ export async function requireAdmin(supabase: SupabaseClient): Promise<UserRole> 
         if (role === 'moderator') {
             redirect('/admin/dashboard');
         } else {
-            redirect('/login');
+            redirect('/unauthorized');
         }
     }
     return role;

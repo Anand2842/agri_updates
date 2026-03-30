@@ -29,8 +29,10 @@ export default function LoginPage() {
             setError(error.message)
             setLoading(false)
         } else {
-            router.push('/admin')
+            // refresh() first — flushes the new session cookie into the router cache
+            // before push() triggers a navigation that hits middleware.
             router.refresh()
+            router.push('/admin/dashboard')
         }
     }
 

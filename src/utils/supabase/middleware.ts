@@ -70,14 +70,25 @@ export async function updateSession(request: NextRequest) {
         data: { user },
     } = await supabase.auth.getUser()
 
-    // Protect Admin Routes
-    if (request.nextUrl.pathname.startsWith('/admin') && !user) {
-        return NextResponse.redirect(new URL('/login', request.url))
+    // Helper: forward refreshed session cookies (with all their options) onto a redirect.
+    // Using the raw Set-Cookie header preserves httpOnly / secure / sameSite / maxAge
+    // so Supabase can recognise the refreshed token on the very next request.
+    function withSessionCookies(redirectResponse: NextResponse): NextResponse {
+        const setCookie = response.headers.get('set-cookie')
+        if (setCookie) {
+            redirectResponse.headers.set('set-cookie', setCookie)
+        }
+        return redirectResponse
     }
 
-    // Redirect logged-in users away from /login
-    if (request.nextUrl.pathname.startsWith('/login') && user) {
-        return NextResponse.redirect(new URL('/admin', request.url))
+    // Protect Admin Routes — unauthenticated users go to /login
+    if (request.nextUrl.pathname.startsWith('/admin') && !user) {
+        return withSessionCookies(NextResponse.redirect(new URL('/login', request.url)))
+    }
+
+    // Redirect logged-in users away from /login — go straight to dashboard
+    if (request.nextUrl.pathname === '/login' && user) {
+        return withSessionCookies(NextResponse.redirect(new URL('/admin/dashboard', request.url)))
     }
 
     return response
