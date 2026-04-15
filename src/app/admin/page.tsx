@@ -8,10 +8,15 @@ export default async function AdminDashboard() {
     const supabase = await createClient()
 
     // 1. Fetch Key Stats
-    const { count: totalPosts } = await supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'published')
-    const { count: draftPosts } = await supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'draft')
-    const { count: pendingReview } = await supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'pending_review')
-    const { count: scheduledPosts } = await supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'scheduled')
+    const { count: totalPostsCount } = await supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'published')
+    const { count: draftPostsCount } = await supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'draft')
+    const { count: pendingReviewCount } = await supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'pending_review')
+    const { count: scheduledPostsCount } = await supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'scheduled')
+
+    const totalPosts = totalPostsCount || 0
+    const draftPosts = draftPostsCount || 0
+    const pendingReview = pendingReviewCount || 0
+    const scheduledPosts = scheduledPostsCount || 0
 
     // Calculate Total Views
     const { data: allPosts } = await supabase.from('posts').select('views');
