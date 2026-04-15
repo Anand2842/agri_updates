@@ -7,15 +7,15 @@ interface ArticleSidebarProps {
     category: string;
 }
 
-async function getRelatedPosts(currentPostId: string, category: string) {
+async function getTopPosts(targetCategory: string, currentPostId: string, limit: number = 3) {
     const { data } = await supabase
         .from('posts')
         .select('id, title, slug, category, published_at, image_url')
-        .eq('category', category)
+        .eq('category', targetCategory)
         .eq('status', 'published')
         .neq('id', currentPostId)
         .order('published_at', { ascending: false })
-        .limit(3);
+        .limit(limit);
     return data || [];
 }
 
@@ -95,6 +95,7 @@ function RelatedPostsCard({
     category,
     posts,
     mobile = false,
+    titleText,
 }: {
     category: string;
     posts: Array<{
@@ -106,6 +107,7 @@ function RelatedPostsCard({
         image_url?: string | null;
     }>;
     mobile?: boolean;
+    titleText?: string;
 }) {
     if (posts.length === 0) {
         return null;
@@ -115,7 +117,7 @@ function RelatedPostsCard({
         <div className="overflow-hidden rounded-2xl border border-stone-100 bg-white shadow-sm">
             <div className="border-b border-stone-100 px-5 pb-3 pt-5">
                 <span className="text-[10px] font-black uppercase tracking-[0.15em] text-agri-green">
-                    More in {category}
+                    {titleText || `More in ${category}`}
                 </span>
             </div>
             <ul className="divide-y divide-stone-50">
@@ -148,8 +150,10 @@ function RelatedPostsCard({
 }
 
 export default async function ArticleSidebar({ currentPostId, category }: ArticleSidebarProps) {
-    const [relatedPosts, sidebarAdIsActive] = await Promise.all([
-        getRelatedPosts(currentPostId, category),
+    const [relatedPosts, latestJobs, hotStartups, sidebarAdIsActive] = await Promise.all([
+        getTopPosts(category, currentPostId, 3),
+        category !== 'Jobs' ? getTopPosts('Jobs', currentPostId, 3) : Promise.resolve([]),
+        category !== 'Startups' ? getTopPosts('Startups', currentPostId, 2) : Promise.resolve([]),
         hasActiveSidebarAd(),
     ]);
 
@@ -159,12 +163,16 @@ export default async function ArticleSidebar({ currentPostId, category }: Articl
                 <RelatedPostsCard category={category} posts={relatedPosts} mobile />
                 {sidebarAdIsActive && <AdBanner placement="sidebar" />}
                 <NewsletterCard compact />
+                <RelatedPostsCard category="Jobs" posts={latestJobs} mobile titleText="Trending Jobs" />
+                <RelatedPostsCard category="Startups" posts={hotStartups} mobile titleText="Startup Spotlight" />
             </section>
 
             <aside className="sticky top-20 hidden self-start lg:flex lg:flex-col lg:gap-8">
                 <RelatedPostsCard category={category} posts={relatedPosts} />
                 {sidebarAdIsActive && <AdBanner placement="sidebar" />}
                 <NewsletterCard />
+                <RelatedPostsCard category="Jobs" posts={latestJobs} titleText="Trending Jobs" />
+                <RelatedPostsCard category="Startups" posts={hotStartups} titleText="Startup Spotlight" />
             </aside>
         </>
     );

@@ -17,7 +17,6 @@ function neutralAuthorName(name?: string | null): string | null {
 }
 import SocialShare from '@/components/blog/SocialShare';
 import { safeDateFormat } from '@/lib/utils/date';
-import ArticleHeader from '@/components/blog/ArticleHeader';
 import { calculateReadingTime } from '@/lib/utils/article';
 import EligibilityChecker from '@/components/blog/EligibilityChecker';
 import ArticleSidebar from '@/components/blog/ArticleSidebar';
@@ -203,8 +202,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     };
 
     return (
-        <article className="min-h-screen bg-white pb-20 overflow-x-hidden pt-14 md:pt-16">
-            <ArticleHeader title={post.title} />
+        <article className="min-h-screen bg-white pb-20 overflow-x-hidden pt-8 md:pt-12">
 
             <script
                 type="application/ld+json"

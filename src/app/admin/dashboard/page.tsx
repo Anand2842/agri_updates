@@ -1,4 +1,4 @@
-import { FileText, Briefcase, Clock, TrendingUp, ArrowUpRight, CheckCircle, Edit3, Eye } from 'lucide-react';
+import { FileText, Briefcase, Clock, TrendingUp, ArrowUpRight, CheckCircle, Edit3, Eye, AlertTriangle } from 'lucide-react';
 import { createClient } from '@/utils/supabase/server';
 import DashboardCharts from './DashboardCharts';
 import Link from 'next/link';
@@ -12,50 +12,75 @@ async function getDashboardStats() {
         // Parallel data fetching for core metrics
         const [
             { count: totalPosts },
+            { count: publishedPosts },
+            { count: draftPosts },
             { count: activeJobs },
             { count: pendingReviews },
+            { count: scheduledPosts },
             { data: recentPosts },
             { data: trendDataRaw },
             { data: categoryDataRaw },
             { data: topPostsData },
-            { data: allPostsViews }
+            { data: allPostsViews },
+            { data: todayPostsData },
+            { count: activeWarnings }
         ] = await Promise.all([
             // 1. Total Posts
             supabase.from('posts').select('*', { count: 'exact', head: true }),
 
-            // 2. Active Jobs
+            // 2. Published Posts
+            supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'published'),
+
+            // 3. Draft Posts
+            supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'draft'),
+
+            // 4. Active Jobs
             supabase.from('posts').select('*', { count: 'exact', head: true })
                 .eq('category', 'Jobs')
                 .eq('is_active', true),
 
-            // 3. Pending Reviews
+            // 5. Pending Reviews
             supabase.from('posts').select('*', { count: 'exact', head: true })
                 .eq('status', 'pending_review'),
 
-            // 4. Recent Posts (Activity Feed)
-            supabase.from('posts')
-                .select('id, title, category, status, created_at, author_name')
-                .order('created_at', { ascending: false })
-                .limit(7),
+            // 6. Scheduled Posts
+            supabase.from('posts').select('*', { count: 'exact', head: true })
+                .eq('status', 'scheduled'),
 
-            // 5. Trend (Last 7 days posts)
+            // 7. Recent Posts (Activity Feed)
+            supabase.from('posts')
+                .select('id, title, category, status, created_at, author_name, slug')
+                .order('created_at', { ascending: false })
+                .limit(10),
+
+            // 8. Trend (Last 7 days posts)
             supabase.from('posts')
                 .select('created_at')
                 .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
                 .order('created_at', { ascending: true }),
 
-            // 6. Category Distribution
+            // 9. Category Distribution
             supabase.from('posts').select('category'),
 
-            // 7. Top Performing Posts by Views
+            // 10. Top Performing Posts by Views
             supabase.from('posts')
                 .select('id, title, category, views, author_name, slug')
                 .eq('status', 'published')
                 .order('views', { ascending: false, nullsFirst: false })
                 .limit(5),
 
-            // 8. Total Views aggregation
-            supabase.from('posts').select('views')
+            // 11. Total Views aggregation
+            supabase.from('posts').select('views'),
+
+            // 12. Today's posts
+            supabase.from('posts')
+                .select('views')
+                .gte('created_at', new Date(new Date().setHours(0, 0, 0, 0)).toISOString()),
+
+            // 13. Active Warnings
+            supabase.from('posts').select('*', { count: 'exact', head: true })
+                .eq('category', 'Warnings')
+                .eq('is_active', true)
         ]);
 
         // Process Recent Activity Feed
@@ -65,7 +90,8 @@ async function getDashboardStats() {
             name: p.title,
             status: p.status,
             date: p.created_at,
-            author: p.author_name || 'Agri Updates'
+            author: p.author_name || 'Agri Updates',
+            slug: p.slug
         }));
 
         // Process Category Pie Chart
@@ -80,6 +106,8 @@ async function getDashboardStats() {
             'Jobs': '#16a34a', // green
             'Research': '#2563eb', // blue
             'Startups': '#9333ea', // purple
+            'Grants': '#eab308', // amber
+            'Warnings': '#ef4444', // red
             'Events': '#ea580c', // orange
             'Policy': '#dc2626', // red
             'Uncategorized': '#94a3b8' // gray
@@ -89,7 +117,7 @@ async function getDashboardStats() {
             name,
             value,
             color: categoryColors[name] || '#94a3b8'
-        })).sort((a, b) => b.value - a.value).slice(0, 5); // Start with top 5
+        })).sort((a, b) => b.value - a.value).slice(0, 5);
 
         // Process Trend Data (Last 7 Days)
         const trendMap: Record<string, number> = {};
@@ -111,6 +139,7 @@ async function getDashboardStats() {
         const trendData = Object.entries(trendMap).map(([name, value]) => ({ name, value }));
 
         const totalViews = (allPostsViews || []).reduce((acc, post) => acc + (post.views || 0), 0);
+        const todayViews = (todayPostsData || []).reduce((acc, post) => acc + (post.views || 0), 0);
         
         const topPosts = (topPostsData || []).map(p => ({
             id: p.id,
@@ -124,9 +153,14 @@ async function getDashboardStats() {
         return {
             counts: {
                 posts: totalPosts || 0,
+                published: publishedPosts || 0,
+                drafts: draftPosts || 0,
                 jobs: activeJobs || 0,
+                warnings: activeWarnings || 0,
                 pending: pendingReviews || 0,
-                views: totalViews
+                scheduled: scheduledPosts || 0,
+                views: totalViews,
+                todayViews: todayViews
             },
             activityFeed,
             stageData,
@@ -136,7 +170,7 @@ async function getDashboardStats() {
     } catch (e) {
         console.error('Dashboard query failed:', e);
         return {
-            counts: { posts: 0, jobs: 0, pending: 0, views: 0 },
+            counts: { posts: 0, published: 0, drafts: 0, jobs: 0, warnings: 0, pending: 0, scheduled: 0, views: 0, todayViews: 0 },
             activityFeed: [],
             stageData: [],
             trendData: [],
@@ -162,19 +196,22 @@ export default async function AdminDashboard() {
     const displayRole = role.charAt(0).toUpperCase() + role.slice(1);
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-6">
             {/* Top Bar */}
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="font-serif text-3xl font-bold mb-1">Dashboard</h1>
-                    <p className="text-stone-500 text-sm">Overview of platform metrics and content activity.</p>
+                    <h1 className="font-serif text-3xl font-bold mb-1">Analytics Dashboard</h1>
+                    <p className="text-stone-500 text-sm">Platform metrics, content performance, and activity insights</p>
                 </div>
-                <div className="flex items-center gap-4">
-                    <Link href="/admin/posts/new" className="hidden md:flex bg-stone-900 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider items-center gap-2 hover:bg-black transition-colors">
+                <div className="flex items-center gap-3">
+                    <Link 
+                        href="/admin/posts/new" 
+                        className="bg-agri-green text-white px-5 py-2.5 rounded-lg text-sm font-bold hover:bg-agri-dark transition-colors shadow-sm flex items-center gap-2"
+                    >
                         <Edit3 className="w-4 h-4" />
                         Create Post
                     </Link>
-                    <div className="flex items-center gap-3 pl-4 border-l border-stone-200">
+                    <div className="flex items-center gap-3 pl-3 border-l border-stone-200">
                         <div className="text-right hidden md:block">
                             <div className="text-sm font-bold truncate max-w-[150px]">{name}</div>
                             <div className="text-xs text-stone-500">{displayRole}</div>
@@ -186,175 +223,251 @@ export default async function AdminDashboard() {
                 </div>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white p-6 rounded-xl border border-stone-100 shadow-sm transition-transform hover:-translate-y-1 duration-300">
-                    <div className="flex justify-between items-start mb-4">
-                        <div className="p-3 bg-blue-50 text-blue-600 rounded-lg">
-                            <FileText className="w-6 h-6" />
+            {/* Action Alert */}
+            {(counts.pending > 0 || counts.scheduled > 0) && (
+                <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-amber-500 p-4 rounded-r-lg shadow-sm">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h3 className="font-bold text-amber-900 mb-1 flex items-center gap-2">
+                                <Clock className="w-4 h-4" />
+                                Action Required
+                            </h3>
+                            <p className="text-sm text-amber-700">
+                                {counts.pending > 0 && `${counts.pending} post${counts.pending > 1 ? 's' : ''} need review`}
+                                {counts.pending > 0 && counts.scheduled > 0 && ' • '}
+                                {counts.scheduled > 0 && `${counts.scheduled} scheduled`}
+                            </p>
                         </div>
-                        <span className="flex items-center text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
-                            <TrendingUp className="w-3 h-3 mr-1" /> Total
-                        </span>
+                        <div className="flex gap-2">
+                            {counts.pending > 0 && (
+                                <Link 
+                                    href="/admin/posts?status=pending_review"
+                                    className="bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-amber-700 transition-colors"
+                                >
+                                    Review Now
+                                </Link>
+                            )}
+                            {counts.scheduled > 0 && (
+                                <Link 
+                                    href="/admin/posts?status=scheduled"
+                                    className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-purple-700 transition-colors"
+                                >
+                                    View Schedule
+                                </Link>
+                            )}
+                        </div>
                     </div>
-                    <div className="text-3xl font-serif font-bold mb-1">{counts.posts}</div>
+                </div>
+            )}
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+                <div className="bg-white p-5 rounded-xl border-l-4 border-blue-500 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
+                            <FileText className="w-5 h-5" />
+                        </div>
+                    </div>
+                    <div className="text-2xl font-serif font-bold mb-1">{counts.posts}</div>
                     <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Total Posts</div>
                 </div>
 
-                <div className="bg-white p-6 rounded-xl border border-stone-100 shadow-sm transition-transform hover:-translate-y-1 duration-300">
-                    <div className="flex justify-between items-start mb-4">
-                        <div className="p-3 bg-green-50 text-agri-green rounded-lg">
-                            <Briefcase className="w-6 h-6" />
+                <div className="bg-white p-5 rounded-xl border-l-4 border-green-500 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="p-2 bg-green-50 text-green-600 rounded-lg">
+                            <CheckCircle className="w-5 h-5" />
                         </div>
-                        <span className="flex items-center text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">
-                            <CheckCircle className="w-3 h-3 mr-1" /> Active
-                        </span>
                     </div>
-                    <div className="text-3xl font-serif font-bold mb-1">{counts.jobs}</div>
+                    <div className="text-2xl font-serif font-bold mb-1">{counts.published}</div>
+                    <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Published</div>
+                </div>
+
+                <div className="bg-white p-5 rounded-xl border-l-4 border-yellow-500 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="p-2 bg-yellow-50 text-yellow-600 rounded-lg">
+                            <Edit3 className="w-5 h-5" />
+                        </div>
+                    </div>
+                    <div className="text-2xl font-serif font-bold mb-1">{counts.drafts}</div>
+                    <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Drafts</div>
+                </div>
+
+                <div className="bg-white p-5 rounded-xl border-l-4 border-purple-500 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="p-2 bg-purple-50 text-purple-600 rounded-lg">
+                            <Eye className="w-5 h-5" />
+                        </div>
+                    </div>
+                    <div className="text-2xl font-serif font-bold mb-1">{counts.views.toLocaleString()}</div>
+                    <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Total Views</div>
+                </div>
+
+                <div className="bg-white p-5 rounded-xl border-l-4 border-indigo-500 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                            <TrendingUp className="w-5 h-5" />
+                        </div>
+                    </div>
+                    <div className="text-2xl font-serif font-bold mb-1">{counts.todayViews.toLocaleString()}</div>
+                    <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Today</div>
+                </div>
+
+                <div className="bg-white p-5 rounded-xl border-l-4 border-agri-green shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="p-2 bg-green-50 text-agri-green rounded-lg">
+                            <Briefcase className="w-5 h-5" />
+                        </div>
+                    </div>
+                    <div className="text-2xl font-serif font-bold mb-1">{counts.jobs}</div>
                     <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Active Jobs</div>
                 </div>
 
-                <div className="bg-white p-6 rounded-xl border border-stone-100 shadow-sm transition-transform hover:-translate-y-1 duration-300">
-                    <div className="flex justify-between items-start mb-4">
-                        <div className="p-3 bg-orange-50 text-orange-600 rounded-lg">
-                            <Clock className="w-6 h-6" />
-                        </div>
-                        {counts.pending > 0 && (
-                            <span className="flex items-center text-xs font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-full animate-pulse">
-                                Action Needed
-                            </span>
-                        )}
-                    </div>
-                    <div className="text-3xl font-serif font-bold mb-1">{counts.pending}</div>
-                    <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Pending Review</div>
-                </div>
-
-                <div className="bg-white p-6 rounded-xl border border-stone-100 shadow-sm transition-transform hover:-translate-y-1 duration-300">
-                    <div className="flex justify-between items-start mb-4">
-                        <div className="p-3 bg-purple-50 text-purple-600 rounded-lg">
-                            <Eye className="w-6 h-6" />
+                <div className="bg-white p-5 rounded-xl border-l-4 border-red-500 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="flex items-center justify-between mb-3">
+                        <div className="p-2 bg-red-50 text-red-600 rounded-lg">
+                            <AlertTriangle className="w-5 h-5" />
                         </div>
                     </div>
-                    <div className="text-3xl font-serif font-bold mb-1">{counts.views.toLocaleString()}</div>
-                    <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Total Platform Views</div>
+                    <div className="text-2xl font-serif font-bold mb-1">{counts.warnings}</div>
+                    <div className="text-stone-500 text-xs font-bold uppercase tracking-wider">Active Warnings</div>
                 </div>
             </div>
 
             {/* Client-side Charts */}
             <DashboardCharts trendData={trendData} stageData={stageData} />
 
-            {/* Recent Table */}
-            <div className="bg-white border border-stone-100 rounded-xl shadow-sm overflow-hidden">
-                <div className="p-6 border-b border-stone-100 flex justify-between items-center">
-                    <h3 className="font-serif text-lg font-bold">Recent Content Activity</h3>
-                    <Link href="/admin/posts" className="text-agri-green text-xs font-bold flex items-center gap-1 hover:underline">
-                        View All Posts <ArrowUpRight className="w-3 h-3" />
-                    </Link>
-                </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                        <thead className="bg-stone-50 text-[10px] font-bold uppercase tracking-widest text-stone-500">
-                            <tr>
-                                <th className="px-6 py-3">Title</th>
-                                <th className="px-6 py-3">Category</th>
-                                <th className="px-6 py-3">Status</th>
-                                <th className="px-6 py-3 text-right">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-stone-100 text-sm">
-                            {activityFeed.length > 0 ? activityFeed.map((item) => (
-                                <tr key={item.id} className="hover:bg-stone-50 group transition-colors">
-                                    <td className="px-6 py-4">
-                                        <div className="font-bold text-stone-900 line-clamp-1">{item.name}</div>
-                                        <div className="text-xs text-stone-400 mt-1">by {item.author}</div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className={`
-                                            px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider
-                                            ${item.type === 'Jobs' ? 'bg-green-100 text-green-700' :
-                                                item.type === 'Research' ? 'bg-blue-100 text-blue-700' :
-                                                    'bg-stone-100 text-stone-600'}
-                                        `}>
-                                            {item.type}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className={`
-                                            inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                            ${item.status === 'published' ? 'bg-green-50 text-green-700' :
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Recent Activity Table */}
+                <div className="bg-white border border-stone-100 rounded-xl shadow-sm overflow-hidden">
+                    <div className="p-5 border-b border-stone-100 bg-stone-50 flex justify-between items-center">
+                        <div>
+                            <h3 className="font-serif text-lg font-bold">Recent Activity</h3>
+                            <p className="text-xs text-stone-500 mt-0.5">Latest content updates</p>
+                        </div>
+                        <Link href="/admin/posts" className="text-agri-green text-xs font-bold flex items-center gap-1 hover:underline">
+                            View All <ArrowUpRight className="w-3 h-3" />
+                        </Link>
+                    </div>
+                    <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
+                        <table className="w-full text-left">
+                            <thead className="bg-stone-50 text-[10px] font-bold uppercase tracking-widest text-stone-500 sticky top-0">
+                                <tr>
+                                    <th className="px-4 py-3">Title</th>
+                                    <th className="px-4 py-3">Status</th>
+                                    <th className="px-4 py-3 text-right">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-stone-100 text-sm">
+                                {activityFeed.length > 0 ? activityFeed.map((item) => (
+                                    <tr key={item.id} className="hover:bg-stone-50 group transition-colors">
+                                        <td className="px-4 py-3">
+                                            <Link href={`/admin/posts/${item.id}`} className="font-bold text-stone-900 line-clamp-1 hover:text-agri-green">
+                                                {item.name}
+                                            </Link>
+                                            <div className="flex gap-2 items-center mt-1">
+                                                <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${
+                                                    item.type === 'Jobs' ? 'bg-green-100 text-green-700' :
+                                                    item.type === 'Research' ? 'bg-blue-100 text-blue-700' :
+                                                    'bg-stone-100 text-stone-600'
+                                                }`}>
+                                                    {item.type}
+                                                </span>
+                                                <span className="text-xs text-stone-400">by {item.author}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                                item.status === 'published' ? 'bg-green-50 text-green-700' :
                                                 item.status === 'scheduled' ? 'bg-purple-50 text-purple-700' :
-                                                    'bg-stone-100 text-stone-500'}
-                                        `}>
-                                            <span className={`w-1.5 h-1.5 rounded-full ${item.status === 'published' ? 'bg-green-500' :
+                                                item.status === 'pending_review' ? 'bg-amber-50 text-amber-700' :
+                                                'bg-stone-100 text-stone-500'
+                                            }`}>
+                                                <span className={`w-1.5 h-1.5 rounded-full ${
+                                                    item.status === 'published' ? 'bg-green-500' :
                                                     item.status === 'scheduled' ? 'bg-purple-500' :
-                                                        'bg-stone-400'
+                                                    item.status === 'pending_review' ? 'bg-amber-500' :
+                                                    'bg-stone-400'
                                                 }`} />
-                                            {item.status}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-right text-xs text-stone-400 font-mono">
-                                        {new Date(item.date).toLocaleDateString()}
-                                    </td>
-                                </tr>
-                            )) : (
-                                <tr>
-                                    <td colSpan={4} className="px-6 py-8 text-center text-stone-500 text-sm">
-                                        No recent activity found.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                                {item.status}
+                                            </span>
+                                        </td>
+                                        <td className="px-4 py-3 text-right text-xs text-stone-400">
+                                            {new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                        </td>
+                                    </tr>
+                                )) : (
+                                    <tr>
+                                        <td colSpan={3} className="px-4 py-8 text-center text-stone-500 text-sm">
+                                            No recent activity
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            
-            {/* Top Posts Table */}
-            <div className="bg-white border border-stone-100 rounded-xl shadow-sm overflow-hidden mt-8">
-                <div className="p-6 border-b border-stone-100 flex justify-between items-center">
-                    <h3 className="font-serif text-lg font-bold">Top Performing Content</h3>
-                </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                        <thead className="bg-stone-50 text-[10px] font-bold uppercase tracking-widest text-stone-500">
-                            <tr>
-                                <th className="px-6 py-3">Rank</th>
-                                <th className="px-6 py-3">Title</th>
-                                <th className="px-6 py-3">Category</th>
-                                <th className="px-6 py-3 text-right">Total Views</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-stone-100 text-sm">
-                            {topPosts.length > 0 ? topPosts.map((post, i) => (
-                                <tr key={post.id} className="hover:bg-stone-50 group transition-colors">
-                                    <td className="px-6 py-4 font-bold text-stone-300 w-12 text-center text-lg font-serif">
-                                        #{i + 1}
-                                    </td>
-                                    <td className="px-6 py-4 max-w-sm">
-                                        <Link href={`/blog/${post.slug}`} className="font-bold text-stone-900 line-clamp-1 hover:text-agri-green" target="_blank">
-                                            {post.title}
-                                        </Link>
-                                        <div className="text-xs text-stone-400 mt-1">by {post.author_name}</div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className="px-2 py-1 bg-stone-100 text-stone-600 rounded text-[10px] font-bold uppercase tracking-wider">
-                                            {post.category}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <div className="font-bold text-lg font-mono text-purple-600">
-                                            {post.views.toLocaleString()}
-                                        </div>
-                                    </td>
-                                </tr>
-                            )) : (
+                
+                {/* Top Posts Table */}
+                <div className="bg-white border border-stone-100 rounded-xl shadow-sm overflow-hidden">
+                    <div className="p-5 border-b border-stone-100 bg-stone-50 flex justify-between items-center">
+                        <div>
+                            <h3 className="font-serif text-lg font-bold">Top Performing</h3>
+                            <p className="text-xs text-stone-500 mt-0.5">Most viewed content</p>
+                        </div>
+                    </div>
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead className="bg-stone-50 text-[10px] font-bold uppercase tracking-widest text-stone-500">
                                 <tr>
-                                    <td colSpan={4} className="px-6 py-8 text-center text-stone-500 text-sm">
-                                        No top posts found.
-                                    </td>
+                                    <th className="px-4 py-3 w-12">#</th>
+                                    <th className="px-4 py-3">Title</th>
+                                    <th className="px-4 py-3 text-right">Views</th>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody className="divide-y divide-stone-100 text-sm">
+                                {topPosts.length > 0 ? topPosts.map((post, i) => (
+                                    <tr key={post.id} className="hover:bg-stone-50 group transition-colors">
+                                        <td className="px-4 py-3 text-center">
+                                            <span className={`font-serif text-xl font-bold ${
+                                                i === 0 ? 'text-amber-500' :
+                                                i === 1 ? 'text-stone-400' :
+                                                i === 2 ? 'text-amber-700' :
+                                                'text-stone-300'
+                                            }`}>
+                                                {i + 1}
+                                            </span>
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <Link 
+                                                href={`/blog/${post.slug}`} 
+                                                className="font-bold text-stone-900 line-clamp-2 hover:text-agri-green transition-colors" 
+                                                target="_blank"
+                                            >
+                                                {post.title}
+                                            </Link>
+                                            <div className="flex gap-2 items-center mt-1">
+                                                <span className="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-stone-100 text-stone-600">
+                                                    {post.category}
+                                                </span>
+                                                <span className="text-xs text-stone-400">by {post.author_name}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-3 text-right">
+                                            <div className="font-bold text-lg font-mono text-purple-600">
+                                                {post.views.toLocaleString()}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                )) : (
+                                    <tr>
+                                        <td colSpan={3} className="px-4 py-8 text-center text-stone-500 text-sm">
+                                            No published posts yet
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

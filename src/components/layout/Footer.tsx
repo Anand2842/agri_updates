@@ -67,8 +67,7 @@ export default function Footer() {
         pathname?.startsWith('/admin') || 
         pathname?.startsWith('/login') || 
         pathname?.startsWith('/signup') || 
-        pathname?.startsWith('/forgot-password') ||
-        pathname?.startsWith('/blog/')
+        pathname?.startsWith('/forgot-password')
     ) {
         return null;
     }
@@ -121,8 +120,10 @@ export default function Footer() {
                     <div className="md:col-span-1">
                         <AccordionItem title="Categories" id="categories">
                             <ul className="space-y-3 text-sm text-stone-500">
-                                <li><Link href="/startups" className="hover:text-black py-1 block">Startups</Link></li>
                                 <li><Link href="/jobs" className="hover:text-black py-1 block">Jobs</Link></li>
+                                <li><Link href="/updates?category=Grants" className="hover:text-black py-1 block">Grants & Funding</Link></li>
+                                <li><Link href="/startups" className="hover:text-black py-1 block">Startups</Link></li>
+                                <li><Link href="/updates?category=Warnings" className="hover:text-black py-1 block">Warnings</Link></li>
                                 <li><Link href="/blog" className="hover:text-black py-1 block">Blog</Link></li>
                             </ul>
                         </AccordionItem>

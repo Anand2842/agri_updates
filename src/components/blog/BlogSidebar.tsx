@@ -95,7 +95,7 @@ export default function BlogSidebar({ currentPostId, category }: SidebarProps) {
                         Explore
                     </h3>
                     <div className="flex flex-wrap gap-2">
-                        {['Jobs', 'Internships', 'Fellowships', 'Grants', 'Startups'].map((tag) => (
+                        {['Jobs', 'Grants', 'Startups', 'Warnings'].map((tag) => (
                             <Link
                                 key={tag}
                                 href={tag === 'Jobs' ? '/jobs' : tag === 'Startups' ? '/startups' : `/updates?category=${tag}`}

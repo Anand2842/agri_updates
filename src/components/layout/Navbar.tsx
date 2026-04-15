@@ -74,21 +74,15 @@ export default function Navbar() {
         pathname?.startsWith('/admin') || 
         pathname?.startsWith('/login') || 
         pathname?.startsWith('/signup') || 
-        pathname?.startsWith('/forgot-password') ||
-        pathname?.startsWith('/blog/')
+        pathname?.startsWith('/forgot-password')
     ) {
         return null;
     }
 
     const navCategories = [
         { label: 'Job Opportunities', href: '/jobs' },
-        { label: 'Internships', href: '/internships' },
-        { label: 'Fellowships', href: '/updates?category=Fellowships' },
-        { label: 'Scholarships', href: '/updates?category=Scholarships' },
         { label: 'Grants & Funding', href: '/updates?category=Grants' },
         { label: 'Startups', href: '/startups' },
-        { label: 'Exams', href: '/updates?category=Exams' },
-        { label: 'Conferences & Events', href: '/updates?category=Events' },
         { label: 'Warnings', href: '/updates?category=Warnings' },
     ];
 
@@ -171,7 +165,6 @@ export default function Navbar() {
                                 {navCategories.map((cat, idx) => {
                                     let isActive = false;
                                     if (cat.href === '/jobs' && pathname === '/jobs') isActive = true;
-                                    else if (cat.href === '/internships' && pathname === '/internships') isActive = true;
                                     else if (cat.href === '/startups' && pathname === '/startups') isActive = true;
                                     else if (cat.href.startsWith('/updates')) {
                                         const catParam = new URL(cat.href, 'http://a').searchParams.get('category');

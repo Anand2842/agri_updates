@@ -22,6 +22,8 @@ import {
     LogOut,
     Tag,
     Users,
+    DollarSign,
+    AlertTriangle,
     type LucideIcon
 } from 'lucide-react';
 
@@ -87,6 +89,8 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse, user, role =
             items: [
                 { name: 'Jobs', icon: Briefcase, href: '/admin/jobs' },
                 { name: 'Startups', icon: Zap, href: '/admin/startups' },
+                { name: 'Grants & Funding', icon: DollarSign, href: '/admin/posts?category=Grants' },
+                { name: 'Warnings', icon: AlertTriangle, href: '/admin/posts?category=Warnings' },
             ] as MenuItemType[]
         }
     ];

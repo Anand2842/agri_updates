@@ -13,14 +13,8 @@ interface UpdatesPageProps {
 
 const CATEGORIES = [
     { value: '', label: 'All Updates', slug: '' },
-    { value: 'Fellowships', label: 'Fellowships', slug: 'fellowships' },
-    { value: 'Scholarships', label: 'Scholarships', slug: 'scholarships' },
     { value: 'Grants', label: 'Grants & Funding', slug: 'grants' },
-    { value: 'Exams', label: 'Exams & Admissions', slug: 'exams' },
-    { value: 'Events', label: 'Conferences & Events', slug: 'events' },
-    { value: 'Guidance', label: 'Application Guidance', slug: 'guidance' },
-    { value: 'Warnings', label: 'Warnings & Awareness', slug: 'warnings' },
-    { value: 'Research', label: 'Research & News', slug: 'research' },
+    { value: 'Warnings', label: 'Warnings & Alerts', slug: 'warnings' },
 ];
 
 async function getPosts(category?: string, q?: string) {

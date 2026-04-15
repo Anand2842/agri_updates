@@ -24,10 +24,10 @@ export const metadata: Metadata = {
     template: '%s | Agri Updates',
     default: 'Agri Updates | Agricultural Jobs & Innovation Platform for India',
   },
-  description: "India's trusted platform for agricultural jobs, internships, fellowships, research news, and AgriTech startup updates.",
+  description: "India's trusted platform for agricultural jobs, grants & funding, startup news, and agri-warnings.",
   openGraph: {
     title: 'Agri Updates | AgriTech Careers & News',
-    description: 'India\'s trusted platform for agricultural jobs, internships, fellowships, and AgriTech innovation.',
+    description: 'India\'s trusted platform for agricultural jobs, grants & funding, startup, and agri-warnings.',
     url: 'https://agriupdates.com',
     siteName: 'Agri Updates',
     images: [

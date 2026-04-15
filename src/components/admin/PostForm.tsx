@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
-import { Post, Author, Category } from '@/types/database'
-import EligibilityEditor, { PolicyConfig } from './editor/EligibilityEditor'
+import { Post, Category } from '@/types/database'
+import EligibilityEditor from './editor/EligibilityEditor'
 import { getUserRole, UserRole } from '@/lib/auth'
 import { Wand2, Sparkles, Lock, Smartphone, Monitor, Globe, Search } from 'lucide-react'
 import ImageUpload from './ImageUpload'
@@ -22,7 +22,6 @@ export default function PostForm({ initialData }: PostFormProps) {
     const supabase = createClient()
     const [loading, setLoading] = useState(false)
     const [isPolishing, setIsPolishing] = useState(false)
-    const [authors, setAuthors] = useState<Author[]>([])
     const [categories, setCategories] = useState<Category[]>([])
     const [userRole, setUserRole] = useState<UserRole>('user')
     const [roleLoading, setRoleLoading] = useState(true)
@@ -36,16 +35,14 @@ export default function PostForm({ initialData }: PostFormProps) {
     };
     const [previewDevice, setPreviewDevice] = useState<DeviceType>('desktop')
 
-    // Fetch authors and user role on mount
+    // Fetch categories and user role on mount
     useEffect(() => {
         const init = async () => {
-            const [roleData, { data: authorsData }, { data: categoriesData }] = await Promise.all([
+            const [roleData, { data: categoriesData }] = await Promise.all([
                 getUserRole(supabase),
-                supabase.from('authors').select('*').eq('is_active', true),
                 supabase.from('categories').select('*').eq('is_active', true).order('name')
             ])
             setUserRole(roleData)
-            if (authorsData) setAuthors(authorsData)
             if (categoriesData) setCategories(categoriesData)
             setRoleLoading(false)
         }
@@ -58,7 +55,7 @@ export default function PostForm({ initialData }: PostFormProps) {
         slug: initialData?.slug || '',
         excerpt: initialData?.excerpt || '',
         content: initialData?.content || '',
-        author_name: initialData?.author_name || 'Agri Updates',
+        author_name: initialData?.author_name || (typeof window !== 'undefined' ? localStorage.getItem('lastAuthor') : null) || 'Agri Updates',
         author_id: initialData?.author_id || '',
         category: initialData?.category || 'Research',
         image_url: initialData?.image_url || '',
@@ -70,7 +67,7 @@ export default function PostForm({ initialData }: PostFormProps) {
         // Job-specific fields
         company: initialData?.company || '',
         location: initialData?.location || '',
-        job_type: initialData?.job_type || '',
+        job_type: initialData?.job_type || 'Full-time',
         salary_range: initialData?.salary_range || '',
         application_link: initialData?.application_link || '',
         status: initialData?.status || 'draft',
@@ -78,12 +75,35 @@ export default function PostForm({ initialData }: PostFormProps) {
         policy_rules: initialData?.policy_rules || null
     })
 
-    // Helper to set featured duration
+    // Remember last author for next time
+    useEffect(() => {
+        if (formData.author_name && typeof window !== 'undefined') {
+            localStorage.setItem('lastAuthor', formData.author_name)
+        }
+    }, [formData.author_name])
+
+    // Auto-generate excerpt from content if empty (only when content changes significantly)
+    useEffect(() => {
+        if (!formData.excerpt && formData.content && formData.content.length > 50) {
+            const plainText = formData.content.replace(/<[^>]*>/g, '').trim()
+            const autoExcerpt = plainText.substring(0, 160) + (plainText.length > 160 ? '...' : '')
+            setFormData(prev => ({ ...prev, excerpt: autoExcerpt }))
+        }
+    }, [formData.content])
+
+    // Helper to set featured duration (auto-set to 30 days when featured is checked)
     const setFeaturedDuration = (days: number) => {
         const date = new Date();
         date.setDate(date.getDate() + days);
         setFormData(prev => ({ ...prev, featured_until: date.toISOString().slice(0, 16) }));
     }
+
+    // Auto-set featured duration when featured is checked
+    useEffect(() => {
+        if (formData.is_featured && !formData.featured_until) {
+            setFeaturedDuration(30)
+        }
+    }, [formData.is_featured])
 
     const generateSlug = (text: string) => {
         return text
@@ -255,6 +275,14 @@ export default function PostForm({ initialData }: PostFormProps) {
 
     const isModLocked = userRole === 'moderator' && initialData?.status === 'published';
 
+    // Validation check for required fields
+    const missingFields = []
+    if (!formData.title) missingFields.push('Title')
+    if (!formData.content || formData.content.length < 50) missingFields.push('Content')
+    if (!formData.excerpt) missingFields.push('Excerpt')
+    if (!formData.category) missingFields.push('Category')
+    const isReadyToPublish = missingFields.length === 0
+
     return (
         <form onSubmit={handleSubmit} className="min-h-screen pb-20 relative">
             {isModLocked && (
@@ -277,10 +305,31 @@ export default function PostForm({ initialData }: PostFormProps) {
             )}
 
             {/* Top Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 bg-white p-4 border-b border-stone-200 sticky top-0 z-20">
-                <h2 className="font-serif text-2xl font-bold">
-                    {initialData ? 'Edit Post' : 'New Post'}
-                </h2>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 bg-white p-4 border-b border-stone-200 sticky top-0 z-20 shadow-sm">
+                <div>
+                    <h2 className="font-serif text-2xl font-bold">
+                        {initialData ? 'Edit Post' : 'Create New Post'}
+                    </h2>
+                    <div className="flex items-center gap-3 mt-1">
+                        <p className="text-xs text-stone-500">
+                            {formData.category === 'Jobs' ? '📋 Job Posting' : 
+                             formData.category === 'Grants' ? '💰 Grant / Funding' :
+                             formData.category === 'Warnings' ? '⚠️ Warning / Alert' :
+                             formData.category === 'Research' ? '📚 Research Article' :
+                             formData.category === 'Startups' ? '🚀 Startup Story' : '📰 News Article'}
+                        </p>
+                        {!isReadyToPublish && (
+                            <span className="text-[10px] text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full font-bold">
+                                {missingFields.length} field{missingFields.length > 1 ? 's' : ''} needed
+                            </span>
+                        )}
+                        {isReadyToPublish && (
+                            <span className="text-[10px] text-green-600 bg-green-50 px-2 py-0.5 rounded-full font-bold">
+                                ✓ Ready to publish
+                            </span>
+                        )}
+                    </div>
+                </div>
                 <div className="flex gap-3">
                     {!initialData && (
                         <button
@@ -292,6 +341,19 @@ export default function PostForm({ initialData }: PostFormProps) {
                             AI Gen
                         </button>
                     )}
+                    {userRole === 'admin' && (
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setFormData(prev => ({ ...prev, status: 'draft' }))
+                                handleSubmit(new Event('submit') as any)
+                            }}
+                            disabled={loading || isModLocked}
+                            className="text-stone-600 bg-stone-100 px-4 py-2 rounded font-bold uppercase tracking-widest text-xs hover:bg-stone-200 disabled:opacity-50 transition-colors"
+                        >
+                            Save Draft
+                        </button>
+                    )}
                     <button
                         type="submit"
                         disabled={loading || isModLocked}
@@ -301,9 +363,9 @@ export default function PostForm({ initialData }: PostFormProps) {
                                     'bg-green-700 hover:bg-green-800'}`}
                     >
                         {loading ? 'Saving...' :
-                            (formData.status === 'scheduled' ? 'Confirm Schedule' :
-                                formData.status === 'pending_review' ? 'Submit for Review' :
-                                    userRole === 'moderator' ? 'Save Draft' : 'Publish')}
+                            (formData.status === 'scheduled' ? '⏰ Schedule' :
+                                formData.status === 'pending_review' ? '👀 Submit for Review' :
+                                    userRole === 'moderator' ? '💾 Save Draft' : '✅ Publish Now')}
                     </button>
                 </div>
             </div>
@@ -313,14 +375,30 @@ export default function PostForm({ initialData }: PostFormProps) {
                 {/* LEFT: Main Editor (8 cols) */}
                 <div className="lg:col-span-8 space-y-8">
                     {/* Title Input */}
-                    <div>
+                    <div className="bg-white rounded-xl border border-stone-200 p-6 shadow-sm">
+                        <label className="block text-xs font-bold text-stone-400 mb-2 uppercase tracking-wider">
+                            Title <span className="text-red-500">*</span>
+                            <span className="ml-2 text-[10px] font-normal text-stone-400 normal-case">
+                                Keep it clear and compelling
+                            </span>
+                        </label>
                         <input
                             required
                             value={formData.title}
                             onChange={handleTitleChange}
-                            placeholder="Post Title"
-                            className="w-full p-4 bg-transparent border-none outline-none font-serif text-4xl font-bold placeholder-stone-300"
+                            placeholder="Enter your post title..."
+                            className="w-full p-0 bg-transparent border-none outline-none font-serif text-3xl font-bold placeholder-stone-300 focus:placeholder-stone-400"
                         />
+                        {formData.title && (
+                            <div className="mt-3 pt-3 border-t border-stone-100 flex items-center justify-between">
+                                <p className="text-xs text-stone-400">
+                                    URL: <span className="font-mono text-stone-600">/blog/{formData.slug}</span>
+                                </p>
+                                <p className="text-[10px] text-stone-400">
+                                    {formData.title.length} characters
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     {/* Editor Controls & Container */}
@@ -379,7 +457,7 @@ export default function PostForm({ initialData }: PostFormProps) {
                     </div>
 
                     {/* Job Specifics moved down for better flow */}
-                    {(formData.category === 'Jobs' || formData.category === 'Internships') && (
+                    {(formData.category === 'Jobs') && (
                         <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
                             <h3 className="font-serif text-lg font-bold text-blue-900 mb-4">Job Details</h3>
                             <div className="grid grid-cols-2 gap-4">
@@ -404,7 +482,6 @@ export default function PostForm({ initialData }: PostFormProps) {
                                     <option value="Full-time">Full-time</option>
                                     <option value="Part-time">Part-time</option>
                                     <option value="Contract">Contract</option>
-                                    <option value="Internship">Internship</option>
                                 </select>
                                 <input
                                     value={formData.salary_range}
@@ -413,7 +490,10 @@ export default function PostForm({ initialData }: PostFormProps) {
                                     placeholder="Salary Range"
                                 />
                                 <input
-                                    placeholder="Application Link"
+                                    value={formData.application_link}
+                                    onChange={e => setFormData({ ...formData, application_link: e.target.value })}
+                                    className="p-3 border rounded col-span-2"
+                                    placeholder="Application Link (URL)"
                                 />
 
                                 {/* Job Attributes */}
@@ -480,57 +560,17 @@ export default function PostForm({ initialData }: PostFormProps) {
                 {/* RIGHT: Sidebar (4 cols) */}
                 <div className="lg:col-span-4 space-y-6">
 
-                    {/* Status Card */}
-                    <div className="bg-white p-6 border border-stone-200 rounded-xl shadow-sm">
-                        <h3 className="font-bold uppercase text-xs tracking-widest text-stone-500 mb-4">Publishing</h3>
+                    {/* Quick Settings Card */}
+                    <div className="bg-gradient-to-br from-white to-stone-50 p-6 border border-stone-200 rounded-xl shadow-sm">
+                        <h3 className="font-bold uppercase text-xs tracking-widest text-stone-500 mb-4">⚡ Quick Settings</h3>
 
                         <div className="space-y-4">
-                            {userRole === 'moderator' && (
-                                <div className="p-3 bg-blue-50 border border-blue-200 text-blue-800 rounded-lg text-xs leading-relaxed font-medium">
-                                    <span className="font-bold flex items-center gap-1.5 mb-1">
-                                        <Lock className="w-3.5 h-3.5" />
-                                        Moderator Access
-                                    </span>
-                                    You can save drafts or submit posts for review. Only Admins can publish live content.
-                                </div>
-                            )}
-
                             <div>
-                                <label className="block text-xs font-bold text-stone-400 mb-1">Status</label>
-                                <select
-                                    value={formData.status}
-                                    onChange={e => setFormData({ ...formData, status: e.target.value as any })}
-                                    className="w-full p-2 border border-stone-200 rounded-lg bg-stone-50 shadow-sm focus:ring-2 focus:ring-agri-green/20 outline-none transition-all font-medium"
-                                >
-                                    <option value="draft">Draft</option>
-                                    <option value="pending_review">Pending Review</option>
-                                    {userRole === 'admin' && (
-                                        <>
-                                            <option value="scheduled">Scheduled</option>
-                                            <option value="published">Published</option>
-                                        </>
-                                    )}
-                                </select>
-                            </div>
-
-                            {formData.status === 'scheduled' && (
-                                <div>
-                                    <label className="block text-xs font-bold text-stone-400 mb-1">Schedule For</label>
-                                    <input
-                                        type="datetime-local"
-                                        value={formData.scheduled_for}
-                                        onChange={(e) => setFormData({ ...formData, scheduled_for: e.target.value })}
-                                        className="w-full p-2 border rounded bg-stone-50"
-                                    />
-                                </div>
-                            )}
-
-                            <div>
-                                <label className="block text-xs font-bold text-stone-400 mb-1">Category</label>
+                                <label className="block text-xs font-bold text-stone-700 mb-2">Category *</label>
                                 <select
                                     value={formData.category}
                                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                    className="w-full p-2 border rounded bg-stone-50"
+                                    className="w-full p-3 border-2 border-stone-200 rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-agri-green/20 focus:border-agri-green outline-none transition-all font-medium"
                                 >
                                     {categories.map((cat) => (
                                         <option key={cat.id} value={cat.name}>{cat.name}</option>
@@ -540,6 +580,46 @@ export default function PostForm({ initialData }: PostFormProps) {
                                     )}
                                 </select>
                             </div>
+
+                            {userRole === 'admin' && (
+                                <>
+                                    <div className="pt-4 border-t border-stone-200">
+                                        <label className="block text-xs font-bold text-stone-700 mb-2">Publish Status</label>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <button
+                                                type="button"
+                                                onClick={() => setFormData({ ...formData, status: 'draft' })}
+                                                className={`p-2 rounded-lg text-xs font-bold transition-all ${
+                                                    formData.status === 'draft' 
+                                                    ? 'bg-stone-800 text-white' 
+                                                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                                                }`}
+                                            >
+                                                📝 Draft
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => setFormData({ ...formData, status: 'published' })}
+                                                className={`p-2 rounded-lg text-xs font-bold transition-all ${
+                                                    formData.status === 'published' 
+                                                    ? 'bg-green-600 text-white' 
+                                                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                                                }`}
+                                            >
+                                                ✓ Publish
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </>
+                            )}
+
+                            {userRole === 'moderator' && (
+                                <div className="p-3 bg-blue-50 border border-blue-200 text-blue-800 rounded-lg text-xs leading-relaxed">
+                                    <Lock className="w-3.5 h-3.5 inline mr-1" />
+                                    <strong>Moderator:</strong> Posts saved as drafts for admin review
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -564,7 +644,22 @@ export default function PostForm({ initialData }: PostFormProps) {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold text-stone-400 mb-1">Meta Description (Excerpt)</label>
+                                <div className="flex items-center justify-between mb-1">
+                                    <label className="block text-xs font-bold text-stone-400">Meta Description (Excerpt)</label>
+                                    {formData.content && !formData.excerpt && (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const plainText = formData.content.replace(/<[^>]*>/g, '').trim()
+                                                const autoExcerpt = plainText.substring(0, 160) + (plainText.length > 160 ? '...' : '')
+                                                setFormData({ ...formData, excerpt: autoExcerpt })
+                                            }}
+                                            className="text-[10px] text-blue-600 hover:text-blue-700 font-bold uppercase tracking-wider"
+                                        >
+                                            Auto-generate
+                                        </button>
+                                    )}
+                                </div>
                                 <textarea
                                     value={formData.excerpt}
                                     onChange={e => setFormData({ ...formData, excerpt: e.target.value })}
@@ -573,7 +668,11 @@ export default function PostForm({ initialData }: PostFormProps) {
                                 />
                                 <div className="flex justify-between mt-1">
                                     <p className="text-[10px] text-stone-400">Recommended: 150-160 characters</p>
-                                    <p className={`text-[10px] ${formData.excerpt.length > 160 ? 'text-red-500' : 'text-stone-400'}`}>
+                                    <p className={`text-[10px] font-bold ${
+                                        formData.excerpt.length === 0 ? 'text-stone-400' :
+                                        formData.excerpt.length < 150 ? 'text-amber-500' :
+                                        formData.excerpt.length <= 160 ? 'text-green-600' : 'text-red-500'
+                                    }`}>
                                         {formData.excerpt.length} chars
                                     </p>
                                 </div>
@@ -616,13 +715,30 @@ export default function PostForm({ initialData }: PostFormProps) {
                         </div>
 
                         <div>
-                            <label className="block text-xs font-bold text-stone-400 mb-1">Tags</label>
+                            <label className="block text-xs font-bold text-stone-400 mb-1">
+                                Tags
+                                <span className="ml-2 text-[10px] font-normal text-stone-400">
+                                    (comma separated)
+                                </span>
+                            </label>
                             <input
                                 value={formData.tags}
                                 onChange={e => setFormData({ ...formData, tags: e.target.value })}
                                 className="w-full p-2 border rounded bg-stone-50"
-                                placeholder="Comma separated"
+                                placeholder="e.g., Agriculture, Technology, Innovation"
                             />
+                            {formData.category && (
+                                <p className="text-[10px] text-stone-400 mt-1">
+                                    💡 Suggested: {
+                                        formData.category === 'Jobs' ? 'Hiring, Career, Employment' :
+                                        formData.category === 'Grants' ? 'Funding, Support, Grant' :
+                                        formData.category === 'Warnings' ? 'Alert, Caution, Urgent' :
+                                        formData.category === 'Research' ? 'Study, Science, Innovation' :
+                                        formData.category === 'Startups' ? 'Funding, Growth, Entrepreneur' :
+                                        'News, Updates, Industry'
+                                    }
+                                </p>
+                            )}
                         </div>
 
                         <div>
@@ -634,50 +750,37 @@ export default function PostForm({ initialData }: PostFormProps) {
                         </div>
                     </div>
 
-                    {/* Featured settings */}
-                    <div className="bg-amber-50 p-6 border border-amber-200 rounded-xl shadow-sm">
-                        <label className="flex items-center gap-2 mb-4 cursor-pointer">
-                            <input
-                                type="checkbox"
-                                checked={formData.is_featured}
-                                onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })}
-                                className="w-4 h-4 text-amber-600 rounded"
-                            />
-                            <span className="font-bold uppercase text-xs tracking-widest text-amber-800">Featured Post</span>
-                        </label>
-
-                        {formData.is_featured && (
-                            <div>
-                                <label className="block text-xs font-bold text-amber-700 mb-1">Featured Until</label>
-                                <div className="flex gap-2 mb-2">
-                                    <button type="button" onClick={() => setFeaturedDuration(7)} className="xs-btn bg-white border px-2 py-1 text-xs rounded">7d</button>
-                                    <button type="button" onClick={() => setFeaturedDuration(14)} className="xs-btn bg-white border px-2 py-1 text-xs rounded">14d</button>
-                                    <button type="button" onClick={() => setFeaturedDuration(30)} className="xs-btn bg-white border px-2 py-1 text-xs rounded">30d</button>
-                                </div>
+                    {/* Featured settings - Admin only */}
+                    {userRole === 'admin' && (
+                        <div className="bg-amber-50 p-6 border border-amber-200 rounded-xl shadow-sm">
+                            <label className="flex items-center gap-2 mb-4 cursor-pointer">
                                 <input
-                                    type="datetime-local"
-                                    value={formData.featured_until}
-                                    onChange={(e) => setFormData({ ...formData, featured_until: e.target.value })}
-                                    className="w-full p-2 border rounded bg-white text-sm"
+                                    type="checkbox"
+                                    checked={formData.is_featured}
+                                    onChange={(e) => setFormData({ ...formData, is_featured: e.target.checked })}
+                                    className="w-4 h-4 text-amber-600 rounded"
                                 />
-                            </div>
-                        )}
+                                <span className="font-bold uppercase text-xs tracking-widest text-amber-800">⭐ Feature Post</span>
+                            </label>
 
-                        <div className="mt-4 pt-4 border-t border-amber-200">
-                            <label className="block text-xs font-bold text-amber-700 mb-1">Display Location</label>
-                            <select
-                                value={formData.display_location}
-                                onChange={e => setFormData({ ...formData, display_location: e.target.value as any })}
-                                className="w-full p-2 border rounded bg-white text-sm"
-                            >
-                                <option value="standard">Standard Feed</option>
-                                <option value="hero">Main Hero</option>
-                                <option value="featured">Featured Grid</option>
-                                <option value="trending">Trending</option>
-                                <option value="dont_miss">Don't Miss</option>
-                            </select>
+                            {formData.is_featured && (
+                                <div>
+                                    <label className="block text-xs font-bold text-amber-700 mb-1">Featured Until</label>
+                                    <div className="flex gap-2 mb-2">
+                                        <button type="button" onClick={() => setFeaturedDuration(7)} className="xs-btn bg-white border px-2 py-1 text-xs rounded hover:bg-amber-100">7d</button>
+                                        <button type="button" onClick={() => setFeaturedDuration(14)} className="xs-btn bg-white border px-2 py-1 text-xs rounded hover:bg-amber-100">14d</button>
+                                        <button type="button" onClick={() => setFeaturedDuration(30)} className="xs-btn bg-white border px-2 py-1 text-xs rounded hover:bg-amber-100">30d</button>
+                                    </div>
+                                    <input
+                                        type="datetime-local"
+                                        value={formData.featured_until}
+                                        onChange={(e) => setFormData({ ...formData, featured_until: e.target.value })}
+                                        className="w-full p-2 border rounded bg-white text-sm"
+                                    />
+                                </div>
+                            )}
                         </div>
-                    </div>
+                    )}
 
 
 

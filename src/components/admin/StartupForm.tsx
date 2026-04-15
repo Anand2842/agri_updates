@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import { Startup } from '@/types/database'
-import { Plus, X, Globe, MapPin, DollarSign, Calendar, Users, Star, AlertTriangle, Link as LinkIcon } from 'lucide-react'
+import { Plus, X, Globe, MapPin, DollarSign, Calendar, Users, Star, AlertTriangle, Link as LinkIcon, Image as ImageIcon } from 'lucide-react'
+import ImageUpload from './ImageUpload'
 
 interface StartupFormProps {
     initialData?: Startup
@@ -174,6 +175,20 @@ export default function StartupForm({ initialData }: StartupFormProps) {
                             <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Startup Name *</label>
                             <input type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black" required />
                         </div>
+                        
+                        {/* Logo Upload */}
+                        <div className="md:col-span-2">
+                            <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">
+                                <ImageIcon className="inline w-4 h-4 mr-1" />
+                                Company Logo
+                            </label>
+                            <ImageUpload
+                                value={formData.logo_url || ''}
+                                onChange={(url) => setFormData({ ...formData, logo_url: url })}
+                            />
+                            <p className="text-xs text-stone-400 mt-2">Recommended: Square logo (500x500px) with transparent background</p>
+                        </div>
+
                         <div>
                             <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Slug (URL) *</label>
                             <input type="text" value={formData.slug || ''} onChange={(e) => setFormData({ ...formData, slug: e.target.value })} className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black font-mono text-sm" required />
@@ -185,6 +200,19 @@ export default function StartupForm({ initialData }: StartupFormProps) {
                                 <input type="url" value={formData.website_url || ''} onChange={(e) => setFormData({ ...formData, website_url: e.target.value })} className="w-full p-3 pl-10 bg-stone-50 border border-stone-200 outline-none focus:border-black" placeholder="https://..." />
                             </div>
                         </div>
+
+                        <div className="md:col-span-2">
+                            <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-3 flex items-center gap-2">
+                                <ImageIcon size={14} />
+                                Company Logo
+                            </label>
+                            <ImageUpload
+                                value={formData.logo_url || ''}
+                                onChange={(url) => setFormData({ ...formData, logo_url: url })}
+                            />
+                            <p className="text-xs text-stone-400 mt-2">Upload your company logo (recommended: square, min 200x200px)</p>
+                        </div>
+
                         <div className="md:col-span-2">
                             <label className="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">Elevator Pitch (One-Liner)</label>
                             <input type="text" value={formData.elevator_pitch || ''} onChange={(e) => setFormData({ ...formData, elevator_pitch: e.target.value })} className="w-full p-3 bg-stone-50 border border-stone-200 outline-none focus:border-black" placeholder="e.g. Uber for Tractors" />

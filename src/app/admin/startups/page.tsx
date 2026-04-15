@@ -36,6 +36,7 @@ export default async function AdminStartupsPage() {
                     <table className="w-full text-left">
                         <thead className="bg-stone-50 border-b border-stone-200">
                             <tr>
+                                <th className="p-4 font-bold uppercase text-xs text-stone-500 tracking-wider">Logo</th>
                                 <th className="p-4 font-bold uppercase text-xs text-stone-500 tracking-wider">Name</th>
                                 <th className="p-4 font-bold uppercase text-xs text-stone-500 tracking-wider">Stage</th>
                                 <th className="p-4 font-bold uppercase text-xs text-stone-500 tracking-wider">Location</th>
@@ -47,7 +48,23 @@ export default async function AdminStartupsPage() {
                             {startups?.map((startup) => (
                                 <tr key={startup.id} className="hover:bg-stone-50 transition-colors group">
                                     <td className="p-4">
+                                        {startup.logo_url ? (
+                                            <img 
+                                                src={startup.logo_url} 
+                                                alt={`${startup.name} logo`}
+                                                className="w-12 h-12 object-contain rounded border border-stone-200 bg-white"
+                                            />
+                                        ) : (
+                                            <div className="w-12 h-12 bg-stone-100 rounded border border-stone-200 flex items-center justify-center text-stone-400 text-xs font-bold">
+                                                {startup.name?.charAt(0) || '?'}
+                                            </div>
+                                        )}
+                                    </td>
+                                    <td className="p-4">
                                         <div className="font-bold">{startup.name}</div>
+                                        {startup.elevator_pitch && (
+                                            <div className="text-xs text-stone-500 mt-1 line-clamp-1">{startup.elevator_pitch}</div>
+                                        )}
                                     </td>
                                     <td className="p-4 text-sm text-stone-600">
                                         <span className="bg-stone-100 px-2 py-1 rounded text-xs">
@@ -83,7 +100,7 @@ export default async function AdminStartupsPage() {
                             ))}
                             {startups?.length === 0 && (
                                 <tr>
-                                    <td colSpan={5} className="p-8 text-center text-stone-500">
+                                    <td colSpan={6} className="p-8 text-center text-stone-500">
                                         No startups found. Click &quot;Add Startup&quot; to create one.
                                     </td>
                                 </tr>

@@ -4,7 +4,8 @@ import MainHero from '@/components/home/MainHero';
 import Opportunities from '@/components/home/Opportunities';
 import DontMiss from '@/components/home/DontMiss';
 import SubscribeBlock from '@/components/home/SubscribeBlock';
-import ResearchPapers from '@/components/home/ResearchPapers';
+import GrantsSection from '@/components/home/GrantsSection';
+import WarningsStrip from '@/components/home/WarningsStrip';
 import StartupsSection from '@/components/home/StartupsSection';
 import LatestJobs from '@/components/home/LatestJobs';
 
@@ -16,8 +17,8 @@ import { Post, Job } from '@/types/database';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Agricultural Jobs, Internships & Innovation News in India',
-  description: "Agri Updates is India's premier platform for agricultural careers, research breakthroughs, fellowships, and startup innovation. Find your next opportunity today.",
+  title: 'Agricultural Jobs, Grants & Innovation News in India',
+  description: "Agri Updates is India's premier platform for agricultural careers, funding, explicit warnings, and startup innovation. Find your next opportunity today.",
 };
 
 export const revalidate = 60; // Dynamic for now
@@ -394,10 +395,10 @@ export default async function Home() {
   }
 
   // Filter posts by category for bottom sections
-  const researchPosts = posts.filter(p => p.category === 'Research');
+  const grantsPosts = posts.filter(p => p.category === 'Grants');
   const startupPosts = posts.filter(p => p.category === 'Startups');
   const jobPosts = posts.filter(p => p.category === 'Jobs');
-  const policyPosts = posts.filter(p => p.category === 'Policy'); // Filter policy posts
+  const warningsPosts = posts.filter(p => p.category === 'Warnings');
 
   return (
     <div className="bg-paper-bg min-h-screen">
@@ -439,10 +440,13 @@ export default async function Home() {
         <AdBanner placement="banner" />
       </div>
 
+      {/* Warnings Strip */}
+      {warningsPosts.length > 0 && <WarningsStrip posts={warningsPosts} />}
+
       {/* Bottom Categories Section */}
       <section className="container mx-auto px-4 py-12 border-t border-stone-200">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <ResearchPapers posts={researchPosts} />
+          <GrantsSection posts={grantsPosts} />
           <StartupsSection posts={startupPosts} />
           <LatestJobs posts={jobPosts} />
         </div>
