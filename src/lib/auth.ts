@@ -8,11 +8,17 @@ export async function getUserRole(supabase: SupabaseClient): Promise<UserRole> {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return 'user';
 
-        // Allow emergency admin bootstrap via env emails if profile role is missing.
+        // Check emergency admin bootstrap via env emails FIRST.
+        // This takes priority over the DB profile so that even if the profile
+        // row exists with role='user', env-listed admins always get access.
         const adminEmailEnv = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || process.env.ADMIN_EMAILS || '')
             .split(',')
             .map(e => e.trim().toLowerCase())
             .filter(Boolean);
+
+        if (user.email && adminEmailEnv.includes(user.email.toLowerCase())) {
+            return 'admin';
+        }
 
         const { data: profile } = await supabase
             .from('profiles')
@@ -21,10 +27,6 @@ export async function getUserRole(supabase: SupabaseClient): Promise<UserRole> {
             .maybeSingle();
 
         if (profile?.role) return profile.role as UserRole;
-
-        if (user.email && adminEmailEnv.includes(user.email.toLowerCase())) {
-            return 'admin';
-        }
 
         return 'user';
     } catch (e) {
