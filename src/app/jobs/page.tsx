@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import AdBanner from '@/components/ads/AdBanner';
 import JobsGrid from '@/components/jobs/JobsGrid';
+import JobsFilterDrawer from '@/components/jobs/JobsFilterDrawer';
 
 export const revalidate = 0;
 
@@ -118,8 +119,8 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
 
             <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row gap-8">
-                    {/* Sidebar */}
-                    <div className="w-full md:w-64 lg:w-72 flex-shrink-0">
+                    {/* Sidebar Wrapped in Mobile Drawer */}
+                    <JobsFilterDrawer>
                         <div className="sticky top-24 space-y-8">
                             {/* Search */}
                             <div className="bg-white p-5 border border-stone-200 rounded-xl shadow-sm">
@@ -217,7 +218,7 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                             )}
                             </div>
                         </div>
-                    </div>
+                    </JobsFilterDrawer>
 
                     {/* Job List */}
                     <div className="flex-grow">

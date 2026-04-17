@@ -86,11 +86,10 @@ export default function JobsGrid({ jobs }: JobsGridProps) {
                         key={job.id}
                         variants={item}
                         className={`
-                            relative group flex flex-col h-full rounded-xl transition-all duration-300
-                            bg-white border hover:-translate-y-1
+                            relative group flex flex-col h-full transition-all duration-300
                             ${isFeatured
-                                ? 'border-[#C9A961]/40 shadow-md hover:shadow-xl hover:border-[#C9A961]'
-                                : 'border-stone-100 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1)] hover:border-agri-green/30'
+                                ? 'card-neu-pressed border-[#C9A961]/30 hover:border-[#C9A961]'
+                                : 'card-neu hover:card-neu-hover'
                             }
                         `}
                     >

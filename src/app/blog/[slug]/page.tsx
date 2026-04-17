@@ -21,6 +21,7 @@ import { calculateReadingTime } from '@/lib/utils/article';
 import EligibilityChecker from '@/components/blog/EligibilityChecker';
 import ArticleSidebar from '@/components/blog/ArticleSidebar';
 import AdBanner from '@/components/ads/AdBanner';
+import WarningAttachmentViewer from '@/components/blog/WarningAttachmentViewer';
 
 /**
  * Server-side content normalizer — runs in Node.js before the HTML reaches
@@ -235,7 +236,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                             </div>
 
                             {/* Title */}
-                            <h1 className="font-serif text-[38px] md:text-[48px] lg:text-[52px] font-bold text-[#111] leading-[1.08] mb-5 tracking-tight">
+                            <h1 className="font-serif text-[28px] md:text-[38px] lg:text-[48px] xl:text-[52px] font-bold text-[#111] leading-[1.15] md:leading-[1.08] mb-4 md:mb-5 tracking-tight drop-shadow-sm md:drop-shadow-none">
                                 {post.title}
                             </h1>
 
@@ -276,7 +277,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                                     </div>
                                 </div>
                                 {/* Inline share */}
-                                <div className="flex-shrink-0">
+                                <div className="flex-shrink-0 hidden md:block">
                                     <SocialShare title={post.title} />
                                 </div>
                             </div>
@@ -284,9 +285,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
                         {/* Hero Image */}
                         {post.image_url && (
-                            <div className="w-full mb-10">
+                            <div className="w-full mb-8 md:mb-10">
                                 <style>{`
-                                    @media (max-width: 639px) { .hero-frame { aspect-ratio: 4/3 !important; min-height: 240px; max-height: 380px; } }
+                                    @media (max-width: 639px) { .hero-frame { aspect-ratio: 1/1 !important; min-height: 240px; max-height: 380px; } }
                                     @media (min-width: 640px) { .hero-frame { aspect-ratio: 16/9 !important; } }
                                 `}</style>
                                 <div className="hero-frame relative w-full bg-stone-900 overflow-hidden rounded-xl shadow-md">
@@ -301,6 +302,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                             <div className="mb-10">
                                 <EligibilityChecker rules={post.policy_rules} />
                             </div>
+                        )}
+
+                        {/* Warning Attachment Viewer (view-only, no download) */}
+                        {post.category === 'Warnings' && (post as any).attachment_url && (
+                            <WarningAttachmentViewer
+                                url={(post as any).attachment_url}
+                                type={(post as any).attachment_type}
+                                title={post.title}
+                            />
                         )}
 
                         {/* Main Content */}
@@ -324,16 +334,16 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
                             {/* Author Bio Card — only for real authors */}
                             {(neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) || post.authors?.bio || post.author_bio) && (
-                                <div className="mt-10 flex gap-5 items-start bg-stone-50 p-6 rounded-2xl border border-stone-100">
-                                    <div className="relative w-16 h-16 flex-shrink-0 rounded-full overflow-hidden bg-white border border-stone-200">
+                                <div className="mt-8 md:mt-10 flex flex-col md:flex-row gap-4 md:gap-5 items-start bg-stone-50 p-5 md:p-6 rounded-2xl border border-stone-100 card-neu md:border-stone-100 md:card-neu-none md:shadow-none">
+                                    <div className="relative w-12 h-12 md:w-16 md:h-16 flex-shrink-0 rounded-full overflow-hidden bg-white border border-stone-200">
                                         <Image
                                             src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) || 'ED')}&background=1a1a1a&color=fff`}
                                             alt={neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) || 'Editorial Desk'}
-                                            fill sizes="64px" className="object-cover"
+                                            fill sizes="(max-width: 768px) 48px, 64px" className="object-cover"
                                         />
                                     </div>
                                     <div>
-                                        <h4 className="text-base font-bold text-stone-900 mb-1">
+                                        <h4 className="text-sm md:text-base font-bold text-stone-900 mb-1">
                                             {post.authors?.slug && neutralAuthorName(post.authors?.name) ? (
                                                 <Link href={`/author/${post.authors.slug}`} className="hover:text-agri-green transition-colors">
                                                     {neutralAuthorName(post.authors.name)}
@@ -342,11 +352,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                                                 neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) || 'Editorial Desk'
                                             )}
                                         </h4>
-                                        <p className="text-stone-500 text-sm leading-relaxed">
+                                        <p className="text-stone-500 text-xs md:text-sm leading-relaxed">
                                             {post.authors?.bio || post.author_bio || 'The editorial desk covers agricultural news, market intelligence, and funding opportunities.'}
                                         </p>
                                         {(post.authors?.social_links?.linkedin || post.author_social_linkedin) && (
-                                            <a href={post.authors?.social_links?.linkedin || post.author_social_linkedin} target="_blank" rel="noopener noreferrer" className="text-agri-green text-sm font-semibold hover:underline mt-2 inline-block">
+                                            <a href={post.authors?.social_links?.linkedin || post.author_social_linkedin} target="_blank" rel="noopener noreferrer" className="text-agri-green text-xs md:text-sm font-semibold hover:underline mt-2 inline-block">
                                                 Follow on LinkedIn ↗
                                             </a>
                                         )}
@@ -382,6 +392,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             {/* Comments — last */}
             <div className="container mx-auto px-4 max-w-[760px] py-8">
                 {post.id && <CommentSection postId={post.id} />}
+            </div>
+
+            {/* Mobile Floating Share Bar */}
+            <div className="md:hidden fixed bottom-[4.5rem] right-4 z-40">
+                <div className="card-glass px-3 py-2 rounded-full shadow-[0_8px_16px_rgba(0,0,0,0.15)] flex items-center justify-center pointer-events-auto border border-white/30 backdrop-blur-md bg-white/70">
+                    <SocialShare title={post.title} />
+                </div>
             </div>
         </article>
     );

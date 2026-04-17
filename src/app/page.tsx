@@ -8,6 +8,7 @@ import GrantsSection from '@/components/home/GrantsSection';
 import WarningsStrip from '@/components/home/WarningsStrip';
 import StartupsSection from '@/components/home/StartupsSection';
 import LatestJobs from '@/components/home/LatestJobs';
+import CategoryTabs from '@/components/home/CategoryTabs';
 
 import QuickFAQ from '@/components/home/QuickFAQ';
 // import PolicySection from '@/components/home/PolicySection'; // Hidden for now
@@ -283,7 +284,14 @@ async function getData() {
 
 
     return {
-      posts: (posts && posts.length > 0) ? posts : MOCK_POSTS,
+      posts: (posts && posts.length > 0) 
+        ? posts.map(p => ({
+            ...p,
+            image_url: p.image_url?.startsWith('/images/') 
+              ? `https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&q=80` 
+              : p.image_url
+          })) 
+        : MOCK_POSTS,
       jobs: (jobs && jobs.length > 0) ? jobs : MOCK_JOBS
     };
 
@@ -411,23 +419,24 @@ export default async function Home() {
       {/* Subscribe Block */}
       <SubscribeBlock />
 
-      <div className="container mx-auto px-4 my-8">
+      <div className="max-w-[1700px] mx-auto px-4 my-0.5">
         <AdBanner placement="banner" />
       </div>
 
-      {/* Main Content Grid */}
-      <section className="container mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-8 py-12">
-        {/* Left Column: Trending */}
-        <aside className="lg:col-span-3 order-2 lg:order-1">
-          <Trending posts={trendingPosts} />
-        </aside>
-
-        {/* Center Column: Main Hero */}
+      {/* Main Content Grid (Stacking Order updated for mobile) */}
+      <section className="max-w-[1700px] mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-6 py-1">
+        
+        {/* MainHero: order-1 on mobile, lg:order-2 on desktop */}
         <div className="lg:col-span-6 order-1 lg:order-2">
           {mainHeroPost && <MainHero post={mainHeroPost} />}
         </div>
 
-        {/* Right Column: Opportunities */}
+        {/* Trending: order-2 on mobile, lg:order-1 on desktop */}
+        <aside className="lg:col-span-3 order-2 lg:order-1">
+          <Trending posts={trendingPosts} />
+        </aside>
+
+        {/* Opportunities: order-3 on mobile, lg:order-3 on desktop */}
         <aside className="lg:col-span-3 order-3 lg:order-3">
           <Opportunities jobs={jobs} />
         </aside>
@@ -436,7 +445,7 @@ export default async function Home() {
       {/* Don't Miss Section */}
       <DontMiss posts={dontMissPosts} />
 
-      <div className="container mx-auto px-4 my-8">
+      <div className="hidden md:block max-w-[1700px] mx-auto px-4 my-0.5">
         <AdBanner placement="banner" />
       </div>
 
@@ -444,12 +453,12 @@ export default async function Home() {
       {warningsPosts.length > 0 && <WarningsStrip posts={warningsPosts} />}
 
       {/* Bottom Categories Section */}
-      <section className="container mx-auto px-4 py-12 border-t border-stone-200">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <section className="max-w-[1700px] mx-auto px-4 py-1 border-t border-stone-200">
+        <CategoryTabs>
           <GrantsSection posts={grantsPosts} />
           <StartupsSection posts={startupPosts} />
           <LatestJobs posts={jobPosts} />
-        </div>
+        </CategoryTabs>
       </section>
     </div>
   );

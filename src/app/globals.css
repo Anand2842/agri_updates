@@ -24,11 +24,17 @@
   --color-gold: #C9A961;
   /* Accent Gold - Highlights */
 
-  --color-paper-bg: #FAFAF9;
-  /* Warm off-white background */
+  --color-paper-bg: #F0EDE8;
+  /* Warm stone background for Neumorphism */
   --color-ink-black: #2C2C2C;
   /* Using Charcoal for main text */
   --color-border-thin: #E7E5E4;
+  
+  /* Neumorphic & Glassmorphic Tokens */
+  --neu-shadow-light: #ffffff;
+  --neu-shadow-dark: #d1cdc7;
+  --glass-bg: rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.6);
 }
 
 @layer base {
@@ -186,6 +192,48 @@
   .select-premium {
     @apply appearance-none w-full px-4 py-2.5 bg-white border border-stone-200 rounded-lg text-sm text-stone-700 font-medium focus:border-agri-green focus:ring-1 focus:ring-agri-green/20 outline-none cursor-pointer transition-all duration-200 shadow-sm bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:0.7em] bg-[right:1rem_center] bg-no-repeat pr-10;
   }
+
+  /* --- Organic Glass Utilities --- */
+  
+  .card-neu {
+    @apply bg-[var(--color-paper-bg)] rounded-xl border border-white/20 transition-all duration-300;
+    box-shadow: 8px 8px 16px var(--neu-shadow-dark), -8px -8px 16px var(--neu-shadow-light);
+    will-change: transform;
+  }
+  
+  .card-neu-hover:hover {
+    box-shadow: inset 2px 2px 5px var(--neu-shadow-dark), inset -2px -2px 5px var(--neu-shadow-light);
+    transform: translateY(1px);
+  }
+  
+  .card-neu-pressed {
+    @apply bg-[var(--color-paper-bg)] rounded-xl border border-white/10 transition-all duration-300;
+    box-shadow: inset 4px 4px 8px var(--neu-shadow-dark), inset -4px -4px 8px var(--neu-shadow-light);
+  }
+
+  .card-glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.05); /* Softer shadow */
+    will-change: transform;
+  }
+
+  /* Performance Fallbacks */
+  @media (prefers-reduced-motion: reduce) {
+    .card-neu,
+    .card-neu-pressed {
+      box-shadow: none;
+      @apply border-stone-300 bg-stone-50;
+    }
+    .card-glass {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      @apply bg-white/95 border-stone-200;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+  }
 }
 
 /* Global Content Layout Helpers */
@@ -218,10 +266,8 @@
 /* Responsive Prose Heading Sizes - MUST ALLOW WRAPPING */
 .prose h1,
 .prose h2 {
-  word-break: normal;
-  overflow-wrap: normal;
-  word-break: normal;
-  overflow-wrap: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
   hyphens: none;
   /* font-family: var(--font-sans); - Removed to allow Serif in blogs */
 }
@@ -251,16 +297,16 @@
   /* Enforce reading width */
   margin-left: auto;
   margin-right: auto;
-  word-break: normal !important;
-  overflow-wrap: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
   hyphens: none !important;
   text-align: left;
 }
 
 /* CRITICAL: Override all child elements to prevent mid-word breaking */
 .prose * {
-  word-break: normal !important;
-  overflow-wrap: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
   hyphens: none !important;
 }
 
@@ -305,14 +351,14 @@
 .prose ul,
 .prose ol {
   max-width: 100%;
-  word-break: normal !important;
-  overflow-wrap: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
 }
 
 .prose li {
   max-width: 100%;
-  word-break: normal !important;
-  overflow-wrap: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
 }
 
 /* Ensure all headings handle long text properly */

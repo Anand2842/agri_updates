@@ -72,7 +72,10 @@ export default function PostForm({ initialData }: PostFormProps) {
         application_link: initialData?.application_link || '',
         status: initialData?.status || 'draft',
         is_active: initialData?.is_active ?? true,
-        policy_rules: initialData?.policy_rules || null
+        policy_rules: initialData?.policy_rules || null,
+        // Warning-specific attachment
+        attachment_url: (initialData as any)?.attachment_url || '',
+        attachment_type: (initialData as any)?.attachment_type || '',
     })
 
     // Remember last author for next time
@@ -201,6 +204,29 @@ export default function PostForm({ initialData }: PostFormProps) {
         return data.publicUrl
     }
 
+    const uploadAttachment = async (file: File): Promise<{ url: string; type: string }> => {
+        const ext = file.name.split('.').pop()?.toLowerCase() || ''
+        const typeMap: Record<string, string> = {
+            pdf: 'pdf', pptx: 'ppt', ppt: 'ppt',
+            html: 'html', htm: 'html',
+            mp4: 'video', webm: 'video', mov: 'video', avi: 'video', mkv: 'video',
+        }
+        const attachType = typeMap[ext] || 'pdf'
+        const fileName = `warning-attachments/${Date.now()}-${Math.random().toString(36).substring(2)}.${ext}`
+
+        const { error: uploadError } = await supabase.storage
+            .from('attachments')
+            .upload(fileName, file, { cacheControl: '3600', upsert: false })
+
+        if (uploadError) throw uploadError
+
+        const { data } = supabase.storage
+            .from('attachments')
+            .getPublicUrl(fileName)
+
+        return { url: data.publicUrl, type: attachType }
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setLoading(true)
@@ -236,6 +262,11 @@ export default function PostForm({ initialData }: PostFormProps) {
             postData.job_type = formData.job_type
             postData.salary_range = formData.salary_range
             postData.application_link = formData.application_link
+        }
+
+        if (formData.category === 'Warnings') {
+            postData.attachment_url = formData.attachment_url || null
+            postData.attachment_type = formData.attachment_type || null
         }
 
         postData.status = formData.status
@@ -555,6 +586,68 @@ export default function PostForm({ initialData }: PostFormProps) {
                             </div>
                         </div>
                     )}
+
+                    {/* Warning Attachment Upload — only for Warnings category */}
+                    {formData.category === 'Warnings' && (
+                        <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
+                            <h3 className="font-serif text-lg font-bold text-amber-900 mb-1">⚠️ Warning Attachment</h3>
+                            <p className="text-xs text-amber-700 mb-4">
+                                Upload a PDF, PPT, HTML, or Video file. Users will be able to <strong>view it inline but cannot download it</strong>.
+                            </p>
+
+                            {formData.attachment_url ? (
+                                <div className="flex items-center justify-between bg-white border border-amber-200 rounded-lg p-3">
+                                    <div className="flex items-center gap-2 min-w-0">
+                                        <span className="text-amber-600 text-lg">
+                                            {formData.attachment_type === 'pdf' ? '📄' :
+                                             formData.attachment_type === 'ppt' ? '📊' :
+                                             formData.attachment_type === 'html' ? '🌐' :
+                                             formData.attachment_type === 'video' ? '🎥' : '📎'}
+                                        </span>
+                                        <div className="min-w-0">
+                                            <p className="text-xs font-bold text-stone-800 uppercase tracking-wide">
+                                                {formData.attachment_type?.toUpperCase() || 'File'} attached
+                                            </p>
+                                            <p className="text-[10px] text-stone-400 truncate max-w-[200px]">
+                                                {formData.attachment_url}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => setFormData(prev => ({ ...prev, attachment_url: '', attachment_type: '' }))}
+                                        className="text-xs text-red-500 hover:text-red-700 font-bold border border-red-200 px-2 py-1 rounded hover:bg-red-50 shrink-0 ml-2"
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
+                            ) : (
+                                <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-amber-300 rounded-lg p-6 cursor-pointer hover:bg-amber-100/50 transition-colors">
+                                    <span className="text-2xl">📎</span>
+                                    <span className="text-sm font-bold text-amber-800">Click to upload file</span>
+                                    <span className="text-[11px] text-amber-600">
+                                        Supported: PDF, PPT, PPTX, HTML, MP4, WEBM
+                                    </span>
+                                    <input
+                                        type="file"
+                                        accept=".pdf,.ppt,.pptx,.html,.htm,.mp4,.webm,.mov,.avi"
+                                        className="sr-only"
+                                        onChange={async (e) => {
+                                            const file = e.target.files?.[0]
+                                            if (!file) return
+                                            try {
+                                                const { url, type } = await uploadAttachment(file)
+                                                setFormData(prev => ({ ...prev, attachment_url: url, attachment_type: type }))
+                                            } catch (err) {
+                                                alert('Upload failed. Make sure the Supabase "attachments" bucket exists.')
+                                                console.error(err)
+                                            }
+                                        }}
+                                    />
+                                </label>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 {/* RIGHT: Sidebar (4 cols) */}
@@ -727,14 +820,32 @@ export default function PostForm({ initialData }: PostFormProps) {
                                 className="w-full p-2 border rounded bg-stone-50"
                                 placeholder="e.g., Agriculture, Technology, Innovation"
                             />
-                            {formData.category && (
+                            {formData.category === 'Startups' && (
+                                <div className="mt-2 flex flex-wrap gap-1">
+                                    {['Funding', 'Launches', 'Acquisitions', 'Partnerships', 'Interviews', 'Analysis'].map(t => (
+                                        <button 
+                                            key={t}
+                                            type="button" 
+                                            onClick={() => {
+                                                const currentTags = formData.tags.split(',').map(tag => tag.trim()).filter(Boolean);
+                                                if (!currentTags.includes(t)) {
+                                                    setFormData({ ...formData, tags: [...currentTags, t].join(', ') });
+                                                }
+                                            }}
+                                            className="text-[10px] bg-stone-100 hover:bg-stone-200 text-stone-600 px-2 py-1 border border-stone-200 rounded"
+                                        >
+                                            +{t}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                            {formData.category && formData.category !== 'Startups' && (
                                 <p className="text-[10px] text-stone-400 mt-1">
                                     💡 Suggested: {
                                         formData.category === 'Jobs' ? 'Hiring, Career, Employment' :
                                         formData.category === 'Grants' ? 'Funding, Support, Grant' :
                                         formData.category === 'Warnings' ? 'Alert, Caution, Urgent' :
                                         formData.category === 'Research' ? 'Study, Science, Innovation' :
-                                        formData.category === 'Startups' ? 'Funding, Growth, Entrepreneur' :
                                         'News, Updates, Industry'
                                     }
                                 </p>

@@ -17,6 +17,7 @@ export default function MainHero({ post }: { post: Post }) {
                     priority
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 800px"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    style={{ objectPosition: 'center top' }}
                 />
 
                 {/* Dark Overlay */}

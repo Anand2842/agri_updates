@@ -50,6 +50,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import CookieConsent from "@/components/ui/CookieConsent";
+import MobileBottomNav from "@/components/layout/MobileBottomNav";
 
 export default function RootLayout({
   children,
@@ -112,10 +113,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <Suspense fallback={<div className="h-20 bg-white" />}>
           <Navbar />
         </Suspense>
-        <main className="flex-grow">
+        <main className="flex-grow pb-20 md:pb-0">
           {children}
         </main>
         <Footer />
+        <MobileBottomNav />
         <Suspense fallback={null}>
           <GoogleAnalytics GA_MEASUREMENT_ID="G-LLDWYS27VF" />
         </Suspense>

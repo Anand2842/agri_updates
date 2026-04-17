@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { Post } from '@/types/database';
 
@@ -18,23 +19,35 @@ export default function GrantsSection({ posts }: Props) {
             </h3>
 
             {/* List */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
                 {posts.slice(0, 4).map((post) => (
-                    <div key={post.id} className="newspaper-card-minimal group relative pl-3 border-l-2 border-stone-100 hover:border-amber-400 transition-colors">
-                        <Link href={`/blog/${post.slug}`} className="block">
-                            <h4 className="font-serif text-base font-bold leading-snug mb-1 group-hover:text-amber-700 transition-colors">
-                                {post.title}
-                            </h4>
-                            <p className="text-xs text-stone-500 font-serif line-clamp-2">
-                                {post.excerpt}
-                            </p>
+                    <div key={post.id} className="group relative transition-all">
+                        <Link href={`/blog/${post.slug}`} className="flex gap-4 items-start">
+                            {/* Thumbnail */}
+                            <div className="relative w-16 h-16 flex-shrink-0 bg-stone-100 rounded-lg overflow-hidden border border-stone-200">
+                                <Image
+                                    src={post.image_url || 'https://images.unsplash.com/photo-1550564880-7595d674df6b?auto=format&fit=crop&q=80'}
+                                    alt={post.title}
+                                    fill
+                                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                />
+                            </div>
+                            
+                            <div className="flex-1 min-w-0">
+                                <h4 className="font-serif text-sm font-bold leading-tight mb-1 group-hover:text-amber-700 transition-colors line-clamp-2">
+                                    {post.title}
+                                </h4>
+                                <p className="text-[11px] text-stone-500 font-serif line-clamp-1">
+                                    {post.excerpt || 'Latest funding updates and grant alerts for agriculture.'}
+                                </p>
+                            </div>
                         </Link>
                     </div>
                 ))}
             </div>
 
             {/* View All CTA */}
-            <div className="mt-6 pt-4 border-t border-stone-200">
+            <div className="mt-3 pt-3 border-t border-stone-200">
                 <Link
                     href="/updates?category=Grants"
                     className="block text-center text-[10px] font-bold uppercase tracking-widest text-amber-600 hover:text-black transition-colors"

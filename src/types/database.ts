@@ -152,6 +152,10 @@ export type Post = {
     is_active?: boolean
     tags?: string[] | null
 
+    // Warning-specific attachment (view-only, no download)
+    attachment_url?: string | null
+    attachment_type?: 'pdf' | 'ppt' | 'html' | 'video' | null
+
     // Relation
     authors?: Author | null
     policy_rules?: PolicyConfig | null
