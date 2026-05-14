@@ -46,6 +46,7 @@ If no MCP token is configured, local tools can write without a token. For shared
 ## Tools
 
 - `list_recent_posts`
+- `search_posts`
 - `get_blog_post`
 - `create_blog_draft`
 - `create_blog_from_raw_update`
@@ -53,3 +54,21 @@ If no MCP token is configured, local tools can write without a token. For shared
 - `attach_image_to_post`
 - `schedule_blog_post`
 - `publish_blog_post`
+
+## Daily Automation
+
+The repo also includes a nightly worker for Gmail-fed article production:
+
+```bash
+npm run automation:daily-agri -- --input=/path/to/feed.csv --dry-run
+```
+
+Defaults:
+
+```bash
+AGRI_FEED_GMAIL_QUERY="from:onboarding@resend.dev to:aanand.ak15@gmail.com newer_than:2d"
+AGRI_IMAGE_MODEL=gpt-image-2
+AGRI_TEXT_MODEL=gpt-5.4-mini
+```
+
+The worker accepts CSV, HTML, JSON, or stdin (`--input=-`). It deduplicates against recent Agri Updates posts, skips non-agri items, creates SEO-ready article drafts, uploads generated images when `OPENAI_API_KEY` is available, and schedules qualified posts for the next day.

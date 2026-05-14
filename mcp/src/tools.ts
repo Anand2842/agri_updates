@@ -22,6 +22,10 @@ export const createBlogDraftSchema = {
   author_name: z.string().default('Agri Updates'),
   status: z.enum(['draft', 'pending_review']).default('draft'),
   source: z.string().default('mcp'),
+  source_url: z.string().url().optional(),
+  source_name: z.string().optional(),
+  canonical_url: z.string().url().optional(),
+  dedupe_key: z.string().optional(),
 }
 
 export const createFromRawSchema = {
@@ -66,6 +70,11 @@ export const listRecentSchema = {
   limit: z.number().int().min(1).max(50).default(10),
   status: postStatusSchema.optional(),
   category: z.string().optional(),
+}
+
+export const searchPostsSchema = {
+  query: z.string().min(2),
+  limit: z.number().int().min(1).max(50).default(10),
 }
 
 export type CreateBlogDraftInput = z.infer<z.ZodObject<typeof createBlogDraftSchema>>
@@ -147,9 +156,21 @@ export async function createBlogDraft(input: CreateBlogDraftInput) {
     is_active: false,
     published_at: now,
     source: input.source,
+    source_url: input.source_url || null,
+    source_name: input.source_name || null,
+    canonical_url: input.canonical_url || input.source_url || null,
+    dedupe_key: input.dedupe_key || input.source_url || null,
   }
 
-  const { data, error } = await supabase.from('posts').insert(postData).select().single()
+  let { data, error } = await supabase.from('posts').insert(postData).select().single()
+
+  if (error && /source_url|source_name|canonical_url|dedupe_key/i.test(error.message)) {
+    const { source_url: _sourceUrl, source_name: _sourceName, canonical_url: _canonicalUrl, dedupe_key: _dedupeKey, ...compatiblePostData } = postData
+    const retry = await supabase.from('posts').insert(compatiblePostData).select().single()
+    data = retry.data
+    error = retry.error
+  }
+
   if (error) throw error
 
   return {
@@ -342,6 +363,19 @@ export async function listRecentPosts(input: z.infer<z.ZodObject<typeof listRece
   if (input.category) query = query.eq('category', input.category)
 
   const { data, error } = await query
+  if (error) throw error
+  return data || []
+}
+
+export async function searchPosts(input: z.infer<z.ZodObject<typeof searchPostsSchema>>) {
+  const term = input.query.trim()
+  const { data, error } = await supabase
+    .from('posts')
+    .select('id, title, slug, excerpt, category, image_url, tags, status, published_at, scheduled_for, created_at')
+    .or(`title.ilike.%${term}%,excerpt.ilike.%${term}%,content.ilike.%${term}%`)
+    .order('published_at', { ascending: false })
+    .limit(input.limit)
+
   if (error) throw error
   return data || []
 }

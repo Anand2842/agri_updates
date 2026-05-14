@@ -16,6 +16,8 @@ import {
   publishSchema,
   scheduleBlogPost,
   scheduleSchema,
+  searchPosts,
+  searchPostsSchema,
   textResult,
   uploadBlogImage,
   uploadImageSchema,
@@ -44,6 +46,16 @@ server.registerTool(
     inputSchema: getPostSchema,
   },
   async (input) => textResult(await getBlogPost(input)),
+)
+
+server.registerTool(
+  'search_posts',
+  {
+    title: 'Search posts',
+    description: 'Search Agri Updates posts by title, excerpt, or content for dedupe and internal linking.',
+    inputSchema: searchPostsSchema,
+  },
+  async (input) => textResult(await searchPosts(input)),
 )
 
 server.registerTool(

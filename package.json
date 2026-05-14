@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "automation:daily-agri": "tsx scripts/daily-agri-blog-agent.ts",
+    "automation:daily-agri:dry-run": "tsx scripts/daily-agri-blog-agent.ts --dry-run --input=scripts/daily-agri-blog-agent.sample.csv"
   },
   "dependencies": {
     "@radix-ui/react-slider": "^1.3.6",
