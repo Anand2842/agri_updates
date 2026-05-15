@@ -1,5 +1,7 @@
 import fs from 'node:fs/promises'
+import os from 'node:os'
 import path from 'node:path'
+import { google } from 'googleapis'
 import OpenAI from 'openai'
 import {
   createBlogDraft,
@@ -38,6 +40,7 @@ type RunResult = {
 const DEFAULT_QUERY = 'from:onboarding@resend.dev to:aanand.ak15@gmail.com newer_than:2d'
 const DEFAULT_IMAGE_MODEL = 'gpt-image-2'
 const CATEGORIES = ['Research', 'Jobs', 'Grants', 'News', 'Startups', 'Warnings', 'Conferences']
+const GMAIL_CONFIG_DIR = path.join(os.homedir(), '.gmail-mcp')
 
 function argValue(name: string) {
   const prefix = `--${name}=`
@@ -147,7 +150,7 @@ function candidateFromRecord(record: Record<string, string>): FeedCandidate | nu
   }
 }
 
-function parseCsvCandidates(text: string) {
+function parseCsvCandidates(text: string): FeedCandidate[] {
   const rows = parseCsv(text)
   if (rows.length < 2) return []
   const headers = rows[0]
@@ -158,7 +161,7 @@ function parseCsvCandidates(text: string) {
     .filter((candidate): candidate is FeedCandidate => Boolean(candidate))
 }
 
-function parseHtmlCandidates(text: string) {
+function parseHtmlCandidates(text: string): FeedCandidate[] {
   const links = Array.from(text.matchAll(/<a[^>]+href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi))
   const candidates = links.reduce<FeedCandidate[]>((items, match) => {
       const title = stripHtml(match[2])
@@ -206,6 +209,102 @@ async function readCandidatesFromInput(inputPath: string) {
   return [...parseCsvCandidates(raw), ...parseHtmlCandidates(raw)]
 }
 
+function decodeGmailBody(data?: string | null) {
+  if (!data) return ''
+  return Buffer.from(data, 'base64url').toString('utf8')
+}
+
+function collectGmailParts(part: any, parts: any[] = []) {
+  if (!part) return parts
+  parts.push(part)
+  for (const child of part.parts || []) collectGmailParts(child, parts)
+  return parts
+}
+
+async function readJsonFile<T>(filePath: string) {
+  return JSON.parse(await fs.readFile(filePath, 'utf8')) as T
+}
+
+async function createGmailClient() {
+  const oauthPath = env('GMAIL_OAUTH_PATH', path.join(GMAIL_CONFIG_DIR, 'gcp-oauth.keys.json'))!
+  const tokenPath = env('GMAIL_CREDENTIALS_PATH', path.join(GMAIL_CONFIG_DIR, 'credentials.json'))!
+  const oauth = await readJsonFile<any>(oauthPath)
+  const token = await readJsonFile<any>(tokenPath)
+  const clientConfig = oauth.installed || oauth.web
+
+  if (!clientConfig?.client_id || !clientConfig?.client_secret) {
+    throw new Error(`Invalid Gmail OAuth config at ${oauthPath}`)
+  }
+
+  const auth = new google.auth.OAuth2(
+    clientConfig.client_id,
+    clientConfig.client_secret,
+    clientConfig.redirect_uris?.[0] || 'http://localhost:3000/oauth2callback',
+  )
+  auth.setCredentials(token)
+  return google.gmail({ version: 'v1', auth })
+}
+
+async function readCandidatesFromGmail(query: string) {
+  const gmail = await createGmailClient()
+  const search = await gmail.users.messages.list({
+    userId: 'me',
+    q: query,
+    maxResults: Number(env('AGRI_GMAIL_MAX_EMAILS', '1')),
+  })
+  const messages = search.data.messages || []
+
+  if (messages.length === 0) {
+    throw new Error(`No Gmail feed emails matched query: ${query}`)
+  }
+
+  const rawFeeds: string[] = []
+
+  for (const message of messages) {
+    if (!message.id) continue
+    const detail = await gmail.users.messages.get({ userId: 'me', id: message.id, format: 'full' })
+    const parts = collectGmailParts(detail.data.payload)
+
+    for (const part of parts) {
+      const mimeType = String(part.mimeType || '').toLowerCase()
+      const filename = String(part.filename || '')
+      const isFeedLike =
+        mimeType.includes('text/html') ||
+        mimeType.includes('text/csv') ||
+        mimeType.includes('application/csv') ||
+        /\.(csv|html?)$/i.test(filename)
+
+      if (!isFeedLike) continue
+
+      if (part.body?.attachmentId) {
+        const attachment = await gmail.users.messages.attachments.get({
+          userId: 'me',
+          messageId: message.id,
+          id: part.body.attachmentId,
+        })
+        rawFeeds.push(decodeGmailBody(attachment.data.data))
+      } else {
+        rawFeeds.push(decodeGmailBody(part.body?.data))
+      }
+    }
+
+    if (rawFeeds.length === 0 && detail.data.snippet) rawFeeds.push(detail.data.snippet)
+  }
+
+  const candidates = rawFeeds.flatMap((raw) => {
+    const csvCandidates = parseCsvCandidates(raw)
+    return csvCandidates.length > 0 ? csvCandidates : parseHtmlCandidates(raw)
+  })
+
+  const seen = new Set<string>()
+  return candidates.filter((candidate) => {
+    const key = `${candidate.sourceUrl || ''}:${candidate.title}`.toLowerCase()
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+}
+
 async function readStdin() {
   const chunks: Buffer[] = []
   for await (const chunk of process.stdin) {
@@ -239,6 +338,27 @@ function duplicateReason(candidate: FeedCandidate, posts: any[]) {
     if (candidate.sourceUrl && String(post.content || '').includes(candidate.sourceUrl)) return `source URL already used by "${post.title}"`
   }
   return null
+}
+
+function similarCandidateReason(candidate: FeedCandidate, accepted: FeedCandidate[]) {
+  const candidateTokens = normalizeForSimilarity(`${candidate.title} ${candidate.summary} ${candidate.entities.join(' ')}`)
+  for (const previous of accepted) {
+    if (candidate.sourceUrl && previous.sourceUrl && candidate.sourceUrl === previous.sourceUrl) {
+      return `same source URL as "${previous.title}"`
+    }
+
+    const previousTokens = normalizeForSimilarity(`${previous.title} ${previous.summary} ${previous.entities.join(' ')}`)
+    const score = jaccard(candidateTokens, previousTokens)
+    if (score >= 0.38) return `near-duplicate of feed item "${previous.title}" (${score.toFixed(2)})`
+  }
+  return null
+}
+
+function maxPostsPerRun() {
+  const value = env('AGRI_MAX_POSTS_PER_RUN', 'all-qualified')
+  if (!value || value === 'all-qualified') return Number.POSITIVE_INFINITY
+  const parsed = Number(value)
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : Number.POSITIVE_INFINITY
 }
 
 function qualifies(candidate: FeedCandidate) {
@@ -337,23 +457,16 @@ async function generateImage(article: GeneratedArticle, openai: OpenAI | null) {
 async function main() {
   const dryRun = hasFlag('dry-run') || env('AGRI_DRY_RUN') === '1'
   const inputPath = argValue('input') || env('AGRI_FEED_INPUT_FILE')
-  const gmailQuery = env('AGRI_FEED_GMAIL_QUERY', DEFAULT_QUERY)
+  const gmailQuery = env('AGRI_FEED_GMAIL_QUERY', DEFAULT_QUERY)!
   const openaiKey = env('OPENAI_API_KEY')
   const openai = openaiKey ? new OpenAI({ apiKey: openaiKey }) : null
+  const skipImages = hasFlag('skip-images') || env('AGRI_SKIP_IMAGES') === '1' || !openai
   const result: RunResult = { processed: 0, created: [], skipped: [], failed: [], dryRun }
 
-  if (!dryRun && !openaiKey) {
-    throw new Error('OPENAI_API_KEY is required for live article rewriting and image generation. Run with --dry-run to test parsing/dedupe only.')
-  }
-
-  if (!inputPath) {
-    throw new Error(
-      `No feed input found. Save the Gmail HTML/CSV feed to a file and run --input=/path/to/feed.csv. Intended Gmail query: ${gmailQuery}`,
-    )
-  }
-
-  const candidates = await readCandidatesFromInput(inputPath)
+  const candidates = inputPath ? await readCandidatesFromInput(inputPath) : await readCandidatesFromGmail(gmailQuery)
   const recentPosts = await listRecentPosts({ limit: 50 })
+  const acceptedCandidates: FeedCandidate[] = []
+  const maxPosts = maxPostsPerRun()
   result.processed = candidates.length
 
   for (const candidate of candidates) {
@@ -369,16 +482,24 @@ async function main() {
       continue
     }
 
+    const runDupe = similarCandidateReason(candidate, acceptedCandidates)
+    if (runDupe) {
+      result.skipped.push({ title: candidate.title, reason: runDupe })
+      continue
+    }
+
     try {
       const article = await generateArticle(candidate, recentPosts, openai)
       const scheduledFor = tomorrowSchedule(result.created.length)
+      acceptedCandidates.push(candidate)
 
       if (dryRun) {
         result.created.push({ id: 'dry-run', title: article.title, scheduled_for: scheduledFor })
+        if (result.created.length >= maxPosts) break
         continue
       }
 
-      const imageBase64 = await generateImage(article, openai)
+      const imageBase64 = skipImages ? null : await generateImage(article, openai)
       const uploadedImage = imageBase64
         ? await uploadBlogImage({
             base64: imageBase64,
@@ -405,6 +526,7 @@ async function main() {
 
       const scheduled = await scheduleBlogPost({ post_id: post.id, scheduled_for: scheduledFor })
       result.created.push({ id: post.id, title: post.title, scheduled_for: String(scheduled.scheduled_for) })
+      if (result.created.length >= maxPosts) break
     } catch (error: any) {
       result.failed.push({ title: candidate.title, error: error?.message || String(error) })
     }

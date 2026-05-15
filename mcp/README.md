@@ -61,6 +61,7 @@ The repo also includes a nightly worker for Gmail-fed article production:
 
 ```bash
 npm run automation:daily-agri -- --input=/path/to/feed.csv --dry-run
+npm run automation:daily-agri -- --dry-run
 ```
 
 Defaults:
@@ -69,6 +70,8 @@ Defaults:
 AGRI_FEED_GMAIL_QUERY="from:onboarding@resend.dev to:aanand.ak15@gmail.com newer_than:2d"
 AGRI_IMAGE_MODEL=gpt-image-2
 AGRI_TEXT_MODEL=gpt-5.4-mini
+AGRI_SKIP_IMAGES=1
+AGRI_MAX_POSTS_PER_RUN=5
 ```
 
-The worker accepts CSV, HTML, JSON, or stdin (`--input=-`). It deduplicates against recent Agri Updates posts, skips non-agri items, creates SEO-ready article drafts, uploads generated images when `OPENAI_API_KEY` is available, and schedules qualified posts for the next day.
+When `--input` is omitted, the worker reads the newest matching Gmail feed through the OAuth token created by the Gmail MCP auth flow in `~/.gmail-mcp/`. It also accepts CSV, HTML, JSON, or stdin (`--input=-`). It deduplicates against recent Agri Updates posts and within the current feed, skips non-agri items, creates SEO-ready article drafts, uploads generated images when `OPENAI_API_KEY` is available, and schedules qualified posts for the next day.
