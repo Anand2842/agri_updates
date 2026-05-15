@@ -74,4 +74,4 @@ AGRI_SKIP_IMAGES=1
 AGRI_MAX_POSTS_PER_RUN=5
 ```
 
-When `--input` is omitted, the worker reads the newest matching Gmail feed through the OAuth token created by the Gmail MCP auth flow in `~/.gmail-mcp/`. It also accepts CSV, HTML, JSON, or stdin (`--input=-`). It deduplicates against recent Agri Updates posts and within the current feed, skips non-agri items, creates SEO-ready article drafts, uploads generated images when `OPENAI_API_KEY` is available, and schedules qualified posts for the next day.
+When `--input` is omitted, the worker reads the newest matching Gmail feed through the OAuth token created by the Gmail MCP auth flow in `~/.gmail-mcp/`. It also accepts CSV, HTML, JSON, or stdin (`--input=-`). It deduplicates against recent Agri Updates posts and within the current feed, fetches the source page for each candidate, skips items that do not have enough source context for a full article, creates SEO-ready article drafts, uploads generated images when `OPENAI_API_KEY` is available, and schedules qualified posts for the next day. Writing rules live in `skills/agri-blog-writer/SKILL.md` and can be edited or extended with more local skills.

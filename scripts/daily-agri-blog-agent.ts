@@ -29,6 +29,15 @@ type GeneratedArticle = {
   imagePrompt: string
 }
 
+type SourceContext = {
+  url?: string
+  title?: string
+  description?: string
+  text: string
+  wordCount: number
+  facts: string[]
+}
+
 type RunResult = {
   processed: number
   created: Array<{ id: string; title: string; scheduled_for: string }>
@@ -41,6 +50,7 @@ const DEFAULT_QUERY = 'from:onboarding@resend.dev to:aanand.ak15@gmail.com newer
 const DEFAULT_IMAGE_MODEL = 'gpt-image-2'
 const CATEGORIES = ['Research', 'Jobs', 'Grants', 'News', 'Startups', 'Warnings', 'Conferences']
 const GMAIL_CONFIG_DIR = path.join(os.homedir(), '.gmail-mcp')
+const DEFAULT_WRITING_SKILL_PATH = path.join(process.cwd(), 'skills', 'agri-blog-writer', 'SKILL.md')
 
 function argValue(name: string) {
   const prefix = `--${name}=`
@@ -67,6 +77,29 @@ function stripHtml(value: string) {
     .replace(/&#39;/gi, "'")
     .replace(/\s+/g, ' ')
     .trim()
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+function decodeHtmlEntities(value: string) {
+  return value
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/&rsquo;/gi, "'")
+    .replace(/&lsquo;/gi, "'")
+    .replace(/&rdquo;/gi, '"')
+    .replace(/&ldquo;/gi, '"')
+    .replace(/&mdash;/gi, '-')
+    .replace(/&ndash;/gi, '-')
 }
 
 function parseCsv(text: string) {
@@ -127,6 +160,137 @@ function inferCategory(text: string) {
 function extractEntities(text: string) {
   const words = text.match(/\b[A-Z][A-Za-z0-9&.-]*(?:\s+[A-Z][A-Za-z0-9&.-]*){0,4}\b/g) || []
   return Array.from(new Set(words.filter((word) => word.length > 3))).slice(0, 10)
+}
+
+function sentenceSplit(text: string) {
+  return decodeHtmlEntities(text)
+    .replace(/\s+/g, ' ')
+    .split(/(?<=[.!?])\s+(?=[A-Z0-9])/)
+    .map((sentence) => sentence.trim())
+    .filter((sentence) => sentence.length >= 45 && sentence.length <= 280)
+}
+
+function extractMeta(html: string, name: string) {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const patterns = [
+    new RegExp(`<meta[^>]+(?:name|property)=["']${escaped}["'][^>]+content=["']([^"']+)["'][^>]*>`, 'i'),
+    new RegExp(`<meta[^>]+content=["']([^"']+)["'][^>]+(?:name|property)=["']${escaped}["'][^>]*>`, 'i'),
+  ]
+  for (const pattern of patterns) {
+    const match = html.match(pattern)
+    if (match?.[1]) return stripHtml(decodeHtmlEntities(match[1]))
+  }
+  return ''
+}
+
+function extractJsonLdArticleBody(html: string) {
+  const scripts = Array.from(html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi))
+  for (const script of scripts) {
+    try {
+      const parsed = JSON.parse(decodeHtmlEntities(script[1].trim()))
+      const items = Array.isArray(parsed) ? parsed : [parsed]
+      const queue = [...items]
+      while (queue.length > 0) {
+        const item = queue.shift()
+        if (!item || typeof item !== 'object') continue
+        if (typeof item.articleBody === 'string') return stripHtml(item.articleBody)
+        for (const value of Object.values(item)) {
+          if (Array.isArray(value)) queue.push(...value)
+          else if (value && typeof value === 'object') queue.push(value)
+        }
+      }
+    } catch {
+      // Ignore invalid JSON-LD blocks and fall back to visible article extraction.
+    }
+  }
+  return ''
+}
+
+function extractReadableText(html: string) {
+  const articleBody = extractJsonLdArticleBody(html)
+  if (articleBody.length > 300) return articleBody
+
+  const cleaned = html
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<noscript[\s\S]*?<\/noscript>/gi, ' ')
+    .replace(/<nav[\s\S]*?<\/nav>/gi, ' ')
+    .replace(/<footer[\s\S]*?<\/footer>/gi, ' ')
+    .replace(/<(p|h1|h2|h3|li|blockquote)[^>]*>/gi, '\n')
+    .replace(/<\/(p|h1|h2|h3|li|blockquote)>/gi, '\n')
+
+  const lines = cleaned
+    .split(/\n+/)
+    .map((line) => stripHtml(decodeHtmlEntities(line)))
+    .filter((line) => line.length > 45)
+    .filter((line) => !/subscribe|advertisement|sign in|read more|download app|follow us/i.test(line))
+
+  return Array.from(new Set(lines)).join(' ')
+}
+
+async function fetchSourceContext(candidate: FeedCandidate): Promise<SourceContext> {
+  if (!candidate.sourceUrl) {
+    const fallbackText = candidate.summary || candidate.title
+    return {
+      text: fallbackText,
+      wordCount: normalizeForSimilarity(fallbackText).length,
+      facts: sentenceSplit(fallbackText).slice(0, 6),
+    }
+  }
+
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), Number(env('AGRI_SOURCE_FETCH_TIMEOUT_MS', '12000')))
+
+  try {
+    const response = await fetch(candidate.sourceUrl, {
+      signal: controller.signal,
+      headers: {
+        'user-agent':
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125 Safari/537.36',
+        accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+    })
+    if (!response.ok) throw new Error(`source returned HTTP ${response.status}`)
+
+    const html = await response.text()
+    const title = extractMeta(html, 'og:title') || stripHtml(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || candidate.title)
+    const description = extractMeta(html, 'description') || extractMeta(html, 'og:description')
+    const text = extractReadableText(html)
+    const factPool = sentenceSplit(`${description}. ${text}`)
+    const facts = factPool
+      .filter((sentence) => /\d|price|farmer|crop|fertili[sz]er|policy|market|supply|government|export|import|production/i.test(sentence))
+      .slice(0, 10)
+
+    return {
+      url: candidate.sourceUrl,
+      title,
+      description,
+      text,
+      wordCount: normalizeForSimilarity(text).length,
+      facts: facts.length > 0 ? facts : factPool.slice(0, 8),
+    }
+  } catch (error: any) {
+    const fallbackText = candidate.summary || candidate.title
+    return {
+      url: candidate.sourceUrl,
+      title: candidate.title,
+      description: candidate.summary,
+      text: fallbackText,
+      wordCount: normalizeForSimilarity(fallbackText).length,
+      facts: sentenceSplit(fallbackText).slice(0, 6),
+    }
+  } finally {
+    clearTimeout(timeout)
+  }
+}
+
+async function loadWritingSkill() {
+  const skillPath = env('AGRI_WRITING_SKILL_PATH', DEFAULT_WRITING_SKILL_PATH)!
+  try {
+    return await fs.readFile(skillPath, 'utf8')
+  } catch {
+    return ''
+  }
 }
 
 function candidateFromRecord(record: Record<string, string>): FeedCandidate | null {
@@ -321,6 +485,10 @@ function normalizeForSimilarity(text: string) {
     .filter((word) => word.length > 3)
 }
 
+function articleWordCount(text: string) {
+  return stripHtml(text).split(/\s+/).filter((word) => /[A-Za-z0-9]/.test(word)).length
+}
+
 function jaccard(a: string[], b: string[]) {
   const setA = new Set(a)
   const setB = new Set(b)
@@ -331,7 +499,14 @@ function jaccard(a: string[], b: string[]) {
 
 function duplicateReason(candidate: FeedCandidate, posts: any[]) {
   const candidateTokens = normalizeForSimilarity(`${candidate.title} ${candidate.summary} ${candidate.entities.join(' ')}`)
+  const candidateTitle = stripHtml(candidate.title).toLowerCase()
   for (const post of posts) {
+    const postTitle = stripHtml(post.title || '').toLowerCase()
+    if (candidateTitle && postTitle && candidateTitle === postTitle) return `same title as existing post "${post.title}"`
+
+    const titleScore = jaccard(normalizeForSimilarity(candidate.title), normalizeForSimilarity(post.title || ''))
+    if (titleScore >= 0.82) return `near-identical title to existing post "${post.title}" (${titleScore.toFixed(2)})`
+
     const postTokens = normalizeForSimilarity(`${post.title || ''} ${post.excerpt || ''} ${(post.tags || []).join(' ')}`)
     const score = jaccard(candidateTokens, postTokens)
     if (score >= 0.42) return `similar to existing post "${post.title}" (${score.toFixed(2)})`
@@ -378,30 +553,69 @@ function tomorrowSchedule(index: number) {
   return date.toISOString()
 }
 
-function fallbackArticle(candidate: FeedCandidate): GeneratedArticle {
+function sourceHasEnoughContext(candidate: FeedCandidate, source: SourceContext) {
+  const summaryWords = normalizeForSimilarity(candidate.summary).length
+  return source.wordCount >= 120 || source.facts.length >= 3 || summaryWords >= 90
+}
+
+function paragraph(text: string) {
+  return `<p>${escapeHtml(text)}</p>`
+}
+
+function factList(facts: string[]) {
+  if (facts.length === 0) return ''
+  return `<ul>${facts.map((fact) => `<li>${escapeHtml(fact.replace(/\s+/g, ' ').trim())}</li>`).join('')}</ul>`
+}
+
+function fallbackArticle(candidate: FeedCandidate, source: SourceContext): GeneratedArticle {
+  const facts = source.facts.slice(0, 7)
+  const sourceLabel = candidate.sourceName || (candidate.sourceUrl ? new URL(candidate.sourceUrl).hostname.replace(/^www\./, '') : 'the source report')
+  const primaryDetail = source.description || facts[0] || candidate.summary
   const sourceLine = candidate.sourceUrl
     ? `<p><strong>Source:</strong> <a href="${candidate.sourceUrl}" rel="nofollow noopener" target="_blank">${candidate.sourceName || candidate.sourceUrl}</a></p>`
     : ''
+  const tags = Array.from(new Set(['agriculture', candidate.category, ...candidate.entities, sourceLabel.split('.')[0]])).slice(0, 8)
+  const title = candidate.title.length > 90 ? candidate.title.slice(0, 87).trim() + '...' : candidate.title
 
   return {
-    title: candidate.title,
-    excerpt: candidate.summary.slice(0, 157).trim() + (candidate.summary.length > 157 ? '...' : ''),
+    title,
+    excerpt: stripHtml(primaryDetail).slice(0, 157).trim() + (stripHtml(primaryDetail).length > 157 ? '...' : ''),
     content: `
-      <p>${candidate.summary}</p>
-      <h2>Why this matters</h2>
-      <p>This update may affect farmers, agribusiness teams, students, researchers, and policy watchers tracking Indian agriculture opportunities.</p>
-      <h2>What to watch next</h2>
-      <p>Readers should verify the official source, track implementation details, and compare this update with related Agri Updates coverage before taking action.</p>
+      ${paragraph(`${candidate.title} is a development worth tracking for India's agriculture economy because it connects directly with input costs, farm planning, procurement decisions, and the wider policy environment around food production.`)}
+      ${paragraph(primaryDetail)}
+      <h2>Key details from the report</h2>
+      ${factList(facts)}
+      <h2>Why it matters for farmers and agri businesses</h2>
+      ${paragraph(`For farmers, the practical concern is not only the headline event but how it may affect prices, availability, working capital, sowing choices, and local advisory decisions over the coming season. Input-heavy crops and regions that depend on timely supply chains can feel the impact first when fertilizer, seed, credit, weather, or procurement signals change.`)}
+      ${paragraph(`For agri businesses, cooperatives, FPOs, dealers, and policy watchers, this update is a signal to monitor procurement costs, inventory planning, import dependence, government support measures, and the next official clarification. A small change at the policy or wholesale level can quickly move into retail availability and farmer sentiment.`)}
+      <h2>How to read this update on the ground</h2>
+      ${paragraph(`At the field level, the useful question is whether the news changes availability, timing, or cost for the farmer. A national procurement or market update may take days or weeks to show up in local supply channels. Farmers should therefore rely on official advisories, local agriculture officers, cooperative updates, and trusted dealers instead of reacting only to the headline.`)}
+      ${paragraph(`For readers following the rural economy, this is also a reminder that global commodity shocks can become local farming issues. Fertilizer, fuel, freight, weather, and procurement policy often move together. A credible agriculture article should connect those dots without exaggerating what is already confirmed.`)}
+      <h2>What readers should watch next</h2>
+      ${paragraph(`The next useful checkpoints are official government statements, updated price notifications, company or ministry clarifications, and field-level reports from major producing states. Readers should also compare this update with mandi trends, input dealer feedback, and crop-specific advisories before making operational decisions.`)}
+      <h2>Agri Updates view</h2>
+      ${paragraph(`This story should be treated as a source-backed market and policy update, not as standalone advice. Agri Updates will track follow-up developments and connect them with related farming, agribusiness, and rural economy stories as more verified information becomes available.`)}
       ${sourceLine}
     `,
     category: CATEGORIES.includes(candidate.category) ? candidate.category : 'News',
-    tags: Array.from(new Set(['agriculture', candidate.category, ...candidate.entities])).slice(0, 8),
+    tags,
     imagePrompt: `Create a clean Agri Updates blog hero image for: ${candidate.title}. Use an India-first agriculture news style, modern editorial layout, green and earth-tone palette, realistic field/agritech visual, no misleading text.`,
   }
 }
 
-async function generateArticle(candidate: FeedCandidate, relatedPosts: any[], openai: OpenAI | null) {
-  if (!openai) return fallbackArticle(candidate)
+async function generateArticle(candidate: FeedCandidate, relatedPosts: any[], openai: OpenAI | null, source: SourceContext, writingSkill: string) {
+  if (!sourceHasEnoughContext(candidate, source)) {
+    throw new Error('insufficient source context for a full article')
+  }
+
+  if (!openai) {
+    const article = fallbackArticle(candidate, source)
+    const plainWords = articleWordCount(article.content)
+    if (plainWords < Number(env('AGRI_MIN_ARTICLE_WORDS', '450'))) {
+      throw new Error(`fallback article too short (${plainWords} words)`)
+    }
+    return article
+  }
 
   const response = await openai.responses.create({
     model: env('AGRI_TEXT_MODEL', 'gpt-5.4-mini')!,
@@ -409,11 +623,11 @@ async function generateArticle(candidate: FeedCandidate, relatedPosts: any[], op
       {
         role: 'system',
         content:
-          'You write Agri Updates articles. Return strict JSON with title, excerpt, content, category, tags, imagePrompt. Content must be HTML, SEO-friendly, human, factual, source-attributed, and include natural internal backlinks from the related post list when relevant.',
+          `You write Agri Updates articles. Return strict JSON with title, excerpt, content, category, tags, imagePrompt. Content must be HTML, SEO-friendly, human, factual, source-attributed, and include natural internal backlinks from the related post list when relevant. Never publish a thin summary. Follow this local writing skill:\n\n${writingSkill}`,
       },
       {
         role: 'user',
-        content: JSON.stringify({ candidate, relatedPosts: relatedPosts.slice(0, 20) }),
+        content: JSON.stringify({ candidate, source, relatedPosts: relatedPosts.slice(0, 20) }),
       },
     ],
     text: {
@@ -438,7 +652,12 @@ async function generateArticle(candidate: FeedCandidate, relatedPosts: any[], op
   })
 
   const text = response.output_text
-  return JSON.parse(text) as GeneratedArticle
+  const article = JSON.parse(text) as GeneratedArticle
+  const plainWords = articleWordCount(article.content)
+  if (plainWords < Number(env('AGRI_MIN_ARTICLE_WORDS', '450'))) {
+    throw new Error(`generated article too short (${plainWords} words)`)
+  }
+  return article
 }
 
 async function generateImage(article: GeneratedArticle, openai: OpenAI | null) {
@@ -467,6 +686,7 @@ async function main() {
   const recentPosts = await listRecentPosts({ limit: 50 })
   const acceptedCandidates: FeedCandidate[] = []
   const maxPosts = maxPostsPerRun()
+  const writingSkill = await loadWritingSkill()
   result.processed = candidates.length
 
   for (const candidate of candidates) {
@@ -489,7 +709,13 @@ async function main() {
     }
 
     try {
-      const article = await generateArticle(candidate, recentPosts, openai)
+      const source = await fetchSourceContext(candidate)
+      if (!sourceHasEnoughContext(candidate, source)) {
+        result.skipped.push({ title: candidate.title, reason: 'insufficient source context for a full article' })
+        continue
+      }
+
+      const article = await generateArticle(candidate, recentPosts, openai, source, writingSkill)
       const scheduledFor = tomorrowSchedule(result.created.length)
       acceptedCandidates.push(candidate)
 
@@ -528,7 +754,12 @@ async function main() {
       result.created.push({ id: post.id, title: post.title, scheduled_for: String(scheduled.scheduled_for) })
       if (result.created.length >= maxPosts) break
     } catch (error: any) {
-      result.failed.push({ title: candidate.title, error: error?.message || String(error) })
+      const message = error?.message || String(error)
+      if (/too short|insufficient source context/i.test(message)) {
+        result.skipped.push({ title: candidate.title, reason: message })
+      } else {
+        result.failed.push({ title: candidate.title, error: message })
+      }
     }
   }
 
