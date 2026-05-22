@@ -42,3 +42,5 @@ next-env.d.ts
 .wwebjs_auth/
 logs/
 .env*.local
+mcp/node_modules/
+mcp/.env*
