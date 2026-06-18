@@ -1,26 +1,65 @@
 'use client';
 
 import Link from 'next/link';
-import { Twitter, Linkedin, Facebook, ChevronDown } from 'lucide-react';
-import { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { ChevronDown, Linkedin, Twitter } from 'lucide-react';
 import { getAllHubs } from '@/lib/hubs';
+import { PublicCategoryDescriptor, getCategoryAccentClasses } from '@/lib/public-categories';
 
-export default function Footer() {
+type FooterProps = {
+    categories: PublicCategoryDescriptor[];
+}
+
+function AccordionItem({
+    title,
+    children,
+    id,
+    isOpen,
+    onToggle,
+}: {
+    title: string
+    children: React.ReactNode
+    id: string
+    isOpen: boolean
+    onToggle: (id: string) => void
+}) {
+    return (
+        <div className="border-b border-stone-200 md:border-none">
+            <button
+                onClick={() => onToggle(id)}
+                className="flex w-full items-center justify-between py-4 md:cursor-default md:py-0"
+            >
+                <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-700 md:mb-5">{title}</h4>
+                <ChevronDown className={`h-4 w-4 text-stone-400 transition-transform md:hidden ${isOpen ? 'rotate-180' : ''}`} />
+            </button>
+            <div className={`overflow-hidden transition-all duration-300 md:h-auto ${isOpen ? 'max-h-96 pb-4 opacity-100' : 'max-h-0 opacity-0 md:max-h-none md:opacity-100'}`}>
+                {children}
+            </div>
+        </div>
+    )
+}
+
+export default function Footer({ categories }: FooterProps) {
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [message, setMessage] = useState('');
     const [privacyAccepted, setPrivacyAccepted] = useState(false);
-
-    // Mobile Accordion State
     const [openSection, setOpenSection] = useState<string | null>(null);
 
-    const toggleSection = (section: string) => {
-        setOpenSection(openSection === section ? null : section);
-    };
+    const pathname = usePathname();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    if (
+        pathname?.startsWith('/admin') ||
+        pathname?.startsWith('/login') ||
+        pathname?.startsWith('/signup') ||
+        pathname?.startsWith('/forgot-password')
+    ) {
+        return null;
+    }
+
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
 
         if (!email.trim()) {
             setStatus('error');
@@ -60,154 +99,114 @@ export default function Footer() {
             setMessage('Network error. Please try again.');
         }
     };
-    const pathname = usePathname();
-
-    // Hide Footer on Admin, Auth, and Article pages
-    if (
-        pathname?.startsWith('/admin') || 
-        pathname?.startsWith('/login') || 
-        pathname?.startsWith('/signup') || 
-        pathname?.startsWith('/forgot-password')
-    ) {
-        return null;
-    }
-
-    const AccordionItem = ({ title, children, id }: { title: string, children: React.ReactNode, id: string }) => (
-        <div className="border-b border-stone-100 md:border-none">
-            <button
-                onClick={() => toggleSection(id)}
-                className="flex items-center justify-between w-full py-4 md:py-0 md:cursor-default"
-            >
-                <h4 className="font-bold uppercase text-xs tracking-widest text-stone-900 md:mb-6">{title}</h4>
-                <ChevronDown className={`w-4 h-4 text-stone-400 transition-transform md:hidden ${openSection === id ? 'rotate-180' : ''}`} />
-            </button>
-            <div className={`overflow-hidden transition-all duration-300 md:h-auto ${openSection === id ? 'max-h-96 opacity-100 mb-4' : 'max-h-0 opacity-0 md:opacity-100 md:max-h-none'}`}>
-                {children}
-            </div>
-        </div>
-    );
 
     return (
-        <footer className="bg-white border-t-2 border-black mt-16 pt-12 pb-8 w-full overflow-x-hidden">
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-16">
-                    {/* 1. Brand Block (Always Visible) */}
-                    <div className="col-span-1 md:col-span-1 border-b border-stone-100 md:border-none pb-8 md:pb-0">
-                        <h3 className="font-serif text-2xl font-bold mb-4">AGRI UPDATES</h3>
-                        <p className="text-stone-500 text-sm leading-relaxed mb-6">
-                            Agri Updates is an innovation news platform connecting startups, funding updates, case studies, and artificial intelligence in the agricultural sector.
+        <footer className="mt-20 border-t border-stone-200 bg-[var(--color-paper-elevated)]">
+            <div className="editorial-shell py-12 md:py-16">
+                <div className="mb-10 grid gap-10 border-b border-stone-200 pb-10 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
+                    <div>
+                        <p className="eyebrow-label mb-4">Agri Updates</p>
+                        <h3 className="max-w-sm text-3xl font-semibold text-[var(--color-graphite)]">International agriculture coverage with regional relevance.</h3>
+                        <p className="mt-4 max-w-md text-sm leading-7 text-stone-600">
+                            Follow policy moves, research pipelines, funding signals, startup momentum, hiring, and urgent field notices from one editorial desk.
                         </p>
-                        {/* Desktop Socials */}
-                        <div className="hidden md:flex gap-4">
-                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 bg-stone-200 hover:bg-black hover:text-white transition-colors"><Facebook className="w-4 h-4" /></a>
-                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="p-2 bg-stone-200 hover:bg-black hover:text-white transition-colors"><Twitter className="w-4 h-4" /></a>
-                            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 bg-stone-200 hover:bg-black hover:text-white transition-colors"><Linkedin className="w-4 h-4" /></a>
+                        <div className="mt-6 flex gap-3">
+                            <a href="https://twitter.com/AgriUpdates" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="rounded-full border border-stone-300 p-2 text-stone-600 transition-colors hover:border-stone-500 hover:text-black"><Twitter className="h-4 w-4" /></a>
+                            <a href="https://linkedin.com/company/agriupdates" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="rounded-full border border-stone-300 p-2 text-stone-600 transition-colors hover:border-stone-500 hover:text-black"><Linkedin className="h-4 w-4" /></a>
                         </div>
                     </div>
 
-                    {/* 2. About Us */}
-                    <div className="md:col-span-1">
-                        <AccordionItem title="About Us" id="about">
-                            <ul className="space-y-3 text-sm text-stone-500">
-                                <li><Link href="/about" className="hover:text-black py-1 block">Our Story</Link></li>
-                                <li><Link href="/contact" className="hover:text-black py-1 block">Contact</Link></li>
-                                <li><Link href="/disclaimer" className="hover:text-black py-1 block">Disclaimer</Link></li>
+                    <div>
+                        <AccordionItem title="Navigate" id="navigate" isOpen={openSection === 'navigate'} onToggle={(id) => setOpenSection(openSection === id ? null : id)}>
+                            <ul className="space-y-3 text-sm text-stone-600">
+                                <li><Link href="/updates" className="transition-colors hover:text-black">All Updates</Link></li>
+                                <li><Link href="/about" className="transition-colors hover:text-black">About</Link></li>
+                                <li><Link href="/contact" className="transition-colors hover:text-black">Contact</Link></li>
+                                <li><Link href="/disclaimer" className="transition-colors hover:text-black">Disclaimer</Link></li>
                             </ul>
                         </AccordionItem>
                     </div>
 
-                    {/* 3. Categories */}
-                    <div className="md:col-span-1">
-                        <AccordionItem title="Categories" id="categories">
-                            <ul className="space-y-3 text-sm text-stone-500">
-                                <li><Link href="/jobs" className="hover:text-black py-1 block">Jobs</Link></li>
-                                <li><Link href="/updates?category=Grants" className="hover:text-black py-1 block">Grants & Funding</Link></li>
-                                <li><Link href="/startups" className="hover:text-black py-1 block">Startups</Link></li>
-                                <li><Link href="/updates?category=Warnings" className="hover:text-black py-1 block">Warnings</Link></li>
-                                <li><Link href="/blog" className="hover:text-black py-1 block">Blog</Link></li>
-                            </ul>
+                    <div>
+                        <AccordionItem title="Coverage" id="coverage" isOpen={openSection === 'coverage'} onToggle={(id) => setOpenSection(openSection === id ? null : id)}>
+                            <div className="flex flex-col gap-3">
+                                {categories.map((category) => {
+                                    const accent = getCategoryAccentClasses(category.accent);
+                                    return (
+                                        <Link
+                                            key={category.href}
+                                            href={category.href}
+                                            className={`rounded-2xl border px-3 py-3 transition-colors hover:border-stone-400 ${accent.panel}`}
+                                        >
+                                            <div className="mb-1 flex items-center justify-between">
+                                                <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] ${accent.chip}`}>
+                                                    {category.label}
+                                                </span>
+                                            </div>
+                                            <p className="text-xs leading-5 text-stone-600">{category.description}</p>
+                                        </Link>
+                                    );
+                                })}
+                            </div>
                         </AccordionItem>
                     </div>
 
-                    {/* 4. Collections */}
-                    <div className="md:col-span-1">
-                        <AccordionItem title="Job Collections" id="collections">
-                            <ul className="space-y-3 text-sm text-stone-500">
-                                {getAllHubs().slice(0, 5).map(hub => (
+                    <div>
+                        <AccordionItem title="Job Collections" id="collections" isOpen={openSection === 'collections'} onToggle={(id) => setOpenSection(openSection === id ? null : id)}>
+                            <ul className="space-y-3 text-sm text-stone-600">
+                                {getAllHubs().slice(0, 5).map((hub) => (
                                     <li key={hub.slug}>
-                                        <Link href={`/${hub.slug}`} className="hover:text-black py-1 block">
+                                        <Link href={`/${hub.slug}`} className="transition-colors hover:text-black">
                                             {hub.title.split(' - ')[0]}
                                         </Link>
                                     </li>
                                 ))}
-                                <li><Link href="/jobs" className="font-bold text-agri-green hover:underline py-1 block">View All Jobs</Link></li>
+                                <li><Link href="/jobs" className="font-semibold text-[var(--color-forest)] transition-colors hover:text-black">View All Jobs</Link></li>
                             </ul>
                         </AccordionItem>
                     </div>
+                </div>
 
-                    {/* 5. Subscribe (Always Visible on Desktop, Accordion on Mobile?) -> Keep visible or compact on mobile? 
-                       Playbook says "Footer stacks into an endless link dump." 
-                       Let's keep Subscribe visible as it's separate from links.
-                    */}
-                    <div className="pt-8 md:pt-0">
-                        <h4 className="font-bold uppercase text-xs tracking-widest mb-6 text-stone-900">Subscribe</h4>
-                        <p className="text-stone-500 text-sm mb-4">Get the latest updates delivered to your inbox.</p>
-                        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+                <div className="grid gap-8 md:grid-cols-[1.2fr_auto] md:items-end">
+                    <div>
+                        <p className="eyebrow-label mb-3">Newsletter</p>
+                        <h4 className="text-2xl font-semibold text-[var(--color-graphite)]">Get the daily agriculture briefing.</h4>
+                        <p className="mt-3 max-w-xl text-sm leading-7 text-stone-600">
+                            A concise digest of jobs, research, capital, startups, and urgent warnings.
+                        </p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="grid gap-3 md:min-w-[360px]">
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                            placeholder="Email address"
+                            className="rounded-full border border-stone-300 bg-white px-4 py-3 text-sm text-stone-800 outline-none transition-colors placeholder:text-stone-400 focus:border-stone-500"
+                            disabled={status === 'loading'}
+                        />
+                        <button
+                            type="submit"
+                            disabled={status === 'loading'}
+                            className="rounded-full bg-[var(--color-forest)] px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-white transition-colors hover:bg-[var(--color-graphite)] disabled:opacity-50"
+                        >
+                            {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
+                        </button>
+                        <label className="flex items-start gap-2 text-xs leading-5 text-stone-500">
                             <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Email address"
-                                className="w-full px-4 py-2 border border-stone-300 focus:outline-none focus:border-agri-green text-sm rounded"
-                                disabled={status === 'loading'}
+                                type="checkbox"
+                                checked={privacyAccepted}
+                                onChange={(event) => setPrivacyAccepted(event.target.checked)}
+                                className="mt-1"
                             />
-                            <button
-                                type="submit"
-                                disabled={status === 'loading'}
-                                className="bg-agri-green text-white px-4 py-2.5 text-xs font-bold uppercase hover:bg-agri-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed rounded shadow-sm"
-                            >
-                                {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
-                            </button>
-                        </form>
-
+                            <span>I agree to the privacy policy and want editorial updates by email.</span>
+                        </label>
                         {message && (
-                            <p className={`text-xs mt-2 ${status === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                            <p className={`text-xs ${status === 'success' ? 'text-emerald-700' : 'text-rose-700'}`}>
                                 {message}
                             </p>
                         )}
-
-                        <p className="text-xs text-stone-400 mt-4 flex items-start leading-relaxed">
-                            <input
-                                type="checkbox"
-                                className="mr-2 mt-0.5 accent-agri-green flex-shrink-0"
-                                checked={privacyAccepted}
-                                onChange={(e) => setPrivacyAccepted(e.target.checked)}
-                            />
-                            <span>
-                                I have read and accept the{' '}
-                                <Link href="/privacy" className="text-agri-green hover:underline">Privacy Policy</Link>.
-                            </span>
-                        </p>
-                    </div>
-                </div>
-
-                {/* Mobile Socials & Copyright - Centered */}
-                <div className="border-t border-stone-200 pt-12 flex flex-col md:flex-row justify-between items-center gap-8">
-                    {/* Mobile Socials (Big Tap Targets) */}
-                    <div className="flex gap-8 md:hidden">
-                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-3 bg-stone-100 rounded-full hover:bg-agri-green hover:text-white transition-colors"><Facebook className="w-6 h-6" /></a>
-                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-3 bg-stone-100 rounded-full hover:bg-agri-green hover:text-white transition-colors"><Twitter className="w-6 h-6" /></a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-3 bg-stone-100 rounded-full hover:bg-agri-green hover:text-white transition-colors"><Linkedin className="w-6 h-6" /></a>
-                    </div>
-
-                    <p className="text-xs text-stone-400 uppercase tracking-wider text-center md:text-left order-2 md:order-1">
-                        © {new Date().getFullYear()} Agri Updates. All rights reserved.
-                    </p>
-
-                    <div className="flex gap-6 mt-0 md:mt-0 order-3 md:order-2">
-                        <Link href="/privacy" className="text-xs text-stone-400 hover:text-black uppercase tracking-wider">Privacy Policy</Link>
-                        <Link href="/terms" className="text-xs text-stone-400 hover:text-black uppercase tracking-wider">Terms</Link>
-                    </div>
+                    </form>
                 </div>
             </div>
         </footer>

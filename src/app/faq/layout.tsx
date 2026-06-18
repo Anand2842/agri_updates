@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'FAQs | Agri Updates',
         description: 'Expert answers to your top questions on agriculture, farming, and market trends.',
-        url: 'https://agriupdates.com/faq',
+        url: 'https://www.agriupdates.online/faq',
         type: 'website',
     }
 };

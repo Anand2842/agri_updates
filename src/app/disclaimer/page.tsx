@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Disclaimer | Agri Updates',
     description: 'Important disclaimers for job postings, career advice, and information on Agri Updates. Please read carefully before using our services.',
+    alternates: {
+        canonical: '/disclaimer',
+    },
 };
 
 export default function DisclaimerPage() {
@@ -118,7 +121,7 @@ export default function DisclaimerPage() {
                     </p>
                     <div className="bg-stone-50 p-6 mt-4">
                         <p className="font-bold">Agri Updates</p>
-                        <p>Email: disclaimer@agriupdates.com</p>
+                        <p>Email: disclaimer@agriupdates.online</p>
                         <p>Phone: +1 (555) 123-4567</p>
                         <p>Address: 123 Innovation Drive, Agriculture Valley, CA 94043</p>
                     </div>

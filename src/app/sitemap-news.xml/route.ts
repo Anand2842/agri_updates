@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase';
 export const revalidate = 3600; // Cache for 1 hour
 
 export async function GET() {
-    const baseUrl = 'https://agriupdates.com';
+    const baseUrl = 'https://www.agriupdates.online';
 
     // Google News sitemaps should only contain articles from the last 2 days
     const twoDaysAgo = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();

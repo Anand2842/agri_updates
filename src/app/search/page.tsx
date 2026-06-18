@@ -7,6 +7,9 @@ import Image from 'next/image';
 export const metadata: Metadata = {
     title: 'Search | Agri Updates',
     description: 'Search for jobs, companies, and agricultural content on Agri Updates.',
+    alternates: {
+        canonical: '/search',
+    },
 };
 
 const MOCK_JOBS: Job[] = [

@@ -6,7 +6,7 @@ import AdBanner from '@/components/ads/AdBanner';
 import JobsGrid from '@/components/jobs/JobsGrid';
 import JobsFilterDrawer from '@/components/jobs/JobsFilterDrawer';
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 interface JobsPageProps {
     searchParams: Promise<{ type?: string; location?: string; q?: string; page?: string }>;
@@ -80,6 +80,9 @@ export async function generateMetadata({ searchParams }: JobsPageProps): Promise
     return {
         title: title,
         description: description,
+        alternates: {
+            canonical: '/jobs',
+        },
         openGraph: {
             title: `${title} | Agri Updates`,
             description: description,
@@ -101,10 +104,10 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
     const displayedJobs = jobs; // Already paginated by DB
 
     return (
-        <div className="bg-white min-h-screen pb-20">
+        <div className="bg-stone-50 min-h-screen pb-20">
             {/* Compact Title Bar */}
             <div className="bg-white border-b border-stone-200 py-4 mb-8">
-                <div className="container mx-auto px-4 flex items-center justify-between">
+                <div className="editorial-shell flex items-center justify-between">
                     <div>
                         <h1 className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-1">
                             Agriculture Job Openings
@@ -117,13 +120,13 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4">
+            <div className="editorial-shell">
                 <div className="flex flex-col md:flex-row gap-8">
                     {/* Sidebar Wrapped in Mobile Drawer */}
                     <JobsFilterDrawer>
                         <div className="sticky top-24 space-y-8">
                             {/* Search */}
-                            <div className="bg-white p-5 border border-stone-200 rounded-xl shadow-sm">
+                            <div className="paper-panel p-5 shadow-sm">
                                 <h3 className="font-bold uppercase text-xs tracking-widest text-stone-900 mb-4 flex items-center gap-2">
                                     <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                     Search Jobs
@@ -156,7 +159,7 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                             </div>
 
                             {/* Filters */}
-                            <div>
+                            <div className="paper-panel p-5 shadow-sm">
                                 <h3 className="font-bold uppercase text-xs tracking-widest text-stone-900 mb-4 px-1">Filter By Type</h3>
                                 <div className="space-y-2 text-sm text-stone-600 px-1">
                                 <Link
@@ -230,7 +233,7 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                                 {page > 1 && (
                                     <Link
                                         href={`/jobs?page=${page - 1}${typeFilter ? `&type=${typeFilter}` : ''}${locationFilter ? `&location=${locationFilter}` : ''}`}
-                                        className="border border-stone-300 px-4 py-2 text-xs font-bold uppercase hover:bg-black hover:text-white transition-colors"
+                                        className="rounded-full px-6 py-2.5 bg-white border border-stone-200 shadow-sm hover:bg-stone-900 hover:text-white hover:border-stone-900 transition-all font-bold text-xs uppercase tracking-wider"
                                     >
                                         Previous
                                     </Link>
@@ -241,7 +244,7 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
                                 {page < totalPages && (
                                     <Link
                                         href={`/jobs?page=${page + 1}${typeFilter ? `&type=${typeFilter}` : ''}${locationFilter ? `&location=${locationFilter}` : ''}`}
-                                        className="border border-stone-300 px-4 py-2 text-xs font-bold uppercase hover:bg-black hover:text-white transition-colors"
+                                        className="rounded-full px-6 py-2.5 bg-white border border-stone-200 shadow-sm hover:bg-stone-900 hover:text-white hover:border-stone-900 transition-all font-bold text-xs uppercase tracking-wider"
                                     >
                                         Next
                                     </Link>

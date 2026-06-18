@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { getRequiredSupabaseClientConfig } from '@/lib/supabase-config'
+import { sanitizeRelativeRedirect } from '@/lib/safe-redirect'
 
 export async function updateSession(request: NextRequest) {
     let response = NextResponse.next({
@@ -78,20 +79,24 @@ export async function updateSession(request: NextRequest) {
         }
     )
 
-    // IMPORTANT: Only call getUser() — this is the secure JWT validation method.
-    // Do NOT call getSession() here as well; it causes cookie-setter race conditions
-    // (both calls can trigger setAll, each recreating the response object) and adds
-    // unnecessary latency. Role-based access control is handled by admin/layout.tsx
-    // via requireStaff(), so middleware only needs to gate on authentication.
+    // getSession() validates the JWT AND refreshes the session cookie when the
+    // access token is near expiry. getUser() alone does NOT trigger cookie refresh,
+    // causing sessions to expire prematurely.
     const {
-        data: { user },
-    } = await supabase.auth.getUser()
+        data: { session },
+    } = await supabase.auth.getSession()
+    const user = session?.user ?? null
+
+    const requestedRedirect = sanitizeRelativeRedirect(request.nextUrl.searchParams.get('redirect'))
+    const currentPathWithSearch = sanitizeRelativeRedirect(`${request.nextUrl.pathname}${request.nextUrl.search}`)
 
     // Protect Admin Routes — unauthenticated users go to /login
     if (request.nextUrl.pathname.startsWith('/admin')) {
         if (!user) {
             // Clear any stale auth cookies before redirecting to login
-            const loginRedirect = NextResponse.redirect(new URL('/login', request.url))
+            const loginUrl = new URL('/login', request.url)
+            loginUrl.searchParams.set('redirect', currentPathWithSearch)
+            const loginRedirect = NextResponse.redirect(loginUrl)
             request.cookies.getAll().forEach(cookie => {
                 if (cookie.name.startsWith('sb-')) {
                     loginRedirect.cookies.delete(cookie.name)
@@ -124,7 +129,7 @@ export async function updateSession(request: NextRequest) {
         } else {
             // Authenticated user on /login — send them to the admin dashboard.
             // The admin layout will handle role-based access (redirect non-staff to /).
-            return NextResponse.redirect(new URL('/admin/dashboard', request.url))
+            return NextResponse.redirect(new URL(requestedRedirect, request.url))
         }
     }
 

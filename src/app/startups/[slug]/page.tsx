@@ -19,8 +19,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     if (!startup) return { title: 'Startup Not Found' }
 
     return {
-        title: `${startup.name} - Agile Updates`,
+        title: `${startup.name} - Agri Updates`,
         description: startup.elevator_pitch || startup.description || `Learn about ${startup.name} on Agri Updates.`,
+        alternates: {
+            canonical: `/startups/${slug}`,
+        },
     }
 }
 

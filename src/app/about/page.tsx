@@ -4,14 +4,17 @@ import Link from 'next/link';
 export const metadata: Metadata = {
     title: 'About Us | Agri Updates',
     description: 'Agri Updates is a curated digital platform sharing verified agricultural jobs, opportunities, programs, and ecosystem updates across India.',
+    alternates: {
+        canonical: '/about',
+    },
 };
 
 export default function AboutPage() {
     return (
-        <div className="bg-white min-h-screen pb-20">
+        <div className="bg-stone-50 min-h-screen pb-20">
             {/* Header Section */}
-            <div className="bg-stone-50 border-b border-stone-200 py-20">
-                <div className="container mx-auto px-4 text-center">
+            <div className="bg-white border-b border-stone-200 py-20">
+                <div className="editorial-shell text-center">
                     <h1 className="font-serif text-4xl md:text-6xl font-bold mb-6 text-stone-900">About Agri Updates</h1>
                     <p className="text-stone-600 max-w-3xl mx-auto text-lg leading-relaxed font-medium">
                         Building Access to Agricultural Opportunities
@@ -20,9 +23,9 @@ export default function AboutPage() {
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 py-16 max-w-4xl">
+            <div className="editorial-shell py-16">
                 {/* Introduction */}
-                <div className="mb-16 text-center">
+                <div className="mb-16 text-center max-w-3xl mx-auto">
                     <p className="text-xl md:text-2xl text-stone-800 leading-relaxed font-serif">
                         Agri Updates is a curated digital platform focused on sharing verified agricultural jobs, opportunities, programs, and ecosystem updates across India.
                     </p>
@@ -32,8 +35,8 @@ export default function AboutPage() {
                 </div>
 
                 {/* Our Purpose */}
-                <section className="mb-20">
-                    <div className="bg-white rounded-2xl p-8 md:p-12 border border-stone-200 shadow-sm">
+                <section className="mb-20 max-w-3xl mx-auto">
+                    <div className="paper-panel p-8 md:p-12 shadow-sm">
                         <h2 className="font-serif text-3xl font-bold mb-6 text-stone-900">Our Purpose</h2>
                         <p className="text-stone-600 mb-6 text-lg">
                             Agriculture is evolving rapidly — but access to timely, trustworthy information remains fragmented.
@@ -57,12 +60,12 @@ export default function AboutPage() {
                     </div>
                 </section>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20 max-w-4xl mx-auto">
                     {/* What We Do */}
-                    <section>
+                    <section className="paper-panel p-6 shadow-sm">
                         <h2 className="font-serif text-2xl font-bold mb-6 text-stone-900 border-l-4 border-agri-green pl-4">What We Do</h2>
                         <p className="text-stone-600 mb-4">We curate and publish:</p>
-                        <ul className="space-y-3 text-stone-700 bg-stone-50 p-6 rounded-xl">
+                        <ul className="space-y-3 text-stone-700 bg-stone-50/50 p-6 rounded-xl border border-stone-200">
                             {[
                                 "Agricultural job openings",
                                 "Internship and research opportunities",
@@ -82,7 +85,7 @@ export default function AboutPage() {
                     </section>
 
                     {/* How Agri Updates Works */}
-                    <section>
+                    <section className="paper-panel p-6 shadow-sm">
                         <h2 className="font-serif text-2xl font-bold mb-6 text-stone-900 border-l-4 border-agri-green pl-4">How It Works</h2>
                         <ul className="space-y-6">
                             {[
@@ -103,7 +106,7 @@ export default function AboutPage() {
                 </div>
 
                 {/* Transparency & Independence */}
-                <section className="mb-20 bg-stone-900 text-white rounded-2xl p-8 md:p-12 overflow-hidden relative">
+                <section className="mb-20 bg-stone-900 text-white rounded-[1.5rem] p-8 md:p-12 overflow-hidden relative max-w-4xl mx-auto shadow-lg">
                     <div className="relative z-10">
                         <h2 className="font-serif text-3xl font-bold mb-6">Transparency & Independence</h2>
                         <p className="text-stone-300 text-lg mb-6 leading-relaxed">
@@ -128,9 +131,9 @@ export default function AboutPage() {
                         Agri Updates is evolving into a comprehensive discovery layer for:
                     </p>
                     <div className="flex flex-wrap justify-center gap-4 mb-8">
-                        <span className="px-5 py-2 bg-stone-100 text-stone-700 rounded-full font-medium">Agricultural careers</span>
-                        <span className="px-5 py-2 bg-stone-100 text-stone-700 rounded-full font-medium">Research and innovation</span>
-                        <span className="px-5 py-2 bg-stone-100 text-stone-700 rounded-full font-medium">Startup and ecosystem activity</span>
+                        <span className="px-5 py-2 bg-white border border-stone-200 text-stone-700 rounded-full font-medium shadow-sm">Agricultural careers</span>
+                        <span className="px-5 py-2 bg-white border border-stone-200 text-stone-700 rounded-full font-medium shadow-sm">Research and innovation</span>
+                        <span className="px-5 py-2 bg-white border border-stone-200 text-stone-700 rounded-full font-medium shadow-sm">Startup and ecosystem activity</span>
                     </div>
                     <p className="text-stone-500 italic">
                         We are building gradually, with a focus on trust, consistency, and long-term value.
@@ -138,16 +141,16 @@ export default function AboutPage() {
                 </section>
 
                 {/* Contact CTA */}
-                <div className="bg-agri-green/5 border border-agri-green/20 rounded-xl p-8 text-center max-w-xl mx-auto">
+                <div className="paper-panel p-8 text-center max-w-xl mx-auto shadow-sm">
                     <h3 className="font-bold text-lg mb-4 text-stone-900">Contact Us</h3>
                     <p className="text-stone-600 mb-4">
                         For inquiries, partnerships, or Featured Listings:
                     </p>
                     <a
-                        href="mailto:aanand.ak15@gmail.com"
-                        className="inline-block bg-white text-stone-900 border border-stone-300 px-6 py-3 rounded-lg font-mono font-medium hover:border-agri-green hover:text-agri-green transition-colors"
+                        href="mailto:hello@agriupdates.online"
+                        className="inline-block bg-white text-stone-900 border border-stone-300 px-6 py-3 rounded-full font-mono font-medium hover:border-agri-green hover:text-agri-green transition-colors shadow-sm"
                     >
-                        📧 aanand.ak15@gmail.com
+                        📧 hello@agriupdates.online
                     </a>
                     <div className="mt-6">
                         <Link href="/contact" className="text-sm text-agri-green font-bold uppercase tracking-wider hover:underline">

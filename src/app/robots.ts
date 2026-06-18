@@ -5,8 +5,11 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: '*',
             allow: '/',
-            disallow: ['/admin/', '/api/'], // Disallow admin and internal APIs
+            disallow: ['/admin/', '/api/'],
         },
-        sitemap: 'https://www.agriupdates.online/sitemap.xml',
+        sitemap: [
+            'https://www.agriupdates.online/sitemap.xml',
+            'https://www.agriupdates.online/sitemap-news.xml',
+        ],
     };
 }

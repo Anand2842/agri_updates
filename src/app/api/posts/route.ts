@@ -90,6 +90,8 @@ export async function POST(request: NextRequest) {
             is_active: otherFields.is_active !== undefined ? otherFields.is_active : true,
             published_at: new Date().toISOString(),
             ...otherFields, // Include all other fields as-is
+            // Quality gate: posts start as draft, require review before publishing
+            status: 'draft',
         };
 
         // 5. Insert into database using admin client (bypasses RLS)

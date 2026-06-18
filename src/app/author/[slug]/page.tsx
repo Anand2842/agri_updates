@@ -3,9 +3,39 @@ import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { safeDateFormat } from '@/lib/utils/date'
+import { Metadata } from 'next'
 
 interface PageProps {
     params: Promise<{ slug: string }>
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const { slug } = await params
+    const supabase = await createClient()
+    const { data: author } = await supabase
+        .from('authors')
+        .select('name, bio, role, avatar_url')
+        .eq('slug', slug)
+        .eq('is_active', true)
+        .single()
+
+    if (!author) {
+        return { title: 'Author Not Found | Agri Updates' }
+    }
+
+    return {
+        title: `${author.name} — ${author.role || 'Contributor'} | Agri Updates`,
+        description: author.bio || `Articles and contributions by ${author.name} on Agri Updates.`,
+        alternates: {
+            canonical: `/author/${slug}`,
+        },
+        openGraph: {
+            title: `${author.name} — ${author.role || 'Contributor'}`,
+            description: author.bio || `Articles and contributions by ${author.name} on Agri Updates.`,
+            type: 'profile',
+            ...(author.avatar_url ? { images: [author.avatar_url] } : {}),
+        },
+    }
 }
 
 export default async function AuthorProfilePage({ params }: PageProps) {
@@ -30,10 +60,32 @@ export default async function AuthorProfilePage({ params }: PageProps) {
         .select('*')
         .eq('author_id', author.id)
         .eq('status', 'published')
-        .order('published_at', { ascending: false })
+        .order('published_at', { ascending: false });
+
+    const personSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        'name': author.name,
+        'jobTitle': author.role || 'Contributor',
+        'description': author.bio || undefined,
+        'image': author.avatar_url || undefined,
+        'sameAs': [
+            author.social_links?.twitter,
+            author.social_links?.linkedin,
+        ].filter(Boolean),
+        'worksFor': {
+            '@type': 'Organization',
+            'name': 'Agri Updates',
+            'url': 'https://www.agriupdates.online'
+        }
+    };
 
     return (
         <div className="min-h-screen bg-stone-50 pb-20">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+            />
             {/* Author Header */}
             <div className="bg-white border-b border-stone-200 py-16">
                 <div className="container mx-auto px-4 max-w-4xl">

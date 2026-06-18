@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 import AdBanner from '@/components/ads/AdBanner';
 import JobsGrid from '@/components/jobs/JobsGrid';
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 interface InternshipsPageProps {
     searchParams: Promise<{ type?: string; location?: string; q?: string; page?: string }>;
@@ -79,6 +79,9 @@ export async function generateMetadata({ searchParams }: InternshipsPageProps): 
     return {
         title: title,
         description: description,
+        alternates: {
+            canonical: '/internships',
+        },
         openGraph: {
             title: `${title} | Agri Updates`,
             description: description,

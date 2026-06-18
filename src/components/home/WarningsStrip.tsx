@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Post } from '@/types/database';
 import { AlertTriangle, ChevronRight } from 'lucide-react';
+import { getPublicPostHref } from '@/lib/public-posts';
 
 type Props = {
     posts: Post[];
@@ -13,10 +14,10 @@ export default function WarningsStrip({ posts }: Props) {
     const warning = posts[0];
 
     return (
-        <div className="md:bg-red-50 md:border-y md:border-red-200 mb-2 md:mb-4 px-4 md:px-0">
-            <div className="max-w-[1600px] mx-auto md:px-6 md:py-2 card-glass bg-rose-50/80 md:bg-transparent md:border-none md:shadow-none p-3 rounded-xl md:rounded-none border border-red-200 shadow-[inset_0px_2px_10px_rgba(255,0,0,0.05),_0px_4px_12px_rgba(255,0,0,0.1)] md:backdrop-blur-none">
+        <div className="editorial-shell mb-4">
+            <div className="rounded-[1.5rem] border border-rose-200 bg-rose-50/90 px-4 py-3 shadow-[0_10px_30px_rgba(181,75,53,0.08)]">
                 <Link 
-                    href={`/blog/${warning.slug}`}
+                    href={getPublicPostHref(warning)}
                     className="flex flex-row items-center justify-between gap-3 group"
                 >
                     <div className="flex items-center gap-3 w-full border-r border-red-200/50 md:border-none pr-3 md:pr-0 min-w-0">

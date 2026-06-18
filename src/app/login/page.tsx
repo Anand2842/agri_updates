@@ -2,9 +2,10 @@
 
 import { createClient } from '@/utils/supabase/client'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Eye, EyeOff } from 'lucide-react'
+import { sanitizeRelativeRedirect } from '@/lib/safe-redirect'
 
 export default function LoginPage() {
     const [email, setEmail] = useState('')
@@ -12,8 +13,9 @@ export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
-    const router = useRouter()
+    const searchParams = useSearchParams()
     const supabase = createClient()
+    const redirectTarget = sanitizeRelativeRedirect(searchParams.get('redirect'))
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -33,7 +35,7 @@ export default function LoginPage() {
             // This forces the browser to fully commit the auth cookie and perform a totally
             // fresh HTTP GET request. This stops all Next.js app router race conditions
             // and `fetch()` chunk errors (like ERR_CONNECTION_REFUSED on internal router chunks).
-            window.location.href = '/admin/dashboard'
+            window.location.href = redirectTarget
         }
     }
 
@@ -102,7 +104,7 @@ export default function LoginPage() {
 
                 <div className="mt-6 text-center text-sm text-stone-500">
                     Need an account?{' '}
-                    <Link href="/signup" className="text-black font-bold hover:underline">
+                    <Link href={redirectTarget === '/admin/dashboard' ? '/signup' : `/signup?redirect=${encodeURIComponent(redirectTarget)}`} className="text-black font-bold hover:underline">
                         Sign up here
                     </Link>
                 </div>

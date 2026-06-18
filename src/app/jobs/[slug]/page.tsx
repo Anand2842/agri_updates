@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: JobPageProps): Promise<Metada
             description: `Apply for the ${job.title} position at ${job.company} in ${job.location}.`,
         },
         alternates: {
-            canonical: `/jobs/${job.slug}`,
+            canonical: `/blog/${job.slug}`,
         },
     };
 }
@@ -120,19 +120,19 @@ export default async function JobPage({ params }: JobPageProps) {
                                 '@type': 'ListItem',
                                 position: 1,
                                 name: 'Home',
-                                item: 'https://agriupdates.com'
+                                item: 'https://www.agriupdates.online'
                             },
                             {
                                 '@type': 'ListItem',
                                 position: 2,
                                 name: 'Jobs',
-                                item: 'https://agriupdates.com/jobs'
+                                item: 'https://www.agriupdates.online/jobs'
                             },
                             {
                                 '@type': 'ListItem',
                                 position: 3,
                                 name: job.title,
-                                item: `https://agriupdates.com/jobs/${slug}`
+                                item: `https://www.agriupdates.online/jobs/${slug}`
                             }
                         ]
                     })

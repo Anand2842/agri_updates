@@ -23,7 +23,8 @@ async function getDashboardStats() {
             { data: topPostsData },
             { data: allPostsViews },
             { data: todayPostsData },
-            { count: activeWarnings }
+            { count: activeWarnings },
+            { data: scheduledPostsData }
         ] = await Promise.all([
             // 1. Total Posts
             supabase.from('posts').select('*', { count: 'exact', head: true }),
@@ -64,7 +65,7 @@ async function getDashboardStats() {
 
             // 10. Top Performing Posts by Views
             supabase.from('posts')
-                .select('id, title, category, views, author_name, slug')
+                .select('id, title, category, views, author_name, slug, published_at')
                 .eq('status', 'published')
                 .order('views', { ascending: false, nullsFirst: false })
                 .limit(5),
@@ -80,7 +81,15 @@ async function getDashboardStats() {
             // 13. Active Warnings
             supabase.from('posts').select('*', { count: 'exact', head: true })
                 .eq('category', 'Warnings')
-                .eq('is_active', true)
+                .eq('is_active', true),
+
+            // 14. Scheduled Posts Preview (next 5)
+            supabase.from('posts')
+                .select('id, title, category, scheduled_for, slug')
+                .eq('status', 'scheduled')
+                .gte('scheduled_for', new Date().toISOString())
+                .order('scheduled_for', { ascending: true })
+                .limit(5)
         ]);
 
         // Process Recent Activity Feed
@@ -147,6 +156,15 @@ async function getDashboardStats() {
             category: p.category,
             views: p.views || 0,
             author_name: p.author_name || 'Agri Updates',
+            slug: p.slug,
+            published_at: p.published_at
+        }));
+
+        const upcomingScheduled = (scheduledPostsData || []).map(p => ({
+            id: p.id,
+            title: p.title,
+            category: p.category,
+            scheduled_for: p.scheduled_for,
             slug: p.slug
         }));
 
@@ -165,7 +183,8 @@ async function getDashboardStats() {
             activityFeed,
             stageData,
             trendData,
-            topPosts
+            topPosts,
+            upcomingScheduled
         };
     } catch (e) {
         console.error('Dashboard query failed:', e);
@@ -174,7 +193,8 @@ async function getDashboardStats() {
             activityFeed: [],
             stageData: [],
             trendData: [],
-            topPosts: []
+            topPosts: [],
+            upcomingScheduled: []
         };
     }
 }
@@ -188,7 +208,7 @@ export default async function AdminDashboard() {
         requireStaff(supabase),
         supabase.auth.getUser()
     ]);
-    const { counts, activityFeed, stageData, trendData, topPosts } = statsResult;
+    const { counts, activityFeed, stageData, trendData, topPosts, upcomingScheduled } = statsResult;
 
     const email = user?.email || '';
     const name = user?.user_metadata?.full_name || email.split('@')[0] || 'Admin';
@@ -335,6 +355,57 @@ export default async function AdminDashboard() {
 
             {/* Client-side Charts */}
             <DashboardCharts trendData={trendData} stageData={stageData} />
+
+            {/* Scheduled Posts Preview */}
+            <div className="bg-white border border-stone-100 rounded-xl shadow-sm overflow-hidden">
+                <div className="p-5 border-b border-stone-100 bg-stone-50 flex justify-between items-center">
+                    <div>
+                        <h3 className="font-serif text-lg font-bold">Upcoming Scheduled Posts</h3>
+                        <p className="text-xs text-stone-500 mt-0.5">Next posts in the pipeline</p>
+                    </div>
+                    <Link href="/admin/calendar" className="text-agri-green text-xs font-bold flex items-center gap-1 hover:underline">
+                        View Calendar <ArrowUpRight className="w-3 h-3" />
+                    </Link>
+                </div>
+                <div className="p-5">
+                    {upcomingScheduled.length > 0 ? (
+                        <div className="space-y-3">
+                            {upcomingScheduled.map((post) => (
+                                <div key={post.id} className="flex items-center justify-between p-3 bg-stone-50 rounded-lg hover:bg-stone-100 transition-colors">
+                                    <div className="flex-1 min-w-0">
+                                        <Link href={`/admin/posts/${post.id}`} className="font-bold text-sm text-stone-900 hover:text-agri-green truncate block">
+                                            {post.title}
+                                        </Link>
+                                        <div className="flex items-center gap-2 mt-1">
+                                            <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ${
+                                                post.category === 'Jobs' ? 'bg-green-100 text-green-700' :
+                                                post.category === 'Research' ? 'bg-blue-100 text-blue-700' :
+                                                post.category === 'Grants' ? 'bg-amber-100 text-amber-700' :
+                                                'bg-stone-100 text-stone-600'
+                                            }`}>
+                                                {post.category}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="text-right ml-4 shrink-0">
+                                        <div className="text-xs font-bold text-stone-900">
+                                            {new Date(post.scheduled_for).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                        </div>
+                                        <div className="text-[10px] text-stone-500">
+                                            {new Date(post.scheduled_for).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-8 text-stone-500 text-sm">
+                            <Clock className="w-8 h-8 mx-auto mb-2 text-stone-300" />
+                            No posts scheduled
+                        </div>
+                    )}
+                </div>
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Recent Activity Table */}

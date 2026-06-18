@@ -4,52 +4,34 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Post } from '@/types/database';
 import { useState } from 'react';
-
-// Mock data for when DB is empty
-const MOCK_STARTUPS: Partial<Post>[] = [
-    {
-        id: 'mock-s1',
-        slug: 'agritech-funding',
-        title: 'BioBloom launches AI-Powered Identification App',
-        excerpt: 'Instantly identify plant diseases using your smartphone camera.',
-        category: 'Startups',
-        tags: ['Launches'],
-        image_url: 'https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&q=80',
-        published_at: new Date().toISOString(),
-    },
-    {
-        id: 'mock-s2',
-        slug: 'farmtech-series-a',
-        title: 'FarmByte annual revenue grows 40% in 2024',
-        excerpt: 'The precision agriculture startup expands to Southeast Asian markets.',
-        category: 'Startups',
-        tags: ['Funding'],
-        image_url: 'https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&q=80',
-        published_at: new Date().toISOString(),
-    },
-    {
-        id: 'mock-s3',
-        slug: 'dronetech-launch',
-        title: 'Kris Electric enters E-Tractor market',
-        excerpt: 'New electric tractors promise 50% cost reduction for farmers.',
-        category: 'Startups',
-        tags: ['Launches'],
-        image_url: 'https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?auto=format&fit=crop&q=80',
-        published_at: new Date().toISOString(),
-    },
-];
+import { getPublicPostHref } from '@/lib/public-posts';
 
 type Props = {
     posts: Post[];
 };
 
 export default function StartupsSection({ posts }: Props) {
-    // Use real data or fallback to mock
-    const displayPosts = (posts && posts.length > 0) ? posts : MOCK_STARTUPS as Post[];
     const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
+    if (!posts || posts.length === 0) {
+        return (
+            <div className="paper-panel flex h-full flex-col p-5">
+                <div className="flex justify-between items-end mb-4 pb-2 border-b border-ink-black/20">
+                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-stone-500 m-0 pb-0 border-0">Startup News</h3>
+                </div>
+                <div className="py-12 text-center flex-grow flex flex-col justify-center">
+                    <p className="font-serif text-xl text-stone-400 mb-2">Startup coverage is loading up.</p>
+                    <p className="text-sm text-stone-400 mb-4">We&apos;re tracking the freshest agri-tech launches.</p>
+                    <Link href="/startups" className="inline-block text-sm font-semibold text-[var(--color-forest)] hover:underline">
+                        View all startup news &rarr;
+                    </Link>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className="flex flex-col h-full">
+        <div className="paper-panel flex h-full flex-col p-5">
             {/* Section Header */}
             <div className="flex justify-between items-end mb-4 pb-2 border-b border-ink-black/20">
                 <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-stone-500 m-0 pb-0 border-0">Startup News</h3>
@@ -57,16 +39,16 @@ export default function StartupsSection({ posts }: Props) {
 
             {/* List */}
             <div className="flex flex-col gap-6 flex-grow">
-                {displayPosts.slice(0, 4).map((post) => (
+                {posts.slice(0, 4).map((post) => (
                     <div key={post.id} className="group relative transition-all">
-                        <Link href={`/blog/${post.slug}`} className="flex gap-4 items-start">
+                        <Link href={getPublicPostHref(post)} className="flex gap-4 items-start">
                              {/* Thumbnail */}
                              <div className="relative w-16 h-16 flex-shrink-0 bg-stone-100 rounded-lg overflow-hidden border border-stone-200">
                                 <Image
                                     src={imageErrors[post.id] ? 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80' : (post.image_url || 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80')}
                                     alt={post.title}
                                     fill
-                                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                                     onError={() => {
                                         setImageErrors(prev => ({ ...prev, [post.id]: true }));
                                     }}

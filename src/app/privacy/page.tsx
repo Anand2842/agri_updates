@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Privacy Policy | Agri Updates',
     description: 'Privacy Policy for Agri Updates - The Global Hub for Agricultural Careers and Innovation.',
+    alternates: {
+        canonical: '/privacy',
+    },
 };
 
 export default function PrivacyPage() {
@@ -72,7 +75,7 @@ export default function PrivacyPage() {
                     </p>
                     <div className="bg-stone-50 p-6 mt-4 border border-stone-200">
                         <p className="font-bold text-lg">Agri Updates Privacy Team</p>
-                        <p>Email: <a href="mailto:privacy@agriupdates.com" className="text-agri-green hover:underline">privacy@agriupdates.com</a></p>
+                        <p>Email: <a href="mailto:privacy@agriupdates.online" className="text-agri-green hover:underline">privacy@agriupdates.online</a></p>
                     </div>
                 </div>
             </div>

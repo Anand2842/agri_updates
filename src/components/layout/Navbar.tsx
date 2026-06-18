@@ -1,33 +1,31 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Search, Menu, X, ChevronRight } from 'lucide-react';
-import { createClient } from '@/utils/supabase/client';
+import { Menu, Search, X } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
+import { PublicCategoryDescriptor, getCategoryAccentClasses } from '@/lib/public-categories';
 
-export default function Navbar() {
+type NavbarProps = {
+    categories: PublicCategoryDescriptor[];
+}
+
+export default function Navbar({ categories }: NavbarProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [user, setUser] = useState<User | null>(null);
-    const router = useRouter();
-    const supabase = createClient();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const currentCategory = searchParams.get('category');
-
-    const [currentDate, setCurrentDate] = useState<string>('');
-    // Search state for mobile drawer
     const [searchQuery, setSearchQuery] = useState('');
+    const [currentDate] = useState(() => new Date().toLocaleDateString('en-IN', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    }));
 
-    useEffect(() => {
-        setCurrentDate(new Date().toLocaleDateString('en-IN', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        }));
-    }, []);
+    const pathname = usePathname();
+    const router = useRouter();
+    const supabase = useMemo(() => createClient(), []);
 
     useEffect(() => {
         const getUser = async () => {
@@ -44,295 +42,229 @@ export default function Navbar() {
         return () => subscription.unsubscribe();
     }, [supabase.auth]);
 
-    // Lock body scroll when menu is open
     useEffect(() => {
-        if (isMenuOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
+        document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset';
+
         return () => {
             document.body.style.overflow = 'unset';
         };
     }, [isMenuOpen]);
+
+    const handleSearch = (event: React.FormEvent) => {
+        event.preventDefault();
+        if (!searchQuery.trim()) return;
+
+        setIsMenuOpen(false);
+        router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    };
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
         router.refresh();
     };
 
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (searchQuery.trim()) {
-            setIsMenuOpen(false);
-            router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
-        }
-    };
-
-    // Hide Navbar on Admin, Auth, and Article pages
     if (
-        pathname?.startsWith('/admin') || 
-        pathname?.startsWith('/login') || 
-        pathname?.startsWith('/signup') || 
+        pathname?.startsWith('/admin') ||
+        pathname?.startsWith('/login') ||
+        pathname?.startsWith('/signup') ||
         pathname?.startsWith('/forgot-password')
     ) {
         return null;
     }
 
-    const navCategories = [
-        { label: 'Job Opportunities', href: '/jobs' },
-        { label: 'Grants & Funding', href: '/updates?category=Grants' },
-        { label: 'Startups', href: '/startups' },
-        { label: 'Warnings', href: '/updates?category=Warnings' },
-    ];
+    const isHomePage = pathname === '/';
+
+    const isActive = (href: string) => {
+        if (href === '/updates') return pathname === '/updates';
+        if (href === '/jobs') return pathname?.startsWith('/jobs');
+        if (href === '/startups') return pathname?.startsWith('/startups');
+        return pathname === href;
+    };
 
     return (
         <>
-            {/* --- DESKTOP HEADER --- */}
-            {pathname === '/' ? (
-                <header className="hidden md:block bg-white relative z-50">
-                    {/* Top Utility Bar */}
-                    <div className="container mx-auto px-4 py-2 flex justify-between items-center text-[10px] uppercase tracking-[0.15em] text-stone-500 border-b border-stone-200">
-                        <span className="font-medium">{currentDate}</span>
-                        <div className="flex items-center gap-6">
+            <header className="hidden md:block border-b border-stone-200 bg-[var(--color-paper-elevated)]/95 backdrop-blur-sm">
+                <div className="editorial-shell">
+                    <div className="flex items-center justify-between border-b border-stone-200 py-3 text-[11px] uppercase tracking-[0.24em] text-stone-500">
+                        <div className="flex items-center gap-4">
+                            <span className="font-semibold text-stone-700">Agri Updates</span>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <span className="hidden lg:inline">{currentDate}</span>
                             {user ? (
                                 <>
-                                    <Link href="/admin/posts" className="hover:text-black font-bold text-agri-green">
-                                        Dashboard
-                                    </Link>
-                                    <button onClick={handleSignOut} className="hover:text-red-500">
-                                        Sign Out
-                                    </button>
+                                    <Link href="/admin/posts" className="hover:text-black">Dashboard</Link>
+                                    <button onClick={handleSignOut} className="hover:text-[var(--color-vermilion)]">Sign Out</button>
                                 </>
                             ) : (
                                 <>
                                     <Link href="/login" className="hover:text-black">Login</Link>
-                                    <Link href="/newsletter" className="hover:text-black font-bold text-agri-green">Subscribe</Link>
+                                    <Link href="/newsletter" className="font-semibold text-[var(--color-forest)] hover:text-black">Subscribe</Link>
                                 </>
                             )}
                         </div>
                     </div>
 
-                    {/* Main Masthead */}
-                    <div className="container mx-auto px-4 py-10 text-center border-b-2 border-black">
-                        <Link href="/" onClick={() => setIsMenuOpen(false)}>
-                            <h1 className="text-6xl lg:text-7xl font-black tracking-tight text-black uppercase" style={{ fontStretch: 'condensed' }}>
-                                AGRI UPDATES
-                            </h1>
-                        </Link>
-                    </div>
-
-                    {/* Desktop Sticky Nav */}
-                    <nav className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-stone-200/50 shadow-sm transition-all duration-300 supports-[backdrop-filter]:bg-white/60">
-                        <div className="container mx-auto px-4 flex justify-center items-center gap-x-1 py-3 text-[10px] font-bold tracking-[0.15em] uppercase text-stone-700">
-                            {navCategories.map((cat, idx) => {
-                                let isActive = false;
-
-                                return (
-                                    <span key={cat.href} className="flex items-center">
-                                        {idx > 0 && <span className="mx-3 text-stone-300 font-light">|</span>}
-                                        <Link
-                                            href={cat.href}
-                                            className={`relative group py-1 whitespace-nowrap transition-colors duration-300 ${isActive ? 'text-agri-green' : 'hover:text-agri-green text-stone-600'}`}
-                                        >
-                                            {cat.label}
-                                            <span className={`absolute -bottom-1 left-0 h-0.5 bg-agri-green transition-all duration-300 ease-out ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`} />
-                                        </Link>
-                                    </span>
-                                );
-                            })}
-                            <span className="mx-3 text-stone-300 font-light">|</span>
-                            <Link href="/search" className="text-stone-400 hover:text-agri-green p-1 transition-colors duration-300">
-                                <Search className="w-4 h-4" />
-                            </Link>
-                        </div>
-                    </nav>
-                </header>
-            ) : (
-                <header className="hidden md:block sticky top-0 z-50 bg-white border-b border-stone-200/80 shadow-sm transition-all">
-                    <div className="container mx-auto px-4 w-full">
-                        <div className="flex items-center justify-between h-[72px]">
-                            
-                            {/* Brand Logo */}
-                            <Link href="/" onClick={() => setIsMenuOpen(false)} className="shrink-0 mr-6 lg:mr-8">
-                                <h1 className="text-3xl lg:text-4xl font-black tracking-tighter text-[#37522d] uppercase" style={{ fontStretch: 'condensed' }}>
+                    <div className={`grid gap-6 border-b border-stone-200 ${isHomePage ? 'grid-cols-[1fr_auto] py-10' : 'grid-cols-[auto_1fr_auto] items-center py-6'}`}>
+                        <div className={isHomePage ? 'max-w-2xl' : ''}>
+                            <Link href="/" className="block">
+                                <h1 className={`${isHomePage ? 'text-6xl lg:text-7xl' : 'text-4xl lg:text-5xl'} font-black uppercase tracking-[-0.05em] text-[var(--color-graphite)]`}>
                                     AGRI UPDATES
                                 </h1>
                             </Link>
+                            {isHomePage ? (
+                                <p className="mt-4 max-w-xl text-lg leading-7 text-stone-600">
+                                    A calm, global desk for agriculture news, research, capital flows, careers, startup signals, and field warnings.
+                                </p>
+                            ) : (
+                                <p className="mt-2 text-sm uppercase tracking-[0.18em] text-stone-500">
+                                    Markets, science, careers, and urgent notices from the agri ecosystem
+                                </p>
+                            )}
+                        </div>
 
-                            {/* Middle: Horizontal Nav Links */}
-                            <nav className="flex-grow flex items-center gap-3 lg:gap-5 overflow-x-auto no-scrollbar text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.05em] lg:tracking-wider text-stone-800">
-                                {navCategories.map((cat, idx) => {
-                                    let isActive = false;
-                                    if (cat.href === '/jobs' && pathname === '/jobs') isActive = true;
-                                    else if (cat.href === '/startups' && pathname === '/startups') isActive = true;
-                                    else if (cat.href.startsWith('/updates')) {
-                                        const catParam = new URL(cat.href, 'http://a').searchParams.get('category');
-                                        isActive = pathname === '/updates' && currentCategory === catParam;
-                                    }
-
-                                    return (
-                                        <Link
-                                            key={cat.href}
-                                            href={cat.href}
-                                            className={`relative py-2 whitespace-nowrap transition-colors duration-200 group ${isActive ? 'text-[#37522d]' : 'hover:text-[#37522d]'}`}
-                                        >
-                                            {cat.label}
-                                            <span className={`absolute bottom-0 left-0 h-0.5 bg-[#37522d] transition-all duration-300 ease-out ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`} />
-                                        </Link>
-                                    );
-                                })}
-                            </nav>
-
-                            {/* Right: Search & Utils */}
-                            <div className="flex items-center gap-3 shrink-0 ml-4">
-                                <span className="text-stone-300 font-light">|</span>
-                                
-                                {/* Search */}
-                                <Link href="/search" className="text-stone-400 hover:text-[#37522d] p-1 transition-colors">
-                                    <Search className="w-5 h-5" />
-                                </Link>
-
-                                {/* Auth */}
-                                <div className="flex items-center gap-3 text-[10px] uppercase font-bold tracking-wider ml-2">
-                                    {user ? (
-                                        <>
-                                            <Link href="/admin/posts" className="text-[#37522d] hover:text-black">Dash</Link>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Link href="/login" className="text-stone-400 hover:text-black">Login</Link>
-                                            <Link href="/newsletter" className="text-white bg-[#37522d] px-3 py-1.5 rounded-sm hover:bg-black transition-colors">Subscribe</Link>
-                                        </>
-                                    )}
+                        {isHomePage ? (
+                            <div className="min-w-[280px] justify-self-end border-l border-stone-200 pl-8">
+                                <p className="eyebrow-label mb-4">Today&apos;s Focus</p>
+                                <div className="space-y-3 text-sm leading-6 text-stone-600">
+                                    <p>Research pipelines, startup financing, and verified hiring.</p>
+                                    <Link href="/updates" className="inline-flex items-center gap-2 font-semibold text-[var(--color-forest)] hover:text-black">
+                                        View all updates
+                                        <span aria-hidden="true">→</span>
+                                    </Link>
                                 </div>
                             </div>
-                            
-                        </div>
+                        ) : (
+                            <form onSubmit={handleSearch} className="mx-8 flex max-w-md items-center rounded-full border border-stone-300 bg-white px-4 py-2">
+                                <Search className="h-4 w-4 text-stone-400" />
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(event) => setSearchQuery(event.target.value)}
+                                    placeholder="Search reporting, grants, jobs..."
+                                    className="w-full bg-transparent px-3 py-1 text-sm text-stone-800 outline-none placeholder:text-stone-400"
+                                />
+                            </form>
+                        )}
                     </div>
-                </header>
-            )}
 
+                    <nav className="flex items-center justify-between gap-6 py-4">
+                        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-700">
+                            {categories.map((category) => (
+                                <Link
+                                    key={category.href}
+                                    href={category.href}
+                                    className={`border-b pb-1 transition-colors ${isActive(category.href)
+                                        ? 'border-[var(--color-graphite)] text-[var(--color-graphite)]'
+                                        : 'border-transparent hover:border-stone-400 hover:text-black'
+                                    }`}
+                                >
+                                    {category.label}
+                                </Link>
+                            ))}
+                        </div>
+                        <Link href="/search" className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-500 transition-colors hover:text-black">
+                            Search
+                            <Search className="h-4 w-4" />
+                        </Link>
+                    </nav>
+                </div>
+            </header>
 
-            {/* --- MOBILE HEADER & NAV (Redesigned) --- */}
-            <div className="md:hidden">
-                {/* 1. Main Mobile Header (Logo + Hamburger) */}
-                <header
-                    className="flex justify-between items-center px-4 sticky top-0 z-50 transition-all border-b border-[#eee]"
-                    style={{
-                        height: '60px',
-                        backgroundColor: 'rgba(255,255,255,0.85)',
-                        backdropFilter: 'blur(10px)',
-                        WebkitBackdropFilter: 'blur(10px)', // Safari support
-                    }}
-                >
-                    {/* Left: Brand */}
-                    <Link href="/" onClick={() => setIsMenuOpen(false)}>
-                        <h1 className="text-xl font-black tracking-tight text-black uppercase" style={{ fontStretch: 'condensed' }}>
-                            AGRI UPDATES
-                        </h1>
+            <div className="md:hidden sticky top-0 z-50 border-b border-stone-200 bg-[var(--color-paper-elevated)]/95 backdrop-blur-sm">
+                <div className="flex items-center justify-between px-4 py-3">
+                    <Link href="/" className="block" onClick={() => setIsMenuOpen(false)}>
+                        <span className="block text-xl font-black uppercase tracking-[-0.05em] text-[var(--color-graphite)]">AGRI UPDATES</span>
                     </Link>
 
-                    {/* Right: Hamburger */}
                     <button
-                        className="p-2 -mr-2 text-stone-800 hover:bg-stone-100/50 rounded-full transition-colors active:scale-95"
+                        className="rounded-full border border-stone-200 p-2 text-stone-700 transition-colors hover:bg-white"
                         onClick={() => setIsMenuOpen(true)}
                         aria-label="Open Menu"
                     >
-                        <Menu className="w-6 h-6 stroke-[2.5]" />
+                        <Menu className="h-5 w-5" />
                     </button>
-                </header>
-
-                {/* NOTE: Horizontal Sub-nav Removed per playbooks instructions for cleaner look */}
+                </div>
             </div>
 
-
-            {/* --- MOBILE DRAWER MENU (Slide from Right) --- */}
-            {/* Backdrop */}
             {isMenuOpen && (
                 <div
-                    className="md:hidden fixed inset-0 z-[60] bg-black/20 backdrop-blur-sm transition-opacity duration-300"
+                    className="md:hidden fixed inset-0 z-[60] bg-black/30 backdrop-blur-sm"
                     onClick={() => setIsMenuOpen(false)}
                 />
             )}
 
-            {/* Side Drawer */}
-            <div
-                className={`md:hidden fixed top-0 right-0 bottom-0 w-[85%] max-w-[320px] bg-white z-[70] shadow-2xl transform transition-transform duration-300 ease-out flex flex-col ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
-            >
-                {/* Drawer Header */}
-                <div className="flex justify-between items-center p-4 border-b border-stone-100">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">Menu</span>
-                    <button
-                        onClick={() => setIsMenuOpen(false)}
-                        className="p-2 -mr-2 text-stone-500 hover:text-black rounded-full hover:bg-stone-100 transition-colors"
-                    >
-                        <X className="w-6 h-6" />
-                    </button>
-                </div>
-
-                <div className="flex-1 overflow-y-auto bg-white p-5">
-
-                    {/* Search in Drawer */}
-                    <form onSubmit={handleSearch} className="mb-8 relative">
-                        <input
-                            type="text"
-                            placeholder="Search updates..."
-                            className="w-full h-12 pl-4 pr-10 bg-stone-50 border border-stone-200 rounded-lg text-base text-stone-800 focus:border-agri-green focus:ring-1 focus:ring-agri-green/20 outline-none transition-all"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                        <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-agri-green">
-                            <Search className="w-5 h-5" />
+            <div className={`md:hidden fixed inset-y-0 right-0 z-[70] w-[88%] max-w-[360px] transform bg-[var(--color-paper-elevated)] shadow-2xl transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                <div className="flex h-full flex-col">
+                    <div className="flex items-center justify-between border-b border-stone-200 px-5 py-4">
+                        <div>
+                            <p className="eyebrow-label mb-1">Sections</p>
+                            <p className="text-sm text-stone-500">Browse the full public desk</p>
+                        </div>
+                        <button
+                            onClick={() => setIsMenuOpen(false)}
+                            className="rounded-full border border-stone-200 p-2 text-stone-600"
+                            aria-label="Close Menu"
+                        >
+                            <X className="h-5 w-5" />
                         </button>
-                    </form>
-
-                    {/* Date Display */}
-                    <div className="mb-6">
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400 block mb-1">Today</span>
-                        <span className="font-serif text-lg font-medium text-stone-800">{currentDate}</span>
                     </div>
 
-                    {/* Primary Links */}
-                    <div className="space-y-1 mb-8">
-                        <Link
-                            href="/"
-                            onClick={() => setIsMenuOpen(false)}
-                            className="flex items-center justify-between w-full h-[48px] border-b border-stone-100 text-lg font-bold text-stone-800 group"
-                        >
-                            Home
-                            <ChevronRight className="w-4 h-4 text-stone-300 group-hover:text-agri-green transition-colors" />
-                        </Link>
+                    <div className="flex-1 overflow-y-auto px-5 py-5">
+                        <form onSubmit={handleSearch} className="mb-6 flex items-center rounded-full border border-stone-300 bg-white px-4 py-2">
+                            <Search className="h-4 w-4 text-stone-400" />
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={(event) => setSearchQuery(event.target.value)}
+                                placeholder="Search reporting, grants, jobs..."
+                                className="w-full bg-transparent px-3 py-1 text-sm text-stone-800 outline-none placeholder:text-stone-400"
+                            />
+                        </form>
 
-                        {/* Grouped Links */}
-                        <div className="py-4">
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400 block mb-3">Explore</span>
-                            {navCategories.map((cat) => (
-                                <Link
-                                    key={cat.href}
-                                    href={cat.href}
-                                    onClick={() => setIsMenuOpen(false)}
-                                    className="flex items-center justify-between w-full h-[48px] border-b border-stone-100 text-base font-medium text-stone-600 hover:text-agri-green hover:pl-2 transition-all duration-200 group"
-                                >
-                                    {cat.label}
-                                </Link>
-                            ))}
+                        <div className="mb-6 rounded-2xl border border-stone-200 bg-white px-4 py-4">
+                            <p className="eyebrow-label mb-2">Today</p>
+                            <p className="font-serif text-lg text-[var(--color-graphite)]">{currentDate}</p>
+                        </div>
+
+                        <div className="space-y-3">
+                            {categories.map((category) => {
+                                const accent = getCategoryAccentClasses(category.accent);
+                                return (
+                                    <Link
+                                        key={category.href}
+                                        href={category.href}
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className={`block rounded-2xl border px-4 py-4 transition-colors ${isActive(category.href) ? accent.panel : 'border-stone-200 bg-white'}`}
+                                    >
+                                        <div className="mb-2 flex items-center justify-between">
+                                            <span className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${accent.chip}`}>
+                                                {category.surfaceType}
+                                            </span>
+                                            <span className="text-xs text-stone-400">{category.label}</span>
+                                        </div>
+                                        <h3 className={`mb-1 text-xl font-semibold ${accent.text}`}>{category.label}</h3>
+                                        <p className="text-sm leading-6 text-stone-500">{category.description}</p>
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </div>
 
-                    {/* User Actions */}
-                    <div className="flex flex-col gap-3 pb-8">
-                        {user ? (
-                            <>
-                                <Link href="/admin/posts" onClick={() => setIsMenuOpen(false)} className="btn-secondary text-center w-full">Dashboard</Link>
-                                <button onClick={() => { handleSignOut(); setIsMenuOpen(false); }} className="h-[48px] flex items-center justify-center border border-red-200 text-red-600 rounded-lg font-bold text-xs uppercase tracking-wider hover:bg-red-50 transition-colors">Sign Out</button>
-                            </>
-                        ) : (
-                            <>
-                                <Link href="/login" onClick={() => setIsMenuOpen(false)} className="btn-secondary text-center w-full min-h-[48px] flex items-center justify-center">Login</Link>
-                                <Link href="/newsletter" onClick={() => setIsMenuOpen(false)} className="btn-primary text-center w-full shadow-lg min-h-[48px] flex items-center justify-center">Subscribe Free</Link>
-                            </>
-                        )}
+                    <div className="border-t border-stone-200 px-5 py-4">
+                        <div className="mb-4 flex gap-2">
+                            {user ? (
+                                <>
+                                    <Link href="/admin/posts" onClick={() => setIsMenuOpen(false)} className="btn-secondary w-full text-center">Dashboard</Link>
+                                    <button onClick={() => { void handleSignOut(); setIsMenuOpen(false); }} className="btn-secondary w-full text-center">Sign Out</button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link href="/login" onClick={() => setIsMenuOpen(false)} className="btn-secondary w-full text-center">Login</Link>
+                                    <Link href="/newsletter" onClick={() => setIsMenuOpen(false)} className="btn-primary w-full text-center">Subscribe</Link>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

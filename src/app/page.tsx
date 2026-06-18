@@ -8,18 +8,22 @@ import GrantsSection from '@/components/home/GrantsSection';
 import WarningsStrip from '@/components/home/WarningsStrip';
 import StartupsSection from '@/components/home/StartupsSection';
 import LatestJobs from '@/components/home/LatestJobs';
-import CategoryTabs from '@/components/home/CategoryTabs';
-
-import QuickFAQ from '@/components/home/QuickFAQ';
+import CoverageMap from '@/components/home/CoverageMap';
+import SectionsDesk from '@/components/home/SectionsDesk';
 // import PolicySection from '@/components/home/PolicySection'; // Hidden for now
 import AdBanner from '@/components/ads/AdBanner';
 import { supabase } from '@/lib/supabase';
 import { Post, Job } from '@/types/database';
 import { Metadata } from 'next';
+import { getPublicCategories } from '@/lib/public-categories';
+import { normalizePostRecord } from '@/lib/public-posts';
 
 export const metadata: Metadata = {
-  title: 'Agricultural Jobs, Grants & Innovation News in India',
-  description: "Agri Updates is India's premier platform for agricultural careers, funding, explicit warnings, and startup innovation. Find your next opportunity today.",
+  title: 'Agriculture Jobs, News & Grants India 2026 | Agri Updates',
+  description: "Agri Updates is India's premier platform for agricultural careers, funding, scholarships, fellowships, explicit warnings, and agri-startup innovation. Find your next opportunity today.",
+  alternates: {
+    canonical: '/',
+  },
 };
 
 export const revalidate = 60; // Dynamic for now
@@ -185,6 +189,7 @@ const MOCK_POSTS: Post[] = [
 const MOCK_JOBS: Job[] = [
   {
     id: '1',
+    slug: 'junior-botanist-role',
     title: 'Junior Botanist Role',
     company: 'Green Growth Labs',
     location: 'Remote',
@@ -199,6 +204,7 @@ const MOCK_JOBS: Job[] = [
   },
   {
     id: '2',
+    slug: 'agri-tech-senior-developer',
     title: 'Agri-Tech Senior Developer',
     company: 'FarmFuture Inc.',
     location: 'San Francisco, CA',
@@ -213,6 +219,7 @@ const MOCK_JOBS: Job[] = [
   },
   {
     id: '3',
+    slug: 'soil-health-specialist',
     title: 'Soil Health Specialist',
     company: 'Earth Matters',
     location: 'Austin, TX',
@@ -227,6 +234,7 @@ const MOCK_JOBS: Job[] = [
   },
   {
     id: '4',
+    slug: 'summer-internship-urban-farming',
     title: 'Summer Internship: Urban Farming',
     company: 'Square Roots',
     location: 'NYC',
@@ -240,6 +248,11 @@ const MOCK_JOBS: Job[] = [
     created_at: new Date().toISOString()
   }
 ];
+
+function isJobListing(post: Post): boolean {
+  const title = (post.title || '').toLowerCase();
+  return /hiring|vacancy|job opening|position|territory manager|sales officer|field executive/i.test(title);
+}
 
 
 async function getData() {
@@ -269,6 +282,7 @@ async function getData() {
     // if types aren't perfectly aligned yet.
     const jobs: Job[] = (jobsData || []).map((post: Post) => ({
       id: post.id,
+      slug: post.slug,
       title: post.title,
       company: post.company || 'Unknown Company',
       location: post.location || 'Remote',
@@ -285,12 +299,7 @@ async function getData() {
 
     return {
       posts: (posts && posts.length > 0) 
-        ? posts.map(p => ({
-            ...p,
-            image_url: p.image_url?.startsWith('/images/') 
-              ? `https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&q=80` 
-              : p.image_url
-          })) 
+        ? posts.map((post) => normalizePostRecord(post))
         : MOCK_POSTS,
       jobs: (jobs && jobs.length > 0) ? jobs : MOCK_JOBS
     };
@@ -302,15 +311,24 @@ async function getData() {
 }
 
 export default async function Home() {
-  const { posts, jobs } = await getData();
+  const [{ posts, jobs }, publicCategories] = await Promise.all([
+    getData(),
+    getPublicCategories(),
+  ]);
+
+  const feedPosts = posts.filter((post) => 
+    post.category !== 'Jobs' && 
+    post.category !== 'Warnings' && 
+    !isJobListing(post)
+  );
 
   // --- REFINED SLOT LOGIC WITH ADMIN WIREUPS ---
 
   // 1. Bucket posts by their explicit display_location
-  const explicitHero = posts.filter(p => p.display_location === 'hero');
-  const explicitFeatured = posts.filter(p => p.display_location === 'featured');
-  const explicitTrending = posts.filter(p => p.display_location === 'trending');
-  const explicitDontMiss = posts.filter(p => p.display_location === 'dont_miss');
+  const explicitHero = feedPosts.filter(p => p.display_location === 'hero');
+  const explicitFeatured = feedPosts.filter(p => p.display_location === 'featured');
+  const explicitTrending = feedPosts.filter(p => p.display_location === 'trending');
+  const explicitDontMiss = feedPosts.filter(p => p.display_location === 'dont_miss');
 
   const shownIds = new Set<string>();
 
@@ -326,7 +344,7 @@ export default async function Home() {
   } else {
     // Fallback: Use first featured post that isn't already used (though none used yet)
     // or just the first post in the list.
-    const fallback = posts.find(p => p.is_featured) || posts[0];
+    const fallback = feedPosts.find(p => p.is_featured) || feedPosts[0];
     if (fallback) mainHeroPost = fallback;
   }
 
@@ -341,7 +359,7 @@ export default async function Home() {
 
   // 3. Select Featured Grid (Target: 3 posts)
   // Priority: Explicit 'featured' -> Other is_featured=true posts (that haven't expired)
-  let featuredPosts: Post[] = [];
+  const featuredPosts: Post[] = [];
 
   // Add explicit featured ones first
   explicitFeatured.forEach(p => {
@@ -353,7 +371,7 @@ export default async function Home() {
 
   // Fill remainder with generic featured posts (checking expiration)
   if (featuredPosts.length < 3) {
-    const candidates = posts.filter(p => isFeaturedActive(p) && isAvailable(p));
+    const candidates = feedPosts.filter(p => isFeaturedActive(p) && isAvailable(p));
     for (const p of candidates) {
       if (featuredPosts.length >= 3) break;
       featuredPosts.push(p);
@@ -363,7 +381,7 @@ export default async function Home() {
 
   // 4. Select Trending (Target: 5 posts)
   // Priority: Explicit 'trending' -> Next available recent posts
-  let trendingPosts: Post[] = [];
+  const trendingPosts: Post[] = [];
 
   explicitTrending.forEach(p => {
     if (isAvailable(p) && trendingPosts.length < 5) {
@@ -374,7 +392,7 @@ export default async function Home() {
 
   if (trendingPosts.length < 5) {
     // Fill with remaining posts (sorted by date desc from fetch)
-    const candidates = posts.filter(p => isAvailable(p));
+    const candidates = feedPosts.filter(p => isAvailable(p));
     for (const p of candidates) {
       if (trendingPosts.length >= 5) break;
       trendingPosts.push(p);
@@ -384,7 +402,7 @@ export default async function Home() {
 
   // 5. Select Don't Miss (Target: 4 posts)
   // Priority: Explicit 'dont_miss' -> Next available recent posts
-  let dontMissPosts: Post[] = [];
+  const dontMissPosts: Post[] = [];
 
   explicitDontMiss.forEach(p => {
     if (isAvailable(p) && dontMissPosts.length < 4) {
@@ -394,7 +412,7 @@ export default async function Home() {
   });
 
   if (dontMissPosts.length < 4) {
-    const candidates = posts.filter(p => isAvailable(p));
+    const candidates = feedPosts.filter(p => isAvailable(p));
     for (const p of candidates) {
       if (dontMissPosts.length >= 4) break;
       dontMissPosts.push(p);
@@ -407,6 +425,38 @@ export default async function Home() {
   const startupPosts = posts.filter(p => p.category === 'Startups');
   const jobPosts = posts.filter(p => p.category === 'Jobs');
   const warningsPosts = posts.filter(p => p.category === 'Warnings');
+  const categoryPostsMap = new Map(publicCategories.map((category) => [
+    category.name,
+    posts.filter((post) => post.category === category.name),
+  ]));
+
+  const sectionsDesk = publicCategories
+    .filter((category) => category.surfaceType === 'editorial' && category.name !== 'Warnings')
+    .slice(0, 3)
+    .map((descriptor) => ({
+      descriptor,
+      posts: categoryPostsMap.get(descriptor.name) || [],
+    }));
+
+  const coverageMapItems = publicCategories.map((descriptor) => {
+    if (descriptor.name === 'Jobs') {
+      return {
+        descriptor,
+        href: descriptor.href,
+        headline: jobs[0]?.title || 'Open the live jobs desk',
+        stat: `${jobs.length} live`,
+      };
+    }
+
+    const latestPost = (categoryPostsMap.get(descriptor.name) || [])[0];
+
+    return {
+      descriptor,
+      href: descriptor.href,
+      headline: latestPost?.title,
+      stat: latestPost ? `${categoryPostsMap.get(descriptor.name)?.length || 0} live` : undefined,
+    };
+  });
 
   return (
     <div className="bg-paper-bg min-h-screen">
@@ -415,9 +465,6 @@ export default async function Home() {
 
       {/* Featured Grid */}
       <FeaturedGrid posts={featuredPosts} />
-
-      {/* Subscribe Block */}
-      <SubscribeBlock />
 
       <div className="max-w-[1700px] mx-auto px-4 my-0.5">
         <AdBanner placement="banner" />
@@ -452,14 +499,25 @@ export default async function Home() {
       {/* Warnings Strip */}
       {warningsPosts.length > 0 && <WarningsStrip posts={warningsPosts} />}
 
+      <CoverageMap items={coverageMapItems} />
+
+      <SectionsDesk sections={sectionsDesk} />
+
       {/* Bottom Categories Section */}
-      <section className="max-w-[1700px] mx-auto px-4 py-1 border-t border-stone-200">
-        <CategoryTabs>
+      <section className="editorial-shell border-t border-stone-200 py-10 md:py-14">
+        <div className="mb-6 border-b border-stone-200 pb-4">
+          <p className="eyebrow-label mb-2">Utility Desks</p>
+          <h2 className="text-3xl md:text-5xl font-semibold text-[var(--color-graphite)]">Funding, startup signals, and verified hiring in one view.</h2>
+        </div>
+        <div className="grid gap-6 md:grid-cols-3">
           <GrantsSection posts={grantsPosts} />
           <StartupsSection posts={startupPosts} />
           <LatestJobs posts={jobPosts} />
-        </CategoryTabs>
+        </div>
       </section>
+
+      {/* Subscribe Block */}
+      <SubscribeBlock />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
+import { IBM_Plex_Sans, Newsreader } from "next/font/google";
 
 export const viewport = {
   width: 'device-width',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Agri Updates | AgriTech Careers & News',
     description: 'India\'s trusted platform for agricultural jobs, grants & funding, startup, and agri-warnings.',
-    url: 'https://agriupdates.com',
+    url: 'https://www.agriupdates.online',
     siteName: 'Agri Updates',
     images: [
       {
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
         height: 630,
       },
     ],
-    locale: 'en_US',
+    locale: 'en_IN',
     type: 'website',
   },
   robots: {
@@ -51,18 +51,38 @@ import Footer from "@/components/layout/Footer";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import CookieConsent from "@/components/ui/CookieConsent";
 import MobileBottomNav from "@/components/layout/MobileBottomNav";
+import { getPublicNavigationCategories, getPublicCategories } from "@/lib/public-categories";
 
-export default function RootLayout({
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-ibm-plex-sans",
+  display: "swap",
+});
+
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-newsreader",
+  display: "swap",
+});
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [navigationCategories, publicCategories] = await Promise.all([
+    getPublicNavigationCategories(),
+    getPublicCategories(),
+  ]);
+
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     'name': 'Agri Updates',
-    'url': 'https://agriupdates.com',
-    'logo': 'https://agriupdates.com/logo.png',
+    'url': 'https://www.agriupdates.online',
+    'logo': 'https://www.agriupdates.online/logo.png',
     'description': "India's trusted platform for agricultural jobs, internships, fellowships, and AgriTech innovation.",
     'sameAs': [
       'https://twitter.com/AgriUpdates',
@@ -71,12 +91,12 @@ export default function RootLayout({
     'contactPoint': {
       '@type': 'ContactPoint',
       'contactType': 'customer support',
-      'email': 'support@agriupdates.com'
+      'email': 'support@agriupdates.online'
     }
   };
 
   return (
-    <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="en-IN" className="scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* Google Tag Manager */}
         <script
@@ -93,12 +113,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" />
       </head>
       <body
-        className="antialiased bg-stone-50 text-stone-900 font-sans flex flex-col min-h-screen"
+        className={`${ibmPlexSans.variable} ${newsreader.variable} antialiased bg-stone-50 text-stone-900 font-sans flex min-h-screen flex-col`}
       >
         {/* Google Tag Manager (noscript) */}
         <noscript>
@@ -111,13 +128,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </noscript>
         {/* End Google Tag Manager (noscript) */}
         <Suspense fallback={<div className="h-20 bg-white" />}>
-          <Navbar />
+          <Navbar categories={navigationCategories} />
         </Suspense>
-        <main className="flex-grow pb-20 md:pb-0">
+        <MobileBottomNav categories={navigationCategories} />
+        <main className="flex-grow pb-10 md:pb-0">
           {children}
         </main>
-        <Footer />
-        <MobileBottomNav />
+        <Footer categories={publicCategories} />
         <Suspense fallback={null}>
           <GoogleAnalytics GA_MEASUREMENT_ID="G-LLDWYS27VF" />
         </Suspense>

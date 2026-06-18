@@ -8,8 +8,12 @@ require('dotenv').config({ path: path.resolve(__dirname, '../../.env.local') });
 
 // CONFIGURATION
 const WEBSITE_WEBHOOK_URL = process.env.WEBHOOK_URL || 'http://localhost:3000/api/webhooks/whatsapp';
-// Secret generated and verified in local env, prioritize WHATSAPP_WEBHOOK_SECRET
-const API_SECRET = process.env.WHATSAPP_WEBHOOK_SECRET || process.env.WEBHOOK_SECRET || 'df8d723a56a18d6165f74b0e16edb943717601e8a8c110ec1fcef708a0c5f931';
+// Secret must be set in environment — fail fast if missing
+const API_SECRET = process.env.WHATSAPP_WEBHOOK_SECRET || process.env.WEBHOOK_SECRET;
+if (!API_SECRET) {
+    console.error('FATAL: WHATSAPP_WEBHOOK_SECRET (or WEBHOOK_SECRET) is not set in the environment.');
+    process.exit(1);
+}
 const TARGET_GROUP_NAME = process.env.GROUP_NAME || 'news';
 
 console.log('Starting WhatsApp Client...');

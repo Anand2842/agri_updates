@@ -8,8 +8,9 @@ import StartupTagFilter from '@/components/startups/StartupTagFilter';
 import StartupNewsCard from '@/components/startups/StartupNewsCard';
 import DirectoryPreview from '@/components/startups/DirectoryPreview';
 import AdBanner from '@/components/ads/AdBanner';
+import { normalizePostRecord } from '@/lib/public-posts';
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 interface StartupsHubProps {
     searchParams: Promise<{ tag?: string; page?: string }>;
@@ -42,7 +43,7 @@ async function getStartupNews(tagFilter?: string, page: number = 1): Promise<{ p
             return { posts: [], total: 0 };
         }
 
-        return { posts: data || [], total: count || 0 };
+        return { posts: (data || []).map((post) => normalizePostRecord(post)) as Post[], total: count || 0 };
     } catch (e) {
         console.error('Error in getStartupNews', e);
         return { posts: [], total: 0 };
@@ -112,6 +113,9 @@ export async function generateMetadata({ searchParams }: StartupsHubProps): Prom
     return {
         title: `${title} | Agri Updates`,
         description: description,
+        alternates: {
+            canonical: '/startups',
+        },
     };
 }
 
@@ -134,7 +138,7 @@ export default async function StartupsHubPage({ searchParams }: StartupsHubProps
     const gridPosts = heroPost ? posts.slice(1) : posts;
 
     return (
-        <div className="bg-white min-h-screen">
+        <div className="bg-stone-50 min-h-screen pb-20">
             {/* HERO SECTION */}
             {heroPost && (
                 <div className="mb-0">
@@ -146,13 +150,13 @@ export default async function StartupsHubPage({ searchParams }: StartupsHubProps
             <StartupTagFilter currentTag={tagFilter || null} />
 
             {/* MAIN CONTENT GRID */}
-            <div className="container mx-auto px-4 py-12 max-w-7xl">
+            <div className="editorial-shell py-12">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                     
                     {/* LEFT COLUMN: News Feed (8 cols) */}
                     <div className="lg:col-span-8">
                         
-                        <div className="mb-8 flex items-end justify-between border-b border-ink-black pb-2">
+                        <div className="mb-8 flex items-end justify-between border-b border-stone-800 pb-2">
                             <h2 className="text-xl font-serif font-bold text-stone-900">
                                 {tagFilter ? `${tagFilter} News` : 'Latest News'}
                             </h2>
@@ -173,7 +177,7 @@ export default async function StartupsHubPage({ searchParams }: StartupsHubProps
                                 ))}
                             </div>
                         ) : (
-                            <div className="py-20 text-center bg-stone-50 border border-stone-200">
+                            <div className="py-20 text-center bg-white border border-stone-200 rounded-[1.5rem] shadow-sm">
                                 <h3 className="font-serif text-xl font-bold mb-2">No news found</h3>
                                 <p className="text-stone-500 text-sm">
                                     {tagFilter 
@@ -189,7 +193,7 @@ export default async function StartupsHubPage({ searchParams }: StartupsHubProps
                                 {page > 1 && (
                                     <Link
                                         href={`/startups?page=${page - 1}${tagFilter ? `&tag=${encodeURIComponent(tagFilter)}` : ''}`}
-                                        className="border border-stone-300 px-6 py-3 text-xs font-bold uppercase hover:bg-black hover:text-white transition-colors"
+                                        className="rounded-full px-6 py-2.5 bg-white border border-stone-200 shadow-sm hover:bg-stone-900 hover:text-white hover:border-stone-900 transition-all font-bold text-xs uppercase tracking-wider"
                                     >
                                         Previous
                                     </Link>
@@ -200,7 +204,7 @@ export default async function StartupsHubPage({ searchParams }: StartupsHubProps
                                 {page < totalPages && (
                                     <Link
                                         href={`/startups?page=${page + 1}${tagFilter ? `&tag=${encodeURIComponent(tagFilter)}` : ''}`}
-                                        className="border border-stone-300 px-6 py-3 text-xs font-bold uppercase hover:bg-black hover:text-white transition-colors"
+                                        className="rounded-full px-6 py-2.5 bg-white border border-stone-200 shadow-sm hover:bg-stone-900 hover:text-white hover:border-stone-900 transition-all font-bold text-xs uppercase tracking-wider"
                                     >
                                         Next
                                     </Link>
@@ -212,14 +216,14 @@ export default async function StartupsHubPage({ searchParams }: StartupsHubProps
                     {/* RIGHT COLUMN: Sidebar (4 cols) */}
                     <div className="lg:col-span-4 space-y-10">
                         {/* Ad Banner */}
-                        <div className="bg-stone-50 p-4 border border-stone-200">
+                        <div className="paper-panel p-5 shadow-sm">
                             <span className="text-[9px] uppercase font-bold text-stone-400 block mb-2 text-center tracking-widest">Advertisement</span>
                             <AdBanner placement="sidebar" />
                         </div>
 
                         {/* Trending Tags Cloud */}
                         {trendingTags.length > 0 && (
-                            <div className="bg-white border border-stone-200 p-6 shadow-sm">
+                            <div className="paper-panel p-6 shadow-sm">
                                 <h3 className="font-bold uppercase text-xs tracking-widest text-stone-900 mb-6 flex items-center gap-2">
                                     <span className="w-2 h-2 bg-agri-green rounded-full"></span>
                                     Trending Topics
@@ -239,14 +243,14 @@ export default async function StartupsHubPage({ searchParams }: StartupsHubProps
                         )}
 
                         {/* Directory Widget */}
-                        <div className="bg-black text-white p-8">
+                        <div className="bg-black text-white p-8 rounded-[1.5rem] shadow-sm">
                             <h3 className="font-serif text-2xl font-bold mb-4">Startup Directory</h3>
                             <p className="text-stone-400 text-sm mb-8 leading-relaxed">
                                 Research and discover hundreds of innovative agritech companies mapped by sector, stage, and location.
                             </p>
                             <Link 
                                 href="/startups/directory"
-                                className="block w-full py-3 bg-agri-green hover:bg-white hover:text-black transition-colors text-center font-bold uppercase text-xs tracking-widest"
+                                className="block w-full py-3 bg-agri-green hover:bg-white hover:text-black transition-colors text-center font-bold uppercase text-xs tracking-widest rounded-full"
                             >
                                 Enter Directory
                             </Link>

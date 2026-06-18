@@ -95,7 +95,7 @@ export default function ImageUpload({ value, onChange, disabled }: ImageUploadPr
                         />
                     </label>
                     <p className="mt-2 text-xs text-stone-500">
-                        Recommended size: 1200x630px. Max 5MB.
+                        Recommended size: 1400px wide or larger. Lead images now preserve the full frame; smaller thumbnails may still crop to 3:2. Max 5MB.
                     </p>
                 </div>
             </div>

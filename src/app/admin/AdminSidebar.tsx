@@ -24,6 +24,7 @@ import {
     Users,
     DollarSign,
     AlertTriangle,
+    Calendar,
     type LucideIcon
 } from 'lucide-react';
 
@@ -68,7 +69,8 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse, user, role =
         {
             section: 'Overview',
             items: [
-                { name: 'Dashboard', icon: LayoutDashboard, href: '/admin/dashboard' }
+                { name: 'Dashboard', icon: LayoutDashboard, href: '/admin/dashboard' },
+                { name: 'Calendar', icon: Calendar, href: '/admin/calendar' }
             ] as MenuItemType[]
         },
         {

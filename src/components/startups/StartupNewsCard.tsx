@@ -12,14 +12,14 @@ export default function StartupNewsCard({ post, variant = 'compact' }: StartupNe
     const isFeatured = variant === 'featured';
 
     return (
-        <article className="border border-stone-200 bg-white group hover:border-agri-green transition-colors flex flex-col h-full shadow-sm">
+        <article className="paper-panel group flex h-full flex-col overflow-hidden transition-colors hover:border-agri-green">
             {isFeatured && post.image_url && (
-                <Link href={`/blog/${post.slug}`} className="block relative aspect-[16/9] w-full overflow-hidden bg-stone-100">
+                <Link href={`/blog/${post.slug}`} className="block relative aspect-[3/2] w-full overflow-hidden bg-stone-100">
                     <Image
                         src={post.image_url}
                         alt={post.title}
                         fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
                     />
                 </Link>
             )}

@@ -44,8 +44,6 @@ export default function ContactForm() {
             console.error('Contact form error:', error);
             setStatus('error');
             alert('Failed to send message. Please try again.');
-        } finally {
-            if (status !== 'success') setStatus('idle');
         }
     }
 

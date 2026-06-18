@@ -3,6 +3,7 @@ import type { PolicyConfig } from '@/components/admin/editor/EligibilityEditor'
 
 export type Job = {
     id: string
+    slug?: string | null
     title: string
     company: string
     location: string | null

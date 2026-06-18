@@ -12,6 +12,8 @@ export default function NewsletterForm() {
         const formData = new FormData(e.currentTarget);
         const email = formData.get('email');
 
+        let finalStatus: 'idle' | 'success' | 'error' = 'idle';
+
         try {
             const response = await fetch('/api/newsletter', {
                 method: 'POST',
@@ -21,12 +23,12 @@ export default function NewsletterForm() {
 
             if (!response.ok) throw new Error('Subscription failed');
 
-            setStatus('success');
+            finalStatus = 'success';
         } catch (error) {
             console.error(error);
-            setStatus('error');
+            finalStatus = 'error';
         } finally {
-            if (status !== 'success') setStatus('idle');
+            setStatus(finalStatus);
         }
     }
 

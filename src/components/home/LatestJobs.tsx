@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Post } from '@/types/database';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { getPublicPostHref } from '@/lib/public-posts';
 
 type Props = {
     posts: Post[];
@@ -37,8 +38,23 @@ export default function LatestJobs({ posts }: Props) {
     const displayPosts = posts || [];
     const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
+    if (!displayPosts || displayPosts.length === 0) {
+        return (
+            <div className="paper-panel p-5">
+                <h3 className="section-header mb-4">Latest Jobs</h3>
+                <div className="py-12 text-center">
+                    <p className="font-serif text-xl text-stone-400 mb-2">No openings posted yet.</p>
+                    <p className="text-sm text-stone-400 mb-4">New roles in agri show up every week.</p>
+                    <Link href="/jobs" className="inline-block text-sm font-semibold text-[var(--color-forest)] hover:underline">
+                        View all jobs &rarr;
+                    </Link>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div>
+        <div className="paper-panel p-5">
             {/* Section Header */}
             <h3 className="section-header mb-4">Latest Jobs</h3>
 
@@ -52,14 +68,14 @@ export default function LatestJobs({ posts }: Props) {
             >
                 {displayPosts.slice(0, 4).map((post) => (
                     <motion.div key={post.id} variants={item} className="group relative transition-all">
-                        <Link href={`/blog/${post.slug}`} className="flex gap-4 items-start">
+                        <Link href={getPublicPostHref(post)} className="flex gap-4 items-start">
                             {/* Image Thumbnail with Fallback */}
                             <div className="relative w-16 h-16 flex-shrink-0 bg-stone-100 rounded-lg overflow-hidden border border-stone-200">
                                 <Image
                                     src={imageErrors[post.id] ? 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80' : (post.image_url || 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80')}
                                     alt={post.title}
                                     fill
-                                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                                     onError={() => {
                                         setImageErrors(prev => ({ ...prev, [post.id]: true }));
                                     }}

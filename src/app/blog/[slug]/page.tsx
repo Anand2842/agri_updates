@@ -22,6 +22,8 @@ import EligibilityChecker from '@/components/blog/EligibilityChecker';
 import ArticleSidebar from '@/components/blog/ArticleSidebar';
 import AdBanner from '@/components/ads/AdBanner';
 import WarningAttachmentViewer from '@/components/blog/WarningAttachmentViewer';
+import { getPublicCategoryByName, toCategorySlug } from '@/lib/public-categories';
+import { normalizePostRecord } from '@/lib/public-posts';
 
 /**
  * Server-side content normalizer — runs in Node.js before the HTML reaches
@@ -73,16 +75,18 @@ function serverNormalizeContent(html: string): string {
     return content;
 }
 
-export const revalidate = 0;
+export const revalidate = 60;
 
-async function getPost(slug: string) {
+async function getPost(slug: string, preview = false) {
     try {
-        const { data, error } = await supabase
+        let query = supabase
             .from('posts')
             .select('*, authors(*)')
-            .eq('slug', slug)
-            .eq('status', 'published')
-            .single();
+            .eq('slug', slug);
+        if (!preview) {
+            query = query.eq('status', 'published');
+        }
+        const { data, error } = await query.single();
 
         if (error) {
             if (error.code !== 'PGRST116') {
@@ -94,15 +98,16 @@ async function getPost(slug: string) {
             return null;
         }
 
-        return data;
+        return normalizePostRecord(data);
     } catch {
         return null;
     }
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: { params: Promise<{ slug: string }>, searchParams: Promise<{ preview?: string }> }): Promise<Metadata> {
     const { slug } = await params;
-    const post = await getPost(slug);
+    const { preview } = await searchParams;
+    const post = await getPost(slug, preview === 'true');
 
     if (!post) {
         return {
@@ -116,16 +121,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         openGraph: {
             title: post.title,
             description: post.excerpt || (post.content || '').substring(0, 160) + '...',
-            images: [post.image_url || '/placeholder.jpg'],
+            images: [post.image_url || '/og-image.png'],
             type: 'article',
             publishedTime: post.published_at,
+            modifiedTime: post.updated_at || post.published_at,
             authors: [post.authors?.name || post.author_name],
+            section: post.category,
+            tags: post.tags || [post.category],
         },
         twitter: {
             card: 'summary_large_image',
             title: post.title,
             description: post.excerpt || (post.content || '').substring(0, 160) + '...',
-            images: [post.image_url || '/placeholder.jpg'],
+            images: [post.image_url || '/og-image.png'],
         },
         alternates: {
             canonical: `/blog/${slug}`,
@@ -133,25 +141,78 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
 }
 
-export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ArticlePage({ params, searchParams }: { params: Promise<{ slug: string }>, searchParams: Promise<{ preview?: string }> }) {
     const { slug } = await params;
-    const post = await getPost(slug);
+    const { preview } = await searchParams;
+    const isPreview = preview === 'true';
+    const post = await getPost(slug, isPreview);
 
     if (!post) {
         notFound();
     }
 
     const readingTime = calculateReadingTime(post.content);
+    const categoryDescriptor = await getPublicCategoryByName(post.category);
+    const authorLinkedIn = post.authors?.social_links?.linkedin || post.author_social_linkedin || undefined;
 
-    const jsonLd = {
+    const canonicalUrl = `https://www.agriupdates.online/blog/${slug}`;
+    const isJob = post.category === 'Jobs';
+
+    const jsonLd = isJob ? {
+        '@context': 'https://schema.org',
+        '@type': 'JobPosting',
+        title: post.title,
+        description: post.excerpt || post.content?.substring(0, 500),
+        datePosted: post.published_at,
+        validThrough: post.featured_until || undefined,
+        hiringOrganization: {
+            '@type': 'Organization',
+            name: post.company || 'Unknown Company',
+        },
+        jobLocation: {
+            '@type': 'Place',
+            address: {
+                '@type': 'PostalAddress',
+                addressLocality: post.location || 'India',
+                addressCountry: 'IN',
+            },
+        },
+        employmentType: post.job_type?.toUpperCase().replace('-', '_') || 'FULL_TIME',
+        baseSalary: post.salary_range ? {
+            '@type': 'MonetaryAmount',
+            value: post.salary_range,
+        } : undefined,
+        url: post.application_link || canonicalUrl,
+        applicantLocationRequirements: {
+            '@type': 'Country',
+            name: 'IN',
+        },
+        publisher: {
+            '@type': 'Organization',
+            name: 'Agri Updates',
+            url: 'https://www.agriupdates.online',
+            logo: {
+                '@type': 'ImageObject',
+                url: 'https://www.agriupdates.online/logo.png',
+            },
+        },
+    } : {
         '@context': 'https://schema.org',
         '@type': 'NewsArticle',
         headline: post.title,
         description: post.excerpt || post.content?.substring(0, 160),
-        image: [post.image_url || 'https://agriupdates.com/og-image.png'],
+        image: [post.image_url || 'https://www.agriupdates.online/og-image.png'],
         datePublished: post.published_at,
         dateModified: post.updated_at || post.published_at,
         articleSection: post.category,
+        mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': canonicalUrl,
+        },
+        speakable: {
+            '@type': 'SpeakableSpecification',
+            cssSelector: ['h1', '.excerpt'],
+        },
         about: {
             '@type': 'Thing',
             name: post.category,
@@ -169,10 +230,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         publisher: {
             '@type': 'Organization',
             name: 'Agri Updates',
-            url: 'https://agriupdates.com',
+            url: 'https://www.agriupdates.online',
             logo: {
                 '@type': 'ImageObject',
-                url: 'https://agriupdates.com/logo.png'
+                url: 'https://www.agriupdates.online/logo.png'
             }
         }
     };
@@ -185,25 +246,31 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 '@type': 'ListItem',
                 position: 1,
                 name: 'Home',
-                item: 'https://agriupdates.com'
+                item: 'https://www.agriupdates.online'
             },
             {
                 '@type': 'ListItem',
                 position: 2,
-                name: 'Blog',
-                item: 'https://agriupdates.com/blog'
+                name: isJob ? 'Jobs' : 'Blog',
+                item: isJob ? 'https://www.agriupdates.online/jobs' : 'https://www.agriupdates.online/blog'
             },
             {
                 '@type': 'ListItem',
                 position: 3,
                 name: post.title,
-                item: `https://agriupdates.com/blog/${slug}`
+                item: canonicalUrl
             }
         ]
     };
 
     return (
         <article className="min-h-screen bg-white pb-20 overflow-x-hidden pt-8 md:pt-12">
+
+            {isPreview && (
+                <div className="bg-amber-100 border-b-2 border-amber-400 text-amber-900 text-center py-3 px-4 text-sm font-bold uppercase tracking-widest">
+                    Preview Mode — This post is not published yet
+                </div>
+            )}
 
             <script
                 type="application/ld+json"
@@ -227,7 +294,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                             {/* Category badge */}
                             <div className="mb-5 flex items-center gap-3">
                                 <Link
-                                    href={`/updates?category=${encodeURIComponent(post.category)}`}
+                                    href={categoryDescriptor?.href || `/updates/${toCategorySlug(post.category)}`}
                                     className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.15em] text-agri-green bg-agri-green/8 hover:bg-agri-green/15 px-3 py-1.5 rounded-full transition-colors"
                                 >
                                     {post.category}
@@ -305,10 +372,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                         )}
 
                         {/* Warning Attachment Viewer (view-only, no download) */}
-                        {post.category === 'Warnings' && (post as any).attachment_url && (
+                        {post.category === 'Warnings' && post.attachment_url && (
                             <WarningAttachmentViewer
-                                url={(post as any).attachment_url}
-                                type={(post as any).attachment_type}
+                                url={post.attachment_url}
+                                type={post.attachment_type || null}
                                 title={post.title}
                             />
                         )}
@@ -355,8 +422,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                                         <p className="text-stone-500 text-xs md:text-sm leading-relaxed">
                                             {post.authors?.bio || post.author_bio || 'The editorial desk covers agricultural news, market intelligence, and funding opportunities.'}
                                         </p>
-                                        {(post.authors?.social_links?.linkedin || post.author_social_linkedin) && (
-                                            <a href={post.authors?.social_links?.linkedin || post.author_social_linkedin} target="_blank" rel="noopener noreferrer" className="text-agri-green text-xs md:text-sm font-semibold hover:underline mt-2 inline-block">
+                                        {authorLinkedIn && (
+                                            <a href={authorLinkedIn} target="_blank" rel="noopener noreferrer" className="text-agri-green text-xs md:text-sm font-semibold hover:underline mt-2 inline-block">
                                                 Follow on LinkedIn ↗
                                             </a>
                                         )}
@@ -385,7 +452,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                     currentPostId={post.id}
                     category={post.category}
                     offset={3}
-                    className="mt-10 hidden lg:block"
+                    className="mt-10"
                 />
             )}
 

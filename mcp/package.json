@@ -1,0 +1,23 @@
+{
+  "name": "agri-updates-mcp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/http.ts",
+    "start": "node --import tsx src/http.ts",
+    "stdio": "node --import tsx src/stdio.ts",
+    "test": "node --test --experimental-strip-types src/http.test.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@supabase/supabase-js": "^2.90.1",
+    "express": "^5.2.1",
+    "openai": "^6.16.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.25",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

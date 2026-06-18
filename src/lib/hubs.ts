@@ -32,7 +32,7 @@ export type HubConfig = {
 export const JOB_HUBS: Record<string, HubConfig> = {
     'agriculture-jobs-maharashtra': {
         slug: 'agriculture-jobs-maharashtra',
-        title: 'Agriculture Jobs in Maharashtra 2024 - Latest Agri Vacancies',
+        title: 'Agriculture Jobs in Maharashtra - Latest Agri Vacancies',
         description: 'Find the latest agriculture jobs in Maharashtra including sales, field officer, agronomist, fertilizer, and agrochemical roles. Updated daily.',
         h1: 'Agriculture Jobs in Maharashtra – Latest Agri Vacancies',
         intro: 'Find the latest agriculture jobs in Maharashtra including sales, field officer, agronomist, fertilizer, and agrochemical roles.',

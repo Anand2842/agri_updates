@@ -5,7 +5,7 @@ export default function Opportunities({ jobs }: { jobs: Job[] }) {
     if (!jobs || jobs.length === 0) return null;
 
     return (
-        <div>
+        <div className="paper-panel p-5">
             {/* Section Header */}
             <h3 className="section-header-green mb-6">
                 Opportunities
@@ -15,7 +15,7 @@ export default function Opportunities({ jobs }: { jobs: Job[] }) {
             <div className="flex flex-col">
                 {jobs.slice(0, 6).map((job) => (
                     <div key={job.id} className="newspaper-card-minimal group">
-                        <Link href={`/jobs/${job.id}`} className="block">
+                        <Link href={`/jobs/${job.slug || job.id}`} className="block">
                             {/* Type Badge */}
                             <div className="category-badge mb-1 text-[9px]">
                                 {job.type || 'Job'}

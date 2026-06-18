@@ -4,6 +4,9 @@ import Link from 'next/link';
 export const metadata: Metadata = {
     title: 'Featured Listings | Agri Updates',
     description: 'Boost visibility for your opportunities with Featured Listings on Agri Updates. Ideal for incubation programs, universities, NGOs, and startups.',
+    alternates: {
+        canonical: '/featured-listings',
+    },
 };
 
 export default function FeaturedListingsPage() {
@@ -117,7 +120,7 @@ export default function FeaturedListingsPage() {
                                 </li>
                             </ul>
                         </div>
-                        <Link href="mailto:hello@agriupdates.com?subject=Featured Listing Inquiry" className="block w-full py-3 bg-agri-green text-white text-center font-bold hover:bg-white hover:text-agri-green transition-colors">
+                        <Link href="mailto:hello@agriupdates.online?subject=Featured Listing Inquiry" className="block w-full py-3 bg-agri-green text-white text-center font-bold hover:bg-white hover:text-agri-green transition-colors">
                             Get Started &rarr;
                         </Link>
                     </div>

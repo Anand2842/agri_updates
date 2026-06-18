@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 interface JobPageProps {
     params: Promise<{ slug: string }>;
@@ -46,6 +46,9 @@ export async function generateMetadata({ params }: JobPageProps): Promise<Metada
     return {
         title: `${job.title} at ${job.company} | Agri Updates`,
         description: `Apply for the ${job.title} position at ${job.company}. Location: ${job.location}.`,
+        alternates: {
+            canonical: `/jobs/apply/${slug}`,
+        },
         openGraph: {
             title: `${job.title} - ${job.company}`,
             description: `We are hiring a ${job.title} in ${job.location}. Click to read more and apply.`,

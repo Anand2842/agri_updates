@@ -2,6 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { resend, isResendConfigured } from '@/lib/resend';
 import { supabase } from '@/lib/supabase';
 
+function escapeHtml(str: string): string {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();
@@ -50,7 +59,7 @@ export async function POST(request: NextRequest) {
                     <p><strong>Email:</strong> ${email}</p>
                     <p><strong>Subject:</strong> ${subject}</p>
                     <p><strong>Message:</strong></p>
-                    <p>${message}</p>
+                    <p>${escapeHtml(message)}</p>
                 `
             });
 

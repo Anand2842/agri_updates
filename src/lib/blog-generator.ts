@@ -56,7 +56,7 @@ export class BlogGenerator {
     for (const pattern of patterns) {
       const match = text.match(pattern);
       if (match && match[1]) {
-        let extracted = match[1].trim()
+        const extracted = match[1].trim()
           .replace(/^[:\-\*>&=]+/, '') // Remove "->", ":", "*", ">", "=", etc. at start
           .trim();
 
@@ -594,27 +594,18 @@ export class BlogGenerator {
 
   <section class="introduction mb-8">
     <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl border-l-4 border-agri-green">
-      <span class="inline-block bg-agri-green text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide mb-3">🔥 Hot Opportunity</span>
       <h1 class="text-2xl font-bold text-stone-900 mb-2">${title}</h1>
       <p class="text-stone-600">A new career opportunity is now open. Read the details carefully and apply before the deadline.</p>
     </div>
   </section>
 
+  ${descriptionParagraphs ? `
   <section class="about-opportunity mb-8">
     <h2 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">About This Opportunity</h2>
     <div class="prose prose-stone max-w-none text-stone-700 leading-relaxed">
-      ${descriptionParagraphs || '<p>This is an exciting opportunity in the agriculture sector. The employer is looking for motivated candidates to join their team. Please review the details in the Job Overview table below.</p>'}
+      ${descriptionParagraphs}
     </div>
-  </section>
-
-  <section class="key-responsibilities mb-8">
-    <h2 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">Key Responsibilities</h2>
-    <ul class="list-disc pl-6 space-y-2 text-stone-700">
-      <li>Perform duties as assigned by the reporting manager in line with the role of <strong>${position}</strong>.</li>
-      <li>Contribute to team goals and organizational objectives.</li>
-      <li>Maintain professional conduct and adhere to company policies.</li>
-    </ul>
-  </section>
+  </section>` : ''}
 
   <section class="eligibility mb-8">
     <h2 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">Eligibility Criteria</h2>
@@ -667,38 +658,6 @@ export class BlogGenerator {
     </div>
   </section>
 
-  <section class="faq mb-8">
-    <h2 class="text-xl font-bold text-stone-800 mb-4 border-b pb-2">Frequently Asked Questions</h2>
-    <div class="space-y-3">
-      <details class="group bg-white border border-stone-200 rounded-lg shadow-sm">
-        <summary class="font-bold cursor-pointer p-4 hover:bg-stone-50 flex justify-between items-center">
-          <span>Is this a verified job posting?</span>
-          <span class="text-stone-400 group-open:rotate-180 transition-transform">▼</span>
-        </summary>
-        <div class="p-4 border-t border-stone-100 text-stone-600 text-sm">
-          <p>We source job listings from trusted networks, but we always recommend verifying details directly with the employer before sharing personal documents or making any payments.</p>
-        </div>
-      </details>
-      <details class="group bg-white border border-stone-200 rounded-lg shadow-sm">
-        <summary class="font-bold cursor-pointer p-4 hover:bg-stone-50 flex justify-between items-center">
-          <span>What is the salary for this role?</span>
-          <span class="text-stone-400 group-open:rotate-180 transition-transform">▼</span>
-        </summary>
-        <div class="p-4 border-t border-stone-100 text-stone-600 text-sm">
-          <p>The salary for this position is <strong>${salary}</strong>. Final compensation may vary based on experience and interview performance.</p>
-        </div>
-      </details>
-      <details class="group bg-white border border-stone-200 rounded-lg shadow-sm">
-        <summary class="font-bold cursor-pointer p-4 hover:bg-stone-50 flex justify-between items-center">
-          <span>Can freshers apply for this job?</span>
-          <span class="text-stone-400 group-open:rotate-180 transition-transform">▼</span>
-        </summary>
-        <div class="p-4 border-t border-stone-100 text-stone-600 text-sm">
-          <p>The required experience is <strong>${experience}</strong>. Please check the eligibility carefully. If you meet the qualifications, we encourage you to apply.</p>
-        </div>
-      </details>
-    </div>
-  </section>
 
 </article>
     `;

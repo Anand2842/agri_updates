@@ -432,6 +432,22 @@ export default function PostForm({ initialData }: PostFormProps) {
                         )}
                     </div>
 
+                    {/* SEO Search Preview */}
+                    <div className="bg-white rounded-xl border border-stone-200 p-6 shadow-sm">
+                        <h3 className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-3">Google Search Result Preview</h3>
+                        <div className="border border-stone-200 rounded-lg p-4 bg-stone-50">
+                            <p className="text-[18px] text-blue-700 font-normal leading-snug hover:underline cursor-default truncate">
+                                {formData.title || 'Post Title'} | Agri Updates
+                            </p>
+                            <p className="text-[14px] text-green-700 font-normal mt-0.5 truncate">
+                                https://www.agriupdates.online/blog/{formData.slug || '...'}
+                            </p>
+                            <p className="text-[13px] text-stone-500 mt-1 line-clamp-2 leading-snug">
+                                {formData.excerpt || (formData.content ? formData.content.replace(/<[^>]*>/g, '').trim().substring(0, 160) + '...' : 'No description yet.')}
+                            </p>
+                        </div>
+                    </div>
+
                     {/* Editor Controls & Container */}
                     <div className="relative">
                         <div className="flex justify-between mb-2">

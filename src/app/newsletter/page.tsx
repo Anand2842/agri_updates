@@ -5,6 +5,9 @@ import NewsletterForm from '@/components/newsletter/NewsletterForm';
 export const metadata: Metadata = {
     title: 'Newsletter | Agri Updates',
     description: 'Subscribe to the Agri Updates newsletter for the latest in agricultural innovation and careers.',
+    alternates: {
+        canonical: '/newsletter',
+    },
 };
 
 export default function NewsletterPage() {

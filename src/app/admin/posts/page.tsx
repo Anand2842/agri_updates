@@ -1,7 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
-import DeletePostButton from '@/components/admin/DeletePostButton'
-import DisplayLocationSelector from '@/components/admin/DisplayLocationSelector'
+import PostsTable from '@/components/admin/PostsTable'
 
 interface AdminPostsPageProps {
     searchParams: Promise<{
@@ -10,6 +9,8 @@ interface AdminPostsPageProps {
         is_featured?: string;
         display?: string;
         mine?: string;
+        search?: string;
+        sort?: string;
     }>
 }
 
@@ -20,16 +21,30 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
     const isFeaturedFilter = params.is_featured === 'true'
     const displayFilter = params.display
     const mineFilter = params.mine === 'true'
+    const searchQuery = params.search || ''
+    const sortParam = params.sort || 'newest'
 
     const supabase = await createClient()
 
     // Get current user for "My Posts" filter
     const { data: { user } } = await supabase.auth.getUser()
 
+    // Build base URL for filters (to preserve state across sort/search changes)
+    const filterParams = new URLSearchParams()
+    if (categoryFilter) filterParams.set('category', categoryFilter)
+    if (statusFilter) filterParams.set('status', statusFilter)
+    if (isFeaturedFilter) filterParams.set('is_featured', 'true')
+    if (displayFilter) filterParams.set('display', displayFilter)
+    if (mineFilter) filterParams.set('mine', 'true')
+
     let query = supabase
         .from('posts')
         .select('*')
-        .order('published_at', { ascending: false })
+
+    // Apply search
+    if (searchQuery) {
+        query = query.ilike('title', `%${searchQuery}%`)
+    }
 
     // Apply filters
     if (categoryFilter) {
@@ -46,6 +61,21 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
     }
     if (mineFilter && user) {
         query = query.eq('user_id', user.id)
+    }
+
+    // Apply sort
+    switch (sortParam) {
+        case 'oldest':
+            query = query.order('published_at', { ascending: true })
+            break
+        case 'views':
+            query = query.order('views', { ascending: false })
+            break
+        case 'title':
+            query = query.order('title', { ascending: true })
+            break
+        default:
+            query = query.order('published_at', { ascending: false })
     }
 
     const { data: posts } = await query
@@ -97,123 +127,148 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
             </div>
 
             {/* Filters */}
-            <div className="flex flex-wrap gap-4 mb-6 pb-4 border-b border-stone-200">
+            <div className="mb-6 pb-4 border-b border-stone-200">
+                <div className="flex flex-wrap gap-4 items-center">
+                    {/* Search */}
+                    <form method="GET" className="flex items-center gap-2">
+                        {categoryFilter && <input type="hidden" name="category" value={categoryFilter} />}
+                        {statusFilter && <input type="hidden" name="status" value={statusFilter} />}
+                        {isFeaturedFilter && <input type="hidden" name="is_featured" value="true" />}
+                        {displayFilter && <input type="hidden" name="display" value={displayFilter} />}
+                        {mineFilter && <input type="hidden" name="mine" value="true" />}
+                        {sortParam && sortParam !== 'newest' && <input type="hidden" name="sort" value={sortParam} />}
+                        <span className="text-xs font-bold uppercase text-stone-400">Search:</span>
+                        <input
+                            type="text"
+                            name="search"
+                            defaultValue={searchQuery}
+                            placeholder="Search by title..."
+                            className="px-3 py-1.5 text-xs border border-stone-200 rounded bg-white focus:outline-none focus:ring-1 focus:ring-black w-48"
+                        />
+                        <button type="submit" className="px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded bg-stone-800 text-white hover:bg-black">
+                            Go
+                        </button>
+                        {searchQuery && (
+                            <Link
+                                href={`/admin/posts?${filterParams.toString()}`}
+                                className="text-xs text-stone-500 hover:text-red-500 underline"
+                            >
+                                Clear
+                            </Link>
+                        )}
+                    </form>
+
+                    <div className="w-px bg-stone-200 h-6 self-center mx-2"></div>
+
+                    {/* Sort */}
+                    <div className="flex gap-2 items-center">
+                        <span className="text-xs font-bold uppercase text-stone-400">Sort:</span>
+                        {[
+                            { value: 'newest', label: 'Newest' },
+                            { value: 'oldest', label: 'Oldest' },
+                            { value: 'views', label: 'Most Viewed' },
+                            { value: 'title', label: 'Title A-Z' },
+                        ].map((opt) => {
+                            const p = new URLSearchParams(filterParams)
+                            if (searchQuery) p.set('search', searchQuery)
+                            if (opt.value !== 'newest') p.set('sort', opt.value)
+                            return (
+                                <Link
+                                    key={opt.value}
+                                    href={`/admin/posts?${p.toString()}`}
+                                    className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded transition-colors ${sortParam === opt.value
+                                        ? 'bg-stone-800 text-white'
+                                        : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                                    }`}
+                                >
+                                    {opt.label}
+                                </Link>
+                            )
+                        })}
+                    </div>
+                </div>
+
+                <div className="flex flex-wrap gap-4 mt-4">
                 <div className="flex gap-2 items-center">
                     <span className="text-xs font-bold uppercase text-stone-400">Status:</span>
-                    {statuses.map((stat) => (
-                        <Link
-                            key={stat.value}
-                            href={`/admin/posts?category=${categoryFilter || ''}&status=${stat.value}`}
-                            className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded transition-colors ${(statusFilter === stat.value) || (!statusFilter && stat.value === '')
-                                ? 'bg-black text-white'
-                                : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
-                                }`}
-                        >
-                            {stat.label}
-                        </Link>
-                    ))}
+                    {statuses.map((stat) => {
+                        const p = new URLSearchParams(filterParams)
+                        if (searchQuery) p.set('search', searchQuery)
+                        if (sortParam !== 'newest') p.set('sort', sortParam)
+                        p.set('status', stat.value)
+                        return (
+                            <Link
+                                key={stat.value}
+                                href={`/admin/posts?${p.toString()}`}
+                                className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded transition-colors ${(statusFilter === stat.value) || (!statusFilter && stat.value === '')
+                                    ? 'bg-black text-white'
+                                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                                    }`}
+                            >
+                                {stat.label}
+                            </Link>
+                        )
+                    })}
                 </div>
                 <div className="w-px bg-stone-200 h-6 self-center mx-2"></div>
                 <div className="flex gap-2 items-center flex-wrap">
                     <span className="text-xs font-bold uppercase text-stone-400">Category:</span>
-                    {categories.map((cat) => (
-                        <Link
-                            key={cat.value}
-                            href={`/admin/posts?status=${statusFilter || ''}&category=${cat.value}`}
-                            className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded transition-colors ${(categoryFilter === cat.value) || (!categoryFilter && cat.value === '')
-                                ? 'bg-agri-green text-white'
-                                : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
-                                }`}
-                        >
-                            {cat.label}
-                        </Link>
-                    ))}
+                    {categories.map((cat) => {
+                        const p = new URLSearchParams(filterParams)
+                        if (searchQuery) p.set('search', searchQuery)
+                        if (sortParam !== 'newest') p.set('sort', sortParam)
+                        p.set('category', cat.value)
+                        return (
+                            <Link
+                                key={cat.value}
+                                href={`/admin/posts?${p.toString()}`}
+                                className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded transition-colors ${(categoryFilter === cat.value) || (!categoryFilter && cat.value === '')
+                                    ? 'bg-agri-green text-white'
+                                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                                    }`}
+                            >
+                                {cat.label}
+                            </Link>
+                        )
+                    })}
                 </div>
                 <div className="w-px bg-stone-200 h-6 self-center mx-2"></div>
                 <div className="flex gap-2 items-center">
-                    <Link
-                        href={`/admin/posts?status=${statusFilter || ''}&category=${categoryFilter || ''}&mine=true`}
-                        className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded transition-colors ${mineFilter
-                            ? 'bg-indigo-600 text-white'
-                            : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
-                        }`}
-                    >
-                        My Posts
-                    </Link>
-                    {mineFilter && (
-                        <Link
-                            href={`/admin/posts?status=${statusFilter || ''}&category=${categoryFilter || ''}`}
-                            className="text-xs text-stone-500 hover:text-red-500 underline"
-                        >
-                            Clear
-                        </Link>
-                    )}
+                    {(() => {
+                        const mineParams = new URLSearchParams(filterParams)
+                        if (searchQuery) mineParams.set('search', searchQuery)
+                        if (sortParam !== 'newest') mineParams.set('sort', sortParam)
+                        mineParams.set('mine', 'true')
+                        const clearParams = new URLSearchParams(filterParams)
+                        if (searchQuery) clearParams.set('search', searchQuery)
+                        if (sortParam !== 'newest') clearParams.set('sort', sortParam)
+                        return (
+                            <>
+                                <Link
+                                    href={`/admin/posts?${mineParams.toString()}`}
+                                    className={`px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded transition-colors ${mineFilter
+                                        ? 'bg-indigo-600 text-white'
+                                        : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
+                                    }`}
+                                >
+                                    My Posts
+                                </Link>
+                                {mineFilter && (
+                                    <Link
+                                        href={`/admin/posts?${clearParams.toString()}`}
+                                        className="text-xs text-stone-500 hover:text-red-500 underline"
+                                    >
+                                        Clear
+                                    </Link>
+                                )}
+                            </>
+                        )
+                    })()}
+                </div>
                 </div>
             </div>
 
-            <div className="bg-white border border-stone-200 overflow-hidden">
-                <table className="w-full text-left text-sm">
-                    <thead className="bg-stone-50 text-stone-500 font-bold uppercase tracking-widest text-xs border-b border-stone-200">
-                        <tr>
-                            <th className="p-4">Title</th>
-                            <th className="p-4">Status</th>
-                            <th className="p-4">Display</th>
-                            <th className="p-4">Category</th>
-                            <th className="p-4">Views</th>
-                            <th className="p-4">Updated</th>
-                            <th className="p-4 text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-stone-100">
-                        {posts?.map((post) => (
-                            <tr key={post.id} className="hover:bg-stone-50 transition-colors">
-                                <td className="p-4">
-                                    <div className="font-bold text-stone-800">{post.title}</div>
-                                    <div className="text-xs text-stone-500 mt-1">by {post.author_name}</div>
-                                </td>
-                                <td className="p-4">
-                                    <span className={`px-2 py-1 rounded text-[10px] uppercase font-bold tracking-widest ${post.status === 'published' ? 'bg-green-100 text-green-700' :
-                                        post.status === 'archived' ? 'bg-red-100 text-red-700' :
-                                            'bg-stone-200 text-stone-600'
-                                        }`}>
-                                        {post.status || 'Draft'}
-                                    </span>
-                                </td>
-                                <td className="p-4 w-40">
-                                    <DisplayLocationSelector
-                                        postId={post.id}
-                                        initialLocation={post.display_location || 'standard'}
-                                    />
-                                </td>
-                                <td className="p-4">
-                                    <span className="bg-stone-100 text-stone-600 px-2 py-1 rounded text-[10px] uppercase font-bold">
-                                        {post.category}
-                                    </span>
-                                </td>
-                                <td className="p-4 font-mono font-bold text-stone-700">
-                                    {post.views || 0}
-                                </td>
-                                <td className="p-4 text-stone-400 text-xs">
-                                    {new Date(post.updated_at || post.created_at).toLocaleDateString()}
-                                </td>
-                                <td className="p-4 text-right flex justify-end items-center gap-2">
-                                    <Link href={`/admin/posts/${post.id}`} className="text-stone-400 hover:text-black font-bold uppercase text-[10px] tracking-widest">
-                                        Edit
-                                    </Link>
-                                    <DeletePostButton postId={post.id} postTitle={post.title} />
-                                </td>
-                            </tr>
-                        ))}
-                        {posts?.length === 0 && (
-                            <tr>
-                                <td colSpan={7} className="p-8 text-center text-stone-500">
-                                    No posts found.
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
+            <PostsTable posts={posts || []} />
         </div>
     )
 }

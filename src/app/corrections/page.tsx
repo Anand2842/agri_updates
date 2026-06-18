@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Corrections Policy | Agri Updates',
     description: 'How we handle errors and updates to our content.',
+    alternates: {
+        canonical: '/corrections',
+    },
 };
 
 export default function CorrectionsPage() {
@@ -23,7 +26,7 @@ export default function CorrectionsPage() {
 
                     <h3>Reporting an Error</h3>
                     <p>
-                        If you believe you have found an error in one of our articles, please email us immediately at <a href="mailto:corrections@agriupdates.com">corrections@agriupdates.com</a> with the article link and the specific factual error.
+                        If you believe you have found an error in one of our articles, please email us immediately at <a href="mailto:corrections@agriupdates.online">corrections@agriupdates.online</a> with the article link and the specific factual error.
                     </p>
 
                     <h3>How We Issue Corrections</h3>

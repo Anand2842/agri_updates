@@ -51,7 +51,7 @@ export default function ReportJobPage() {
                                 id="url"
                                 name="url"
                                 className="w-full px-4 py-3 border border-stone-300 focus:outline-none focus:border-agri-green text-sm"
-                                placeholder="https://agriupdates.com/jobs/..."
+                                placeholder="https://www.agriupdates.online/jobs/..."
                             />
                         </div>
 

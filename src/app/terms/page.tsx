@@ -3,6 +3,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Terms of Use | Agri Updates',
     description: 'Terms and conditions for using Agri Updates. Legal agreement governing your use of our agricultural careers platform.',
+    alternates: {
+        canonical: '/terms',
+    },
 };
 
 export default function TermsPage() {
@@ -140,7 +143,7 @@ export default function TermsPage() {
                     </p>
                     <div className="bg-stone-50 p-6 mt-4">
                         <p className="font-bold">Agri Updates</p>
-                        <p>Email: legal@agriupdates.com</p>
+                        <p>Email: legal@agriupdates.online</p>
                         <p>Phone: +1 (555) 123-4567</p>
                         <p>Address: 123 Innovation Drive, Agriculture Valley, CA 94043</p>
                     </div>

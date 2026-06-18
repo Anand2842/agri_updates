@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Post } from '@/types/database';
 import { safeDateFormat } from '@/lib/utils/date';
+import { getPublicPostHref } from '@/lib/public-posts';
 
 type Props = {
     posts: Post[];
@@ -9,50 +10,49 @@ type Props = {
 
 export default function FeaturedGrid({ posts }: Props) {
     return (
-        <section className="max-w-[1700px] mx-auto px-4 py-0.5 border-b border-stone-200">
+        <section className="editorial-shell border-b border-stone-200 py-5 md:py-8">
             {(!posts || posts.length === 0) ? (
                 <div className="py-12 text-center">
-                    <p className="font-serif text-lg text-stone-500 mb-2">No featured listings at the moment.</p>
-                    <Link href="/featured-listings" className="text-sm font-bold text-agri-green hover:underline">
-                        Be the first to get featured &rarr;
+                    <p className="font-serif text-xl text-stone-400 mb-2">Curated picks are on their way.</p>
+                    <p className="text-sm text-stone-400 mb-4">We&apos;re hand-picking the best stories in agri right now.</p>
+                    <Link href="/updates" className="inline-block text-sm font-semibold text-[var(--color-forest)] hover:underline">
+                        Browse all updates &rarr;
                     </Link>
                 </div>
             ) : (
-                <div className="flex overflow-x-auto snap-x snap-mandatory md:grid md:grid-cols-3 gap-6 md:gap-0 pb-6 md:pb-0 md:divide-x divide-stone-200 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
+                <div className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-2 md:grid md:grid-cols-3 md:gap-5 md:pb-0 no-scrollbar">
                     {posts.slice(0, 3).map((post, idx) => (
-                        <article key={post.id} className={`group py-5 px-5 md:py-4 md:px-6 w-[85vw] flex-shrink-0 snap-center md:w-auto md:flex-shrink md:snap-align-none card-neu md:border-none md:shadow-none md:bg-transparent md:rounded-none ${idx === 0 ? 'md:pl-0' : ''} ${idx === 2 ? 'md:pr-0' : ''} border border-white/20 last:border-b-0`}>
-                            <Link href={`/blog/${post.slug}`} className="block">
+                        <article key={post.id} className={`group paper-panel w-[85vw] flex-shrink-0 snap-center overflow-hidden md:w-auto`}>
+                            <Link href={getPublicPostHref(post)} className="block">
                                 {/* Image */}
-                                <div className="relative aspect-[16/10] mb-4 overflow-hidden rounded-lg md:rounded-none bg-stone-100">
+                                <div className="relative aspect-[3/2] overflow-hidden bg-stone-100">
                                     <Image
                                         src={post.image_url || '/placeholder.jpg'}
                                         alt={post.title}
                                         fill
                                         priority={idx === 0}
                                         sizes="(max-width: 768px) 85vw, 33vw"
-                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
                                     />
                                 </div>
 
-                                {/* Category Badge */}
-                                <div className="category-badge mb-2">
-                                    {post.category}
+                                <div className="p-5">
+                                    <div className="category-badge mb-2">
+                                        {post.category}
+                                    </div>
+
+                                    <h3 className="mb-2 max-w-full text-[1.375rem] font-semibold leading-tight text-[var(--color-graphite)] transition-colors group-hover:text-agri-green md:text-2xl">
+                                        {post.title}
+                                    </h3>
+
+                                    <div className="mb-3 text-[10px] uppercase tracking-[0.16em] text-stone-400">
+                                        By {post.author_name} • {safeDateFormat(post.published_at, { month: 'short', day: 'numeric' }, 'en-IN')}
+                                    </div>
+
+                                    <p className="text-sm leading-7 text-stone-600">
+                                        {post.excerpt}
+                                    </p>
                                 </div>
-
-                                {/* Title */}
-                                <h3 className="font-serif text-[1.375rem] md:text-xl font-bold leading-tight mb-2 group-hover:text-agri-green transition-colors break-words [overflow-wrap:anywhere]">
-                                    {post.title}
-                                </h3>
-
-                                {/* Meta */}
-                                <div className="text-[10px] uppercase tracking-widest text-stone-400 mb-2">
-                                    By {post.author_name} • {safeDateFormat(post.published_at, { month: 'short', day: 'numeric' }, 'en-IN')}
-                                </div>
-
-                                {/* Excerpt */}
-                                <p className="text-sm text-stone-600 line-clamp-2 leading-relaxed font-serif">
-                                    {post.excerpt}
-                                </p>
                             </Link>
                         </article>
                     ))}
