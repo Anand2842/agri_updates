@@ -1,8 +1,8 @@
 import type { AuthInfo } from '@modelcontextprotocol/sdk/server/auth/types.js'
 import type { OAuthMetadata } from '@modelcontextprotocol/sdk/shared/auth.js'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { isAdminEmail, lookupProfileRole } from '../../src/lib/staff-access.ts'
-import type { McpEnv } from './env.ts'
+import { isAdminEmail, lookupProfileRole } from '../../src/lib/staff-access'
+import type { McpEnv } from './env'
 
 type JwtClaims = {
     aud?: string | string[]
