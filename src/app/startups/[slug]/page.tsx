@@ -2,10 +2,12 @@ import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Metadata } from 'next'
-import { ArrowLeft, Globe, MapPin, Users, Calendar, DollarSign, Share2, Linkedin, Twitter, Instagram, Facebook, AlertTriangle } from 'lucide-react'
+import { ArrowLeft, Globe, MapPin, Users, Calendar, DollarSign, Linkedin, Twitter, Instagram, AlertTriangle } from 'lucide-react'
+import Image from 'next/image'
 import StartupTimeline from '@/components/startups/StartupTimeline'
 import StartupHighlights from '@/components/startups/StartupHighlights'
 import RelatedContent from '@/components/startups/RelatedContent'
+import { Post } from '@/types/database'
 
 interface PageProps {
     params: Promise<{ slug: string }>
@@ -54,7 +56,7 @@ export default async function StartupDetailPage({ params }: PageProps) {
     // 3. Fetch Related Posts (match tags if possible, or rough string match - simplify for now to tags overlap)
     // Note: This is an advanced query. For now let's just try to find posts with matching tags.
     // Supabase array overlap: .overlaps('tags', startup.tags || [])
-    let posts: any[] = []
+    let posts: Post[] = []
     if (startup.tags && startup.tags.length > 0) {
         const { data: relatedPosts } = await supabase
             .from('posts')
@@ -78,7 +80,7 @@ export default async function StartupDetailPage({ params }: PageProps) {
                         {/* Logo */}
                         <div className="w-24 h-24 md:w-32 md:h-32 bg-white border border-stone-200 shadow-sm flex items-center justify-center p-4 rounded-sm flex-shrink-0">
                             {startup.logo_url ? (
-                                <img src={startup.logo_url} alt={startup.name} className="max-w-full max-h-full object-contain" />
+                                <Image src={startup.logo_url} alt={startup.name} width={128} height={128} className="max-w-full max-h-full object-contain" />
                             ) : (
                                 <div className="text-4xl font-serif font-bold text-stone-300">{startup.name.charAt(0)}</div>
                             )}
@@ -194,7 +196,7 @@ export default async function StartupDetailPage({ params }: PageProps) {
                                     <AlertTriangle size={18} /> Key Challenges
                                 </h3>
                                 <div className="space-y-6">
-                                    {startup.challenges.map((item: any, idx: number) => (
+                                    {startup.challenges.map((item: { title: string; description: string }, idx: number) => (
                                         <div key={idx}>
                                             <h4 className="font-bold text-sm uppercase tracking-wide mb-1">{item.title}</h4>
                                             <p className="text-stone-500 text-sm leading-relaxed">{item.description}</p>

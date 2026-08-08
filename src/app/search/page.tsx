@@ -138,14 +138,14 @@ async function searchContent(query: string, type: string = 'all') {
                 .or(`title.ilike.%${searchTerm}%,company.ilike.%${searchTerm}%,location.ilike.%${searchTerm}%`);
 
             if (!jobError && jobData) {
-                jobs = jobData.map((post: any) => ({
+                jobs = jobData.map((post: Post) => ({
                     id: post.id,
                     title: post.title,
                     company: post.company || 'Unknown Company',
                     location: post.location || 'Remote',
                     type: post.job_type || 'Full-time',
-                    salary_range: post.salary_range,
-                    application_link: post.application_link,
+                    salary_range: post.salary_range ?? null,
+                    application_link: post.application_link ?? null,
                     description: post.content || '',
                     tags: post.tags || [],
                     is_active: post.is_active ?? true,

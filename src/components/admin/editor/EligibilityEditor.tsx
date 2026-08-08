@@ -9,7 +9,7 @@ export type PolicyRule = {
     type: 'number' | 'select' | 'boolean'
     options?: string[]
     operator: 'eq' | 'neq' | 'gt' | 'lt' | 'gte' | 'lte' | 'contains'
-    value: any
+    value: string | number | boolean
     unit?: string
 }
 
@@ -138,7 +138,7 @@ export default function EligibilityEditor({ value, onChange, onGenerate, isGener
                         <select
                             className="p-2 border rounded text-xs"
                             value={newRule.type}
-                            onChange={e => setNewRule({ ...newRule, type: e.target.value as any })}
+                            onChange={e => setNewRule({ ...newRule, type: e.target.value as 'number' | 'select' | 'boolean' })}
                         >
                             <option value="number">Number</option>
                             <option value="boolean">Yes/No</option>
@@ -147,7 +147,7 @@ export default function EligibilityEditor({ value, onChange, onGenerate, isGener
                         <select
                             className="p-2 border rounded text-xs"
                             value={newRule.operator}
-                            onChange={e => setNewRule({ ...newRule, operator: e.target.value as any })}
+                            onChange={e => setNewRule({ ...newRule, operator: e.target.value as 'eq' | 'neq' | 'gt' | 'lt' | 'gte' | 'lte' | 'contains' })}
                         >
                             <option value="eq">Equals (=)</option>
                             <option value="lte">Max (≤)</option>
@@ -157,7 +157,7 @@ export default function EligibilityEditor({ value, onChange, onGenerate, isGener
                         <input
                             placeholder="Value"
                             className="p-2 border rounded text-xs"
-                            value={newRule.value}
+                            value={String(newRule.value)}
                             onChange={e => setNewRule({ ...newRule, value: e.target.value })}
                         />
                     </div>

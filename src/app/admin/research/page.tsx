@@ -1,5 +1,4 @@
 import { Plus, Filter, LayoutGrid, List, MoreHorizontal, Calendar, FileText, PieChart, FlaskConical, Upload } from 'lucide-react';
-import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import { ResearchProject } from '@/types/database';
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import { Startup } from '@/types/database'
-import { Plus, X, Globe, MapPin, DollarSign, Calendar, Users, Star, AlertTriangle, Link as LinkIcon, Image as ImageIcon } from 'lucide-react'
+import { Plus, X, Globe, MapPin, DollarSign, Link as LinkIcon, Image as ImageIcon } from 'lucide-react'
 import ImageUpload from './ImageUpload'
 
 interface StartupFormProps {

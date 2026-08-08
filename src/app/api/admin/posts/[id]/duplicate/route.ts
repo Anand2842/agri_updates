@@ -26,6 +26,7 @@ export async function POST(
             return NextResponse.json({ error: 'Post not found' }, { status: 404 });
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { id: _id, created_at: _ca, updated_at: _ua, ...rest } = original;
         const timestamp = Date.now();
         const duplicate = {

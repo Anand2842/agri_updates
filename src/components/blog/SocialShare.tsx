@@ -15,9 +15,10 @@ export default function SocialShare({ title, className = '' }: SocialShareProps)
     const [showCopied, setShowCopied] = useState(false);
     const [canNativeShare, setCanNativeShare] = useState(false);
 
+    // Hydration-safe: reads window.location only on client
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            setFullUrl(`${window.location.origin}${pathname}`);
+            setFullUrl(`${window.location.origin}${pathname}`); // eslint-disable-line react-hooks/set-state-in-effect
             setCanNativeShare(!!navigator.share);
         }
     }, [pathname]);

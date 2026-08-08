@@ -7,7 +7,7 @@ export type UserRole = StaffAccessRole;
 export async function getUserRole(supabase: SupabaseClient): Promise<UserRole> {
     try {
         const { data: { user } } = await supabase.auth.getUser();
-        return await resolveUserRole(supabase as any, user);
+        return await resolveUserRole(supabase as unknown as Parameters<typeof resolveUserRole>[0], user);
     } catch (e) {
         console.error("Error fetching user role:", e);
         return 'user';

@@ -13,7 +13,7 @@ export default async function AdminHubsPage() {
 
     return (
         <div>
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
                 <div>
                     <h1 className="font-serif text-3xl font-bold">Job Hubs</h1>
                     <p className="text-stone-500 text-sm mt-1">
@@ -22,13 +22,52 @@ export default async function AdminHubsPage() {
                 </div>
                 <Link
                     href="/admin/hubs/new"
-                    className="bg-black text-white px-4 py-2 font-bold uppercase tracking-widest text-xs hover:bg-agri-green transition-colors"
+                    className="bg-black text-white px-4 py-2 font-bold uppercase tracking-widest text-xs hover:bg-agri-green transition-colors text-center"
                 >
                     + New Hub
                 </Link>
             </div>
 
-            <div className="bg-white border border-stone-200 overflow-hidden">
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-3">
+                {hubs?.map((hub) => (
+                    <div key={hub.id} className="bg-white border border-stone-200 rounded-xl p-4">
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                            <div className="min-w-0 flex-1">
+                                <div className="font-bold text-stone-800">{hub.h1}</div>
+                                <div className="text-xs text-stone-500 mt-1 line-clamp-1">{hub.description}</div>
+                            </div>
+                            <span className={`px-2 py-1 rounded text-[10px] uppercase font-bold tracking-widest shrink-0 ${hub.is_active ? 'bg-green-100 text-green-700' : 'bg-stone-200 text-stone-600'}`}>
+                                {hub.is_active ? 'Active' : 'Inactive'}
+                            </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 mt-3 border-t border-stone-100 pt-3">
+                            <code className="text-[10px] bg-stone-100 px-2 py-1 rounded font-mono">/{hub.slug}</code>
+                            <span className="bg-agri-green/10 text-agri-green px-2 py-1 rounded text-[10px] font-bold">{hub.filter_tag}</span>
+                            <div className="flex items-center gap-2 ml-auto">
+                                <a href={`/${hub.slug}`} target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-agri-green">
+                                    <ExternalLink className="w-4 h-4" />
+                                </a>
+                                <Link href={`/admin/hubs/${hub.id}`} className="text-stone-400 hover:text-black font-bold uppercase text-[10px] tracking-widest">
+                                    Edit
+                                </Link>
+                                <DeleteHubButton hubId={hub.id} hubTitle={hub.h1 || hub.title} />
+                            </div>
+                        </div>
+                    </div>
+                ))}
+                {(!hubs || hubs.length === 0) && (
+                    <div className="bg-white border border-stone-200 rounded-xl p-8 text-center text-stone-500">
+                        <div className="mb-4">No hubs created yet.</div>
+                        <Link href="/admin/hubs/new" className="text-agri-green font-bold hover:underline">
+                            Create your first hub →
+                        </Link>
+                    </div>
+                )}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden md:block bg-white border border-stone-200 overflow-hidden">
                 <table className="w-full text-left text-sm">
                     <thead className="bg-stone-50 text-stone-500 font-bold uppercase tracking-widest text-xs border-b border-stone-200">
                         <tr>
@@ -85,7 +124,7 @@ export default async function AdminHubsPage() {
                                         >
                                             Edit
                                         </Link>
-                                        <DeleteHubButton hubId={hub.id} hubTitle={hub.title} />
+                                        <DeleteHubButton hubId={hub.id} hubTitle={hub.h1 || hub.title} />
                                     </div>
                                 </td>
                             </tr>

@@ -45,7 +45,7 @@ export default function JobsGrid({ jobs }: JobsGridProps) {
                 </div>
                 <h3 className="font-serif text-2xl font-bold text-stone-900 mb-2">No jobs found</h3>
                 <p className="text-stone-500 max-w-sm mb-8 leading-relaxed">
-                    We couldn't find any positions matching your selected filters. Try broadening your criteria.
+                    We couldn&apos;t find any positions matching your selected filters. Try broadening your criteria.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                     <Link
@@ -73,7 +73,7 @@ export default function JobsGrid({ jobs }: JobsGridProps) {
             animate="show"
         >
             {jobs.map((job) => {
-                const isNew = new Date(job.created_at) > new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+                const isNew = new Date(job.created_at).getTime() > (Date.now() - 3 * 24 * 60 * 60 * 1000); // eslint-disable-line react-hooks/purity
                 const isFeatured = job.is_featured;
                 const formattedDate = new Date(job.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                 // Safe tag check

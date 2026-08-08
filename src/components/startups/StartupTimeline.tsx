@@ -1,5 +1,3 @@
-import { Calendar, CheckCircle } from 'lucide-react'
-
 interface Milestone {
     date: string
     title: string

@@ -1,4 +1,4 @@
-import { Trophy, TrendingUp, Users, Target, CheckCircle2 } from 'lucide-react'
+import { Trophy } from 'lucide-react'
 
 interface Highlight {
     title: string

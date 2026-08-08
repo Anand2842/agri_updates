@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
         const hasStructuredData = /---BEGIN STRUCTURED DATA---/i.test(plainText);
 
         // First pass: generate with AI output (or cleaned original if no structured data)
-        let textForGenerator = hasStructuredData ? plainText : cleanedOriginal;
+        const textForGenerator = hasStructuredData ? plainText : cleanedOriginal;
         let generated = BlogGenerator.generate(textForGenerator);
 
         // Check if result has generic placeholder values

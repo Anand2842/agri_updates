@@ -15,7 +15,7 @@ export async function GET() {
         }
 
         return NextResponse.json(data);
-    } catch (err) {
+    } catch {
         return NextResponse.json({ error: 'Failed to fetch hubs' }, { status: 500 });
     }
 }
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
         }
 
         return NextResponse.json(data, { status: 201 });
-    } catch (err) {
+    } catch {
         return NextResponse.json({ error: 'Failed to create hub' }, { status: 500 });
     }
 }

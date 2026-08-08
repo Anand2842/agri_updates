@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ShieldCheck, X, ChevronDown, Check, Cookie } from 'lucide-react';
+import { ShieldCheck, X, Cookie } from 'lucide-react';
 
 export default function CookieConsent() {
     const [showBanner, setShowBanner] = useState(false);
@@ -16,11 +16,26 @@ export default function CookieConsent() {
         marketing: false
     });
 
+    const updateGtagConsent = (preferences: typeof consent) => {
+        if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
+            const state = preferences.analytics ? 'granted' : 'denied';
+            const marketingState = preferences.marketing ? 'granted' : 'denied';
+
+            (window as unknown as { gtag: (...args: unknown[]) => void }).gtag('consent', 'update', {
+                'analytics_storage': state,
+                'ad_storage': marketingState,
+                'ad_user_data': marketingState,
+                'ad_personalization': marketingState
+            });
+            console.log('Consent Updated:', { analytics: state, marketing: marketingState });
+        }
+    };
+
+    // Hydration-safe: reads localStorage only on client
     useEffect(() => {
-        // Check if user has already made a choice
         const storedConsent = localStorage.getItem('cookie_consent_preferences');
         if (!storedConsent) {
-            setShowBanner(true);
+            setShowBanner(true); // eslint-disable-line react-hooks/set-state-in-effect
         } else {
             // Restore previous settings (optional, mostly for the 'manage' UI if we add one in footer)
             setConsent(JSON.parse(storedConsent));
@@ -30,22 +45,7 @@ export default function CookieConsent() {
             const preferences = JSON.parse(storedConsent);
             updateGtagConsent(preferences);
         }
-    }, []);
-
-    const updateGtagConsent = (preferences: typeof consent) => {
-        if (typeof window !== 'undefined' && (window as any).gtag) {
-            const state = preferences.analytics ? 'granted' : 'denied';
-            const marketingState = preferences.marketing ? 'granted' : 'denied';
-
-            (window as any).gtag('consent', 'update', {
-                'analytics_storage': state,
-                'ad_storage': marketingState,
-                'ad_user_data': marketingState,
-                'ad_personalization': marketingState
-            });
-            console.log('Consent Updated:', { analytics: state, marketing: marketingState });
-        }
-    };
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleAcceptAll = () => {
         const fullConsent = { necessary: true, analytics: true, marketing: true };
@@ -129,7 +129,7 @@ export default function CookieConsent() {
 
                         <div className="p-6 space-y-6 overflow-y-auto">
                             <p className="text-sm text-stone-600">
-                                You can choose which cookies you want to accept. Standard "strictly necessary" cookies cannot be turned off as they are required for the website to function properly.
+                                You can choose which cookies you want to accept. Standard &quot;strictly necessary&quot; cookies cannot be turned off as they are required for the website to function properly.
                             </p>
 
                             {/* Section: Necessary */}

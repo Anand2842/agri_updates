@@ -230,7 +230,7 @@ export default function FAQPage() {
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#C9A961]/5 rounded-full translate-y-1/2 -translate-x-1/3 blur-3xl pointer-events-none"></div>
                     
                     <h2 className="font-serif text-3xl font-bold text-stone-900 mb-3 relative z-10">Still have questions?</h2>
-                    <p className="text-stone-500 mb-8 max-w-md mx-auto relative z-10">We're here to help. Reach out to our support team and get answers within 24 hours.</p>
+                    <p className="text-stone-500 mb-8 max-w-md mx-auto relative z-10">We&apos;re here to help. Reach out to our support team and get answers within 24 hours.</p>
                     <Link
                         href="/contact"
                         className="inline-flex items-center justify-center bg-agri-green text-white px-8 py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-agri-dark transition-all duration-300 shadow-lg shadow-agri-green/20 hover:shadow-xl hover:shadow-agri-green/30 hover:-translate-y-0.5 relative z-10"

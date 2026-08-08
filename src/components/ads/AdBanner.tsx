@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Ad } from '@/types/database';
-import Image from 'next/image';
 import Link from 'next/link';
 
 interface AdBannerProps {
@@ -14,7 +13,7 @@ interface AdBannerProps {
 export default function AdBanner({ placement, className = '' }: AdBannerProps) {
     const [ad, setAd] = useState<Ad | null>(null);
     const [loading, setLoading] = useState(true);
-    const supabase = createClient();
+    const supabase = useMemo(() => createClient(), []);
 
     useEffect(() => {
         const fetchAd = async () => {

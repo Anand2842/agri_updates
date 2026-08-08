@@ -1,7 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { Startup } from '@/types/database';
 import { Metadata } from 'next';
-import AdBanner from '@/components/ads/AdBanner';
 
 export const revalidate = 60;
 

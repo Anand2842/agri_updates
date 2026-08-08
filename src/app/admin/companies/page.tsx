@@ -1,4 +1,4 @@
-import { Search, Plus, Filter, Download, ExternalLink, MapPin, Mail, Phone, Linkedin, Twitter, CheckCircle, Briefcase } from 'lucide-react';
+import { Search, Plus, Download, MapPin, Mail, Phone, Linkedin, Twitter, CheckCircle, Briefcase } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Company } from '@/types/database';
 import { safeDateFormat } from '@/lib/utils/date';
@@ -33,12 +33,12 @@ export default async function CompaniesCRM() {
     const companies = await getCompanies();
 
     return (
-        <div className="flex gap-6 h-[calc(100vh-140px)]">
+        <div className="flex flex-col gap-4 xl:gap-6 h-auto xl:h-[calc(100vh-140px)]">
             {/* List Section */}
             <div className="flex-1 bg-white border border-stone-100 rounded-xl shadow-sm flex flex-col min-w-0">
                 {/* Header */}
-                <div className="p-6 border-b border-stone-100">
-                    <div className="flex justify-between items-center mb-6">
+                <div className="p-4 md:p-6 border-b border-stone-100">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4 md:mb-6">
                         <div>
                             <h1 className="font-serif text-2xl font-bold">Companies Directory</h1>
                             <p className="text-stone-500 text-xs">Manage partners, startups, and research institutions.</p>
@@ -53,21 +53,53 @@ export default async function CompaniesCRM() {
                         </div>
                     </div>
 
-                    <div className="flex gap-4">
+                    <div className="flex flex-col md:flex-row gap-4">
                         <div className="relative flex-1">
                             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
                             <input type="text" placeholder="Search companies or industry..." className="w-full pl-10 pr-4 py-2 bg-stone-50 border border-stone-200 rounded-lg text-sm focus:outline-none focus:border-agri-green" />
                         </div>
                         <div className="flex gap-2">
                             <button className="px-3 py-2 bg-green-50 text-agri-green text-xs font-bold rounded-lg border border-green-100 flex items-center gap-2">All Status</button>
-                            <button className="px-3 py-2 bg-white text-stone-500 text-xs font-bold rounded-lg border border-stone-200 hover:text-black">Active Partner</button>
-                            <button className="px-3 py-2 bg-white text-stone-500 text-xs font-bold rounded-lg border border-stone-200 hover:text-black">Lead</button>
+                            <button className="px-3 py-2 bg-white text-stone-500 text-xs font-bold rounded-lg border border-stone-200 hover:text-black hidden sm:flex">Active Partner</button>
+                            <button className="px-3 py-2 bg-white text-stone-500 text-xs font-bold rounded-lg border border-stone-200 hover:text-black hidden sm:flex">Lead</button>
                         </div>
                     </div>
                 </div>
 
-                {/* List */}
-                <div className="flex-1 overflow-y-auto">
+                {/* Mobile Card View */}
+                <div className="md:hidden flex-1 overflow-y-auto">
+                    {companies.map((company, i) => (
+                        <div key={company.id} className={`p-4 border-b border-stone-100 hover:bg-stone-50 transition-colors ${i === 0 ? 'bg-green-50/30 border-l-4 border-l-agri-green' : ''}`}>
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold shrink-0 ${company.logo_type === 'leaf' ? 'bg-green-600' :
+                                    company.logo_type === 'micro' ? 'bg-purple-600' :
+                                        company.logo_type === 'soil' ? 'bg-orange-500' :
+                                            company.logo_type === 'drone' ? 'bg-stone-700' :
+                                                company.logo_type === 'water' ? 'bg-blue-500' : 'bg-stone-400'
+                                    }`}>
+                                    {company.name[0]}
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                    <div className="font-bold text-stone-900 text-sm">{company.name}</div>
+                                    <div className="text-xs text-stone-500">{company.industry}</div>
+                                </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${company.status === 'Active Partner' ? 'bg-green-100 text-green-800' :
+                                    company.status === 'Lead' ? 'bg-yellow-100 text-yellow-800' :
+                                        company.status === 'Research Partner' ? 'bg-blue-100 text-blue-800' :
+                                            'bg-stone-200 text-stone-600'
+                                    }`}>
+                                    {company.status}
+                                </span>
+                                <span className="text-stone-400 text-[10px]">{safeDateFormat(company.last_interaction, undefined, undefined, 'Recently')}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Desktop Table View */}
+                <div className="hidden md:block flex-1 overflow-y-auto">
                     <table className="w-full text-left">
                         <thead className="bg-stone-50 text-[10px] font-bold uppercase tracking-widest text-stone-500 sticky top-0">
                             <tr>
@@ -102,7 +134,6 @@ export default async function CompaniesCRM() {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-right text-stone-400 text-xs">
-                                        {/* If date parsing fails, fallback to static text or "Recently" */}
                                         {safeDateFormat(company.last_interaction, undefined, undefined, 'Recently')}
                                     </td>
                                 </tr>
@@ -112,8 +143,8 @@ export default async function CompaniesCRM() {
                 </div>
             </div>
 
-            {/* Details Panel Side */}
-            <div className="w-96 bg-white border border-stone-100 rounded-xl shadow-sm hidden xl:flex flex-col overflow-hidden">
+            {/* Details Panel Side — hidden on mobile, visible xl+ */}
+            <div className="w-full xl:w-96 bg-white border border-stone-100 rounded-xl shadow-sm hidden xl:flex flex-col overflow-hidden">
                 <div className="p-8 border-b border-stone-100 text-center relative">
                     <button className="absolute top-4 right-4 text-stone-400 hover:text-black">✕</button>
                     <div className="w-20 h-20 bg-green-100 rounded-xl mx-auto mb-4 flex items-center justify-center text-3xl font-bold text-green-700">
@@ -174,7 +205,7 @@ export default async function CompaniesCRM() {
                             </div>
                             <div>
                                 <div className="text-sm font-bold text-stone-900">Email sent to Sarah Jones</div>
-                                <div className="text-xs text-stone-500 mb-1">Regarding "Senior AI Researcher" candidates</div>
+                                <div className="text-xs text-stone-500 mb-1">Regarding &quot;Senior AI Researcher&quot; candidates</div>
                                 <div className="text-[10px] text-stone-400">2 hours ago</div>
                             </div>
                         </div>

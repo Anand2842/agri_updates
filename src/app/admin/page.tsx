@@ -108,7 +108,7 @@ export default async function AdminDashboard() {
                         
                         {/* Split stat for today */}
                         <div className="bg-stone-50/80 backdrop-blur rounded-2xl p-4 lg:p-6 border border-stone-100 min-w-[200px]">
-                            <h3 className="text-[10px] font-bold uppercase tracking-widest text-blue-500 mb-1">Today's Traffic</h3>
+                            <h3 className="text-[10px] font-bold uppercase tracking-widest text-blue-500 mb-1">Today&apos;s Traffic</h3>
                             <p className="text-3xl font-serif font-bold text-blue-600 mb-1">+{todayViews.toLocaleString()}</p>
                             <div className="w-full h-1.5 bg-blue-100 rounded-full mt-3 overflow-hidden">
                                 <div className="h-full bg-blue-500 rounded-full w-3/4"></div> {/* Decorative bar */}

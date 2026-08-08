@@ -115,7 +115,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         />
       </head>
       <body
-        className={`${ibmPlexSans.variable} ${newsreader.variable} antialiased bg-stone-50 text-stone-900 font-sans flex min-h-screen flex-col`}
+        className={`${ibmPlexSans.variable} ${newsreader.variable} antialiased text-stone-900 font-sans flex min-h-screen flex-col`}
       >
         {/* Google Tag Manager (noscript) */}
         <noscript>

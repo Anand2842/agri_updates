@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { Job, Post } from '@/types/database'
-import { ArrowRight, Briefcase, FileText } from 'lucide-react'
+import { ArrowRight, Briefcase } from 'lucide-react'
 
 interface RelatedContentProps {
     jobs: Job[]

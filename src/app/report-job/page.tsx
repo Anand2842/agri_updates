@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
     title: 'Report a Job | Agri Updates',
@@ -93,7 +94,7 @@ export default function ReportJobPage() {
                 </div>
 
                 <p className="mt-8 text-center text-sm text-stone-500">
-                    For general inquiries, please visit our <a href="/contact" className="text-agri-green hover:underline">Contact Page</a>.
+                    For general inquiries, please visit our <Link href="/contact" className="text-agri-green hover:underline">Contact Page</Link>.
                 </p>
             </div>
         </div>

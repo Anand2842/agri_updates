@@ -11,7 +11,20 @@ export default function GeneratorPage() {
 
     const [rawText, setRawText] = useState('')
     const [isGenerating, setIsGenerating] = useState(false)
-    const [generatedResult, setGeneratedResult] = useState<any>(null)
+    const [generatedResult, setGeneratedResult] = useState<{
+        title: string;
+        slug: string;
+        excerpt: string;
+        content: string;
+        category: string;
+        job_details?: {
+            company?: string;
+            location?: string;
+            job_type?: string;
+            salary_range?: string;
+            application_link?: string;
+        };
+    } | null>(null)
 
     const handleGenerate = async () => {
         if (!rawText.trim()) return;

@@ -43,6 +43,20 @@ interface EditorToolbarProps {
 }
 
 export default function EditorToolbar({ editor, onImageUpload }: EditorToolbarProps) {
+    const [isToolkitOpen, setToolkitOpen] = React.useState(false);
+    const toolkitRef = React.useRef<HTMLDivElement>(null);
+
+    // Close toolkit on click outside
+    React.useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (toolkitRef.current && !toolkitRef.current.contains(event.target as Node)) {
+                setToolkitOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     if (!editor) {
         return null
     }
@@ -96,21 +110,6 @@ export default function EditorToolbar({ editor, onImageUpload }: EditorToolbarPr
         <div className="w-px h-6 bg-stone-200 mx-1 self-center" />
     )
 
-    // Toolkit State
-    const [isToolkitOpen, setToolkitOpen] = React.useState(false);
-    const toolkitRef = React.useRef<HTMLDivElement>(null);
-
-    // Close toolkit on click outside
-    React.useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (toolkitRef.current && !toolkitRef.current.contains(event.target as Node)) {
-                setToolkitOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
     interface ToolkitItemProps {
         label: string;
         icon: React.ReactNode;
@@ -136,6 +135,7 @@ export default function EditorToolbar({ editor, onImageUpload }: EditorToolbarPr
         </button>
     )
 
+    /* eslint-disable react-hooks/static-components */
     return (
         <div className="sticky top-0 z-[50] w-full bg-white/95 backdrop-blur-sm border-b border-stone-200 px-3 py-2 flex items-center flex-wrap gap-1 shadow-sm transition-all">
 
@@ -426,4 +426,5 @@ export default function EditorToolbar({ editor, onImageUpload }: EditorToolbarPr
             )}
         </div>
     )
+    /* eslint-enable react-hooks/static-components */
 }

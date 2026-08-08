@@ -36,8 +36,9 @@ export default function NewAdPage() {
 
             router.push('/admin/ads');
             router.refresh();
-        } catch (error: any) {
-            alert('Error creating ad: ' + error.message);
+        } catch (error: unknown) {
+            const message = error instanceof Error ? error.message : 'Unknown error';
+            alert('Error creating ad: ' + message);
         } finally {
             setLoading(false);
         }

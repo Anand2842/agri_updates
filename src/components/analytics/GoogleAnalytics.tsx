@@ -11,9 +11,9 @@ export default function GoogleAnalytics({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_
     useEffect(() => {
         const url = pathname + searchParams.toString();
 
-        if (typeof window !== 'undefined' && (window as any).gtag) {
+        if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
             // Send pageview on route change
-            (window as any).gtag('config', GA_MEASUREMENT_ID, {
+            (window as unknown as { gtag: (...args: unknown[]) => void }).gtag('config', GA_MEASUREMENT_ID, {
                 page_path: url,
             });
         }

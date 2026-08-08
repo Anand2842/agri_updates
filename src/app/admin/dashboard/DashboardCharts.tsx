@@ -9,17 +9,16 @@ import {
     CartesianGrid,
     Tooltip,
     ResponsiveContainer,
-    BarChart,
-    Bar,
     Cell,
     PieChart,
     Pie
 } from 'recharts';
 
-export default function DashboardCharts({ trendData, stageData }: { trendData: any[], stageData: any[] }) {
+export default function DashboardCharts({ trendData, stageData }: { trendData: { name: string; value: number }[], stageData: { name: string; value: number; color: string }[] }) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
     }, []);
 

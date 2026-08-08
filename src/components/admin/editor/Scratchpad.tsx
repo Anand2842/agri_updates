@@ -2,7 +2,6 @@
 
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
 import Placeholder from '@tiptap/extension-placeholder'
 import { useEffect, useState } from 'react'
@@ -75,7 +74,7 @@ export default function Scratchpad() {
     };
 
     // Calculate time remaining for UI (rough)
-    const minutesLeft = lastActive ? Math.max(0, 60 - Math.floor((Date.now() - lastActive) / 60000)) : 60;
+    const minutesLeft = lastActive ? Math.max(0, 60 - Math.floor((Date.now() - lastActive) / 60000)) : 60; // eslint-disable-line react-hooks/purity
 
     return (
         <div className="bg-yellow-50 border border-yellow-200 rounded-xl shadow-sm overflow-hidden flex flex-col">

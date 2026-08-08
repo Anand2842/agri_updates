@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Check, X, AlertCircle, RefreshCw, ChevronRight } from 'lucide-react'
+import { Check, X, RefreshCw } from 'lucide-react'
 
 // Reuse the type definition or import it
 export type PolicyRule = {
@@ -11,7 +11,7 @@ export type PolicyRule = {
     type: 'number' | 'select' | 'boolean'
     options?: string[]
     operator: 'eq' | 'neq' | 'gt' | 'lt' | 'gte' | 'lte' | 'contains'
-    value: any
+    value: string | number | boolean
     unit?: string
 }
 
@@ -25,7 +25,7 @@ interface EligibilityCheckerProps {
 }
 
 export default function EligibilityChecker({ rules }: EligibilityCheckerProps) {
-    const [answers, setAnswers] = useState<Record<string, any>>({})
+    const [answers, setAnswers] = useState<Record<string, string | number | boolean>>({})
     const [step, setStep] = useState(0)
     const [result, setResult] = useState<'eligible' | 'ineligible' | null>(null)
     const [failReason, setFailReason] = useState<string | null>(null)
@@ -34,7 +34,7 @@ export default function EligibilityChecker({ rules }: EligibilityCheckerProps) {
 
     const currentRule = rules.criteria[step]
 
-    const checkEligibility = (currentAnswers: Record<string, any>) => {
+    const checkEligibility = (currentAnswers: Record<string, string | number | boolean>) => {
         for (const rule of rules.criteria) {
             const userVal = currentAnswers[rule.id]
             if (userVal === undefined) continue // Skip unchecked
@@ -64,7 +64,7 @@ export default function EligibilityChecker({ rules }: EligibilityCheckerProps) {
         return { eligible: true }
     }
 
-    const handleAnswer = (val: any) => {
+    const handleAnswer = (val: string | number | boolean) => {
         const newAnswers = { ...answers, [currentRule.id]: val }
         setAnswers(newAnswers)
 

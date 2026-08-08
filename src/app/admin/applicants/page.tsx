@@ -1,6 +1,5 @@
 import { createClient } from '@/utils/supabase/server';
-import { Search, Bell, Plus, Filter, Grid, List as ListIcon, MoreVertical, Star, Video, Mail, Users, FileText } from 'lucide-react';
-import Link from 'next/link';
+import { Search, Star, Video, Mail, Users, FileText } from 'lucide-react';
 import { safeDateFormat } from '@/lib/utils/date';
 
 export const revalidate = 0;
@@ -29,7 +28,15 @@ export default async function ApplicantsCRM() {
         console.error("Error fetching applicants:", error);
     }
 
-    const applicants = applications || [];
+    const applicants = (applications as Record<string, unknown>[] || []).map(app => ({
+        id: app.id as string,
+        applicant_name: app.applicant_name as string,
+        email: app.email as string,
+        resume_url: app.resume_url as string | null,
+        status: app.status as string,
+        applied_at: app.applied_at as string,
+        job: Array.isArray(app.job) ? app.job[0] as { title: string; type: string } | undefined : app.job as { title: string; type: string } | undefined,
+    }));
 
     // Calculate Stats
     const totalApplicants = applicants.length;
@@ -105,7 +112,44 @@ export default async function ApplicantsCRM() {
                 <div className="p-4 border-b border-stone-100 font-bold uppercase text-xs tracking-widest text-stone-500">
                     Latest Applications
                 </div>
-                <div className="overflow-x-auto">
+
+                {/* Mobile Card View */}
+                <div className="md:hidden divide-y divide-stone-100">
+                    {applicants.map((app) => (
+                        <div key={app.id} className="p-4 hover:bg-stone-50 transition-colors">
+                            <div className="flex items-center gap-3 mb-3">
+                                <div className="w-10 h-10 rounded-full bg-stone-200 flex items-center justify-center text-xs font-bold text-stone-500 uppercase shrink-0">
+                                    {app.applicant_name.slice(0, 2)}
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                    <div className="font-bold text-stone-900 text-sm">{app.applicant_name}</div>
+                                    <div className="text-xs text-stone-400 truncate">{app.email}</div>
+                                </div>
+                                <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shrink-0 ${app.status === 'Hired' ? 'bg-green-100 text-green-700' : app.status === 'Rejected' ? 'bg-red-50 text-red-500' : 'bg-stone-100 text-stone-600'}`}>
+                                    {app.status || 'New'}
+                                </span>
+                            </div>
+                            <div className="flex items-center justify-between text-xs">
+                                <div>
+                                    <span className="font-bold text-stone-700">{app.job?.title || 'Unknown Job'}</span>
+                                    <span className="text-stone-400 ml-2">{app.job?.type || 'Full-time'}</span>
+                                </div>
+                                {app.resume_url ? (
+                                    <a href={app.resume_url} target="_blank" rel="noopener noreferrer" className="text-agri-green hover:underline flex items-center gap-1">
+                                        <FileText className="w-3 h-3" /> Resume
+                                    </a>
+                                ) : null}
+                            </div>
+                            <div className="text-[10px] text-stone-400 mt-2">{safeDateFormat(app.applied_at)}</div>
+                        </div>
+                    ))}
+                    {applicants.length === 0 && (
+                        <div className="p-8 text-center text-stone-500">No applications yet.</div>
+                    )}
+                </div>
+
+                {/* Desktop Table View */}
+                <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead className="bg-stone-50 text-[10px] font-bold uppercase tracking-widest text-stone-500">
                             <tr>
@@ -117,7 +161,7 @@ export default async function ApplicantsCRM() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-stone-100 text-sm">
-                            {applicants.map((app: any) => (
+                            {applicants.map((app) => (
                                 <tr key={app.id} className="hover:bg-stone-50 group transition-colors">
                                     <td className="p-4">
                                         <div className="flex items-center gap-3">

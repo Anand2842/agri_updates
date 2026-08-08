@@ -157,96 +157,167 @@ export default function PostsTable({ posts }: { posts: Post[] }) {
                 </div>
             )}
 
-            <div className="bg-white border border-stone-200 overflow-hidden">
-                <table className="w-full text-left text-sm">
-                    <thead className="bg-stone-50 text-stone-500 font-bold uppercase tracking-widest text-xs border-b border-stone-200">
-                        <tr>
-                            <th className="p-4 w-10">
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-3">
+                {posts.map((post) => (
+                    <div key={post.id} className={`bg-white border border-stone-200 rounded-xl p-4 transition-colors ${selected.has(post.id) ? 'bg-stone-50 border-stone-300' : ''}`}>
+                        <div className="flex items-start justify-between gap-3 mb-3">
+                            <div className="flex items-center gap-3 min-w-0 flex-1">
                                 <input
                                     type="checkbox"
-                                    checked={allSelected}
-                                    onChange={toggleAll}
-                                    className="w-4 h-4 rounded border-stone-300 text-agri-green focus:ring-agri-green cursor-pointer"
+                                    checked={selected.has(post.id)}
+                                    onChange={() => toggleOne(post.id)}
+                                    className="w-4 h-4 rounded border-stone-300 text-agri-green focus:ring-agri-green cursor-pointer mt-0.5 shrink-0"
                                 />
-                            </th>
-                            <th className="p-4">Title</th>
-                            <th className="p-4">Status</th>
-                            <th className="p-4">Display</th>
-                            <th className="p-4">Category</th>
-                            <th className="p-4">Views</th>
-                            <th className="p-4">Updated</th>
-                            <th className="p-4 text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-stone-100">
-                        {posts.map((post) => (
-                            <tr key={post.id} className={`hover:bg-stone-50 transition-colors ${selected.has(post.id) ? 'bg-stone-50' : ''}`}>
-                                <td className="p-4">
+                                <div className="min-w-0">
+                                    <Link href={`/admin/posts/${post.id}`} className="font-bold text-stone-800 line-clamp-2 hover:text-agri-green text-sm">
+                                        {post.title}
+                                    </Link>
+                                    <div className="text-xs text-stone-500 mt-1">by {post.author_name}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 mb-3">
+                            <select
+                                value={post.status || 'draft'}
+                                onChange={(e) => handleStatusChange(post.id, e.target.value)}
+                                disabled={statusUpdating[post.id]}
+                                className={`px-2 py-1 rounded text-[10px] uppercase font-bold tracking-widest border-0 cursor-pointer disabled:opacity-50 ${STATUS_COLORS[post.status || 'draft'] || STATUS_COLORS.draft}`}
+                            >
+                                <option value="draft">Draft</option>
+                                <option value="published">Published</option>
+                                <option value="archived">Archived</option>
+                            </select>
+                            <span className="bg-stone-100 text-stone-600 px-2 py-1 rounded text-[10px] uppercase font-bold">
+                                {post.category}
+                            </span>
+                            <span className="text-xs text-stone-400 font-mono ml-auto">{post.views || 0} views</span>
+                        </div>
+                        <div className="flex items-center justify-between border-t border-stone-100 pt-3">
+                            <span className="text-xs text-stone-400">
+                                {new Date(post.updated_at || post.created_at).toLocaleDateString()}
+                            </span>
+                            <div className="flex items-center gap-3">
+                                <DisplayLocationSelector
+                                    postId={post.id}
+                                    initialLocation={post.display_location || 'standard'}
+                                />
+                                <button
+                                    onClick={() => handleDuplicate(post.id)}
+                                    disabled={duplicating[post.id]}
+                                    className="text-stone-400 hover:text-black disabled:opacity-50"
+                                    title="Duplicate as draft"
+                                >
+                                    <Copy className="w-4 h-4" />
+                                </button>
+                                <Link href={`/admin/posts/${post.id}`} className="text-stone-400 hover:text-black text-xs font-bold">
+                                    Edit
+                                </Link>
+                                <DeletePostButton postId={post.id} postTitle={post.title} />
+                            </div>
+                        </div>
+                    </div>
+                ))}
+                {posts.length === 0 && (
+                    <div className="bg-white border border-stone-200 rounded-xl p-8 text-center text-stone-500">
+                        No posts found.
+                    </div>
+                )}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden md:block bg-white border border-stone-200 overflow-hidden">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left text-sm">
+                        <thead className="bg-stone-50 text-stone-500 font-bold uppercase tracking-widest text-xs border-b border-stone-200">
+                            <tr>
+                                <th className="p-4 w-10">
                                     <input
                                         type="checkbox"
-                                        checked={selected.has(post.id)}
-                                        onChange={() => toggleOne(post.id)}
+                                        checked={allSelected}
+                                        onChange={toggleAll}
                                         className="w-4 h-4 rounded border-stone-300 text-agri-green focus:ring-agri-green cursor-pointer"
                                     />
-                                </td>
-                                <td className="p-4">
-                                    <div className="font-bold text-stone-800">{post.title}</div>
-                                    <div className="text-xs text-stone-500 mt-1">by {post.author_name}</div>
-                                </td>
-                                <td className="p-4">
-                                    <select
-                                        value={post.status || 'draft'}
-                                        onChange={(e) => handleStatusChange(post.id, e.target.value)}
-                                        disabled={statusUpdating[post.id]}
-                                        className={`px-2 py-1 rounded text-[10px] uppercase font-bold tracking-widest border-0 cursor-pointer disabled:opacity-50 ${STATUS_COLORS[post.status || 'draft'] || STATUS_COLORS.draft}`}
-                                    >
-                                        <option value="draft">Draft</option>
-                                        <option value="published">Published</option>
-                                        <option value="archived">Archived</option>
-                                    </select>
-                                </td>
-                                <td className="p-4 w-40">
-                                    <DisplayLocationSelector
-                                        postId={post.id}
-                                        initialLocation={post.display_location || 'standard'}
-                                    />
-                                </td>
-                                <td className="p-4">
-                                    <span className="bg-stone-100 text-stone-600 px-2 py-1 rounded text-[10px] uppercase font-bold">
-                                        {post.category}
-                                    </span>
-                                </td>
-                                <td className="p-4 font-mono font-bold text-stone-700">
-                                    {post.views || 0}
-                                </td>
-                                <td className="p-4 text-stone-400 text-xs">
-                                    {new Date(post.updated_at || post.created_at).toLocaleDateString()}
-                                </td>
-                                <td className="p-4 text-right flex justify-end items-center gap-2">
-                                    <button
-                                        onClick={() => handleDuplicate(post.id)}
-                                        disabled={duplicating[post.id]}
-                                        className="text-stone-400 hover:text-black font-bold uppercase text-[10px] tracking-widest disabled:opacity-50"
-                                        title="Duplicate as draft"
-                                    >
-                                        <Copy className="w-3.5 h-3.5" />
-                                    </button>
-                                    <Link href={`/admin/posts/${post.id}`} className="text-stone-400 hover:text-black font-bold uppercase text-[10px] tracking-widest">
-                                        Edit
-                                    </Link>
-                                    <DeletePostButton postId={post.id} postTitle={post.title} />
-                                </td>
+                                </th>
+                                <th className="p-4">Title</th>
+                                <th className="p-4">Status</th>
+                                <th className="p-4">Display</th>
+                                <th className="p-4">Category</th>
+                                <th className="p-4">Views</th>
+                                <th className="p-4">Updated</th>
+                                <th className="p-4 text-right">Actions</th>
                             </tr>
-                        ))}
-                        {posts.length === 0 && (
-                            <tr>
-                                <td colSpan={8} className="p-8 text-center text-stone-500">
-                                    No posts found.
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="divide-y divide-stone-100">
+                            {posts.map((post) => (
+                                <tr key={post.id} className={`hover:bg-stone-50 transition-colors ${selected.has(post.id) ? 'bg-stone-50' : ''}`}>
+                                    <td className="p-4">
+                                        <input
+                                            type="checkbox"
+                                            checked={selected.has(post.id)}
+                                            onChange={() => toggleOne(post.id)}
+                                            className="w-4 h-4 rounded border-stone-300 text-agri-green focus:ring-agri-green cursor-pointer"
+                                        />
+                                    </td>
+                                    <td className="p-4">
+                                        <div className="font-bold text-stone-800">{post.title}</div>
+                                        <div className="text-xs text-stone-500 mt-1">by {post.author_name}</div>
+                                    </td>
+                                    <td className="p-4">
+                                        <select
+                                            value={post.status || 'draft'}
+                                            onChange={(e) => handleStatusChange(post.id, e.target.value)}
+                                            disabled={statusUpdating[post.id]}
+                                            className={`px-2 py-1 rounded text-[10px] uppercase font-bold tracking-widest border-0 cursor-pointer disabled:opacity-50 ${STATUS_COLORS[post.status || 'draft'] || STATUS_COLORS.draft}`}
+                                        >
+                                            <option value="draft">Draft</option>
+                                            <option value="published">Published</option>
+                                            <option value="archived">Archived</option>
+                                        </select>
+                                    </td>
+                                    <td className="p-4 w-40">
+                                        <DisplayLocationSelector
+                                            postId={post.id}
+                                            initialLocation={post.display_location || 'standard'}
+                                        />
+                                    </td>
+                                    <td className="p-4">
+                                        <span className="bg-stone-100 text-stone-600 px-2 py-1 rounded text-[10px] uppercase font-bold">
+                                            {post.category}
+                                        </span>
+                                    </td>
+                                    <td className="p-4 font-mono font-bold text-stone-700">
+                                        {post.views || 0}
+                                    </td>
+                                    <td className="p-4 text-stone-400 text-xs">
+                                        {new Date(post.updated_at || post.created_at).toLocaleDateString()}
+                                    </td>
+                                    <td className="p-4 text-right flex justify-end items-center gap-2">
+                                        <button
+                                            onClick={() => handleDuplicate(post.id)}
+                                            disabled={duplicating[post.id]}
+                                            className="text-stone-400 hover:text-black font-bold uppercase text-[10px] tracking-widest disabled:opacity-50"
+                                            title="Duplicate as draft"
+                                        >
+                                            <Copy className="w-3.5 h-3.5" />
+                                        </button>
+                                        <Link href={`/admin/posts/${post.id}`} className="text-stone-400 hover:text-black font-bold uppercase text-[10px] tracking-widest">
+                                            Edit
+                                        </Link>
+                                        <DeletePostButton postId={post.id} postTitle={post.title} />
+                                    </td>
+                                </tr>
+                            ))}
+                            {posts.length === 0 && (
+                                <tr>
+                                    <td colSpan={8} className="p-8 text-center text-stone-500">
+                                        No posts found.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {toast && (

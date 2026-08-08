@@ -54,7 +54,7 @@ export default function FeaturedListingsPage() {
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
                             <div>
-                                <h3 className="font-bold text-lg mb-2">Clear "Featured" Label</h3>
+                                <h3 className="font-bold text-lg mb-2">Clear &quot;Featured&quot; Label</h3>
                                 <ul className="list-disc list-inside text-stone-600 space-y-1 ml-1 marker:text-stone-300">
                                     <li>Visible <strong>FEATURED</strong> badge on every post</li>
                                     <li>Ensures transparency for readers</li>

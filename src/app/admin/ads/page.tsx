@@ -4,20 +4,15 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { Ad } from '@/types/database';
 import Link from 'next/link';
-import { Plus, Trash2, Edit, Eye, MousePointer2 } from 'lucide-react';
-import Image from 'next/image';
+import { Plus, Trash2, Eye, MousePointer2 } from 'lucide-react';
 
 export default function AdsIndexPage() {
     const [ads, setAds] = useState<Ad[]>([]);
     const [loading, setLoading] = useState(true);
     const supabase = createClient();
 
-    useEffect(() => {
-        fetchAds();
-    }, []);
-
     const fetchAds = async () => {
-        const { data, error } = await supabase
+        const { data } = await supabase
             .from('ads')
             .select('*')
             .order('created_at', { ascending: false });
@@ -25,6 +20,11 @@ export default function AdsIndexPage() {
         if (data) setAds(data);
         setLoading(false);
     };
+
+    useEffect(() => {
+        fetchAds();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure you want to delete this ad?')) return;
@@ -54,25 +54,69 @@ export default function AdsIndexPage() {
         }
     };
 
-    if (loading) return <div className="p-8 text-center text-stone-500">Loading Ads...</div>;
+    if (loading) return <div className="p-4 md:p-8 text-center text-stone-500">Loading Ads...</div>;
 
     return (
-        <div className="p-8">
-            <div className="flex justify-between items-center mb-8">
+        <div className="p-4 md:p-8">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
                 <div>
                     <h1 className="font-serif text-3xl font-bold mb-2">Ad Manager</h1>
                     <p className="text-stone-500">Manage banner advertisements and placements.</p>
                 </div>
                 <Link
                     href="/admin/ads/new"
-                    className="bg-black text-white px-6 py-2 rounded-lg font-bold uppercase text-xs tracking-widest hover:bg-agri-green transition-colors flex items-center gap-2"
+                    className="bg-black text-white px-6 py-2 rounded-lg font-bold uppercase text-xs tracking-widest hover:bg-agri-green transition-colors flex items-center justify-center gap-2"
                 >
                     <Plus className="w-4 h-4" />
                     Create Ad
                 </Link>
             </div>
 
-            <div className="bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-3">
+                {ads.length === 0 ? (
+                    <div className="bg-white border border-stone-200 rounded-xl p-8 text-center text-stone-400 italic">
+                        No ads found. Create your first campaign!
+                    </div>
+                ) : (
+                    ads.map(ad => (
+                        <div key={ad.id} className="bg-white border border-stone-200 rounded-xl p-4">
+                            <div className="flex items-start gap-3 mb-3">
+                                <div className="w-20 h-14 bg-stone-100 rounded overflow-hidden flex-shrink-0 border border-stone-200">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img src={ad.image_url} alt={ad.title} className="w-full h-full object-cover" />
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                    <h3 className="font-bold text-stone-900 text-sm">{ad.title}</h3>
+                                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-100 text-blue-800 uppercase tracking-wide mt-1">
+                                        {ad.placement}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="flex items-center justify-between border-t border-stone-100 pt-3">
+                                <div className="flex items-center gap-4 text-xs text-stone-600">
+                                    <span className="flex items-center gap-1"><Eye className="w-3 h-3" /> {ad.views.toLocaleString()}</span>
+                                    <span className="flex items-center gap-1"><MousePointer2 className="w-3 h-3" /> {ad.clicks.toLocaleString()}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => toggleStatus(ad)}
+                                        className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors ${ad.is_active ? 'bg-green-100 text-green-800' : 'bg-stone-100 text-stone-500'}`}
+                                    >
+                                        {ad.is_active ? 'Active' : 'Off'}
+                                    </button>
+                                    <button onClick={() => handleDelete(ad.id)} className="p-1.5 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded">
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden md:block bg-white border border-stone-200 rounded-xl overflow-hidden shadow-sm">
                 <table className="w-full">
                     <thead className="bg-stone-50 border-b border-stone-200">
                         <tr>
@@ -135,9 +179,6 @@ export default function AdsIndexPage() {
                                     </td>
                                     <td className="p-4 text-right">
                                         <div className="flex items-center justify-end gap-2">
-                                            {/* <Link href={`/admin/ads/${ad.id}`} className="p-2 text-stone-400 hover:text-black hover:bg-stone-100 rounded">
-                                                <Edit className="w-4 h-4" />
-                                            </Link> */}
                                             <button
                                                 onClick={() => handleDelete(ad.id)}
                                                 className="p-2 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded"

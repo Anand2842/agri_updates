@@ -9,11 +9,12 @@ export default function AdminShell({ children, user, role }: { children: React.R
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        setIsMounted(true);
         const stored = localStorage.getItem('admin_sidebar_collapsed');
         if (stored) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setIsCollapsed(JSON.parse(stored));
         }
+        setIsMounted(true);
     }, []);
 
     const toggleCollapse = () => {

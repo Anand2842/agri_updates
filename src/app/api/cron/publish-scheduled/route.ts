@@ -42,7 +42,7 @@ export async function GET(request: Request) {
             posts: data,
         });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('[CRON] Unexpected error:', error);
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }

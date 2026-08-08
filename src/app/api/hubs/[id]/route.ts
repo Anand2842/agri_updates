@@ -22,7 +22,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
         }
 
         return NextResponse.json(data);
-    } catch (err) {
+    } catch {
         return NextResponse.json({ error: 'Failed to fetch hub' }, { status: 500 });
     }
 }
@@ -63,7 +63,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
         }
 
         return NextResponse.json(data);
-    } catch (err) {
+    } catch {
         return NextResponse.json({ error: 'Failed to update hub' }, { status: 500 });
     }
 }
@@ -84,7 +84,7 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
         }
 
         return NextResponse.json({ success: true });
-    } catch (err) {
+    } catch {
         return NextResponse.json({ error: 'Failed to delete hub' }, { status: 500 });
     }
 }

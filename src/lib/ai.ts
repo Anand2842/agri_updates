@@ -1,7 +1,7 @@
 
 import { OpenAI, AzureOpenAI } from 'openai';
 
-const useAzure = !!process.env.AZURE_OPENAI_API_KEY;
+const useAzure = !!(process.env.AZURE_OPENAI_API_KEY && process.env.AZURE_OPENAI_API_VERSION);
 
 const client = useAzure
     ? new AzureOpenAI({

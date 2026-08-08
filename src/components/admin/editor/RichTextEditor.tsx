@@ -1,14 +1,12 @@
 'use client'
 
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent, type Editor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { Table } from '@tiptap/extension-table'
 import { TableRow } from '@tiptap/extension-table-row'
 import { TableHeader } from '@tiptap/extension-table-header'
 import { TableCell } from '@tiptap/extension-table-cell'
 import { Image } from '@tiptap/extension-image'
-import { Link } from '@tiptap/extension-link'
-import { Underline } from '@tiptap/extension-underline'
 import { TextAlign } from '@tiptap/extension-text-align'
 import { Placeholder } from '@tiptap/extension-placeholder'
 import { Typography } from '@tiptap/extension-typography'
@@ -20,7 +18,7 @@ interface RichTextEditorProps {
     onChange: (content: string) => void
     onImageUpload?: (file: File) => Promise<string>
     isEditable?: boolean
-    onEditorReady?: (editor: any) => void
+    onEditorReady?: (editor: Editor) => void
 }
 
 export default function RichTextEditor({ content, onChange, onImageUpload, isEditable = true, onEditorReady }: RichTextEditorProps) {

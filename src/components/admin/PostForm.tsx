@@ -29,7 +29,7 @@ export default function PostForm({ initialData }: PostFormProps) {
 
     // Device Preview Configuration
     type DeviceType = 'desktop' | 'mobile';
-    const deviceConfig: Record<DeviceType, { name: string, width: string, icon: any }> = {
+    const deviceConfig: Record<DeviceType, { name: string, width: string, icon: React.ComponentType<React.SVGProps<SVGSVGElement>> }> = {
         'desktop': { name: 'Desktop', width: '100%', icon: Monitor },
         'mobile': { name: 'Mobile', width: '375px', icon: Smartphone },
     };
@@ -74,8 +74,8 @@ export default function PostForm({ initialData }: PostFormProps) {
         is_active: initialData?.is_active ?? true,
         policy_rules: initialData?.policy_rules || null,
         // Warning-specific attachment
-        attachment_url: (initialData as any)?.attachment_url || '',
-        attachment_type: (initialData as any)?.attachment_type || '',
+        attachment_url: initialData?.attachment_url || '',
+        attachment_type: initialData?.attachment_type || '',
     })
 
     // Remember last author for next time
@@ -266,7 +266,7 @@ export default function PostForm({ initialData }: PostFormProps) {
 
         if (formData.category === 'Warnings') {
             postData.attachment_url = formData.attachment_url || null
-            postData.attachment_type = formData.attachment_type || null
+            postData.attachment_type = (formData.attachment_type as 'pdf' | 'ppt' | 'html' | 'video' | null) || null
         }
 
         postData.status = formData.status
@@ -292,9 +292,9 @@ export default function PostForm({ initialData }: PostFormProps) {
 
             router.push('/admin/posts')
             router.refresh()
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Error saving post:', error)
-            alert(error.message || 'Failed to save post.')
+            alert(error instanceof Error ? error.message : 'Failed to save post.')
         } finally {
             setLoading(false)
         }
@@ -377,7 +377,7 @@ export default function PostForm({ initialData }: PostFormProps) {
                             type="button"
                             onClick={() => {
                                 setFormData(prev => ({ ...prev, status: 'draft' }))
-                                handleSubmit(new Event('submit') as any)
+                                handleSubmit(new Event('submit') as unknown as React.FormEvent)
                             }}
                             disabled={loading || isModLocked}
                             className="text-stone-600 bg-stone-100 px-4 py-2 rounded font-bold uppercase tracking-widest text-xs hover:bg-stone-200 disabled:opacity-50 transition-colors"

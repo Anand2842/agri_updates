@@ -1,8 +1,6 @@
 import { supabase } from '@/lib/supabase';
-import { Post } from '@/types/database';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import AdBanner from '@/components/ads/AdBanner';
 import JobsGrid from '@/components/jobs/JobsGrid';
 
 export const revalidate = 60;

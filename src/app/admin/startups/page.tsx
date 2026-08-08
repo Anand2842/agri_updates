@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Plus, Edit, ExternalLink } from 'lucide-react'
 
 export const revalidate = 0
@@ -17,21 +18,74 @@ export default async function AdminStartupsPage() {
 
     return (
         <div>
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
                 <div>
                     <h1 className="font-serif text-3xl font-bold mb-2">Startups Directory</h1>
                     <p className="text-stone-500">Manage featured agritech startups.</p>
                 </div>
                 <Link
                     href="/admin/startups/new"
-                    className="bg-black text-white px-4 py-2 flex items-center gap-2 font-bold uppercase tracking-widest text-sm hover:bg-agri-green transition-colors"
+                    className="bg-black text-white px-4 py-2 flex items-center justify-center gap-2 font-bold uppercase tracking-widest text-sm hover:bg-agri-green transition-colors"
                 >
                     <Plus size={16} />
                     Add Startup
                 </Link>
             </div>
 
-            <div className="bg-white border border-stone-200 shadow-sm">
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-3">
+                {startups?.map((startup) => (
+                    <div key={startup.id} className="bg-white border border-stone-200 rounded-xl p-4">
+                        <div className="flex items-start gap-3 mb-3">
+                            {startup.logo_url ? (
+                                <div className="w-12 h-12 relative rounded border border-stone-200 bg-white overflow-hidden shrink-0">
+                                    <Image src={startup.logo_url} alt={`${startup.name} logo`} fill className="object-contain" />
+                                </div>
+                            ) : (
+                                <div className="w-12 h-12 bg-stone-100 rounded border border-stone-200 flex items-center justify-center text-stone-400 text-xs font-bold shrink-0">
+                                    {startup.name?.charAt(0) || '?'}
+                                </div>
+                            )}
+                            <div className="min-w-0 flex-1">
+                                <div className="font-bold">{startup.name}</div>
+                                {startup.elevator_pitch && (
+                                    <div className="text-xs text-stone-500 mt-1 line-clamp-2">{startup.elevator_pitch}</div>
+                                )}
+                            </div>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 mb-3">
+                            <span className="bg-stone-100 px-2 py-1 rounded text-xs">{startup.funding_stage || 'N/A'}</span>
+                            {startup.location && <span className="text-xs text-stone-500">{startup.location}</span>}
+                        </div>
+                        {startup.tags && startup.tags.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mb-3">
+                                {startup.tags.slice(0, 3).map((tag: string) => (
+                                    <span key={tag} className="text-[10px] uppercase font-bold text-stone-400 bg-stone-50 px-1 border border-stone-200">{tag}</span>
+                                ))}
+                                {startup.tags.length > 3 && <span className="text-[10px] text-stone-400">+{startup.tags.length - 3}</span>}
+                            </div>
+                        )}
+                        <div className="flex items-center justify-end gap-3 border-t border-stone-100 pt-3">
+                            {startup.website_url && (
+                                <a href={startup.website_url} target="_blank" rel="noopener noreferrer" className="text-stone-400 hover:text-black">
+                                    <ExternalLink size={16} />
+                                </a>
+                            )}
+                            <Link href={`/admin/startups/${startup.id}`} className="text-stone-400 hover:text-agri-green">
+                                <Edit size={16} />
+                            </Link>
+                        </div>
+                    </div>
+                ))}
+                {startups?.length === 0 && (
+                    <div className="bg-white border border-stone-200 rounded-xl p-8 text-center text-stone-500">
+                        No startups found. Click &quot;Add Startup&quot; to create one.
+                    </div>
+                )}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden md:block bg-white border border-stone-200 shadow-sm">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead className="bg-stone-50 border-b border-stone-200">
@@ -49,11 +103,9 @@ export default async function AdminStartupsPage() {
                                 <tr key={startup.id} className="hover:bg-stone-50 transition-colors group">
                                     <td className="p-4">
                                         {startup.logo_url ? (
-                                            <img 
-                                                src={startup.logo_url} 
-                                                alt={`${startup.name} logo`}
-                                                className="w-12 h-12 object-contain rounded border border-stone-200 bg-white"
-                                            />
+                                            <div className="w-12 h-12 relative rounded border border-stone-200 bg-white overflow-hidden">
+                                                <Image src={startup.logo_url} alt={`${startup.name} logo`} fill className="object-contain" />
+                                            </div>
                                         ) : (
                                             <div className="w-12 h-12 bg-stone-100 rounded border border-stone-200 flex items-center justify-center text-stone-400 text-xs font-bold">
                                                 {startup.name?.charAt(0) || '?'}

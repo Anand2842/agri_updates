@@ -116,12 +116,12 @@ export default async function AdminPostsPage({ searchParams }: AdminPostsPagePro
 
     return (
         <div>
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
                 <div>
                     <h1 className="font-serif text-3xl font-bold">{pageTitle}</h1>
                     <p className="text-stone-500 text-sm mt-1">{pageSubtitle}</p>
                 </div>
-                <Link href="/admin/posts/new" className="bg-black text-white px-4 py-2 font-bold uppercase tracking-widest text-xs hover:bg-agri-green">
+                <Link href="/admin/posts/new" className="bg-black text-white px-4 py-2 font-bold uppercase tracking-widest text-xs hover:bg-agri-green w-fit">
                     + New Post
                 </Link>
             </div>
