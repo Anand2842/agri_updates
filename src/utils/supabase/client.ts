@@ -1,11 +1,18 @@
 import { createBrowserClient } from '@supabase/ssr'
 import { getRequiredSupabaseClientConfig } from '@/lib/supabase-config'
 
-export function createClient() {
-    const { url, publishableKey } = getRequiredSupabaseClientConfig()
+let client: ReturnType<typeof createBrowserClient> | undefined
 
-    return createBrowserClient(
-        url,
-        publishableKey
-    )
+export function createClient() {
+    if (typeof window === 'undefined') {
+        const { url, publishableKey } = getRequiredSupabaseClientConfig()
+        return createBrowserClient(url, publishableKey)
+    }
+
+    if (!client) {
+        const { url, publishableKey } = getRequiredSupabaseClientConfig()
+        client = createBrowserClient(url, publishableKey)
+    }
+
+    return client
 }

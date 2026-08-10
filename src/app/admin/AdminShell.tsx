@@ -29,7 +29,7 @@ export default function AdminShell({ children, user, role }: { children: React.R
     // The margin transition handles the jump smoothly if we want, or we accept a small layout shift.
 
     return (
-        <div className="flex min-h-screen bg-stone-100">
+        <div className="flex flex-col md:flex-row min-h-screen bg-stone-100">
             <AdminSidebar
                 isCollapsed={isMounted ? isCollapsed : false}
                 toggleCollapse={toggleCollapse}

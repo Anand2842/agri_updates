@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function NewsletterForm() {
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -59,7 +60,7 @@ export default function NewsletterForm() {
                     className="mt-1 accent-agri-green"
                 />
                 <label htmlFor="privacy-check-form" className="text-xs text-stone-500">
-                    I have read and agree to the <a href="/privacy" className="text-agri-green hover:underline">Privacy Policy</a>.
+                    I have read and agree to the <Link href="/privacy" className="text-agri-green hover:underline">Privacy Policy</Link>.
                 </label>
             </div>
             <button

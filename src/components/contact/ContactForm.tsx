@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Mail } from 'lucide-react';
+import Link from 'next/link';
 
 export default function ContactForm() {
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -225,13 +226,13 @@ export default function ContactForm() {
                                 />
                                 <label htmlFor="privacy" className="text-sm text-stone-500 leading-snug">
                                     I have read and agree to the{' '}
-                                    <a href="/privacy" className="text-stone-900 font-bold hover:underline">
+                                    <Link href="/privacy" className="text-stone-900 font-bold hover:underline">
                                         Privacy Policy
-                                    </a>
+                                    </Link>
                                     {' '}and{' '}
-                                    <a href="/terms" className="text-stone-900 font-bold hover:underline">
+                                    <Link href="/terms" className="text-stone-900 font-bold hover:underline">
                                         Terms of Use
-                                    </a>
+                                    </Link>
                                     .
                                 </label>
                             </div>

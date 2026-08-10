@@ -2,25 +2,32 @@
 
 import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 
-export default function GoogleAnalytics({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_ID: string }) {
+function AnalyticsTracker({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_ID: string }) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
     useEffect(() => {
-        const url = pathname + searchParams.toString();
+        const query = searchParams?.toString();
+        const url = query ? `${pathname}?${query}` : pathname;
 
         if (typeof window !== 'undefined' && (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag) {
-            // Send pageview on route change
             (window as unknown as { gtag: (...args: unknown[]) => void }).gtag('config', GA_MEASUREMENT_ID, {
                 page_path: url,
             });
         }
     }, [pathname, searchParams, GA_MEASUREMENT_ID]);
 
+    return null;
+}
+
+export default function GoogleAnalytics({ GA_MEASUREMENT_ID }: { GA_MEASUREMENT_ID: string }) {
     return (
         <>
+            <Suspense fallback={null}>
+                <AnalyticsTracker GA_MEASUREMENT_ID={GA_MEASUREMENT_ID} />
+            </Suspense>
             <Script
                 id="google-analytics-consent"
                 strategy="afterInteractive"

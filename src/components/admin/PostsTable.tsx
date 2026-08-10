@@ -195,7 +195,7 @@ export default function PostsTable({ posts }: { posts: Post[] }) {
                         </div>
                         <div className="flex items-center justify-between border-t border-stone-100 pt-3">
                             <span className="text-xs text-stone-400">
-                                {new Date(post.updated_at || post.created_at).toLocaleDateString()}
+                                {new Date(post.updated_at || post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
                             </span>
                             <div className="flex items-center gap-3">
                                 <DisplayLocationSelector
@@ -290,7 +290,7 @@ export default function PostsTable({ posts }: { posts: Post[] }) {
                                         {post.views || 0}
                                     </td>
                                     <td className="p-4 text-stone-400 text-xs">
-                                        {new Date(post.updated_at || post.created_at).toLocaleDateString()}
+                                        {new Date(post.updated_at || post.created_at).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
                                     </td>
                                     <td className="p-4 text-right flex justify-end items-center gap-2">
                                         <button

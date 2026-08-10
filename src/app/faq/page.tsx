@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Home, ChevronRight, Minus, Plus } from 'lucide-react';
+import Script from 'next/script';
 
 export default function FAQPage() {
     const [expandedCategories, setExpandedCategories] = useState<Record<string, Record<number, boolean>>>({
@@ -147,7 +148,8 @@ export default function FAQPage() {
 
     return (
         <div className="min-h-screen bg-stone-50 pb-20">
-            <script
+            <Script
+                id="faq-json-ld"
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />

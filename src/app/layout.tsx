@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { IBM_Plex_Sans, Newsreader } from "next/font/google";
 
@@ -97,9 +98,12 @@ export default async function RootLayout({
 
   return (
     <html lang="en-IN" className="scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning>
-      <head>
-        {/* Google Tag Manager */}
-        <script
+      <body
+        className={`${ibmPlexSans.variable} ${newsreader.variable} antialiased text-stone-900 font-sans flex min-h-screen flex-col`}
+      >
+        <Script
+          id="gtm-script"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -108,15 +112,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-W9FZ85PB');`,
           }}
         />
-        {/* End Google Tag Manager */}
-        <script
+        <Script
+          id="organization-schema"
           type="application/ld+json"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-      </head>
-      <body
-        className={`${ibmPlexSans.variable} ${newsreader.variable} antialiased text-stone-900 font-sans flex min-h-screen flex-col`}
-      >
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe

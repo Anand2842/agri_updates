@@ -15,7 +15,7 @@ export default function StickySidebar({ children, triggerId, offset = 100 }: Sti
     useEffect(() => {
         if (!triggerId) {
             // If no trigger, just show it (or use a simple scroll threshold)
-            setIsVisible(true);
+            setIsVisible(true); // eslint-disable-line react-hooks/set-state-in-effect
             return;
         }
 

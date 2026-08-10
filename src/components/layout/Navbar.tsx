@@ -35,8 +35,8 @@ export default function Navbar({ categories }: NavbarProps) {
 
         getUser();
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setUser(session?.user ?? null);
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: unknown, session: unknown) => {
+            setUser((session as { user?: typeof user })?.user ?? null);
         });
 
         return () => subscription.unsubscribe();

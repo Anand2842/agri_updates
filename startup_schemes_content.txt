@@ -1,0 +1,4607 @@
+=== PAGE 1 ===
+PLAYBOOK OF
+GOVERNMENT SCHEMES
+AND INITIATIVES FOR
+STARTUPS
+June 2026
+
+=== PAGE 2 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Disclaimer: This playbook has been developed as a consolidated reference guide to facilitate awareness and access to Central
+Government schemes, programmes, initiatives, and support mechanisms that may be relevant to startups across sectors and stages
+of growth. The information contained herein has been compiled on a best-effort basis from publicly available sources, official
+publications, notifications, websites, reports, and other secondary reference materials.
+Given the breadth and dynamic nature of the Government support ecosystem, this playbook may not be exhaustive. While every effort
+has been made to include a wide range of relevant initiatives, certain schemes, programmes, or opportunities may not have been
+captured, may have undergone modifications, or may not be active or open for applications at a particular point in time. Several schemes
+operate through specific application windows, calls for proposals, periodic notifications, or time-bound implementation cycles, which
+may change from time to time.
+The information provided in this playbook is intended solely for general guidance and knowledge dissemination. It presents a high-level
+summary of schemes and initiatives and should not be construed as a substitute for the detailed guidelines, notifications, eligibility
+conditions, or directions issued by the respective Ministry, Department, implementing agency, or other competent authority.
+Readers are encouraged to consult the official websites, notifications, and communications of the concerned Ministries, Departments,
+and implementing agencies for the latest and most comprehensive information, including eligibility criteria, application processes,
+timelines, and other operational details.
+While reasonable care has been taken in compiling and presenting the information, the authors and publishers make no representation
+regarding the completeness, accuracy, or continued availability of any scheme or programme. Any decisions, applications, or actions
+taken based on the contents of this playbook should be undertaken after appropriate verification of the applicable scheme guidelines
+and requirements.
+Page 2 of 107
+
+=== PAGE 3 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Table of Contents
+SECTION 1 9
+QUICK NAVIGATION 9
+1.1 Decision Tree - Find Your Scheme in 5 Questions 10
+1.2 “What Do You Need?” Index 11
+1.3 Startup Lifecycle Map 12
+SECTION 2 13
+MASTER SUMMARY TABLE 13
+Part A - Startup-Specific Schemes 13
+Part B - Startup-Relevant Schemes 21
+SECTION 3 | SCHEME ONE-PAGERS | PART A 31
+Startup India Seed Fund Scheme (SISFS) 32
+Fund of Funds for Startups (FFS) 33
+Startup India Fund of Funds 2.0 34
+Credit Guarantee Scheme for Startups (CGSS) 35
+Scheme for Facilitating Startups Intellectual Property Protection (SIPP) 36
+GeM Startup Runway 37
+NIDHI – Seed Support Program (SSP) 38
+NIDHI – Promotion and Acceleration of Young and Aspiring Technology Entrepreneurs (PRAYAS) 2.0 39
+Research, Development & Innovation (RDI) Scheme 40
+National Quantum Mission (NQM) 41
+Promoting Innovations in Individuals, Start-ups and MSMEs (PRISM) 42
+Biotechnology Ignition Grant Scheme (BIG) 43
+Biotechnology Innovation Fund – Accelerating Entrepreneurs (AcE) 44
+BIRAC Incubator SEED Fund (SEED) 45
+LEAP Fund – Launching Entrepreneurial Driven Affordable Products 46
+SPARSH – Social Innovation Programme for Products Affordable & Relevant to Social Health 47
+AgriSURE – Agri Fund for Startups & Rural Enterprises 48
+Innovation & Agri-Entrepreneurship Program (RKVY) 49
+SAMRIDH – Startup Accelerators of MeitY for Product Innovation, Development & Growth 50
+GENESIS – Gen-Next Support for Innovative Startups 51
+STPI – Next Generation Incubation Scheme (NGIS) 52
+Chips to Startup (C2S) Programme 53
+Innovations for Defence Excellence (iDEX) 54
+Acing Development of Innovative Technologies with iDEX (ADITI) 55
+Technology Development Fund (TDF) 56
+IN-SPACe Seed Fund Scheme 57
+Digital Communication Innovation Square (DCIS) 58
+GREAT – Grant for Research & Entrepreneurship across Aspiring Innovators in Technical Textiles 59
+BHARATI – Bharat’s Hub for Agritech, Resilience, Advancement & Incubation for Export Innovation 60
+S&T-PRISM – Promotion of Research & Innovation in Mining, Minerals & Recycling Sector 61
+SECTION 3 | SCHEME ONE-PAGERS | PART B 62
+NIDHI – Entrepreneur in Residence (EIR) 63
+National Mission on Interdisciplinary Cyber-Physical Systems (NM-ICPS) – Technology Innovation Hubs 64
+Page 3 of 107
+
+=== PAGE 4 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+National Initiative for Developing and Harnessing Innovations - Technology Business Incubator (NIDHI-TBI) 65
+NIDHI - Inclusive-Technology Business Incubator (i-TBI) 66
+NIDHI-Accelerator 67
+NIDHI-Centres of Excellence (CoE) 68
+BioAngels 69
+BioNEST Programme 70
+Biotechnology Industry Partnership Programme (BIPP) 71
+Empowering Youth for Undertaking Value Added Innovative Translational Research (E-YUVA) 72
+Students Innovations for Translation & Advancement of Research Explorations (SITARE) 73
+Promoting Academic Research Conversion to Enterprise (PACE) 74
+Small Business Innovation Research Initiative (SBIRI) 75
+TIDE 2.0 – Technology Incubation & Development of Entrepreneurs 76
+Design Linked Incentive (DLI) Scheme 77
+Antariksh Venture Capital Fund/ Space VCF 78
+Space Technology Adoption Fund (TAF) 79
+Credit Guarantee Trust Fund for Micro & Small Enterprises (CGTMSE) 80
+Self-Reliant India Fund (SRI Fund) 81
+MSME Champions Scheme (erstwhile Credit Linked Capital Subsidy Scheme for Technology Upgradation
+(CLCS-TU)) 82
+International Cooperation Scheme 83
+National SC-ST Hub Scheme 84
+Atal Innovation Mission – Atal Tinkering Labs 85
+Atal Incubation Centres (AICs) 86
+Atal Community Innovation Centres (ACIC) 87
+Scheme for Scale-up Support to Established Incubation Centres (EICs) 88
+Agriculture Infrastructure Financing Facility 89
+Pradhan Mantri Mudra Yojana (PMMY) 90
+Stand-Up India 91
+Pradhan Mantri Formalisation of Micro Food Processing Enterprises (PMFME) Scheme 92
+IFSCA Fintech Incentive Scheme 93
+Technology Development-cum-Incubation Centers 94
+Start-up Village Entrepreneurship Programme (SVEP) 95
+Venture Capital Fund for Scheduled Castes (VCF-SC) 96
+Science Technology and Innovation (STI) Hubs for Development of Scheduled Caste (SC) and Scheduled Tribe
+(ST) Communities 97
+National Livestock Mission 98
+Mission on Advanced and High-Impact Research (MAHIR) 99
+Yuva Sahakar – Cooperative Enterprise Support and Innovation Scheme 100
+Entrepreneurship and Skill Development Programme (ESDP) 101
+SECTION 4 102
+OTHER INITIATIVES UNDER PSUS, REGULATORS, AND STATES / UTS 102
+Startup Initiatives of Public Sector Undertakings (PSUs) and Regulators 102
+Startup Initiatives of State and Union Territories 104
+SECTION 5 106
+APPENDIX DEFINITIONS & GLOSSARY 106
+Page 4 of 107
+
+=== PAGE 5 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+About this Playbook
+6
+65+ 35+
+Schemes and Ministries / Support
+Programs Departments / Categories
+covered PSUs
+Support Categories
+GRANT: Fund given with no repayment needed, no
+equity given up.
+EQUITY: Investment in exchange for a stake in your
+startup.
+LOAN / CREDIT: Repayable loan or credit guarantee to
+help access debt.
+INCUBATION: Access to lab, workspace, mentoring and
+ecosystem support.
+MARKET ACCESS: Pathways to sell, export, or access
+procurement markets.
+MIXED: Combination of the above as well any other
+types of support provided to startups.
+Startup Lifecycle Coverage
+Prototype / PoC Seed / early Growth / Market
+Ideation
+stage Scaling Access & IP
+Industry & Sector Coverage
+Defence & Biotec & Allied Semicon &
+Allied Electronics
+Agriculture & Quantum Tech
+Space
+Food
+...and many more
+Page 5 of 107
+
+=== PAGE 6 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Objective Who It Is For
+This Playbook consolidates Central • Entrepreneurs & Founders
+Government schemes and incentives • Students & Aspiring Entrepreneurs
+relevant to India’s startup ecosystem into a • Investors & Incubators
+single, usable reference document. It is • Policymakers & Intermediaries
+designed to help entrepreneurs find the right
+scheme for their stage and sector.
+How to Use This Playbook
+1 Start with the Decision Tree. Answer 5 quick questions to find schemes suited to you.
+2 Check the “What Do You Need?” Index for a need-based view (grant, equity, loan, etc.).
+3 Use the Lifecycle Map to find schemes matching your stage of growth.
+4 Explore the Summary Table for a structured overview of all schemes with key details.
+5 Deep dive into Scheme One-Pagers for full scheme details including how to apply.
+Focus Legend
+Startup Focus Legend
+● Startup-Specific: Startups are the primary or sole eligible beneficiary explicitly named in
+scheme eligibility.
+● Startup-Relevant: Broader eligibility (MSMEs, companies, institutions) but startups regularly
+benefit and apply.
+Page 6 of 107
+
+=== PAGE 7 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+List of Abbreviations of Schemes and Programmes
+SISFS Startup India Seed Fund Scheme
+FFS Fund of Funds for Startups
+Startup India FoF 2.0 Startup India Fund of Funds 2.0
+CGSS Credit Guarantee Scheme for Startups
+SIPP Scheme for Facilitating Startups Intellectual Property Protection
+NIDHI - SSP NIDHI – Seed Support Program
+NIDHI – Promotion and Acceleration of Young and Aspiring Technology
+NIDHI - PRAYAS 2.0 Entrepreneurs
+RDI Research, Development & Innovation
+NQM National Quantum Mission
+PRISM Promoting Innovations in Individuals, Start-ups and MSMEs
+BIG Biotechnology Ignition Grant Scheme
+AcE Biotechnology Innovation Fund – Accelerating Entrepreneurs
+SEED BIRAC Incubator SEED Fund
+LEAP Launching Entrepreneurial Driven Affordable Products
+Social Innovation Programme for Products Affordable & Relevant to
+SPARSH Social Health
+AgriSURE Agri Fund for Startups & Rural Enterprises
+RKVY Innovation & Agri-Entrepreneurship Program
+Startup Accelerators of MeitY for Product Innovation, Development &
+SAMRIDH Growth
+GENESIS Gen-Next Support for Innovative Startups
+Software Technology Parks of India - Next Generation Incubation
+STPI NGIS Scheme
+C2S Programme Chips to Startup
+iDEX Innovations for Defence Excellence
+ADITI Acing Development of Innovative Technologies with iDEX
+TDF Technology Development Fund
+DCIS Digital Communication Innovation Square
+Grant for Research & Entrepreneurship across Aspiring Innovators in
+GREAT Technical Textiles
+Bharat’s Hub for Agritech, Resilience, Advancement & Incubation for
+BHARATI Export Innovation
+Science and Technology - Promotion of Research & Innovation in Mining,
+S&T-PRISM Minerals & Recycling Sector
+EIR NIDHI – Entrepreneur in Residence
+National Mission on Interdisciplinary Cyber-Physical Systems -
+NM-ICPS Technology Innovation Hubs
+National Initiative for Developing and Harnessing Innovations -
+TBI Technology Business Incubator
+Page 7 of 107
+
+=== PAGE 8 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+List of Abbreviations of Schemes and Programmes
+i-TBI NIDHI - Inclusive-Technology Business Incubator
+CoE NIDHI-Centres of Excellence
+Bioincubators Nurturing Entrepreneurship for Scaling Technologies
+Bio-NEST Programme
+BIPP Biotechnology Industry Partnership Programme
+Empowering Youth for Undertaking Value Added Innovative Translational
+E-YUVA Research
+Students Innovations for Translation & Advancement of Research
+SITARE Explorations
+PACE Promoting Academic Research Conversion to Enterprise
+SBIRI Small Business Innovation Research Initiative
+TIDE 2.0 Technology Incubation & Development of Entrepreneurs
+DLI Design Linked Incentive Scheme
+TAF Space Technology Adoption Fund
+CGTMSE Credit Guarantee Trust Fund for Micro & Small Enterprises
+SRI Fund Self-Reliant India Fund
+ATL Atal Innovation Mission – Atal Tinkering Labs
+AICs Atal Incubation Centres
+ACIC Atal Community Innovation Centres
+EICs Scheme for Scale-up Support to Established Incubation Centres
+PMMY Pradhan Mantri Mudra Yojana
+Pradhan Mantri Formalisation of Micro Food Processing Enterprises
+PMFME Scheme
+International Financial Services Centres Authority - Fintech Incentive
+IFSCA Scheme
+SVEP Start-up Village Entrepreneurship Programme
+VCF-SC Venture Capital Fund for Scheduled Castes
+Science Technology and Innovation Hubs for Development of Scheduled
+SC-STI Caste
+NLM National Livestock Mission
+MAHIR Mission on Advanced and High-Impact Research
+ESDP Entrepreneurship and Skill Development Programme
+Page 8 of 107
+
+=== PAGE 9 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+SECTION 1
+Quick Navigation
+Your fastest route to the right scheme / program
+Page 9 of 107
+
+=== PAGE 10 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+1.1 Decision Tree - Find Your Scheme in 5 Questions
+Answer the questions below in order. Each branch points you to the most relevant schemes. You
+can appear in more than one branch.
+DECISION TREE
+Biotech / Quantum
+Allied Technology
+Q1. Are you a student or early-stage researcher / aspiring entrepreneur (not yet a registered startup)?
+Yes No
+NIDHI-EIR, E-YUVA, SITARE, Atal You are either a registered or
+Tinkering Labs incorporated startup. Continue below.
+Q2. What is your current startup stage?
+Idea / PoC Stage: Grants to start Prototype and beyond: Ready to build
+BIG, PRAYAS 2.0, RKVY, SPARSH, SISFS, NIDHI-SSP, TIDE 2.0, iDEX,
+GREAT IN-SPACe Seed Fund, DCIS
+Q3. What type of support do you primarily need?
+Grant (funding with no repayment) Equity Investment (you give a stake)
+SISFS, BIG, iDEX, ADITI, PRAYAS 2.0, FFS, Startup India FoF 2.0, AcE,
+DCIS, IN-SPACe Seed Fund, RKVY, AgriSURE, BIRAC SEED, LEAP Fund,
+SPARSH, GREAT, NQM SAMRIDH, Antariksh VCF, NIDHI-SSP
+Q4. Do you need a loan / credit or IP / Other support?
+Loan / Credit Guarantee IP Protection / Market Access
+CGSS, CGTMSE, PMMY, Stand Up
+SIPP, GeM Startup Runway
+India
+Q5. Are you in a specific strategic or deep-tech sector?
+Defence / Biotech / Agriculture Semicon / Quantum
+Space
+Allied Allied / Food Electronics Technology
+IN-SPACe BIG, BIRAC DLI, Chips to
+iDEX, Seed Fund, SEED, LEAP RKVY, Startup NQM Startup
+ADITI, TDF Antariksh Fund, AgriSURE, (C2S), Support
+VCF, Space SPARSH, BHARATI GENESIS
+TAF AcE, SBIRI
+Page 10 of 107
+
+=== PAGE 11 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+1.2 “What Do You Need?” Index
+Use this table to find schemes based on what type of support you are looking for.
+Startup-Specific Startup-Relevant
+I Need...
+Schemes / Programs Schemes / Programs
+SISFS, BIG, PRAYAS 2.0,
+Grant (Funding TIDE 2.0, BIPP, SBIRI,
+iDEX, ADITI, DCIS, IN-
+with no PRISM, PACE, E-YUVA,
+repayment) SPACe Seed Fund, RKVY,
+SITARE, NM-ICPS, MAHIR
+SPARSH, GREAT, NQM
+FFS, Startup India FoF 2.0,
+Equity
+AcE, AgriSURE, BIRAC Antariksh VCF, SRI Fund,
+Investment
+(VC/angel) SEED, LEAP Fund, SBIRI
+SAMRIDH
+CGTMSE, PMMY, Stand Up
+Loan or Credit CGSS India, PMFME, NLM, Yuva
+Support
+Sahakar
+NIDHI-TBI, i-TBI, BioNEST,
+Incubation / GENESIS, SAMRIDH, STPI-
+AICs, ACICs, EICs, TIDE
+Lab / Mentoring NGIS, C2S
+2.0, NM-ICPS, ESDP
+IP Protection -
+(Patents, SIPP
+Trademarks)
+Market Access
+International Cooperation
+/ Sell to GeM Startup Runway
+Government Scheme, BHARATI
+iDEX / ADITI / TDF (Defence), IN-
+SPACe Seed Fund / NQM BioNEST (Biotech), MAHIR
+Sector-Specific
+Support (Space/Quantum), RKVY / AgriSURE (Energy), NLM (Livestock),
+(Agri), DCIS (Telecom), DLI / Chips
+SVEP (Rural)
+to Startup (C2S), (Semiconductor)
+Page 11 of 107
+
+=== PAGE 12 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+1.3 Startup Lifecycle Map
+Find schemes aligned to where you are in your startup journey.
+Startup-Specific Startup-Relevant
+Stage
+Schemes / Programs Schemes / Programs
+Ideation NIDHI-EIR, BIG , PRAYAS
+2.0, PRISM, RKVY, Atal Tinkering Labs, ESDP,
+You have an idea but
+SPARSH, GENESIS, E- ACICs, i-TBI
+no prototype or
+YUVA, SITARE
+product yet
+Prototype / PoC
+SISFS (grant part), PRAYAS
+2.0, iDEX SPARK, IN- TIDE 2.0, SBIRI, BIPP,
+Idea validated, SPACe Seed Fund, DCIS, PACE, NM-ICPS
+building or testing a
+TDF, Chips to Startup
+prototype
+(C2S), GREAT, S&T-PRISM
+Seed / Early-Stage SISFS (debt part), NIDHI-
+CGTMSE, PMMY,
+SSP, LEAP Fund,
+Prototype done;
+BioNEST, STPI-NGIS
+entering market or SAMRIDH, AgriSURE
+scaling pilot (early), iDEX Prime, ADITI
+Growth / Scaling
+FFS, Startup India FoF 2.0,
+Product in market; AcE, AgriSURE, Antariksh SRI Fund
+scaling operations VCF, NQM, RDI Scheme,
+and team CGSS
+Market Access & IP
+GeM Startup Runway, SIPP Space TAF, MSME
+Ready to sell, export
+(IP), BHARATI (agri exports) Champions
+or protect your
+innovation
+Page 12 of 107
+
+=== PAGE 13 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+SECTION 2
+Master Summary Table
+Structured reference for all 65+ Central Government schemes
+Part A - Startup-Specific Schemes
+These schemes explicitly name startups (especially DPIIT-recognised startups) as the primary or
+sole eligible beneficiary.
+S. Scheme
+N Name & Stage & What Is This Who Can What Do
+How Much?
+o Nodal Focus Scheme? Apply? You Get?
+Ministry
+1.
+Startup
+India Seed Seed fund
+Seed / Early- DPIIT-
+Fund disbursed [MIXED]
+Stage recognised Up to ₹20
+Scheme through approved
+early-stage lakh (grant);
+(SISFS) incubators for
+startups with up to ₹50 lakh
+PoC, prototype,
+technology- Grant + (convertible
+DPIIT, market entry and
+Proof-of- enabled debt/convert debt)
+Ministry of commercialisatio
+concept to business ideas. ible debt
+Commerce & n.
+market entry through
+Industry
+incubators
+2.
+Fund of
+Govt-backed
+Funds for Growth-stage Corpus
+Scaling fund-of-funds [EQUITY]
+Startups startups ₹10,000
+committing
+(FFS) indirectly through crore; startup-
+capital to SEBI-
+supported level
+registered AIFs
+venture capital investment
+DPIIT, which then invest Equity
+funds. varies by AIF
+Ministry of VC fund-of- in startups. investment
+Commerce & funds via VC
+Industry funds
+3.
+Follow-on fund-
+Startup
+of-funds to Startups Corpus
+India Fund Scaling [EQUITY]
+deepen domestic indirectly through ₹10,000
+of Funds 2.0
+venture capital SEBI-registered crore; startup-
+for deep tech, AIFs supported level
+manufacturing under the new investment
+and growth-stage window. varies
+DPIIT,
+Next-phase startups. Equity
+Ministry of
+VC fund-of- investment
+Commerce &
+funds via AIFs
+Industry
+4. DPIIT-
+Credit Guarantee cover Guarantee
+recognised
+Guarantee to lenders for cover up to
+Credit startups [LOAN /
+Scheme for collateral-free ₹20 crore per
+Support borrowing from CREDIT]
+Startups loans extended to eligible
+eligible banks,
+(CGSS) eligible DPIIT- borrower
+NBFCs, AIFs or
+Page 13 of 107
+
+=== PAGE 14 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+N Name & Stage & What Is This Who Can What Do
+How Much?
+o Nodal Focus Scheme? Apply? You Get?
+Ministry
+recognised financial Credit
+startups. institutions. guarantee
+(reduces
+DPIIT, lender risk;
+Ministry of Collateral-free not a direct
+Commerce & debt grant).
+Industry Helps you
+get a loan
+without
+collateral.
+5.
+Startups
+Intellectual
+Property [MARKET
+Any Stage
+Protection ACCESS]
+Facilitated IPR
+(SIPP) DPIIT- 80% rebate
+filing scheme
+Scheme recognised on patent
+where
+startups filing statutory fees;
+government pays
+patents, End-to-end 50% rebate
+the facilitator’s
+trademarks or IP on
+DPIIT / professional fee
+designs in India facilitation at trademark/de
+CGPDTM, on behalf of
+or abroad. no charge to sign fees
+Ministry of IP protection startups.
+startup;
+Commerce &
+statutory fee
+Industry
+rebates
+applicable
+6.
+GeM Startup [MARKET
+Any Stage
+Runway ACCESS]
+Market
+Dedicated
+access
+marketplace
+DPIIT- (governmen
+window on GeM Platform for
+recognised t
+Government enabling startups showcasing
+startups. Also procuremen
+e to sell innovative innovations
+Government open to all t).
+Marketplace products/services for public
+procurement startups for Exemption
+(GeM), directly to procurement
+access listing. from prior
+Department government
+experience,
+of Commerce buyers.
+turnover
+and EMD
+requirement
+s.
+7. NIDHI –
+Seed
+Seed / Post-
+Support [EQUITY]
+Incubation Seed support
+Program
+deployed through Technology
+(SSP) Up to ₹1
+DST-supported startups
+Seed crore per
+TBIs to help incubated in
+funding startup,
+incubated eligible
+Department Post- (debt / subject to TBI
+startups bridge NIDHI/DST-
+of Science & incubation equity / guidelines
+prototype to supported TBIs.
+Technology startup convertible
+market.
+(DST) finance instruments
+as per
+incubator)
+Page 14 of 107
+
+=== PAGE 15 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+N Name & Stage & What Is This Who Can What Do
+How Much?
+o Nodal Focus Scheme? Apply? You Get?
+Ministry
+8.
+Prototype grant
+NIDHI – Ideation to programme
+Individual [GRANT]
+PRAYAS 2.0 Prototype helping
+innovators and
+innovators Up to ₹40
+early-stage
+convert lakh through
+startups with
+technology ideas PRAYAS 2.0
+technology- Prototype
+into working calls
+Department based ideas and grant +
+prototypes
+of Science & Prototype prototype plans. maker-
+through PRAYAS
+Technology grant space /
+Centres.
+(DST) mentoring
+support
+9. Research,
+Developmen
+t & Deep-Tech
+Large RDI [MIXED]
+Innovation Scaling
+financing
+(RDI) Startups,
+framework Scheme
+Scheme companies and
+providing long- corpus ₹1
+innovation-led Long-term
+term, low-cost lakh crore;
+enterprises in financing /
+capital for project-level
+Department strategic/deep- loans /
+private-sector support varies
+of Science & Long-term tech sectors. equity-like
+research and
+Technology R&D finance support
+innovation.
+(DST) through
+designated
+channels
+10. National
+Quantum
+Mission Deep-Tech DPIIT-
+[GRANT] Up to ₹25
+(NQM) – R&D National mission recognised
+crore per
+Startup offering rolling startups in
+startup;
+Support startup grants quantum
+mission
+through 4 computing,
+R&D grant + outlay
+Thematic Hubs at communication,
+incubation, ₹6,003.65
+Department Quantum IISc, IIT Madras, sensing/metrolog
+testbed crore
+of Science & technology IIT Bombay, IIT y and
+access and (FY2024–
+Technology commercialis Delhi. materials/device
+ecosystem FY2031)
+(DST) ation s.
+mentoring
+via T-Hubs
+11.
+Promoting
+Innovations DSIR scheme
+in supporting
+Ideation to Individual
+Individuals, individual [GRANT] Up to ₹50
+Prototype innovators,
+Startups & innovators, lakh
+startups and
+MSMEs startups and depending on
+MSMEs with
+(PRISM) MSMEs to PRISM
+technology/prod
+develop phase/catego
+D of e S p c a i r e tm nt e if n ic t & prototypes and u id c e t a in s. n ovation Grant-in-aid ry
+Grassroots commercialise / prototype
+Industrial innovation innovations. support +
+Research
+mentoring
+(DSIR)
+Page 15 of 107
+
+=== PAGE 16 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+N Name & Stage & What Is This Who Can What Do
+How Much?
+o Nodal Focus Scheme? Apply? You Get?
+Ministry
+12.
+Biotechnolo
+gy Ignition
+Ideation to
+Grant Flagship BIRAC Individual [GRANT]
+PoC
+Scheme grant for innovators and
+Up to ₹50
+(BIG) translating early biotech
+lakh for up to
+innovative startups with
+Department 18 months
+biotech ideas into commercially Grant-in-aid
+of
+Biotech proof- proof-of-concept. promising ideas. + mentoring
+Biotechnolog
+of-concept (no equity
+y (DBT) /
+dilution)
+BIRAC
+13.
+Biotechnolo
+gy
+Innovation
+Fund – Scaling BIRAC equity [EQUITY]
+Accelerating fund-of-funds to High-potential Startup-level
+Entrepreneu accelerate biotech startups investment
+rs (AcE) biotech and SMEs varies; fund
+enterprises seeking operates
+through SEBI- institutional Equity through
+Department
+registered venture capital. investment selected AIFs
+of
+Biotech equity daughter funds. via daughter
+Biotechnolog
+fund-of-funds funds
+y (DBT) /
+(indirect
+BIRAC
+funding)
+14.
+BIRAC
+Incubator
+Seed [EQUITY]
+SEED Fund Equity/equity- Up to ₹30
+BIRAC/BioNEST
+(SEED) linked seed lakh per
+-incubated
+support deployed startup;
+biotech startups
+through BioNEST Seed incubator
+Department needing early
+incubators for investment corpus
+of Biotech early commercialisatio
+promising biotech (equity / typically ~₹2
+Biotechnolog commercialis n capital.
+startups. equity- crore
+y (DBT) / ation
+linked
+BIRAC
+instruments)
+15.
+LEAP Fund
+– Launching
+Entrepreneu Commerciali BIRAC-BioNEST
+[EQUITY]
+rial Driven sation equity/equity- Biotech startups
+Affordable linked fund for incubated at Up to ₹1
+Products biotech startups selected crore per
+ready to pilot or LEAP/BioNEST startup
+commercialise fund partners.
+Department
+products. Equity /
+of Biotech pilots
+equity-
+Biotechnolog and market
+linked
+y (DBT) / launch
+investment
+BIRAC
+Page 16 of 107
+
+=== PAGE 17 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+N Name & Stage & What Is This Who Can What Do
+How Much?
+o Nodal Focus Scheme? Apply? You Get?
+Ministry
+16.
+SPARSH –
+Social
+Innovation
+Programme BIRAC Startups and
+Ideation to
+for Products programme innovators [GRANT]
+Validation
+Affordable & supporting developing Up to ₹50
+Relevant to affordable and affordable lakh, subject
+Social socially relevant products for to call
+Health healthcare/biotec priority public- guidelines
+h product health and social
+innovations. needs.
+Department Grant +
+of Affordable mentoring /
+Biotechnolog social-health social
+y (DBT) / solutions innovation
+BIRAC immersion
+17.
+AgriSURE –
+Agri Fund Category-II AIF
+for Startups Scaling catalysing Agri-tech [EQUITY]
+& Rural equity/debt startups, rural Fund corpus
+Enterprises capital for agri- enterprises, ₹750 crore;
+tech, rural and FPO-linked direct equity
+allied-sector innovations and up to ₹25
+Ministry of
+ventures. Jointly value-chain crore per
+Agriculture & Equity / debt
+sponsored by ventures in startup
+Farmers Agri & rural / blended
+MoAFW and agriculture.
+Welfare / enterprise capital
+NABARD.
+NABVENTU finance (direct and
+RES fund route)
+(NABARD)
+18. Innovation &
+Agri- PM-RKVY agri-
+Agri and allied-
+Entrepreneu Ideation to startup incubation
+sector [GRANT]
+rship Seed programme Up to ₹5 lakh
+startups/agripren
+Program supporting pre- (pre-seed); up
+eurs through
+(RKVY) seed and seed- to ₹25 lakh
+RKVY-supported
+stage (seed stage)
+Ministry of agri-business
+agripreneurs Grant-in-aid
+Agriculture & incubators.
+Agri-startups through R-ABIs. + incubation
+Farmers
+/ mentoring
+Welfare
+19.
+MeitY
+SAMRIDH – programme
+Startup enabling Existing Matching
+Accelerators accelerators to IT/software funding up to
+of MeitY for support product startups ₹40 lakh per
+Scaling [EQUITY]
+Product promising selected through startup via
+Innovation, software/product SAMRIDH selected
+Developmen startups with accelerators. accelerators
+t & Growth services and
+matching funding.
+Page 17 of 107
+
+=== PAGE 18 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+N Name & Stage & What Is This Who Can What Do
+How Much?
+o Nodal Focus Scheme? Apply? You Get?
+Ministry
+Ministry of
+Acceleration
+Electronics & Accelerator-
++ matching
+Information led product
+funding
+Technology growth
+support
+(MeitY)
+20.
+GENESIS –
+Gen-Next
+Ideation to
+Support for [GRANT]
+Scaling
+Innovative MeitY scheme
+Startups discovering, Technology
+Scheme
+supporting and startups and
+outlay ₹490
+scaling entrepreneurs in
+crore; startup-
+technology Tier-II/III EiR, pilot,
+level support
+startups in Tier- locations, investment
+Ministry of varies by
+II/III cities via including deep- and deep-
+Electronics & component
+Tier-II/III tech implementing tech ventures. tech funding
+Information
+startups agencies. support
+Technology
+through
+(MeitY)
+implementin
+g agencies
+21.
+STPI – Next
+Generation
+Ideation to [INCUBATI
+Incubation
+Scaling STPI scheme ON]
+Scheme
+supporting
+(NGIS) Scheme
+software product Tech/software
+outlay ₹95.03
+startups in product startups
+Incubation, crore; support
+selected Tier-II/III in identified
+Ministry of mentoring, varies per
+locations through NGIS cities.
+Electronics & cloud startup/city
+Tier-II/III incubation and
+Information credits,
+software seed support.
+Technology seed
+products
+(MeitY) / support and
+STPI market
+access
+22.
+Chips to
+R&D to [INCUBATI
+Startup MeitY Academic
+Prototype ON] Project/institut
+(C2S) programme for institutions,
+ion-based;
+chip design, VLSI startups/MSMEs
+support varies
+training and and R&D Design
+Ministry of under
+Semiconduct development of organisations in tools,
+Electronics & approved
+or design working silicon semiconductor mentoring,
+Information C2S project
+talent & prototypes. design. prototyping
+Technology
+startups and project
+(MeitY)
+support
+23. Challenge-led Startups,
+Innovations SPARK
+defence MSMEs and
+for Defence Prototype to grants up to
+innovation individual [GRANT]
+Excellence Procurement ₹1.5 crore;
+platform innovators
+(iDEX) iDEX Prime
+connecting solving defence
+Page 18 of 107
+
+=== PAGE 19 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+N Name & Stage & What Is This Who Can What Do
+How Much?
+o Nodal Focus Scheme? Apply? You Get?
+Ministry
+startups/MSMEs and aerospace up to ₹10
+Ministry of
+with armed forces problem Prototype crore
+Defence /
+and defence statements. grant + user
+Defence Defence &
+PSUs. mentoring +
+Innovation aerospace
+procuremen
+Organisation
+t pathway
+(DIO)
+24.
+ADITI –
+Acing
+Developmen
+Advanced
+t of iDEX sub- [GRANT]
+Prototype Startups,
+Innovative scheme for
+MSMEs and
+Technologie critical and Up to ₹25
+innovators
+s with iDEX strategic defence crore grant-in-
+developing
+technologies aid per
+advanced deep-
+requiring larger project
+Ministry of tech defence
+Defence / R&D technologies. Large R&D
+Strategic investments. grant + user
+Defence
+defence engagement
+Innovation
+deep-tech under iDEX
+Organisation
+framework
+(DIO)
+25.
+DRDO
+Technology
+Prototype to programme
+Developmen Indian industries, [GRANT]
+Product supporting Up to ₹10
+t Fund (TDF) MSMEs and
+indigenous crore per
+startups
+defence project,
+developing
+technology generally up
+technologies for Grant-in-aid
+development by to 90% of
+DRDO, Defence DRDO/Services / project
+industry, project cost
+Ministry of technology needs. funding with
+especially
+Defence development DRDO
+MSMEs/startups.
+mentoring
+26.
+Indian space-
+IN-SPACe
+Seed grant tech startups
+Seed Fund Seed [GRANT]
+encouraging and non-
+Scheme
+startups and government Up to ₹1
+NGEs to develop entities crore per
+space developing Grant-in-aid startup / NGE
+IN-SPACe, technologies and space-sector for R&D /
+Space-tech
+Department applications. products/applicat prototype
+R&D
+of Space ions. developmen
+t
+27. Digital
+Communicat
+Grant programme Startups,
+ion Prototyping
+supporting MSMEs, [GRANT]
+Innovation to Pilot Up to ₹50
+indigenous academia and
+Square lakh per
+telecom and ICT innovators
+(DCIS) selected
+product developing
+proposal for
+Department innovation and telecom/digital Grant-in-aid
+startups
+of Telecom commercialisatio communication + mentoring
+Telecommuni innovation n. solutions. / testing
+cations (DoT) support
+Page 19 of 107
+
+=== PAGE 20 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+N Name & Stage & What Is This Who Can What Do
+How Much?
+o Nodal Focus Scheme? Apply? You Get?
+Ministry
+28.
+GREAT –
+Grant for
+Research &
+Entrepreneu Prototype to Startup grant
+rship across Commerciali under National Individual [GRANT]
+Aspiring sation Technical innovators and
+Innovators Textiles Mission startups in Up to ₹50
+in Technical to convert technical textiles, lakh for up to
+Textiles prototypes into associated with 18 months
+marketable approved
+technologies/prod incubators.
+Ministry of ucts.
+Grant-in-aid
+Textiles
+(no
+(National Technical
+royalty/equit
+Technical textiles
+y); incubator
+Textiles
+support
+Mission)
+29.
+BHARATI –
+Bharat’s
+Hub for
+Agritech,
+Resilience, Market [MARKET
+Advanceme Access APEDA export- Agri-food and ACCESS]
+nt & readiness agri-tech Pilot cohort
+Incubation accelerator for startups, high- supports 100
+for Export agri-food and value producers startups; no
+Innovation agri-tech startups and tech solution fixed grant
+targeting global providers for disclosed
+markets. exports.
+Acceleration
+APEDA, , mentoring,
+Export
+Ministry of compliance
+acceleration
+Commerce & and market-
+for agri-food
+Industry access
+support
+30.
+S&T-PRISM
+– Research Scheme
+& Innovation supporting
+Prototype to
+in Mining, startups and [GRANT]
+Pilot
+Minerals & MSMEs Early-stage Up to ₹2
+Recycling developing startups in crore per
+Sector innovations in mining and approved
+mining, mineral metals industry. project
+processing,
+metallurgy and
+Grant /
+recycling.
+Mining & project
+Ministry of
+metallurgy support +
+Mines
+innovation technical
+mentoring
+Page 20 of 107
+
+=== PAGE 21 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Part B - Startup-Relevant Schemes
+These schemes have broader eligibility (MSMEs, companies, institutions, individuals) but regularly
+benefit and are accessed by startups.
+S. Scheme
+What Is
+N Name & Stage & Who Can What Do You How
+This
+o. Nodal Focus Apply? Get? Much?
+Scheme?
+Ministry
+1. Fellowship
+NIDHI –
+letting Graduate
+Entrepreneu Ideation
+aspiring students and
+r in (Just an [GRANT]
+entrepreneu individual ₹10,000–
+Residence idea)
+rs work full- innovators ₹30,000
+(EIR)
+time on with per month
+technology technology- for up to
+Department
+business based Monthly stipend 12 months
+of Science & Pre-startup
+ideas before entrepreneuri + mentoring +
+Technology fellowship
+incorporatio al ideas. TBI access
+(DST)
+n.
+2.
+NM-ICPS –
+Technology
+Innovation Mission
+Hubs creating 25 Deep-tech
+(National Prototype Technology startups,
+[INCUBATION] Mission
+Mission on to Scaling Innovation researchers
+outlay
+Interdiscipli Hubs for and
+₹3,660
+nary Cyber- R&D, innovators in
+crore;
+Physical translational AI, IoT,
+startup
+Systems) research robotics,
+support
+and startup cyber security
+varies by
+incubation and
+Incubation, TIH/call
+in CPS autonomous
+grants/seed
+Department technologie systems.
+support,
+of Science & Deep-tech s.
+testbeds,
+Technology CPS
+mentoring and
+(DST)
+market connects
+via TIHs
+3. DST
+NIDHI-TBI – support Host
+Incubator-
+Technology establishing institutions/inc
+Incubation [INCUBATION] level
+Business and ubators
+support
+Incubator strengthenin supporting
+varies;
+g knowledge-
+generally
+technology based and Grant to
+Department Technology multi-crore
+business technology- incubator +
+of Science & startup per DST
+incubators driven incubation
+Technology infrastructur approval
+for tech startups. services for
+(DST) e
+startups. startups
+Page 21 of 107
+
+=== PAGE 22 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+What Is
+N Name & Stage & Who Can What Do You How
+This
+o. Nodal Focus Apply? Get? Much?
+Scheme?
+Ministry
+4.
+DST
+NIDHI-i-TBI –
+initiative Host
+Inclusive Incubation
+creating institutions
+Technology (Underserv [INCUBATION]
+inclusive supporting
+Business ed regions) Up to ₹5
+technology local
+Incubator crore over
+incubators innovators
+3 years to
+in and early-
+Grant to incubator
+Department Inclusive underserve stage
+incubator +
+of Science & regional d technology
+maker-
+Technology startup institutions/r startups.
+space/mentoring
+(DST) support egions.
+for startups
+5. DST-
+NIDHI – Acceleratio
+supported [INCUBATION]
+Accelerator n
+accelerator Technology Up to ₹40
+mechanism startups lakh (₹30
+to help selected Structured lakh to
+Department incubated through acceleration, accelerato
+of Science & Market startups supported mentoring, r; ₹10 lakh
+Technology readiness rapidly incubators/acc investor to
+(DST) validate elerators. connects and startups)
+markets and demo days
+scale.
+6.
+DST
+NIDHI – Scaling
+support for
+Centres of (Incubation [INCUBATION]
+high-
+Excellence excellence) Mature
+performing
+incubators
+incubators Up to ₹50
+with strong
+to become crore over
+track record; Large incubator
+Centres of 5 years to
+Department startups grant,
+High-impact Excellence incubator
+of Science & benefit infrastructure,
+incubator and scale
+Technology indirectly. seed/scale
+support deep
+(DST) support and
+startup
+networks
+support.
+7. Biotech
+angel
+BioAngels Scaling [EQUITY]
+investment Biotech,
+and medtech,
+Varies by
+investor- healthtech
+angel
+connect and life-
+Department Investor round /
+platform sciences
+of Angel connects / angel investor
+curated for startups
+Biotechnolog investment equity (private decision
+BIRAC- seeking angel
+y (DBT) / readiness investment
+supported capital.
+BIRAC facilitation)
+life-science
+startups.
+Page 22 of 107
+
+=== PAGE 23 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+What Is
+N Name & Stage & Who Can What Do You How
+This
+o. Nodal Focus Apply? Get? Much?
+Scheme?
+Ministry
+8. BIRAC
+programme
+BioNEST creating bio- Incubators,
+Incubation [INCUBATION] Incubator-
+Programme incubators academic
+level grant
+with wet institutions
+varies by
+labs, and research
+call;
+equipment, parks
+Department startup
+Biotech mentoring supporting
+of Bio-incubation support
+incubation and biotech
+Biotechnolog infrastructure + indirect
+infrastructur commerciali startups.
+y (DBT) / startup services
+e sation
+BIRAC
+support.
+9.
+BIPP –
+Validation Biotech
+Biotechnolo BIRAC
+to companies/sta Project-
+gy Industry partnership [GRANT]
+Commercial rtups and based;
+Partnership programme
+isation academia- varies by
+Programme for high-risk,
+industry approved
+high-impact
+consortia with cost and
+industry-led
+Department transformation scheme
+biotech
+of al R&D Grant / soft loan terms
+High-risk innovation.
+Biotechnolog proposals. / cost-sharing
+biotech R&D
+y (DBT) / support
+BIRAC
+10.
+E-YUVA –
+Empowering BIRAC
+Undergraduat
+Youth for programme Commonl
+Ideation e/postgraduat
+Value Added encouraging [GRANT] y
+(Students) e students,
+Innovative students fellowship
+fellows and
+Translationa and young plus
+young
+l Research researchers innovation
+innovators
+to pursue support up
+through E-
+translational to ₹5 lakh
+Department YUVA
+biotech per project
+of Student centres. Fellowship +
+innovation.
+Biotechnolog biotech innovation grant
+y (DBT) / innovation + mentoring
+BIRAC
+11. SITARE – BIRAC
+Students student Translatio
+Students and
+Innovations innovation nal
+young
+for programme support
+Ideation to innovators
+Translation encouraging commonly
+Translation with [GRANT]
+& translational up to ₹15
+(Students) biotech/life-
+Advanceme biotech lakh,
+science
+nt of ideas and subject to
+innovations.
+Research early call
+Explorations validation.
+Page 23 of 107
+
+=== PAGE 24 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+What Is
+N Name & Stage & Who Can What Do You How
+This
+o. Nodal Focus Apply? Get? Much?
+Scheme?
+Ministry
+Department Fellowship /
+of Student award /
+Biotechnolog biotech translational
+y (DBT) / innovation grant +
+BIRAC mentoring
+12.
+PACE –
+Promoting BIRAC
+Project-
+Academic programme
+Research Academic based;
+Research helping [GRANT]
+Translation researchers, commonly
+Conversion academic
+institutions up to ₹50
+to innovations
+and industry lakh–₹1
+Enterprise move
+partners crore
+toward
+translating Grant / depending
+Department validation
+biotech partnership on PACE
+of Academic and
+research. support for componen
+Biotechnolog biotech to commercial
+validation and t
+y (DBT) / enterprise pathways.
+translational
+BIRAC
+research
+13. BIRAC
+SBIRI –
+public-
+Small Early-
+Prototype private Biotech
+Business stage
+to partnership startups, [GRANT]
+Innovation support
+Validation scheme SMEs and
+Research commonly
+supporting industry-led
+Initiative up to ₹50
+early/late- consortia
+Department stage undertaking
+lakh grant;
+larger
+of biotech innovative Grant-in-aid /
+support as
+Biotechnolog Biotech R&D product R&D. soft loan / cost-
+per call
+y (DBT) / developmen sharing support
+BIRAC t.
+14.
+TIDE 2.0 –
+Technology
+Incubator-
+Incubation &
+Ideation to led ICT startups
+Developmen [INCUBATION] PoC
+Prototype programme and
+t of grants up
+supporting entrepreneurs
+Entrepreneu to ₹7 lakh;
+ICT startups working in AI,
+rs larger
+using IoT,
+support
+emerging blockchain,
+varies by
+technologie robotics and Grant,
+Ministry of centre/co
+s for emerging incubation and
+Electronics & ICT mponent
+societal technologies. technical
+Information emerging
+challenges. mentoring
+Technology tech
+through TIDE
+(MeitY)
+centres
+15. Design Incentive Domestic Product
+Prototype
+Linked and companies, design-
+to
+Incentive infrastructur startups and [MIXED] linked
+Commercial
+(DLI) e support MSMEs incentive
+isation
+Scheme scheme for engaged in up to 50%
+Page 24 of 107
+
+=== PAGE 25 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+What Is
+N Name & Stage & Who Can What Do You How
+This
+o. Nodal Focus Apply? Get? Much?
+Scheme?
+Ministry
+semiconduc IC/chipset/So of eligible
+tor design C/IP-core expenditur
+Ministry of companies, design. e;
+Design
+Electronics & startups and deployme
+infrastructure +
+Information Semiconduc MSMEs. nt
+reimbursement /
+Technology tor design incentive
+deployment-
+(MeitY) / C- 4–6% of
+linked incentives
+DAC net sales
+(cap ₹30
+crore)
+16. Dedicated Target
+Antariksh venture corpus
+Venture capital fund Early and ~₹1,600
+Scaling [EQUITY]
+Capital Fund for Indian growth-stage crore; first
+(Space VCF) space-tech Indian space- close
+enterprises tech ₹1,005
+across the companies/sta crore;
+IN-SPACe, Equity / venture
+Space-tech private rtups. company
+Department capital
+equity space value ticket
+of Space investment
+chain. varies
+17.
+Space
+TRL IN-SPACe
+Technology
+Advanceme fund moving Space [GRANT] TAF
+Adoption
+nt space startups, corpus
+Fund (TAF)
+technologie industry and ₹500
+s from lab NGEs crore;
+Grant / funding
+validation advancing project-
+support for
+toward space level
+IN-SPACe, Space technology
+commerciali technologies/a funding
+Department commerciali development
+sation and pplications. varies
+of Space sation and
+adoption.
+commercialisatio
+n
+18.
+Credit
+Guarantee
+Guarantee
+Trust Fund
+Credit scheme [LOAN /
+for Micro &
+Support enabling MSEs CREDIT] Guarantee
+Small
+collateral- including coverage
+Enterprises
+free loans to startup ceiling up
+(CGTMSE)
+micro and MSMEs to ₹10
+small borrowing crore;
+enterprises from eligible guarantee
+through banks/NBFCs/ percentag
+Credit guarantee
+Ministry of member FIs. e varies
+Collateral- cover for lender;
+Micro, Small lending
+free MSME easier access to
+& Medium institutions.
+loans debt without
+Enterprises
+collateral
+Page 25 of 107
+
+=== PAGE 26 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+What Is
+N Name & Stage & Who Can What Do You How
+This
+o. Nodal Focus Apply? Get? Much?
+Scheme?
+Ministry
+19. Fund-of- Overall
+Self-Reliant funds for provision
+Viable
+India Fund Scaling equity/quasi [EQUITY] ₹50,000
+MSMEs and
+(SRI Fund) -equity crore;
+startup
+infusion into mother
+MSMEs with
+growth- fund
+growth
+Ministry of oriented ₹10,000
+MSME potential, Equity / quasi-
+Micro, Small MSMEs crore;
+equity indirectly equity via
+& Medium through enterprise
+infusion through AIFs. daughter funds
+Enterprises daughter ticket
+funds. varies
+20. Umbrella
+MSME
+Competitive MSME MSMEs [MARKET
+Champions Compone
+ness scheme including ACCESS]
+Scheme nt-wise;
+including startup
+varies
+ZED, Lean MSMEs
+under
+and seeking
+Ministry of Quality, Subsidy / ZED,
+Innovative quality,
+Micro, Small lean, reimbursement / Lean and
+components design, IP,
+& Medium innovation, incubation and Innovative
+to improve lean or digital
+Enterprises digital advisory support guidelines
+competitive support.
+ness.
+21. MSME
+International scheme
+Market MSMEs, [MARKET
+Cooperation supporting
+Access industry ACCESS] Assistanc
+Scheme participation
+associations e varies
+in
+and startup by event
+international
+MSMEs Reimbursement/ category
+Ministry of exhibitions,
+Global seeking subsidy for and
+Micro, Small trade fairs
+exposure for export/market travel, stall, guidelines
+& Medium and buyer-
+MSMEs linkages. registration and
+Enterprises seller
+event costs
+meets.
+22. Capacity
+National SC- MSME
+Building / [MARKET
+ST Hub scheme
+Market ACCESS]
+Scheme supporting
+Access
+SC/ST SC/ST-owned Compone
+entrepreneu MSMEs and nt-wise;
+rs through entrepreneurs Training, market direct
+Ministry of capacity , including linkages, vendor grant
+SC/ST
+Micro, Small building, startup development, amount
+entrepreneur
+& Medium procuremen MSMEs. subsidy support varies
+s
+Enterprises t linkages under
+and components
+mentoring.
+23.
+School Schools and Up to ₹20
+Atal Ideation innovation students; lakh per
+Tinkering (School- labs relevant to [GRANT] selected
+Labs (ATL) level) building future startup school
+creativity, pipeline rather over
+Page 26 of 107
+
+=== PAGE 27 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+What Is
+N Name & Stage & Who Can What Do You How
+This
+o. Nodal Focus Apply? Get? Much?
+Scheme?
+Ministry
+design than current multiple
+Atal Lab grant,
+thinking and startups. years
+Innovation equipment,
+Innovation problem-
+Mission mentoring and
+pipeline solving
+(AIM), NITI innovation
+skills among
+Aayog challenges
+students.
+24. Atal AIM
+Incubation programme Host
+Incubation [INCUBATION]
+Centres supporting institutions/inc
+Up to ₹10
+(AICs) world-class ubators;
+crore per
+incubators startups
+Atal incubator,
+Startup across benefit Grant-in-aid to
+Innovation subject to
+ecosystem universities, through incubator +
+Mission guidelines
+infrastructur institutions incubation mentoring/netwo
+(AIM), NITI
+e and private services. rk for startups
+Aayog
+hosts.
+25.
+Atal
+Ideation to
+Community AIM Institutions/or
+Incubation
+Innovation programme ganisations [INCUBATION]
+(Underserv
+Centres setting up supporting Up to ₹2.5
+ed)
+(ACICs) community community crore over
+innovation innovators prescribed
+Atal
+centres in and early- Grant support to period
+Innovation Community
+underserve stage host centres +
+Mission innovation
+d regions. startups. incubation
+(AIM), NITI ecosystems
+ecosystem
+Aayog
+26.
+Established
+AIM/related
+Incubation
+Incubation incubation [INCUBATION] Up to ₹10
+Centres Existing
+support for crore
+(EICs) incubators
+established grant;
+and
+incubators matching
+Atal institutions Grant / capacity
+to scale private
+Innovation Scaling supporting support to
+startup contributio
+Mission established startups. incubator;
+support n required
+(AIM), NITI incubators indirect startup
+capabilities.
+Aayog support
+27.
+Loans up
+Agriculture
+Medium/lon to ₹2
+Infrastructur Farmers, [LOAN /
+Scaling g-term debt crore
+e Financing FPOs, agri- CREDIT]
+financing for eligible for
+Facility (AIF) entrepreneurs
+post-harvest 3%
+, startups,
+and interest
+cooperatives
+community subventio
+Ministry of and related Interest
+Agri farming n; scheme
+Agriculture & entities. subvention +
+infrastructur assets. corpus ₹1
+Farmers credit guarantee
+e credit lakh crore
+Welfare support on loans
+Page 27 of 107
+
+=== PAGE 28 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+What Is
+N Name & Stage & Who Can What Do You How
+This
+o. Nodal Focus Apply? Get? Much?
+Scheme?
+Ministry
+28. Pradhan
+Mantri Collateral- Non- Loans up
+Credit [LOAN /
+Mudra free micro- corporate, to ₹10
+Support CREDIT]
+Yojana credit non-farm lakh;
+(PMMY) programme micro/small Tarun
+under enterprises Plus up to
+Department Term loan /
+Shishu, including ₹20 lakh
+of Financial Micro- working capital
+Kishor and early-stage for eligible
+Services, enterprise through banks,
+Tarun businesses repeat
+Ministry of loans MFIs and
+categories. and startups. borrowers
+Finance NBFCs
+29. Bank loan
+At least one
+Stand Up Credit scheme for [LOAN /
+SC/ST
+India Support greenfield CREDIT]
+borrower or
+enterprises
+one woman ₹10 lakh
+promoted
+Department by SC/ST
+borrower per to ₹1
+SC/ST & bank branch crore loan
+of Financial and/or
+women for greenfield Composite bank
+Services, women
+entrepreneur non-farm loan
+Ministry of entrepreneu
+ship enterprise.
+Finance rs.
+30.
+PMFME –
+PM
+Formalisatio
+35%
+Formalisati [LOAN /
+MoFPI
+n of Micro
+credit-
+on / Scaling CREDIT]
+scheme Individual
+Food
+linked
+formalising micro food-
+Processing
+subsidy
+and processing
+Enterprises
+up to ₹10
+upgrading units, SHGs,
+lakh per
+micro food- FPOs,
+unit; SHG
+processing cooperatives
+seed
+enterprises and food
+Credit-linked capital up
+under One startups/micro
+Ministry of subsidy, seed to
+District One -enterprises.
+Food Food micro- capital for SHGs, ₹40,000/m
+Product.
+Processing enterprises branding/marketi ember
+Industries ng and capacity
+support
+31. IFSCA
+Prototype Incentive
+Fintech
+to Market scheme to [GRANT]
+Incentive Indian and Up to ₹75
+Entry attract and
+Scheme foreign fintech lakh in
+support
+entities, many
+fintechs
+International startups and Grant / incentive grant
+engaging
+Financial accelerators support categories
+with the
+Services Fintech in operating/eng (Sandbox, PoC, ; varies by
+IFSC
+Centres GIFT IFSC aging with listing, incentive
+ecosystem
+Authority GIFT IFSC. accelerator and type
+at GIFT
+(IFSCA) special grants)
+City.
+Page 28 of 107
+
+=== PAGE 29 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+What Is
+N Name & Stage & Who Can What Do You How
+This
+o. Nodal Focus Apply? Get? Much?
+Scheme?
+Ministry
+32.
+Technology DAE/AIC
+Developmen incubation No
+t-cum- Incubation centres [INCUBATION] standard
+Startups,
+Incubation translating grant;
+MSMEs and
+Centres DAE spin- support is
+entrepreneurs
+off incubation
+licensing/incu
+technologie Technology /
+Department DAE bating DAE
+s into transfer, lab technolog
+of Atomic technology technologies.
+market- access, scientist y access
+Energy commerciali
+ready mentoring and based
+(DAE) sation
+products. incubation
+33. Start-up
+Village DAY-NRLM
+Ideation to Rural
+Entrepreneu sub-scheme Support
+Enterprise entrepreneurs [GRANT]
+rship helping rural varies by
+Creation from
+Programme poor set up block and
+SHG/NRLM
+(SVEP) local enterprise
+ecosystem;
+enterprises Training, plan; up to
+relevant for
+through mentoring, ₹6.5 crore
+Ministry of rural
+Rural community community per block
+Rural startups/micro
+livelihoods enterprise enterprise fund overall
+Development -enterprises.
+support. and business
+support
+34. Venture Social
+Capital Fund sector
+Companies
+for Scaling venture [EQUITY]
+promoted by ₹10 lakh
+Scheduled fund
+Scheduled to ₹15
+Castes providing
+Caste crore,
+concession
+Ministry of entrepreneurs subject to
+al finance to
+Social Justice SC , including Equity / quasi- fund
+SC
+& entrepreneur startups/MSM equity / debt guidelines
+entrepreneu
+Empowerme equity/debt Es. support
+rs and
+nt
+companies.
+35. DST
+STI Hubs for
+Incubation / programme
+SC/ST
+Livelihood establishing [GRANT]
+Communitie
+Innovation STI hubs for
+s Institutions/N Project-
+technology-
+GOs and based;
+led
+community amount
+livelihood Project grants,
+enterprises varies by
+Department and technology
+Inclusive serving SC/ST sanctione
+of Science & enterprise deployment,
+technology communities. d STI hub
+Technology developmen training and
+deployment
+(DST) t in SC/ST enterprise
+communitie support
+s.
+36. DAHD Individuals, 50%
+National
+mission FPOs, SHGs, capital
+Livestock Credit / [LOAN /
+promoting JLGs, Section subsidy
+Mission Subsidy CREDIT]
+entrepreneu 8 companies up to ₹50
+(NLM)
+rship in and lakh
+Page 29 of 107
+
+=== PAGE 30 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S. Scheme
+What Is
+N Name & Stage & Who Can What Do You How
+This
+o. Nodal Focus Apply? Get? Much?
+Scheme?
+Ministry
+Ministry of poultry, entrepreneurs depending
+Capital subsidy
+Fisheries, Livestock sheep, goat, in livestock. on project
+routed with
+Animal entrepreneur piggery and category
+loan/project
+Husbandry & ship fodder
+finance
+Dairying sectors.
+37.
+Mission on Joint MoP-
+Advanced & MNRE
+R&D to
+High Impact mission to [GRANT] Project-
+Pilot Startups,
+Research identify, based;
+industry,
+(MAHIR) develop and mission
+academia and
+demonstrat funded
+research
+e emerging through
+Ministry of institutions
+power- MoP/MNR
+Power & working on R&D project
+sector E/CPSE
+Ministry of Power power-sector funding, pilot
+technologie pooled
+New & sector deep- technologies. support and
+s resources
+Renewable tech commercialisatio
+indigenousl
+Energy n facilitation
+y.
+(MNRE)
+38.
+Yuva
+Sahakar – NCDC Loan up to
+Cooperative scheme project
+[LOAN /
+Enterprise Credit supporting Cooperative norms;
+CREDIT]
+Support & newly societies in often up to
+Innovation formed operation for ₹3 crore
+Scheme innovative minimum project
+cooperative period as per cost
+National societies scheme; reference;
+Cooperative and young youth-led/new 2%
+Development Cooperative cooperative cooperatives. Long-term loan + interest
+Corporation startups/inno entrepreneu 2% interest subventio
+(NCDC), vation rs. subvention n
+Ministry of
+Cooperation
+39.
+Entrepreneu MSME
+rship & Skill training Prospective No direct
+Developmen Capacity programme and existing startup
+[INCUBATION]
+t Building building entrepreneurs funding;
+Programme entrepreneu , MSMEs, training
+(ESDP) rial and youth and cost
+managerial startups supported
+Training,
+Ministry of skills for needing per
+workshops and
+Micro, Small Entrepreneu prospective business programm
+skill-
+& Medium rship training entrepreneu skills. e norms
+development
+Enterprises rs.
+support
+Page 30 of 107
+
+=== PAGE 31 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+SECTION 3 | Scheme One-Pagers |
+PART A
+Page 31 of 107
+
+=== PAGE 32 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Startup India Seed Fund Scheme (SISFS)
+Department for Promotion of Industry and Internal Trade (DPIIT)
+📌 WHAT IS The Startup India Seed Fund Scheme helps new startups get early funding
+THIS? so they can turn ideas into real products and grow, filling the gap when they
+typically struggle to find initial investment.
+🎯 Startup India Seed Fund Scheme (SISFS) aims to provide financial
+OBJECTIVES assistance to startups for proof of concept, prototype development, product
+trials, market entry and commercialisation. Through this funding support,
+startups graduate to a level where they will be able to raise investments from
+angel investors or venture capitalists or seek loans from commercial banks
+or financial institutions
+✅ WHO • DPIIT recognised startups.
+CAN APPLY? • Incorporated not more than 2 years ago at the time of application.
+• Startup must have a business idea to develop a product or a service with
+market fit, viable commercialisation, and scope of scaling. Startup should
+be using technology in its core product or service, or business model.
+• Startup should not have received more than ₹10 lakh of monetary support
+under any other Central or State Government scheme
+💰 WHAT DO • Up to ₹20 lakh as grant for validation of Proof of Concept, or prototype
+YOU GET? development, or product trials.
+• Up to ₹50 lakh of investment for market entry, commercialisation, or
+scaling up through convertible debentures or debt or debt-linked
+instruments
+🚀 HOW TO Visit https://seedfund.startupindia.gov.in/ to apply. Last date for startups to
+APPLY apply under SISFS was 31 May 2026. Disbursals are ongoing.
+🔗 KEY • Website: https://seedfund.startupindia.gov.in/
+LINKS • Guidelines: https://www.startupindia.gov.in/content/dam/invest-
+india/Templates/public/Guidelines%20for%20Startup%20India%20Seed
+%20Fund%20Scheme.pdf
+💡 BEST Seed / Early-Stage
+SUITED FOR
+Page 32 of 107
+
+=== PAGE 33 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Fund of Funds for Startups (FFS)
+Department for Promotion of Industry and Internal Trade (DPIIT)
+📌 WHAT IS The Fund of Funds for Startups (FFS) provides capital to venture funds so
+THIS? they can invest in startups, helping increase the availability of funding and
+support the growth of India’s startup ecosystem.
+🎯 The Government has established FFS to catalyze venture capital
+OBJECTIVES investments. It is operationalized by Small Industries Development Bank of
+India (SIDBI), which provides capital to SEBI-registered Alternative
+Investment Funds (AIFs) who in turn invest in startups through equity and
+equity-linked instruments.
+✅ WHO • SEBI-registered AIFs can apply for capital under the Scheme.
+CAN APPLY? • The funding is provided to DPIIT recognised startups by selected AIFs.
+💰 WHAT DO The Scheme has a corpus of ₹10,000 crore, which is aimed to be provided to
+YOU GET? startup through AIFs. The AIFs supported under the Scheme are to invest at
+least twice the contribution out of FFS in startups across stages
+🚀 HOW TO • The application process for AIFs has been digitalised and a detailed
+APPLY application can be submitted by the AIFs on SIDBI’s Fund Application
+Portal (https://vcfapplication.sidbi.in/login). The AIF applications undergo
+an eligibility screening and screening based on preliminary questionnaire.
+• Eligible startups can approach selected AIFs for investments.
+🔗 KEY • Website: https://www.sidbivcf.in/en/funds/ffs
+LINKS • Operational guidelines:
+https://www.dpiit.gov.in/static/uploads/2025/07/ccffbf768a90e8445ba78f
+82d4c42bec.pdf
+💡 BEST Scaling
+SUITED FOR
+Page 33 of 107
+
+=== PAGE 34 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Startup India Fund of Funds 2.0
+Department for Promotion of Industry and Internal Trade (DPIIT)
+📌 WHAT IS Startup India Fund of Funds 2.0 supports startups by channeling government
+THIS? capital into venture funds to boost investment in emerging businesses, aiming
+to fuel innovation in priority sectors.
+🎯 • The Government operationalized the Startup India Fund of Funds 2.0
+OBJECTIVES (Startup India Fund of Funds 2.0 (FoF 2.0)) with a total corpus of ₹10,000
+crore. Small Industries Development Bank of India (SIDBI),
+Implementation Agency (IA) of the FFS 1.0, shall also be the Implementing
+Agency for the Startup India Fund of Funds 2.0 (FoF 2.0).
+• In addition, another domestic IA(s) shall also be selected to implement the
+proposed Scheme. The IA(s) will provide capital to SEBI-registered
+Category I and Category II Alternative Investment Funds (AIFs) who in
+turn will invest in startups through equity and equity-linked instruments.
+• Investments under Startup India FoF 2.0 AIFs supporting priority
+segments including deep tech startups, early growth stage startups
+supported by smaller AIFs, technology-driven and innovative
+manufacturing startups, and sector or stage agnostic startups.
+✅ WHO • SEBI-registered AIFs can apply for capital under the Scheme.
+CAN APPLY? • The funding is provided to DPIIT recognised startups by selected AIFs.
+💰 WHAT DO The Scheme has a corpus of ₹10,000 crore, which is aimed to be provided to
+YOU GET? startup through AIFs. AIFs supported under the Scheme are required to
+invest in startups across stages, adhering to the minimum investment
+multiplier for various segments as defined in the Operational Guidelines.
+🚀 HOW TO • The application process for AIFs has been digitalised and a detailed
+APPLY application can be submitted by the AIFs on SIDBI’s Fund Application
+Portal (https://vcfapplication.sidbi.in/login). The AIF applications undergo
+an eligibility screening and screening based on preliminary questionnaire.
+• Eligible startups can approach selected AIFs for investments.
+🔗 KEY • Gazette Notification:
+LINKS https://www.dpiit.gov.in/static/uploads/2026/04/d02f1b35bcc661c31e8cb
+2229dcd9475.pdf
+• Operational Guidelines:
+https://www.dpiit.gov.in/static/uploads/2026/04/8949d8e0dabf11cb9291b
+00ec1d1f727.pdf
+💡 BEST Scaling
+SUITED FOR
+Page 34 of 107
+
+=== PAGE 35 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Credit Guarantee Scheme for Startups (CGSS)
+Department for Promotion of Industry and Internal Trade (DPIIT)
+📌 WHAT IS The Credit Guarantee Scheme for Startups (CGSS) helps startups access
+THIS? loans by assuring lenders that the government will cover part of the risk,
+making it easier for young businesses to get funding without collateral.
+🎯 • Credit Guarantee Scheme for Startups (CGSS) aims at providing credit
+OBJECTIVES guarantee up to a specified limit against loans extended by Member
+Institutions (MIs) to finance eligible borrowers viz. entities recognised as
+‘startups’ by DPIIT. CGSS is operated by the National Credit Guarantee
+Trustee Company (NCGTC) Limited.
+✅ WHO • Eligible (i) Scheduled Commercial Banks and Financial Institutions; (ii)
+CAN APPLY? RBI registered Non-Banking Finance Companies (NBFCs) and (iii)
+Securities and Exchange Board of India (SEBI) registered Alternative
+Investment Funds (AIFs) can become member institutions (MIs) subject
+to requirements.
+• Eligible borrowers are DPIIT recognised startups.
+💰 WHAT DO Maximum guarantee of ₹20 crore or actual outstanding credit amount,
+YOU GET? whichever is less. For both transaction-based and umbrella-based cover.
+🚀 HOW TO • Visit the website for details: https://www.ncgtc.in/en/product-
+APPLY details/CGSS/Credit-Guarantee%20Scheme%20for%20Start-
+ups%20(CGSS)
+• For application through the Jan Samarth portal:
+https://www.jansamarth.in/business-loan-startup-scheme.
+🔗 KEY • Scheme information and application instructions:
+LINKS https://www.ncgtc.in/en/product-details/CGSS/Credit-
+Guarantee%20Scheme%20for%20Start-ups%20(CGSS)
+💡 BEST Credit Support
+SUITED FOR
+Page 35 of 107
+
+=== PAGE 36 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Scheme for Facilitating Startups Intellectual
+Property Protection (SIPP)
+Department for Promotion of Industry and Internal Trade (DPIIT)
+📌 WHAT IS The Scheme for Facilitating Startups Intellectual Property Protection (SIPP)
+THIS? helps startups protect their ideas by providing support and cost relief for filing
+patents, trademarks, and designs, encouraging innovation and safeguarding
+ownership.
+🎯 • To protect and promote Intellectual Property Rights (IPR) of Startups and
+OBJECTIVES to encourage innovation and creativity among them, a Scheme for
+facilitating Start-Ups Intellectual Property Protection (SIPP) has been
+launched.
+• It facilitates startups in filing and processing of their patent, design or
+trademark application through the assistance of IP Facilitators, whose fee
+was borne by the Office of the Controller General of Patents Designs and
+Trademarks, Department for Promotion of Industry and Internal Trade,
+Government of India.
+✅ WHO • DPIIT recognised startups.
+CAN APPLY? • Applicants must self-declare that they have not availed funds under any
+other government scheme for paying facilitator/patent agent/trademark
+agent fees for the same IP application.
+💰 WHAT DO • Support for filing and processing patent, trademark and design
+YOU GET? applications.
+• Professional fees of facilitators are paid/reimbursed by the office of
+CGPDTM; startups generally bear only statutory government fees.
+• End-to-end assistance including advisory, drafting, filing, responses to
+examination reports, hearings, opposition handling and final disposal of IP
+applications.
+🚀 HOW TO • Visit IP India SIPP Page / Facilitator Details: https://ipindia.gov.in/page-
+APPLY content/startups-intellectual-property-protection-sipp
+🔗 KEY • DPIIT SIPP Scheme Page: https://www.dpiit.gov.in/offerings/schemes-
+LINKS and-services/details/sipp-gTM1UDNtQWa
+• IP India SIPP Page / Facilitator Details: https://ipindia.gov.in/page-
+content/startups-intellectual-property-protection-sipp
+💡 BEST Any Stage
+SUITED FOR
+Page 36 of 107
+
+=== PAGE 37 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+GeM Startup Runway
+Department of Commerce
+📌 WHAT IS The GeM Startup Runway enables startups to showcase and sell their
+THIS? innovative products directly to government buyers, helping them access
+public procurement opportunities and grow their business.
+🎯 • GeM Startup Runway helps startups sell innovative products and services
+OBJECTIVES directly to government buyers through the Government e-Marketplace
+(GeM) by promoting solutions that are unique in concept, design, process,
+or functionality and improve startup participation in public procurement.
+✅ WHO • DPIIT-recognised startups registered as sellers/service providers on GeM.
+CAN APPLY? • Startups with products/services in existing GeM categories or in dedicated
+startup sectors such as AI, robotics, agritech, cleantech, cybersecurity,
+edtech, health tech, water tech, assistive tech, etc.
+• Other innovative entities.
+💰 WHAT DO • Access to a large base of government buyers across ministries,
+YOU GET? departments, PSUs and other public entities.
+• Exemption/relaxation from requirements such as prior turnover, prior
+experience, and Earnest Money Deposit (EMD).
+• Dedicated marketplace visibility for startups and innovative products.
+• Ability to list innovative products even when standard categories may not
+exist.
+🚀 HOW TO • Visit GeM Startup Runway: https://gem.gov.in/Startup_Runway
+APPLY
+🔗 KEY • GeM Startup Runway: https://gem.gov.in/Startup_Runway
+LINKS • Startup India – Public Procurement / GeM:
+https://www.startupindia.gov.in/content/sih/en/public_procurement.html
+💡 BEST Any Stage
+SUITED FOR
+Page 37 of 107
+
+=== PAGE 38 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+NIDHI – Seed Support Program (SSP)
+Department of Science & Technology (DST)
+📌 WHAT IS The NIDHI – Seed Support Program (SSP) provides early-stage funding and
+THIS? support to innovators to help them develop and validate their ideas,
+encouraging the creation of viable startups.
+🎯 • NIDHI-Seed Support Program (SSP) aims to provide seed support to
+OBJECTIVES deserving incubatee startups, through NIDHI Science & Technology
+Entrepreneurs Parks (STEPs) and NIDHI Technology Business
+Incubators (TBIs).
+✅ WHO • Incubatee should be a DPIIT recognised startup with minimum of three
+CAN APPLY? months of residency at the STEPs/TBIs. The shareholding by Indian
+promoters in the incubatee startup should be at least 51%.
+💰 WHAT DO • Under the program, the startups are supported primarily for product
+YOU GET? development, testing and trials, test marketing, mentoring, professional
+consultancy (to attract professors/experts from institutions to work with
+startups.), IPR issues and any other area as deemed necessary and
+recommended by the Seed Support Management Committee of
+STEP/TBIs.
+🚀 HOW TO • Applications details are released on the website
+APPLY https://nidhi.dst.gov.in/nidhissp/
+🔗 KEY • Website: https://nidhi.dst.gov.in/nidhissp/
+LINKS
+💡 BEST Seed / Post-Incubation
+SUITED FOR
+Page 38 of 107
+
+=== PAGE 39 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+NIDHI – Promotion and Acceleration of Young
+and Aspiring Technology Entrepreneurs
+(PRAYAS) 2.0
+Department of Science & Technology (DST)
+📌 WHAT IS The NIDHI PRAYAS 2.0 scheme provides early-stage funding and
+THIS? prototyping support to young innovators, helping them turn their technology
+ideas into working products and viable startups.
+🎯 • The scheme aims to bridge the gap funding in the very early-stage idea/
+OBJECTIVES proof of concept. Building on the outcomes of NIDHI PRAYAS 1.0, the
+programme has evolved into NIDHI PRAYAS 2.0, with enhanced support
+for both technology-based and deep-tech innovations. It is a pre-
+incubation initiative that is implemented through incubators known as the
+PRAYAS Centres (PCs) and Advance PRAYAS Centres (APCs)
+(specialized centres to support DeepTech innovations).
+✅ WHO • A DPIIT recognised startup or an individual innovator are eligible to apply
+CAN APPLY? under the program.
+• In case of a recognised startup, it has to be incorporated in India, not more
+than 5 years of existence and its annual turnover for any financial year
+should not have exceeded ₹1 crore.
+💰 WHAT DO • Level 1 – PCs: Each innovator/startup supported by a Level 1 Centre PC
+YOU GET? may receive up to ₹20 Lakhs grant for prototyping. DST provides up to ₹2
+crore per annum to each PC.
+• Level 2 – APCs: Provides prototyping grants of up to ₹40 lakh per
+innovator/ startup. DST provides up to ₹4 crore per annum to each APC.
+🚀 HOW TO • Applicant incubators can submit the proposal online in the prescribed
+APPLY proforma, at the NIDHI PRAYAS PMU Portal https://nidhi-prayas.org/ or
+on https://nidhi.dst.gov.in/schemes- programmes/nidhiprayas/
+🔗 KEY • Website: https://nidhi-prayas.org/
+LINKS • Operational Guidelines: https://nidhi-prayas.org/documents/dst-nidhi-
+prayas-2.0-program-guidelines-2026.pdf
+💡 BEST Ideation to Prototype
+SUITED FOR
+Page 39 of 107
+
+=== PAGE 40 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Research, Development & Innovation (RDI)
+Scheme
+Department of Science & Technology (DST)
+📌 WHAT IS The Research, Development & Innovation (RDI) Scheme provides funding
+THIS? and support to help organizations create and improve new technologies or
+ideas so they can boost innovation, economic growth, and global
+competitiveness.
+🎯 • DST has launched the Research, Development, and Innovation (RDI)
+OBJECTIVES Scheme, approved by the Cabinet on 1st July 2025, with a total outlay of
+₹1 lakh crore.
+• The initiative aims to catalyze private sector participation in high-impact
+R&D and strengthen India’s capabilities in strategic technologies and
+promote technological self-reliance, aligning with the nation’s long-term
+innovation and Atmanirbhar Bharat vision.
+✅ WHO • The RDI Fund is provided to Second Level Fund Managers (SLFM) which
+CAN APPLY? include Alternative Investment Funds (AIFs), Development Finance
+Institutions (DFIs), Non-Banking Financial Companies (NBFCs), and
+Focused Research Organisations (FROs).
+• The SLFM then provides funds to private companies including DPIIT
+recognised startups advancing RDI-intensive technologies.
+💰 WHAT DO • Loan – Debt funding (via loan or optionally convertible debt) from the
+YOU GET? SLFM, calculated as 50% of the project cost.
+• Equity – Funding via equity or equity linked instruments from the SLFM,
+calculated as 50% of the value of each funding round.
+🚀 HOW TO • Visit - https://rdifund.anrf.gov.in/images/pdf/RDIF-%20AIF_and_FOF.pdf
+APPLY • Startups can apply directly through the SLFMs, for instance the
+Technology Development Board (TDB) (https://www.e-
+techcom.tdb.gov.in/rdif-registration.php
+🔗 KEY • Website: https://rdifund.anrf.gov.in/
+LINKS • Operational Guidelines:
+https://rdifund.anrf.gov.in/images/pdf/2026_IG.pdf
+💡 BEST Deep-Tech Scaling
+SUITED FOR
+Page 40 of 107
+
+=== PAGE 41 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+National Quantum Mission (NQM)
+Department of Science & Technology (DST)
+📌 WHAT IS The National Quantum Mission (NQM) supports research and development
+THIS? of advanced quantum technologies (like quantum computing and secure
+communication) so India can build cutting-edge capabilities and stay
+competitive in future tech.
+🎯 • The National Quantum Mission (NQM) aims to seed, nurture and scale up
+OBJECTIVES scientific and industrial R&D and create a vibrant & innovative ecosystem
+in Quantum Technology (QT) in the country.
+• As part of the mission, four Thematic Hubs (T-Hubs) will be established
+as Section-8 Companies, not-for-profit entities, within premier academic
+institutions and national research and development labs. These T-Hubs
+will specialize in four distinct technology verticals: Quantum Computing,
+Quantum Communication, Quantum Sensing & Metrology, and Quantum
+Materials & Devices.
+✅ WHO • Academic institutions, R&D labs, and consortia working in quantum
+CAN APPLY? computing, communication, sensing/metrology, and materials/devices.
+• Startups working in quantum technology, preferably DPIIT-registered and
+Indian-owned/controlled as per startup support guidelines.
+• For teaching lab support, eligible institutions include Government-
+funded/aided technical institutions/universities and eligible AICTE/UGC-
+recognised institutions meeting quality benchmarks.
+💰 WHAT DO • Funding and institutional support for quantum R&D, prototypes, product
+YOU GET? development, and commercialisation through NQM T-Hubs.
+• Startup support can include seed/prototype funding and scale-up support
+routed through T-Hubs/TIHs.
+• Creation of skilled manpower, research infrastructure, and industry-
+academia collaboration in quantum technologies.
+🚀 HOW TO • Startups apply through online calls/challenges; applications are evaluated
+APPLY on need, feasibility, impact, novelty, team strength, and fund-utilization
+plan.
+• Other applicants apply through DST/NQM calls or the relevant Thematic
+Hub (T-Hub) based on the focus area
+🔗 KEY • National Quantum Mission: https://www.psa.gov.in/mission/national-
+LINKS quantum-mission/26
+• Startup Support Guidelines:
+https://dst.gov.in/sites/default/files/Guidelines%20to%20support%20start
+-ups.pdf
+💡 BEST Deep-Tech R&D
+SUITED FOR
+Page 41 of 107
+
+=== PAGE 42 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Promoting Innovations in Individuals, Start-ups
+and MSMEs (PRISM)
+Department of Science & Technology (DST)
+📌 WHAT IS The PRISM scheme provides funding and support to individual innovators,
+THIS? startups, and small businesses so they can turn new ideas into useful
+products and grow their businesses.
+🎯 • PRISM (Promoting Innovations in Individuals, Start-ups and MSMEs)
+OBJECTIVES Scheme supports individual innovators with financial assistance that helps
+them build prototypes, develop technologies, and move toward patenting
+& commercialisation.
+• DSIR has established a robust mechanism to implement this scheme
+across the country through TePP Outreach cum Cluster Innovation
+Centres (TOCICs) in Universities and National research laboratories and
+PRISM Advisory and Screening Committee PASC at Delhi to receive and
+evaluate the proposals from innovators for funding.
+✅ WHO • Public funded institutions or organizations viz. Autonomous Organizations
+CAN APPLY? or Society registered under the Societies Registration Act, 1860 or Indian
+Trusts Act, 1882 engaged in promotion of innovation. Any Indian citizen
+having an innovative idea and wish to translate their idea into working
+prototypes/models/processes.
+💰 WHAT DO Support of ₹12 lakh per annum would be given to TOCICs to cover expenses.
+YOU GET? In addition, 10% of the grants released to the innovators/autonomous
+organisation/R&D labs etc. supported by the agency/TOCICs will be given to
+the agency per project for monitoring the project execution. For innovators:
+Phase I
+• Category-I Up to ₹2 lakh or 90% of the approved project cost
+• Category II - Up to ₹20 lakh or 90% of the approved project cost
+Phase II
+• Up to ₹50 lakh or 50% of the approved project cost
+PRISM-R&D Proposals
+• Maximum support may be up to ₹50 lakh, limited to 50% of the total
+project cost for developing technology solutions aimed at helping
+MSME clusters.
+🚀 HOW TO • Website: https://www.dsir.gov.in/offerings/schemes-and-
+APPLY services/details/promoting-innovations-in-individuals-start-ups-and-
+msmes-prism-kjMwITMtQWa
+🔗 KEY • Website: https://www.dsir.gov.in/offerings/schemes-and-
+LINKS services/details/promoting-innovations-in-individuals-start-ups-and-
+msmes-prism-kjMwITMtQWa
+💡 BEST Ideation to Prototype
+SUITED FOR
+Page 42 of 107
+
+=== PAGE 43 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Biotechnology Ignition Grant Scheme (BIG)
+Department of Biotechnology / Biotechnology Industry Research Assistance Council (BIRAC)
+📌 WHAT IS The Biotechnology Ignition Grant (BIG) Scheme provides early-stage funding
+THIS? and support to biotech innovators and startups so they can turn promising
+scientific ideas into viable products and businesses.
+🎯 • Biotechnology Ignition Grant (BIG) is a flagship programme of BIRAC,
+OBJECTIVES which provides support to young startups and entrepreneurial individuals.
+BIG is the largest early-stage biotech funding programme in India.
+✅ WHO • Individual Entrepreneurs and startups
+CAN APPLY? • The applicant must be incubated in an incubator (may/may not be
+supported by BIRAC).
+💰 WHAT DO • Grant-in-aid of up to ₹50 lakh provided to startup for a period of up to 18
+YOU GET? months.
+• During the BIG tenure, BIRAC extends several networking opportunities
+to connect with experts, mentors, industry, investors, peer to peer
+learning, specialized trainings & workshops, exposure to various platforms
+on merit basis
+🚀 HOW TO • BIRAC issues a national call inviting applications under BIG at least twice
+APPLY a year (typically on 1st of January & 1st of July). The Call for Proposals is
+typically open for a period of 30-45 days. Application for BIG needs to be
+submitted online only through BIRAC website www.birac.nic.in
+🔗 KEY • Detailed guidelines:
+LINKS https://birac.nic.in/webcontent/1761936564_big_new_guidelines_nov_20
+25.pdf
+• FAQs: https://birac.nic.in/big.php
+💡 BEST Ideation to PoC
+SUITED FOR
+Page 43 of 107
+
+=== PAGE 44 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Biotechnology Innovation Fund – Accelerating
+Entrepreneurs (AcE)
+Department of Biotechnology / Biotechnology Industry Research Assistance Council (BIRAC)
+📌 WHAT IS The Biotechnology Innovation Fund – Accelerating Entrepreneurs (AcE)
+THIS? provides financial support to biotech startups so they can develop and scale
+innovative solutions faster and bring them to market.
+🎯 • The AcE Fund is a ‘fund of funds’ that aims to partner with fund managers
+OBJECTIVES (AcE Fund Partners) and invest in SEBI-registered AIFs (Daughter
+Funds). AcE Daughter Funds commit investment of 2x BIRAC’s
+contribution into biotech startups.
+✅ WHO • AcE Fund invests and partners with SEBI-registered Category I and II
+CAN APPLY? AIFs in biotech sector.
+• Startups and SMEs in subsectors such as Healthcare, Life Sciences,
+Pharma, Biopharma, Med-tech, Diagnostics, Industrial-Biotech, Agri-tech,
+Bio-IT/Services and allied areas.
+💰 WHAT DO • The AcE Fund shall make a maximum capital commitment of up to ₹30
+YOU GET? crore or up to 30% of the total aggregate capital commitment amount (i.e.
+fund corpus) in each Daughter Fund.
+• Ticket size of up to ₹7 crore, with provision of additional follow-on funding
+up to ₹3.5 crore is provided to an eligible startup.
+🚀 HOW TO • Apply on: https://birac.nic.in/aceFund.php
+APPLY
+🔗 KEY • Guidelines: https://birac.nic.in/webcontent/ace_fund_guidelines.pdf ;
+LINKS https://birac.nic.in/webcontent/fund_of_funds_AcE_fund.pdf
+• FAQs:
+https://birac.nic.in/webcontent/1680262332_AcE_FAQ_revised.pdf
+💡 BEST Scaling
+SUITED FOR
+Page 44 of 107
+
+=== PAGE 45 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+BIRAC Incubator SEED Fund (SEED)
+Department of Biotechnology / Biotechnology Industry Research Assistance Council (BIRAC)
+📌 WHAT IS The BIRAC Incubator SEED Fund (SEED) provides early-stage funding
+THIS? through incubators to biotech startups so they can develop their ideas into
+viable products and launch successful businesses.
+🎯 • BIRAC Sustainable Entrepreneurship and Enterprise Development Fund
+OBJECTIVES (“SEED Fund”) primarily addresses the financial support requirements of
+technology startups in their initial phase of operations. Funding is
+disbursed to startups under this program through the incubators. The
+funding support aims to enhance startups’ ability to raise investments from
+Angel/Venture capitalist or to seek loans from commercial banks /financial
+institutions.
+✅ WHO • Biotech/Med-Tech/Life Sciences startups.
+CAN APPLY?
+💰 WHAT DO • Seed funding as equity and equity linked instruments up to ₹30 lakh per
+YOU GET? startup.
+🚀 HOW TO • Refer to the BIRAC Incubator SEED Fund Scheme website for more
+APPLY information of the incubators associated with the program:
+https://www.birac.nic.in/seedFundNew.php
+🔗 KEY • Website: https://www.birac.nic.in/seedFundNew.php
+LINKS • Operational Guidelines:
+https://www.birac.nic.in/webcontent/1616486925_seed_fund_Guidelines.
+pdf
+💡 BEST Seed
+SUITED FOR
+Page 45 of 107
+
+=== PAGE 46 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+LEAP Fund – Launching Entrepreneurial Driven
+Affordable Products
+Department of Biotechnology (DBT) / BIRAC
+📌 WHAT IS The LEAP Fund supports entrepreneurs in creating affordable, innovative
+THIS? products so more people can access useful technologies while encouraging
+business growth.
+🎯 • LEAP Fund assists potential biotech startups in piloting & commercialising
+OBJECTIVES their products & technologies enabling them to raise venture capital
+investment.
+✅ WHO • Startups in Biotech/med-tech/life science sectors.
+CAN APPLY?
+💰 WHAT DO • Funding support of more than ₹30 lakh and up to ₹1 crore per startup.
+YOU GET? Startup eligible and suitable for up to the threshold of ₹30 lakh investment
+support will be considered under SEED fund and not the LEAP fund.
+• BioNEST Bioincubators (LEAP fund partners) will be given up to ₹5 crore
+fund/ partner for investing in potential startup against equity and equity
+linked instruments.
+🚀 HOW TO • Apply on: https://birac.nic.in/leapFundNew.php
+APPLY
+🔗 KEY • Operational Guidelines:
+LINKS https://birac.nic.in/webcontent/1616486900_leap_fund_guidelines.pdf
+💡 BEST Commercialisation
+SUITED FOR
+Page 46 of 107
+
+=== PAGE 47 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+SPARSH – Social Innovation Programme for
+Products Affordable & Relevant to Social Health
+Department of Biotechnology (DBT) / BIRAC
+📌 WHAT IS The SPARSH programme supports innovators in developing affordable
+THIS? health-related solutions so that essential healthcare products can reach and
+benefit underserved communities.
+🎯 • SPARSH, the social innovation initiative designed biotechnological
+OBJECTIVES interventions to address critical societal issues.
+• SPARSH revolves around nurturing "Social Innovators" within the biotech
+domain, equipped to identify community needs and gaps, and formulate
+innovative product developments or services to bridge these disparities.
+✅ WHO CAN • There are two components under the initiative – (i) Affordable Product
+APPLY? Development and (ii) Social Innovation Immersion Program (SIIP).
+Startups and entrepreneurs are eligible for Category A under Component
+I. Specific eligibility criteria include the following:
+• Biotechnology Indian startups (less than 3 years old)
+• Limited Liability Partnership (LLP) – less than 3 years old
+• Indian academic scientists, researchers etc.
+💰 WHAT DO • Grant-in-aid assistance up to ₹50 lakh for a period of up to 18 months.
+YOU GET?
+🚀 HOW TO • The call for Letter of Intent (LoI) is announced twice a year on a thematic
+APPLY area with high societal impact
+• The LoI is to be submitted online on the BIRAC website:
+https://www.birac.nic.in/
+🔗 KEY • Website: https://www.birac.nic.in/
+LINKS • Operational Guidelines:
+https://birac.nic.in/webcontent/Sparsh_Guidelines_Ver4.pdf
+💡 BEST Ideation to Validation
+SUITED FOR
+Page 47 of 107
+
+=== PAGE 48 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+AgriSURE – Agri Fund for Startups & Rural
+Enterprises
+Ministry of Agriculture & Farmers Welfare
+📌 WHAT IS The AgriSURE Fund supports agri-startups and rural enterprises with funding
+THIS? and resources so they can develop innovative farming and rural solutions,
+improving livelihoods and strengthening the agricultural sector.
+🎯 • With a focus on technology-driven, high-risk, high-impact ventures,
+OBJECTIVES AgriSURE is designed to fuel growth and foster innovation in the
+agricultural and rural startup ecosystem. A blended capital fund of ₹750
+crore with SEBI Registered Category II, Alternative Investment Fund
+(AIF), contributions from the Government of India is ₹250 crore, NABARD
+is ₹250 crore, and ₹250 crore is being mobilized from banks, insurance
+companies, and private investors.
+• Aims to support innovative, technology-driven, high-impact startups in
+agriculture and allied sectors, improve the farm produce value chain,
+including support for FPOs/FPCs, farm mechanisation, IT-based solutions
+and rural enterprises, attract more investment into the agri and rural
+startup ecosystem through AIFs and direct investments, and create
+employment opportunities and encourage youth entrepreneurship in
+agriculture.
+✅ WHO • Startups working in agriculture and rural development sectors.
+CAN APPLY? • SEBI-registered Alternative Investment Funds (AIFs), sector-specific,
+sector-agnostic and debt AIFs that invest in agri/rural startups
+💰 WHAT DO • Investment through two routes: Fund of Funds Scheme with ₹450 crore
+YOU GET? corpus and Direct Scheme with ₹300 crore corpus.
+• Supports around 85 startups, with ticket size up to ₹25 crore, subject to
+investment merit and fund guidelines.
+• Provides grant-in-aid, incubation and mentoring support to eligible agri
+startups.
+🚀 HOW TO • Eligible startups or AIFs can approach NABVENTURES.
+APPLY https://nabventures.in/agrisure.aspx
+🔗 KEY • NABARD AgriSURE page: https://www.nabard.org/agrisure.aspx
+LINKS • NABVENTURES AgriSURE page: https://nabventures.in/agrisure.aspx
+💡 BEST Scaling
+SUITED FOR
+Page 48 of 107
+
+=== PAGE 49 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Innovation & Agri-Entrepreneurship Program
+(RKVY)
+Ministry of Agriculture & Farmers Welfare
+📌 WHAT IS The Innovation & Agri-Entrepreneurship Program (RKVY) supports agri-
+THIS? startups with funding, mentorship, and incubation so they can develop
+innovative farming solutions and strengthen the agricultural sector.
+🎯 • To promote innovation and agripreneurship by providing financial support
+OBJECTIVES and nurturing the incubation ecosystem.
+• To strengthen infrastructure in agriculture and allied areas.
+✅ WHO CAN • DPIIT-recognised startups.
+APPLY?
+💰 WHAT DO • Pre-seed support up to ₹5 lakh and seed-stage support up to ₹25 lakh
+YOU GET? via R-ABIs.
+• Provides grant-in-aid, incubation and mentoring support to eligible agri
+startups.
+🚀 HOW TO • Visit https://agristartup.gov.in/ to apply
+APPLY
+🔗 KEY • Operational guidelines:
+LINKS https://agristartup.gov.in/LetterAndCircular/OperationalGuidelineRKVY.
+pdf
+💡 BEST Ideation to Seed
+SUITED FOR
+Page 49 of 107
+
+=== PAGE 50 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+SAMRIDH – Startup Accelerators of MeitY for
+Product Innovation, Development & Growth
+Ministry of Electronics & Information Technology (MeitY)
+📌 WHAT IS SAMRIDH is a government program that supports startups by funding and
+THIS? accelerating innovative tech products so they can grow faster and succeed
+in the market.
+🎯 • The SAMRIDH scheme supports existing and upcoming Accelerators to
+OBJECTIVES select and accelerate potential IT-based startups to scale.
+• The programme focuses on accelerating the startup by providing
+customer connect, investor connect, and internationalisation connect
+services.
+• The Scheme supports selected Accelerators for extending Accelerator
+services to startup and provide funding.
+✅ WHO CAN • Accelerators – registered as Section 8 company under Companies Act
+APPLY? 2013 or as Society under Societies Registration Act (not-for-profit).
+• IT-based startups.
+💰 WHAT DO • To startups: An investment of up to ₹40 lakh to the beneficiary startup
+YOU GET? (with an average of ₹30 lakh per startup per cohort). An equal matching
+private investment by the accelerator / investor of up to ₹40 lakh is
+disbursed to startups based on their current valuation and growth stage.
+• To Accelerators: Accelerators develop customized acceleration
+programs to fit the needs of each startup in the cohort and provide
+services ranging from customer connect, investor connect, capacity
+enhancement, product enhancement etc. for which they are provided a
+budget of ₹2 lakh per startup to a maximum of ₹20 lakh per cohort.
+🚀 HOW TO • Startups to refer to the MeitY Startup Hub (MSH) to access the list of
+APPLY incubators and accelerators in India benefitting from the SAMRIDH
+scheme and gauge the accelerators most suitable to their needs.
+🔗 KEY • Website: https://msh.meity.gov.in/schemes/samridh
+LINKS • Operational Guidelines: https://msh.meity.gov.in/assets/Scheme-
+Report.pdf
+💡 BEST Scaling
+SUITED FOR
+Page 50 of 107
+
+=== PAGE 51 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+GENESIS – Gen-Next Support for Innovative
+Startups
+Ministry of Electronics & Information Technology (MeitY)
+📌 WHAT IS GENESIS is a government scheme that helps early-stage startups turn
+THIS? innovative ideas into viable businesses by providing funding, support, and
+guidance so new ventures can grow and create economic value.
+🎯 • The Gen-Next Support for Innovative Startups (GENESIS) supports
+OBJECTIVES eligible Implementing Agencies (IAs) to provide funding, mentor access,
+and access to innovation infrastructure and ecosystem to technology
+startups in Tier-II and Tier-III cities in India.
+✅ WHO CAN • Entities registered under Section 8, Incubators, Accelerators,
+APPLY? Educational Institutes recognised by UGC/AICTE/Formed under
+Central/State Act and other startups ecosystem entities that are engaged
+in supporting startups.
+💰 WHAT DO • Recurring financial support will be offered to approximately 50 IAs for the
+YOU GET? duration of the scheme.
+• Investment and pilot funding support to startups ranging from ₹10 lakh
+(for early-stage startups), to up to ₹1 crore (deep-tech startups).
+• Capacity building initiatives for the startup ecosystem in Tier II and III
+cities.
+🚀 HOW TO • Applications are accepted throughout the year.
+APPLY • Interested applicants may submit their applications online via
+https://msh.meity.gov.in/schemes/genesis
+🔗 KEY • https://www.meity.gov.in/static/uploads/2024/02/GENESIS_Admin_Appr
+LINKS oval-1.pdf
+• https://www.meity.gov.in/static/uploads/2024/02/Brochure_GENESIS.pd
+f
+💡 BEST Ideation to Scaling
+SUITED FOR
+Page 51 of 107
+
+=== PAGE 52 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+STPI – Next Generation Incubation Scheme
+(NGIS)
+Ministry of Electronics & Information Technology (MeitY) / STPI
+📌 WHAT IS NGIS is a government scheme that helps nurture early-stage tech startups
+THIS? by providing incubation support, funding, and mentorship so they can
+develop strong, scalable business ideas.
+🎯 • It is a startup incubation scheme by Software Technology Parks of India
+OBJECTIVES (STPI) under MeitY, aimed at strengthening India’s software product
+startup ecosystem, especially in Tier-II/III cities. It aims to handhold 300
+tech startups across 12 STPI incubation locations in Tier-II/III cities.
+✅ WHO • Indian startups working on software product development / technology-
+CAN APPLY? based solutions.
+• DPIIT-recognised startups are encouraged; individuals, academicians,
+researchers, entrepreneurs, LLPs, and partnership firms may also
+participate but may need to register as a private limited company if
+selected.
+💰 WHAT DO • Seed / risk funding up to ₹25 lakh for promising startups.
+YOU GET? • Access to state-of-the-art incubation infrastructure, labs, equipment, and
+testing facilities.
+• Mentoring, startup-connect, industry networking, marketing support, and
+product lifecycle guidance.
+• Internship / challenge grants for selected startups.
+🚀 HOW TO • Applicants submit proposals online through the STPI/NGIS application
+APPLY portal during open calls.
+🔗 KEY • STPI Startup Portal: https://startup.stpi.in/
+LINKS
+💡 BEST Ideation to Scaling
+SUITED FOR
+Page 52 of 107
+
+=== PAGE 53 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Chips to Startup (C2S) Programme
+Ministry of Electronics and Information Technology (MeitY)
+📌 WHAT IS The program is to build India’s semiconductor/chip-design ecosystem by
+THIS? training skilled manpower and supporting chip development.
+🎯 • It aims to train specialised professionals in VLSI and Embedded System
+OBJECTIVES Design over 5 years, promote design and development of ASICs, SoCs,
+FPGAs, reusable IP cores, and prototypes, and create a strong fabless
+chip-design startup ecosystem in India and support indigenous
+semiconductor innovation.
+✅ WHO • Academic institutions and R&D organisations across India, including IITs,
+CAN APPLY? NITs, IIITs, government/private colleges, and R&D bodies.
+• Startups and MSMEs can participate through academia-industry
+collaborative projects, grand challenges, hackathons, or RFPs for
+System/SoC/IP Core development.
+💰 WHAT DO • Financial and technical support for chip-design projects under approved
+YOU GET? categories.
+• Access to chip-design ecosystem support such as EDA tools, IP
+repository, fabrication/MPW support, prototyping, and mentoring.
+• Support for manpower training, R&D, hardware IP design, system design,
+prototype development, and deployment.
+🚀 HOW TO • Applicants submit project proposals online through the C2S portal in the
+APPLY prescribed MeitY provided format.
+🔗 KEY • C2S Official Portal: https://www.c2s.gov.in/
+LINKS • About C2S: https://www.c2s.gov.in/about_c2s.jsp
+💡 BEST R&D to Prototype
+SUITED FOR
+Page 53 of 107
+
+=== PAGE 54 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Innovations for Defence Excellence (iDEX)
+Ministry of Defence / Defence Innovation Organisation (DIO)
+📌 WHAT IS iDEX is a government initiative that supports startups and innovators in
+THIS? building defence solutions so the military can access advanced, homegrown
+technologies and reduce reliance on imports.
+🎯 • Innovations for Defence Excellence (iDEX) is the operational framework
+OBJECTIVES of the Defence Innovation Organization (DIO), a special purpose vehicle
+under the aegis of the Department of Defence Production, Ministry of
+Defence.
+• The iDEX framework was launched in 2018 to support the attainment of
+self-reliance in the fields of defence and defence production.
+• iDEX partners with incubators, i.e. Partner Incubators (PIs) to facilitate
+mentoring and access to infrastructure/test facilities to innovators,
+including amongst the smaller enterprises, startups and MSMES, to foster
+innovation in the defense sector in an integrated manner.
+✅ WHO • DPIIT recognised startups.
+CAN APPLY? • Any company incorporated under the Companies Act, primarily a MSME
+as defined under the MSME Act 2016.
+• Individual innovators can also apply.
+💰 WHAT DO • Beneficiaries are provided grants/funding and other support to carry out
+YOU GET? R&D development.
+• Innovation activities like accelerator programs, challenges etc., are carried
+under the initiative, by the iDEX Partner Incubators.
+• Grants ranging from ₹1.5 crore to ₹10 crore awarded to startups based on
+the scheme/challenge applied to.
+🚀 HOW TO • Visit https://idex.gov.in/challenges for more information on Challenges
+APPLY organized under iDEX.
+🔗 KEY • Operational guidelines: https://idex.gov.in/res
+LINKS
+💡 BEST Prototype to Procurement
+SUITED FOR
+Page 54 of 107
+
+=== PAGE 55 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Acing Development of Innovative Technologies
+with iDEX (ADITI)
+Ministry of Defence / Defence Innovation Organisation (DIO)
+📌 WHAT IS ADITI is a government program that supports startups and innovators in
+THIS? building new defence and aerospace technologies so India can become more
+self‑reliant and technologically advanced.
+🎯 • The ADITI Scheme aims to facilitate rapid development of strategically
+OBJECTIVES critical technologies which are sensitive and innovative from the defence
+perspective and required by the country.
+• Under this, relevant Challenges/Hackathons are organized for startups to
+seek solutions for problem statements pertaining to the earmarked
+technology. Winners of the ADITI challenges are incubated by Partner
+Incubators (PIs).
+✅ WHO • DPIIT recognised startups.
+CAN APPLY? • Any Indian company incorporated under the Companies Act 1956/2013.
+• Individual innovators can also apply.
+💰 WHAT DO • For Partner Incubators: The limit of payment amounting to ₹9 lakh per PI,
+YOU GET? based on facilitation/completion of each milestone of their associated
+challenge winner.
+• For Startups/Innovators: Quantum of Grant up to 50% of product
+development budget (PDB) with maximum limit of ₹25 crore, leading to a
+PDB around ₹50 crore or beyond.
+🚀 HOW TO • Visit https://idex.gov.in/ for more information.
+APPLY
+🔗 KEY • Website: https://idex.gov.in/
+LINKS • Operational guidelines:
+https://idex.gov.in//uploads/page/aditi_scheeme.pdf
+💡 BEST Advanced Prototype
+SUITED FOR
+Page 55 of 107
+
+=== PAGE 56 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Technology Development Fund (TDF)
+DRDO, Ministry of Defence
+📌 WHAT IS Technology Development Fund (TDF) is a government scheme that gives
+THIS? funding and support to Indian companies and startups to develop defence
+technologies locally so the country can reduce dependence on imports and
+strengthen self-reliance.
+🎯 • The TDF Scheme has been established to promote self-reliance in
+OBJECTIVES defence technology as a part of the 'Make in India' initiative.
+• The Scheme enlists requirements of Service Headquarters (SHQs) of
+upgrading products/ systems and futuristic defence technologies as
+Projects for which eligible stakeholders can apply through their platform.
+✅ WHO • Public limited company, a private limited company, a partnership firm, a
+CAN APPLY? limited liability partnership, one-person company, sole proprietorship
+registered as per applicable Indian laws.
+• DPIIT recognised startups that should be incubated at one of the
+Central/State Government assisted incubators.
+• At least 50% of the shares of the startup must be owned and controlled by
+Indian citizens.
+💰 WHAT DO • The funding will be through provision of grants.
+YOU GET? • Project cost of up to ₹10 crore will be considered for funding, subject to a
+maximum funding of 90%.
+• Aims to provide financial assistance to startups for prototype development
+and trials.
+🚀 HOW TO • Application process for the TDF is digitized. Applicants can register on the
+APPLY TDF portal - https://tdf.drdo.gov.in/
+🔗 KEY • Website: https://tdf.drdo.gov.in/
+LINKS
+💡 BEST Prototype to Product
+SUITED FOR
+Page 56 of 107
+
+=== PAGE 57 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+IN-SPACe Seed Fund Scheme
+IN-SPACe, Department of Space
+📌 WHAT IS IN-SPACe Seed Fund Scheme helps early-stage space startups build and
+THIS? test new space-tech ideas by giving them grant funding, mentoring, and
+support to move from concept to prototype.
+🎯 • The Indian National Space Promotion and Authorization Centre (IN-
+OBJECTIVES SPACe) has been formed under the Department of Space (DoS) to
+promote, enable, authorize and supervise non-government entities to
+undertake space activities.
+✅ WHO • DPIIT recognised early-stage startups with innovative ideas and projects
+CAN APPLY? that use space technology to address challenges in space sector
+• Startups should not have received more than ₹50 lakh of monetary
+support under any Central or State Government Scheme.
+💰 WHAT DO • Funding, mentorship, training and networking opportunities.
+YOU GET? • Grant of ₹1 crore provided to selected startups on milestone-basis.
+🚀 HOW TO • Announcement of opportunities made from time to time on
+APPLY https://www.inspace.gov.in/inspace?id=announcement_for_opportunities
+🔗 KEY • Website:
+LINKS https://www.inspace.gov.in/inspace?id=announcement_for_opportunities
+• Guidelines:
+https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&c
+ad=rja&uact=8&ved=2ahUKEwiW5aGn3vuRAxXQUGcHHWntG8sQFno
+ECBsQAQ&url=https%3A%2F%2Fwww.inspace.gov.in%2Fsys_attachm
+ent.do%3Fsys_id%3D2d09969c879a755082e163d70cbb3518&usg=AO
+vVaw2w0pT1229-wJskQEypKV3p&opi=89978449
+💡 BEST Seed
+SUITED FOR
+Page 57 of 107
+
+=== PAGE 58 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Digital Communication Innovation Square (DCIS)
+Department of Telecommunications (DoT)
+📌 WHAT IS Digital Communication Innovation Square (DCIS) supports startups and
+THIS? innovators in developing new digital communication technologies so India
+can strengthen its telecom sector and drive self‑reliance.
+🎯 • To promote the ecosystem for research, design, development, proof of
+OBJECTIVES concept testing, Intellectual Property Rights (IPR) creation, pilot project
+and manufacturing i.e. complete value chain to make India a global hub
+for production of telecommunication equipment and a centre for digital
+communication services.
+✅ WHO • DPIIT recognised startups
+CAN APPLY? • Any Indian company incorporated under the Companies Act 1956/2013,
+primarily a Micro, Small and Medium Enterprises (MSME) as defined in
+the MSME Act, 2006 having over 51% stakes by the Indian Citizen / NRI
+/ OCI and Headquarter in India.
+• Individual Innovators will also be encouraged to apply (research &
+academic institutions can use this category to apply). However, release of
+fund shall be subjected to compliance of eligibility condition for either
+Startup or MSME before agreement signing.
+💰 WHAT DO Milestone based support:
+YOU GET? • Startups up to ₹50 lakh
+• MSMEs up to ₹2 crore
+• Technology products requiring higher funding up to ₹10 crore
+🚀 HOW TO • Apply on: https://dcis.dot.gov.in/
+APPLY
+🔗 KEY • Scheme guidelines:
+LINKS https://www.dot.gov.in/offerings/schemes-and-services/details/dcis-
+QjNzETMtQWa
+💡 BEST Prototyping to Pilot
+SUITED FOR
+Page 58 of 107
+
+=== PAGE 59 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+GREAT – Grant for Research & Entrepreneurship
+across Aspiring Innovators in Technical Textiles
+Ministry of Textiles (National Technical Textiles Mission)
+📌 WHAT IS GREAT gives funding and incubator support to innovators and startups in
+THIS? technical textiles so they can turn prototypes into market-ready products and
+technologies.
+🎯 • A scheme under the National Technical Textiles Mission (NTTM) to
+OBJECTIVES support technical-textile innovators and startups. It help young innovators,
+entrepreneurs and startups convert technical-textile prototypes into
+market-ready products/technologies.
+✅ WHO • Individual innovators who are Indian citizens aged 21 years or above,
+CAN APPLY? incubated with an eligible incubator, and working on technical-textile
+innovation.
+• Startup companies incorporated as a private limited company, partnership
+firm or LLP, with turnover below ₹100 crore, not older than 5 years, and
+at least 51% Indian resident ownership/control.
+• Projects must relate to technical-textile areas such as agro-textiles, geo-
+textiles, medical textiles, protective textiles, smart textiles, high-
+performance fibres, sustainable textiles, composites, or indigenous
+machinery/equipment.
+💰 WHAT DO • Grant-in-aid of normally up to ₹50 lakh per approved proposal for up to 18
+YOU GET? months.
+• Funding is released milestone-wise, generally in 40:40:20 instalments.
+• Associated incubators receive an additional 10% of the sanctioned
+Government grant share for mentoring, due diligence and monitoring
+support.
+• Intellectual property generated remains with the innovator/startup or may
+be jointly shared with the incubator as per their agreement.
+🚀 HOW TO • Apply online through the GREAT portal when applications are invited by
+APPLY NTTM/Ministry of Textiles.
+https://nttm.texmin.gov.in/StartupRegistration/StartupUserRegistration
+🔗 KEY • GREAT Application Portal:
+LINKS https://nttm.texmin.gov.in/StartupRegistration/StartupUserRegistration
+• Scheme guidelines:
+http://www.nttm.texmin.gov.in/pdf/WhatsNew/Revised%20GREAT%20g
+uidelines.pdf
+💡 BEST Prototype to Commercialisation
+SUITED FOR
+Page 59 of 107
+
+=== PAGE 60 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+BHARATI – Bharat’s Hub for Agritech, Resilience,
+Advancement & Incubation for Export Innovation
+APEDA, Ministry of Commerce & Industry
+📌 WHAT IS BHARATI helps agri-food and agritech startups become export-ready by
+THIS? giving them acceleration support, market access, and connections to the
+ecosystem needed to sell innovative products globally.
+🎯 • It is a flagship initiative of Agricultural & Processed Food Products Export
+OBJECTIVES Development Authority (APEDA) to strengthen India’s agri-food and
+processed food export ecosystem through innovation and startup
+acceleration.
+• It aims to empower agri-food and agri-tech startups and create new export
+opportunities, promote innovation in high-value agri-food products, export
+technologies, packaging, traceability, logistics, sustainability, and quality
+assurance.
+✅ WHO • Agri-food startups developing innovative/high-value products for export,
+CAN APPLY? technology and service startups offering export-enabling solutions across
+the value chain.
+• Solution providers for SPS challenges, including startups, individual
+researchers, innovators and solo/self-employed entrepreneurs.
+• APEDA-registered exporters seeking to innovate or expand high-value
+product portfolios for international markets.
+• Farmer Producer Companies (FPCs) developing innovative/high-value
+agri-food products or SPS-related solutions.
+💰 WHAT DO • Acceleration support covering product development, export readiness,
+YOU GET? regulatory compliance and market access.
+• Access to APEDA’s ecosystem, including industry bodies, state
+agricultural boards, universities, IITs/NITs and accelerators.
+• Support for innovative categories such as GI-tagged products, organic
+foods, superfoods, processed Indian foods, livestock products and
+AYUSH products.
+🚀 HOW TO • Visit https://apeda.gov.in/bharati/ for more information.
+APPLY
+🔗 KEY • BHARATI official portal: https://apeda.gov.in/bharati/
+LINKS • Who can apply: https://apeda.gov.in/bharati/Who_Can_Apply.html
+💡 BEST Market Access
+SUITED FOR
+Page 60 of 107
+
+=== PAGE 61 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+S&T-PRISM – Promotion of Research &
+Innovation in Mining, Minerals & Recycling Sector
+Ministry of Mines
+📌 WHAT IS S&T-PRISM helps early-stage startups in mining, minerals, metals, and
+THIS? recycling turn innovative ideas into working prototypes and pilot-ready
+solutions through funding and incubation support.
+🎯 • The S&T-PRISM program aims to promote the ecosystem for research,
+OBJECTIVES design, development, proof of concept testing, IPR creation, pilot project
+and manufacturing i.e., complete value chain in mining, mineral
+processing, metallurgy and recycling sector. There are two components
+in the program: Startup Funding and Setting up Incubation Centres.
+✅ WHO • Startups operating at the early stages in the mining and metal industry.
+CAN APPLY?
+💰 WHAT DO • To Startups: Grant of up to ₹2 crore on milestone basis to startups
+YOU GET? showing capability, intent, and promise to be able to produce functional
+prototypes or to productize existing technologies.
+• To Incubators: Grant of up to ₹10 crore to incubators disbursed on
+milestone-basis.
+🚀 HOW TO • Follow the instructions provided in the scheme guidelines
+APPLY https://mines.gov.in/admin/storage/app/uploads/655212bdb9e5b169987
+7565.pdf
+🔗 KEY • Operational Guidelines:
+LINKS https://mines.gov.in/admin/storage/app/uploads/655212bdb9e5b169987
+7565.pdf
+💡 BEST Prototype to Pilot
+SUITED FOR
+Page 61 of 107
+
+=== PAGE 62 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+SECTION 3 | Scheme One-Pagers |
+PART B
+Page 62 of 107
+
+=== PAGE 63 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+NIDHI – Entrepreneur in Residence (EIR)
+Department of Science and Technology (DST)
+📌 WHAT IS NIDHI–EIR is a fellowship scheme that gives young people with startup ideas
+THIS? monthly financial support, workspace, and mentoring so they can turn their
+idea into a business
+🎯 • The initiative NIDHI – Entrepreneur in Residence (EIR) is executed at
+OBJECTIVES selected NIDHI-Technology Business Incubator (TBI) known as
+Programme Executing Partner (PEP). These approved TBIs then select
+entrepreneurs under the programme pursuing a promising technology
+business idea. The objective is to encourage graduating students to take
+to entrepreneurship by providing support as a fellowship.
+✅ WHO • The entrepreneur should be an Indian citizen. They should have
+CAN APPLY? completed minimum 4 years of formal full time undergraduate/post
+graduate education or 3 years degree or diploma program and have 2-
+year full time work experience post degree or diploma.
+💰 WHAT DO • Grant ranging from ₹10,000 to ₹30,000 per month for a period of 12
+YOU GET? months, extendable up to 18 months.
+• The selected NIDHI-TBI will received a grant of ₹39.6 lakh each year, of
+which ₹36 lakh is to be provided to the NIDHI EIRs.
+• Co-working spaces for developing the idea into a marketable product.
+• Guidance from experienced, innovative and highly successful
+entrepreneurs on the business concept, strategy or venture and insight
+into specific industries or markets.
+🚀 HOW TO The program is announced by the NIDHI-TBI locally. Applications by the EIR
+APPLY are to be submitted in a prescribed format
+🔗 KEY • Website: https://nidhi.dst.gov.in/
+LINKS • Guidelines: https://nidhi.dst.gov.in/nidhieir/
+💡 BEST Ideation
+SUITED FOR
+Page 63 of 107
+
+=== PAGE 64 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+National Mission on Interdisciplinary Cyber-
+Physical Systems (NM-ICPS) – Technology
+Innovation Hubs
+Department of Science & Technology (DST)
+📌 WHAT IS NM-ICPS Technology Innovation Hubs support people and startups working
+THIS? on advanced technologies by giving them funding and non-financial support
+to turn ideas into real products and businesses.
+🎯 • The Department of Science & Technology (DST) is implementing multi-
+OBJECTIVES stakeholder National Mission on Interdisciplinary Cyber Physical System
+(NM-ICPS). The Mission works with all the concerned Ministries/
+Departments to identify their technology needs, develop solutions and
+technical support. It aims at development of technology platforms to carry
+out R&D, Translational Research, Product Development, Incubating &
+Supporting Startups as well as Commercialization. Under NM-ICPS, 25
+Technology Innovation Hubs (TIH) have been set up across the country.
+✅ WHO • Under the 25 TIHs, individuals and entities including startups, students,
+CAN APPLY? entrepreneurs, and researchers, are invited to apply.
+💰 WHAT DO • Eligible beneficiaries are provided with financial and non-financial support
+YOU GET? for research and development.
+🚀 HOW TO • Technology Innovation Hubs release call for proposals periodically for
+APPLY different projects. Interested individuals/entities are advised to regularly
+check the call for proposals section on the NM-ICPS website.
+🔗 KEY • Website: https://nmicps.in/
+LINKS
+💡 BEST Prototype to Scaling
+SUITED FOR
+Page 64 of 107
+
+=== PAGE 65 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+National Initiative for Developing and Harnessing
+Innovations - Technology Business Incubator
+(NIDHI-TBI)
+Department of Science and Technology
+📌 WHAT IS NIDHI-TBI supports institutions in setting up incubators so they can help
+THIS? technology-based ideas grow into startups.
+🎯 • The initiative aims to convert technology-based innovations into startups
+OBJECTIVES by supporting institutions in setting up Technology Business Incubators
+(TBIs). The initiative provides support for non-recurring and recurring
+expenses of TBIs.
+✅ WHO • Host Institute (HI) such as Academic/Technical/R&D Institutes and other
+CAN APPLY? institutions with a proven track record in promotion of technology-based
+entrepreneurship, with adequate expertise and infrastructure to support
+incubation activities, or
+• A legal entity registered in India with the clear purpose and objective of
+promoting research, innovation, and entrepreneurial ecosystem. Not-for-
+profit legal entity registered as a society/trust/section 8 company
+💰 WHAT DO • Non-recurring capital: For publicly funded institutes, 100% support can be
+YOU GET? provided for renovation/furnishing. In case of other institutes, certain
+percentage of the total cost (excluding land & building) will be provided.
+• Recurring: Out of the total recurring expenditure incurred by the NIDHI-
+TBI against the approved amount, following mode of funding by DST
+would be followed on actual recurring expenditure.
+🚀 HOW TO • Proposal is to be submitted in the prescribed proforma available at
+APPLY https://nidhi.dst.gov.in/
+🔗 KEY • Operational Guidelines: https://nidhi.dst.gov.in/nidhitbi/
+LINKS
+💡 BEST Incubation
+SUITED FOR
+Page 65 of 107
+
+=== PAGE 66 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+NIDHI - Inclusive-Technology Business Incubator
+(i-TBI)
+Department of Science and Technology (DST)
+📌 WHAT IS NIDHI i-TBI supports institutions in underserved regions to set up incubators
+THIS? so local innovators and startups can get the space, funding, and support
+needed to build new ventures.
+🎯 • The NIDHI i-TBI initiative aims to support institutions in regions where
+OBJECTIVES innovation and startup incubation ecosystem is at nascent stages and
+‘Inclusive TBI’ can play a vital role in normalizing resources and value
+creation across the country. The i-TBI would create a culture of innovation
+and entrepreneurship in the Host Institute (HI) and nearby geographies.
+✅ WHO • The HI is to provide up to 10,000 square feet (minimum 7,000 square feet)
+CAN APPLY? of built-up space to host i-TBI in the campus.
+• The HI shall agree to establish separate Section 8 company to
+professionally manage the i-TBI and will execute a lease agreement
+between HI and new (Section 8) entity, to lease the space earmarked for
+the i-TBI to new entity at no cost or at minimum rate for 10 years or beyond.
+• The i-TBI should be capable of accommodating at least 30 innovative
+ventures/startups.
+💰 WHAT DO • DST will provide the necessary capital fund to establish the infrastructure
+YOU GET? of i-TBI.
+• The i-TBI is provided with a maximum funding of ₹5 crore over a period of
+3 years.
+• Funding for non-recurring expenditure:
+• For private institutions – 50:50 share between DST and HI
+• For public institutions – 75:25 share between DST and HI,
+respectively.
+• The ignition grant shall be for development of prototype/products.
+🚀 HOW TO Visit the online portal i.e., https://nidhi.dst.gov.in/
+APPLY
+🔗 KEY • Website: https://nidhi.dst.gov.in/nidhiitbi/
+LINKS • Guidelines: https://nidhi.dst.gov.in/nidhiitbi/
+💡 BEST Incubation (Underserved regions)
+SUITED FOR
+Page 66 of 107
+
+=== PAGE 67 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+NIDHI-Accelerator
+Department of Science and Technology (DST)
+📌 WHAT IS NIDHI-Accelerator helps incubators run short, intensive programs that give
+THIS? promising startups mentoring, networks, and demo-day support so they can
+grow faster.
+🎯 • The umbrella programme ‘National Initiative for Developing and
+OBJECTIVES Harnessing Innovations (NIDHI)’ developed in 2016 aims to nurture the
+innovation ecosystem in India. Key components of the NIDHI program are
+outlined in the following sections.
+• NIDHI Accelerators are positioned as post-incubation initiatives linked with
+the existing incubators to supplement, complement the scaling up of the
+startup value chain. Under the programme, DST encourages its existing
+TBIs and other incubators to extensively adopt and evolve the accelerator
+mode. It aims to fast track the growth of potential startups through rigorous
+mentoring and networking support in a short span through existing TBIs.
+✅ WHO • TBIs previously funded or currently funded by DST or any other Central or
+CAN APPLY? State government with a minimum 3 years in existence, having nurtured
+and incubated at least 20 startups in multiple domains.
+💰 WHAT DO • Contribution towards the overall budget for running accelerators shall not
+YOU GET? exceed ₹40 lakh per program of one cohort. It is further divided into two
+categories:
+• Accelerator Program with a maximum limit of ₹30 lakh, that includes
+manpower, logistics, travel, mentoring, infrastructure, training, and all
+other cost.
+• Demo Day Award with maximum budget of ₹10 lakh where top 3 to 5
+startups of the batch are awarded on the basis of their performance/
+achievements during the accelerator program.
+🚀 HOW TO • Visit the online portal https://nidhi.dst.gov.in/
+APPLY
+🔗 KEY • Website: https://nidhi.dst.gov.in/
+LINKS • Guidelines: https://nidhi.dst.gov.in/schemes-
+programmes/nidhiaccelerator/
+💡 BEST Acceleration
+SUITED FOR
+Page 67 of 107
+
+=== PAGE 68 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+NIDHI-Centres of Excellence (CoE)
+Department of Science and Technology (DST)
+📌 WHAT IS NIDHI-CoE supports established incubators in building world-class facilities
+THIS? and services so that high-potential technology startups can turn innovations
+into scalable businesses.
+🎯 • Under NIDHI-Centres of Excellence (CoE), the DST empowers incubators
+OBJECTIVES to provide an enabling environment for the growth of technology startups
+to enhance the prospects of their success. The NIDHI-CoE proposes to
+strengthen existing capacities of STEP/TBIs and support potential startups
+with different pursuits and practices in transferring technological
+innovations into marketable products/high-growth companies. DST has
+priority areas for supporting NIDHI-CoEs.
+✅ WHO • Existing incubator with incubation experience of at least 5 years.
+CAN APPLY? • For non-academic institution, it should be a legal entity registered in India
+with the clear purpose of promoting research, innovation, and
+entrepreneurial ecosystem.
+• The financial support for establishing a NIDHI-CoE would be extended to
+a not-for-profit legal entity registered as a Society/Trust/Section 8
+company.
+• The host institution should be in existence for at least 8 years. This will not
+apply to entities created by the Central or State governments.
+💰 WHAT DO • An enhanced support of maximum of ₹50 crore in 5 years.
+YOU GET? • Public funded institutions: Would be eligible for 100% support including
+building
+• Private institution: Eligible for recurring support of ₹20 crore and a
+maximum of ₹1 crore for equipment
+• The support would include design/prototype development & Validation
+Centres along with the Patent Facilitation centres, state-of-the-art
+technology based TBI facilities to accommodate minimum 100 startups
+and an accelerator for 10 high potential startups.
+🚀 HOW TO • Proposals are received throughout the year. Format for the proposal is
+APPLY provided on the portal https://nidhi.dst.gov.in/
+🔗 KEY • Website: https://nidhi.dst.gov.in/
+LINKS • Guidelines: https://nidhi.dst.gov.in/nidhicoe/
+💡 BEST Scaling
+SUITED FOR
+Page 68 of 107
+
+=== PAGE 69 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+BioAngels
+Department of Biotechnology (DBT) / BIRAC
+📌 WHAT IS BioAngels helps biotech and related startups raise investment by connecting
+THIS? them with angel investors who also provide expert mentoring and industry
+access.
+🎯 • BioAngels is a unique partnership between BIRAC, an enterprise of the
+OBJECTIVES Department of Biotechnology, and IAN, India’s single largest horizontal
+platform for seed and early-stage investing. It is focused on supporting
+Biotech, Medtech, Healthtech, Pharma, Agritech & Cleantech startups to
+raise their angel round from Angel Investors who bring deep domain
+expertise.
+✅ WHO • Startups and entrepreneurs operating in Biotech, Medtech, Healthtech,
+CAN APPLY? Pharma, Cleantech & Agritech sectors.
+💰 WHAT DO • BioAngels provides financial incentives, mentoring, and market access.
+YOU GET? • It aims to fuel the ecosystem through interactions with high-quality
+investors and industry leaders, whilst emphasizing a strong operational
+focus, frameworks, processes, and governance.
+• The inclusive group of ecosystem stakeholders at BioAngels comprises
+HNIs, angel investors, family offices, strategic investors, corporates, and
+VCs.
+🚀 HOW TO • Apply here: https://bioangels.vc/
+APPLY
+🔗 KEY • Website: https://bioangels.vc/about-us/
+LINKS
+💡 BEST Early-stage
+SUITED FOR
+Page 69 of 107
+
+=== PAGE 70 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+BioNEST Programme
+Biotechnology Industry Research Assistance Council (BIRAC), Department of Biotechnology
+📌 WHAT IS The BioNEST program enables certain entities (educational institutions,
+THIS? incubators etc.) to create globally competent bio-incubation facilities for
+targeted scaling up of biotech startup ecosystem.
+🎯 • The BioNEST (Bioincubators Nurturing Entrepreneurship for Scaling
+OBJECTIVES Technologies) program is supported by BIRAC to create globally
+competent bio-incubation facilities across the country in order to facilitate
+the targeted scaling up of biotech startup ecosystem.
+• To provide entrepreneurs with incubation space with shared access to
+high end infrastructure, specialized and advanced equipment
+• To provide entrepreneurs with business mentorship, IP, egal and
+regulatory guidance, and networking opportunities.
+✅ WHO • Relevant incorporated Indian legal entities including: Educational
+CAN APPLY? institutions, Business Incubators, Biotech-Parks, State government
+Science and Technology bodies, Biotech State Councils, Research
+Hospitals.
+💰 WHAT DO • Grant-in-aid, based on the need and scope of the project as adjudged by
+YOU GET? the BioNEST committee.
+• BIRAC funding to cater to refurbishment/ renovation of space, equipment,
+furniture and operational cost.
+🚀 HOW TO • Interested applicants may submit their applications online via
+APPLY https://www.birac.nic.in/desc_new.php?id=1120.
+🔗 KEY • Website: https://www.birac.nic.in/desc_new.php?id=1120
+LINKS • Operational Guidelines:
+https://www.birac.nic.in/webcontent/1707480045_BioNEST_Guidelines.p
+df
+💡 BEST Incubation
+SUITED FOR
+Page 70 of 107
+
+=== PAGE 71 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Biotechnology Industry Partnership Programme
+(BIPP)
+Biotechnology Industry Research Assistance Council (BIRAC), Department of Biotechnology
+📌 WHAT IS Under BIPP, the Government offers support to startups in partnership with
+THIS? industries for research in frontier futuristic technology areas.
+🎯 • The Biotechnology Industry Partnership Programme (BIPP) is a
+OBJECTIVES government partnership with industries for support on a cost sharing basis
+for research in frontier futuristic technology areas. It is focused on IP
+creation with ownership retained by Indian industry and wherever relevant,
+by collaborating scientists.
+✅ WHO Single company or consortia of companies incorporated under the
+CAN APPLY? Companies Act, 2013; or Limited Liability Partnership (LLP) incorporated
+under the Limited Liability Partnership Act, 2008, jointly with or without the
+following:
+• Public/private university/colleges in India
+• National research laboratories
+• Not-for-profit private research labs/societies/foundation/NGO
+💰 WHAT DO • One time grant-in-aid (subject to a maximum of ₹50 lakh) is provided by
+YOU GET? BIRAC to those startups which have not received grant-in-aid under any
+scheme of BIRAC in past.
+• If the startup has received funding from BIRAC before, BIRAC contribution
+will be restricted to a maximum of 70% of the total budget of the respective
+entity (Minimum 30% of the total budget will be contributed by the
+respective Company.
+🚀 HOW TO • Call for Applications are announced twice a year (1st April – 15th May; 1st
+APPLY September – 15th October)
+• Proposals are required to be submitted online only. Call for proposals and
+application link can be found on the BIRAC website:
+https://birac.nic.in/cfp.php
+🔗 KEY • Detailed guidelines:
+LINKS https://birac.nic.in/webcontent/1745298172_BIPP_scheme_guidelines_1
+6_04_2025.pdf
+💡 BEST Validation to Commercialisation
+SUITED FOR
+Page 71 of 107
+
+=== PAGE 72 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Empowering Youth for Undertaking Value Added
+Innovative Translational Research (E-YUVA)
+Biotechnology Industry Research Assistance Council (BIRAC), Department of Biotechnology
+📌 WHAT IS E-YUVA supports students and young researchers with funding, mentoring,
+THIS? and incubation support so they can turn useful biotech ideas into real
+solutions or startups.
+🎯 • E-YUVA was initiated by BIRAC to promote a culture of applied research
+OBJECTIVES and need-oriented (societal or industry) entrepreneurial innovation among
+young students and researchers. It is implemented through dedicated
+hubs called E-Yuva Centers (EYCs), housed within the University/Institute
+set up and mentored by a BIRAC BioNEST supported bio-incubator. The
+Scheme provides support under two categories: BIRAC’s Innovation
+Fellows (post-graduates and above), and BIRAC’s E-YUVA Fellows
+(undergraduate students).
+✅ WHO • Innovation Fellows: An Indian Student who has completed Masters/ Ph.D.
+CAN APPLY? in any discipline.
+• E-YUVA Fellows: Indian students pursuing under graduation in any
+domain.
+💰 WHAT DO • The Scheme provides funding support – through fellowship and research
+YOU GET? grants.
+• Monthly fellowship grant provided under the Scheme ranges between
+₹30,000-₹50,000. Annual research grant range between ₹3 lakh to ₹5
+lakh.
+• Technical and business mentoring, exposure to bioincubation model,
+orientation to entrepreneurial culture etc. is also provided to students.
+🚀 HOW TO • Two Calls for Applications announced in a year.
+APPLY • Online applications are to be submitted through the BIRAC website:
+https://birac.nic.in
+• The shortlisted applicants/teams are called for a presentation before a
+Technical Expert Committee along with BIRAC nominee at respective
+EYCs
+🔗 KEY • Website: https://birac.nic.in/e_yuva.php
+LINKS • Operational Guidelines:
+https://birac.nic.in/webcontent/1658838527_EYUVA_Guideline_Version_
+1.1.pdf
+💡 BEST Ideation (Students)
+SUITED FOR
+Page 72 of 107
+
+=== PAGE 73 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Students Innovations for Translation &
+Advancement of Research Explorations (SITARE)
+Department of Biotechnology (DBT)
+📌 WHAT IS SITARE supports student innovators in biotechnology with funding, training,
+THIS? and mentoring so they can turn promising research ideas into practical
+solutions or startups.
+🎯 • Students Innovations for Translation & Advancement of Research
+OBJECTIVES Explorations (SITARE) Scheme aims to promote and support innovative
+student projects in the area of biotechnology.
+• The scheme has two components, SITARE-Gandhian Young
+Technological Innovation Award Grant (SITARE-GYTI), and SITARE-
+Appreciation Grant.
+✅ WHO • SITARE-GYTI: An Indian Student pursuing Ph.D./Masters in any
+CAN APPLY? discipline.
+• SITARE-Appreciation Grant: Students pursuing undergraduate
+programme in any discipline, preferably from Tier II/Tier III cities and
+aspirational districts within India.
+💰 WHAT DO • SITARE-GYTI: Innovative student projects receive funding support of up
+YOU GET? to ₹15 lakh each for projects with commercial potential leading to creation
+of biotech startups.
+• SITARE-Appreciation Grant: Students selected to attend Biotech
+Innovation Ignition School (BIIS) workshops are eligible to receive funding
+support of up to ₹1 lakh each, followed by training and mentoring.
+🚀 HOW TO • For SITARE-GYTI: The call for application opens once a year in
+APPLY August/September for 45-60 days. Proposals shall be submitted online
+only.
+• SITARE-Appreciation Grant: Applications need to be submitted online
+only. Call for applications are invited against advertisement by SITARE
+Partner
+🔗 KEY • To apply, visit https://www.birac.nic.in/ and login as a registered user.
+LINKS • Guidelines:
+https://birac.nic.in/webcontent/1584008982_SITARE_Scheme_Guideline
+s.pdf
+💡 BEST Ideation to Translation (Students)
+SUITED FOR
+Page 73 of 107
+
+=== PAGE 74 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Promoting Academic Research Conversion to
+Enterprise (PACE)
+Department of Biotechnology (DBT)
+📌 WHAT IS PACE helps academic institutions turn important research into early-stage
+THIS? products and then supports industry partnerships to validate and take those
+innovations closer to real-world use.
+🎯 • The PACE (Promoting Academic Research Conversion to Enterprise)
+OBJECTIVES encourages academia to develop technology/product (up to PoC stage) of
+societal/national importance (under Academic Innovation Research or
+AIR), and its subsequent validation by an industrial partner (under
+Contract Research Scheme or CRS.
+✅ WHO • For AIR: Academia (Public or Private Institute, University, NGO, or
+CAN APPLY? Research Foundation) with a well-established support system for research
+shall be the primary applicant. Collaboration with Industry/LLP is optional
+in this component.
+• For CRS: Mandatory collaboration with Industry/LLP is needed. The
+Industry collaborator must have a minimum of 51% of the shares of the
+Company held by Indian Citizens holding Indian passport.
+💰 WHAT DO • PACE provides for BIRAC contribution of up to 100% of the project cost.
+YOU GET? • Financial support under AIR: Total cost of the project must not exceed ₹50
+lakh (non-recurring cost must not exceed 10% of the total cost)
+• Financial support under CRS: Funding in the form of grant is provided to
+both academic as well as industrial partners. There is no ceiling to the
+funding under CRS.
+🚀 HOW TO • Call for Applications are announced twice a year (1st April – 15th May;
+APPLY and 1st September – 15th October). Besides two regular calls, BIRAC may
+also announce need-based additional calls whose terms and conditions
+would be worked out separately and described in their respective RFPs.
+🔗 KEY • Website: https://birac.nic.in/desc_new.php?id=286
+LINKS • Operational Guidelines:
+https://birac.nic.in/webcontent/1613355528_PACE_scheme_document_
+15_02_2021.pdf
+💡 BEST Research Translation
+SUITED FOR
+Page 74 of 107
+
+=== PAGE 75 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Small Business Innovation Research Initiative
+(SBIRI)
+Department of Biotechnology (DBT)
+📌 WHAT IS SBIRI supports biotech startups by funding product and process innovation,
+THIS? often with research partners, so they can develop and validate ideas for
+commercial use.
+🎯 • Small Business Innovation Research Initiative (SBIRI) aims to boost
+OBJECTIVES innovation focused Public-Private Partnership (PPP) approach in the area
+of Biotechnology.
+• SBIRI creates an enabling platform for the creation of product and process
+development and their commercialisation.
+• It facilitates innovation by enabling collaboration between startups,
+industry, public institutions, and the Government to promote research and
+innovation in the Indian biotechnology sector.
+✅ WHO • Biotechnology startups with/without partnerships with public/private
+CAN APPLY? universities, public or private research institutions, or
+societies/foundation/NGO.
+💰 WHAT DO • For a project cost of up to ₹50 lakh, 100% BIRAC grant-in-aid is given to
+YOU GET? select applicants and collaboration company (if any)
+• For a project cost over ₹50 lakh, BIRAC grant-in-aid would be ₹50 lakh
+along with 70% of the project cost over and above ₹50 lakh. The remaining
+cost is to be borne by the applicant.
+🚀 HOW TO • Call for Applications are announced twice a year (1st April – 15th May;
+APPLY and 1st September - 15th October).
+• Besides two regular calls, BIRAC may also announce need-based
+additional calls whose terms and conditions would be worked out
+separately and described in their respective RFPs.
+🔗 KEY • Website: https://birac.nic.in/desc_new.php?id=217
+LINKS • Operational Guidelines:
+https://www.birac.nic.in/webcontent/1745298212_SBIRI_scheme_guideli
+nes_16_04_2025.pdf
+💡 BEST Prototype to Validation
+SUITED FOR
+Page 75 of 107
+
+=== PAGE 76 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+TIDE 2.0 – Technology Incubation & Development
+of Entrepreneurs
+Ministry of Electronics and Information Technology (MeitY)
+📌 WHAT IS TIDE 2.0 helps early-stage tech startups get funding, incubation, and
+THIS? mentoring so they can turn ideas and prototypes into market-ready products.
+🎯 • TIDE 2.0 scheme is a fellowship/grant for aspiring entrepreneurs, aiming
+OBJECTIVES to create a holistic ecosystem by providing financial and technical support
+to technology startups by creating necessary linkages.
+✅ WHO • Information Technology based, DPIIT-recognised startups.
+CAN APPLY?
+💰 WHAT DO Extended to Entrepreneurs-in-residence (EiR) at various stages:
+YOU GET? • Up to ₹4 lakh for idea to Proof of Concept.
+• Up to ₹7 lakh grants for prototype development.
+• Up to ₹40 lakh investment for product development and market outreach.
+🚀 HOW TO • Startups to refer to the MeitY Startup Hub (MSH) to access the list of
+APPLY incubators in India benefitting from the TIDE 2.0 scheme and gauge the
+incubators most suitable to their needs.
+🔗 KEY • Website: https://msh.meity.gov.in/schemes/tide
+LINKS • Operational Guidelines: https://www.meity.gov.in/offerings/schemes-and-
+services/details/technology-incubation-and-development-of-entrepreneurs-
+QMwEjNtQWa
+💡 BEST Early-stage
+SUITED FOR
+Page 76 of 107
+
+=== PAGE 77 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Design Linked Incentive (DLI) Scheme
+Ministry of Electronics and Information Technology (MeitY)
+📌 WHAT IS DLI provides incentives and access to advanced design infrastructure for
+THIS? domestic startups and MSMEs.
+🎯 • The Design Linked Incentive (DLI) Scheme is a key instrument under the
+OBJECTIVES Semicon India Programme to catalyze a strong, self-reliant chip design
+ecosystem by providing financial incentives and access to advanced
+design infrastructure for domestic startups and MSMEs.
+✅ WHO • Domestic companies, startups and MSMEs engaged in semiconductor
+CAN APPLY? design or semiconductor-linked design.
+• Target areas include ICs, chipsets, SoCs, systems, IP cores and
+semiconductor-linked designs.
+• Applicants claiming incentives must retain domestic status, i.e., more than
+50% beneficial ownership by resident Indian citizens / Indian companies
+ultimately owned and controlled by resident Indians, for 3 years after
+claiming incentives.
+💰 WHAT DO • Chip Design Infrastructure Support: Access to EDA tools, IP cores, MPW
+YOU GET? prototyping and post-silicon validation support.
+• Product Design Linked Incentive: Reimbursement of up to 50% of eligible
+expenditure, capped at ₹15 crore per application.
+• Deployment Linked Incentive: Incentive of 6% to 4% of net sales turnover
+over 5 years, capped at ₹30 crore per application.
+🚀 HOW TO • Visit the official DLI portal and register/login.
+APPLY • Submit the online application with required project and applicant details.
+• Track application status online; approvals/certificates are issued
+electronically
+🔗 KEY • Official DLI Portal: http://chips-dli.gov.in/
+LINKS • India Semiconductor Mission — DLI Scheme: https://ism.gov.in/design-
+linked-incentive
+💡 BEST Prototype to Commercialisation
+SUITED FOR
+Page 77 of 107
+
+=== PAGE 78 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Antariksh Venture Capital Fund/ Space VCF
+Indian National Space Promotion and Authorization Centre (IN-SPACe), Department of Space
+📌 WHAT IS Antariksh Venture Capital Fund is a SEBI registered Alternative Investment
+THIS? Fund that invests in unlisted Indian space companies.
+🎯 • Antariksh Venture Capital Fund is a SEBI registered Alternative
+OBJECTIVES Investment Fund with the key investor being Indian National Space
+Promotion and Authorization Centre (IN-SPACe), Department of Space,
+Government of India. The fund received registration from SEBI in October
+2025 and achieved its initial closing with a committed corpus of ₹1,005
+crore. The Fund’s investment objective is to provide capital to companies
+in the space sector at various stages of development as well as support
+the scaling of operations and the commercialisation of new technologies,
+empowering the companies to contribute to India’s broader space
+ambitions.
+✅ WHO • Indian companies operating in the Space sector with Technology
+CAN APPLY? Readiness Level (TRL) of 4 and above.
+💰 WHAT DO • The Fund would invest primarily by way of investments in privately
+YOU GET? negotiated equity, convertible instruments and / or other permissible
+instruments in unlisted Indian space companies.
+🚀 HOW TO • Interested companies can apply on the website:
+APPLY https://www.sidbiventure.co.in/antariksh_venture_capital_fund.html
+• Application form:
+https://forms.cloud.microsoft/pages/responsepage.aspx?id=aRgAbgzE30
+6qFp7_SRf-
+s0ExpWkb3JRCt9X0vPRtOjRUNDVJWE5JNDJJQjcyR1g1S0xDMlFFNk
+ZMTS4u&route=shorturl.
+🔗 KEY • Website:
+LINKS https://www.sidbiventure.co.in/antariksh_venture_capital_fund.html
+• Other:
+https://www.pib.gov.in/PressReleasePage.aspx?PRID=2247865&reg=3&
+lang=2
+💡 BEST Scaling
+SUITED FOR
+Page 78 of 107
+
+=== PAGE 79 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Space Technology Adoption Fund (TAF)
+Indian National Space Promotion and Authorization Centre (IN-SPACe), Department of Space
+📌 WHAT IS The Space Technology Adoption Fund (TAF) helps Indian space companies
+THIS? turn early-stage technologies into commercial products by giving funding to
+support development and market readiness.
+🎯 • IN-SPACe aims to foster commercialisation in space system by promoting
+OBJECTIVES Indian non-government entities (NGEi) to develop space products which
+in turn shall lead to scaling up the productionisation to meet the Global
+and Domestic Space Sector demands.
+• As part of this endeavor, the Technology Adoption Fund (TAF), a funding
+scheme designed to promote innovation and drive the commercialisation
+of cutting-edge technologies in the space sector has been instituted with
+a total funding of ₹500 crore.
+✅ WHO • Indian non-government entities (NGEi) including startups, MSMEs and
+CAN APPLY? large industry.
+💰 WHAT DO • Partial funding provided to the NGEi to work towards transforming early-
+YOU GET? stage technologies (TRL-3/4) into commercially viable product (TRL-8/9).
+The funding would be up to 60% for Startups/MSME and 40% for large
+industry of the project cost. The maximum funding which can be offered
+for a project is capped at ₹25 crore.
+🚀 HOW TO • Interested companies can register and apply on the website:
+APPLY https://www.inspace.gov.in/inspace?id=inspace_taf
+🔗 KEY • Website: https://www.inspace.gov.in/inspace?id=inspace_taf
+LINKS
+💡 BEST TRL Advancement
+SUITED FOR
+Page 79 of 107
+
+=== PAGE 80 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Credit Guarantee Trust Fund for Micro & Small
+Enterprises (CGTMSE)
+Ministry of Micro, Small and Medium Enterprises
+📌 WHAT IS Under the CGTMSE, collateral free loan is provided to Micro and Small
+THIS? Enterprises (MSE) units.
+🎯 • The Ministry of Micro, Small and Medium Enterprises and Small Industries
+OBJECTIVES Development Bank of India (SIDBI) jointly established a Trust named
+Credit Guarantee Fund Trust for Micro and Small Enterprises (CGTMSE)
+in order to implement Credit Guarantee Scheme for Micro and Small
+Enterprises. The corpus of CGTMSE is contributed by Government of
+India and SIDBI. 75% of the loan amount to the bank is guaranteed by the
+Trust Fund.
+✅ WHO • Loans sanctioned to Micro and Small Enterprises (MSE) units, as per the
+CAN APPLY? definition of the Ministry of MSMEs engaged in all eligible activities
+including trading activity.
+💰 WHAT DO • Collateral free loan is available for individual MSE on payment of
+YOU GET? guarantee fee to bank by the MSE
+• The cap of ₹10 crore is the maximum guarantee coverage limit
+(irrespective of the unit activity including Trading) per borrower based on
+the outstanding credit facilities and the borrowers can avail incremental
+credit facilities
+• Modified guarantee cover is available for Women entrepreneurs / Units
+located in Northeast Region.
+🚀 HOW TO • Apply to a MLI (Banks, NBFCs, FIs) registered with CGTMSE for MSE
+APPLY loan (Term Loan or Working Capital). Check the official CGTMSE website
+for the list of MLIs: https://www.cgtmse.in/
+🔗 KEY • Detailed scheme guidelines:
+LINKS https://www.cgtmse.in/Default/ViewFile/?id=1743176302611_CGTMSE
+%20-
+%20Scheme%20Document%20CGS%20I_updated%20as%20on%20Ap
+r%201%202025.pdf&path=Page
+💡 BEST Credit Support
+SUITED FOR
+Page 80 of 107
+
+=== PAGE 81 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Self-Reliant India Fund (SRI Fund)
+Ministry of Micro, Small and Medium Enterprises
+📌 WHAT IS The Self-Reliant India Fund (SRI Fund) helps MSMEs raise equity or quasi-
+THIS? equity capital through government-backed investment funds.
+🎯 • The SRI fund has the provision of ₹10,000 crore from Government of India
+OBJECTIVES and ₹40,000 crore through Private Equity / Venture Capital Funds. In
+totality, it will create a provision of ₹50,000 crore equity support to MSMEs,
+who have the potential and viability to grow and become large units.
+• SRI Fund is being implemented by NSIC Venture Capital fund Limited
+(NVCFL), which is an Alternative Investment Fund (AIF) of Category II
+registered with SEBI. SRI fund is oriented to provide the funding support
+through NVCFL to the Daughter Funds for onward provision to MSMEs as
+growth capital, in the form of equity or quasi- equity.
+✅ WHO • MSMEs, defined as per the MSMED Act, as amended from time to time.
+CAN APPLY?
+💰 WHAT DO • Provision of growth capital in the form of equity or quasi-equity through
+YOU GET? Daughter Funds.
+🚀 HOW TO • Interested MSMEs can fill the form to show their interest:
+APPLY https://nvcfl.co.in/Home/InterestAsMSME
+• Further, NVCFL also publishes an official list of empaneled Daughter
+Funds, including fund names, investment managers, sector focus, contact
+persons, email IDs, phone numbers, and addresses, which can be used
+to directly approach funds aligned to respective sector/stage -
+https://nvcfl.co.in/Corporate/EmpanelledDaughterFunds
+🔗 KEY • Website:
+LINKS https://dcmsme.gov.in/CLCS_TUS_Scheme/SRI_Fund/Scheme_Guideli
+nes.aspx
+• Detailed scheme guidelines:
+https://www.nvcfl.co.in/Contents/pdfs/Revised_Final_SRI_Operating_Gui
+delines__approved_by_Minister_20210917.pdf
+💡 BEST Scaling
+SUITED FOR
+Page 81 of 107
+
+=== PAGE 82 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+MSME Champions Scheme (erstwhile Credit
+Linked Capital Subsidy Scheme for Technology
+Upgradation (CLCS-TU))
+Ministry of MSME
+📌 WHAT IS The MSME Champions Scheme helps MSMEs improve quality, adopt better
+THIS? technology, become more competitive, and grow through support for
+certification, innovation, design, and lean manufacturing.
+🎯 • Ministry of MSME had been implementing Credit Linked Capital Subsidy
+OBJECTIVES and Technology Upgradation Scheme (CLCS-TUS) for promoting
+competitiveness amongst Micro, Small and Medium Enterprises (MSMEs)
+by the way of wastage reduction through Lean Manufacturing, support for
+Design improvement, building awareness on Intellectual Property Rights,
+Zero Defect Zero Effect (ZED) Scheme, digitally empowerment of MSME
+through Digital MSME and to promote adoption of latest technologies in
+manufacturing as well as knowledge based innovation MSMEs through
+Incubation across India.
+• MSME Champions scheme has been formulated through Standing
+Finance Committee (SFC) by merging all 6 components of erstwhile
+Technology Upgradation Scheme (TUS) for a period of 5 years i.e., 2021-
+22 to 2025-26.
+• There are 3 components under the new MSME Champions scheme:
+• MSME-Sustainable (ZED)
+• MSME-Competitive (Lean)
+• MSME-Innovative (for Incubation, IPR, Design)
+Digital MSME (yet to be launched)
+✅ WHO • MSMEs
+CAN APPLY?
+💰 WHAT DO • Subsidy on cost of ZED certification, Financial Assistance in
+YOU GET? Testing/Quality/Product, Handholding Support, Support in Technology
+Upgradation for Zero Effect, MSME KAWACH (Knowledge Acquisition
+through WASH for an Accelerated COVID-19 Handling) Certification,
+Graded incentives.
+🚀 HOW TO • Apply here: https://champions.gov.in/Government-India/Ministry-MSME-Portal-
+APPLY handholding/msme-problem-complaint-welcome.htm
+🔗 KEY • Schemes and guidelines: https://champions.gov.in/Government-
+LINKS India/Ministry-MSME-Portal-handholding/msme-problem-complaint-
+welcome.htm
+💡 BEST Competitiveness
+SUITED FOR
+Page 82 of 107
+
+=== PAGE 83 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+International Cooperation Scheme
+Ministry of Micro, Small and Medium Enterprises
+📌 WHAT IS The International Cooperation Scheme helps MSMEs explore export markets
+THIS? by supporting their participation in international trade fairs, exhibitions, buyer-
+seller meets, and other activities that build global market access.
+🎯 • This scheme aims to support MSMEs in entering the international market,
+OBJECTIVES by providing them opportunity to participate in international exhibitions,
+fair, buyer-seller market abroad. Incentives/reimbursements are offered to
+MSMEs for support. The objective of the Scheme is to provide
+opportunities to MSMEs to continuously update themselves to meet the
+challenges emerging out of changes in technology, changes in demand,
+emergence of new markets, etc.
+✅ WHO • MSMEs, State/Central Government Organizations/Institutions and
+CAN APPLY? Registered Industry/Enterprise Associations etc.
+💰 WHAT DO • The scheme provides financial assistance on reimbursement to
+YOU GET? beneficiaries.
+• The Scheme has envisaged three components to provide support: ‘Market
+Development Assistance’ and ‘Capacity Building of First Time Exporters
+(CBFTE)’, and Framework for International Market Intelligence
+Dissemination (IMID).
+• The ‘Capacity Building of First Time Exporters (CBFTE)’ component of the
+Scheme provides reimbursement to new Micro & Small Enterprises (MSE)
+exporters for costs incurred on certain defined exports.
+🚀 HOW TO • Applications can be made through the portal
+APPLY https://ic.msme.gov.in/IC_APP/IC_Welcome.aspx
+🔗 KEY • Website: https://ic.msme.gov.in/IC_APP/IC_Welcome.aspx
+LINKS
+💡 BEST Market Access
+SUITED FOR
+Page 83 of 107
+
+=== PAGE 84 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+National SC-ST Hub Scheme
+Ministry of Micro, Small & Medium Enterprises
+📌 WHAT IS The National SC-ST Hub Scheme helps SC/ST entrepreneurs start and grow
+THIS? businesses by providing support with funding, training, technology,
+marketing, and access to government procurement opportunities.
+🎯 • The objective of the Scheme is to provide professional support to
+OBJECTIVES Scheduled Caste and Scheduled Tribe entrepreneurs to fulfill the
+obligations under the Central Government Public Procurement Policy for
+Micro and Small Enterprises Order 2012, adopt applicable business
+practices and leverage the Stand-Up India initiatives. The National SC-ST
+Hub works leverages various sub-schemes of the Government for the
+benefit of the SC/ST entrepreneurs.
+✅ WHO • Existing and aspiring SC/ST entrepreneurs are the targeted beneficiaries.
+CAN APPLY?
+💰 WHAT DO • Special Credit Linked Capital Subsidy for technology enablement
+YOU GET? • Capacity building of the beneficiaries
+• 25% subsidy on purchase of plant & machinery/equipment or ₹25 lakh
+whichever is less.
+• Marketing and mentoring support through different programs, along with
+skills training and distribution of trade specific tool kits
+• Reimbursement of fees charged for bank loan processing, testing
+services, membership of Export Promotion Council, membership in Govt.
+promoted eCommerce Portals, Single Point Registration Scheme of NSI.
+🚀 HOW TO • The scheme is implemented through online provision developed on NSSH
+APPLY website. https://www.scsthub.in/
+🔗 KEY • Website: https://www.scsthub.in/
+LINKS • Guidelines:
+https://www.scsthub.in/sites/default/files/training/NSSH_Guidelines.pdf
+💡 BEST Capacity Building / Market Access
+SUITED FOR
+Page 84 of 107
+
+=== PAGE 85 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Atal Innovation Mission – Atal Tinkering Labs
+Atal Innovation Mission (AIM), NITI Aayog
+📌 WHAT IS Atal Tinkering Laboratories (ATLs) are being established in schools across
+THIS? India as a workspace where students can learn innovation skills.
+🎯 • Atal Innovation Mission is establishing Atal Tinkering Laboratories (ATLs)
+OBJECTIVES in schools across India. The objective is to foster curiosity, creativity, and
+imagination in young minds; and inculcate skills such as design mindset,
+computational thinking, adaptive learning, physical computing etc. ATL is
+a workspace where young minds can give shape to their ideas through
+hands on do-it-yourself mode; and learn innovation skills. Young children
+will get a chance to work with tools and equipment to understand the
+concepts of STEM (Science, Technology, Engineering and Math.
+✅ WHO • Schools in India (having at least Grade/Class VI to X) managed by
+CAN APPLY? State/Union Territory/Central Government, Local body
+(Municipality/Nagar Nigam), Private Trusts/Society or Tribal/Social
+welfare Department can apply for financial support in the form of ATL
+Grant-in-Aid
+💰 WHAT DO • An ATL school is eligible for grant-in-aid of ₹20 lakh, with ₹10 lakh for
+YOU GET? capital expense and remaining ₹10 lakh for operational and maintenance
+expenses over a period of five years
+🚀 HOW TO • Interested schools intending to apply for ATLs may visit the AIM website
+APPLY and submit their application online to the Atal Innovation Mission, NITI
+Aayog. https://aim.gov.in/
+🔗 KEY • All details with respect to ATL: https://aim.gov.in/atl-overview.php ;
+LINKS https://aim.gov.in/pdf/ATL-Guidebook.pdf
+💡 BEST Ideation (School-level)
+SUITED FOR
+Page 85 of 107
+
+=== PAGE 86 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Atal Incubation Centres (AICs)
+Atal Innovation Mission (AIM), NITI Aayog
+📌 WHAT IS Academic and non-academic institutions can apply to AIM to set up Atal
+THIS? Incubation Centres (AICs) that provide infrastructure and access to sectoral
+expertise to innovative startups.
+🎯 • Atal Incubation Centres (AICs) aim to promote and establish world-class,
+OBJECTIVES sector-specific incubation centres. The AICs provide physical
+infrastructure, access to sectoral experts for mentoring, business planning
+support, access to seed capital, industry partners, and capacity building,
+among others to encourage innovative startups.
+✅ WHO • Academic institutions such as higher educational institutes, R&D
+CAN APPLY? institutes, etc.
+• Non-academic institutions such as corporate sector enterprises,
+alternative investment funds registered with Securities and Exchange
+Board of India (SEBI),
+• Business accelerators, groups of individuals, and individuals, etc. are
+eligible to apply
+💰 WHAT DO Successful applicants would be provided grants-in-aid to set up the AIC for a
+YOU GET? period of 5 years to cover the capital and operational expenditures.
+• Up to ₹5 crore (in case no lab facilities are established) and Up to ₹10
+crore (in case of sector-specific lab facilities are established)
+• In the case of government applicants, no matching contribution is
+applicable.
+• In the case of non-government applicants, matching grants-in-aid shall be
+applicable in the range of 25% to 100%, based on the nature of the
+applicant.
+🚀 HOW TO • Interested applicants may visit https://aim.gov.in/aic-overview.php to
+APPLY know more.
+🔗 KEY • Operational Guidelines: https://aim.gov.in/pdf/AIC-Guidelines-
+LINKS Final_24Nov-2023.pdf
+💡 BEST Incubation
+SUITED FOR
+Page 86 of 107
+
+=== PAGE 87 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Atal Community Innovation Centres (ACIC)
+Atal Innovation Mission (AIM), NITI Aayog
+📌 WHAT IS Academic and non-academic institutions can apply to AIM to set up ACICs
+THIS? that provide infrastructure facilities and capacity building opportunities to
+entrepreneurs in aspiring cities.
+🎯 • Atal Community Innovation Centres (ACIC) are supported by the Atal
+OBJECTIVES Innovation Mission (AIM). It aims to offer infrastructure facilities and
+capacity building opportunities to potential entrepreneurs in aspiring
+regions.
+✅ WHO The following academic and non-academic applicants with a minimum of 3
+CAN APPLY? years of existence are eligible to apply:
+• Academic applicants: UGC and AICTE affiliated Universities / College;
+Educational Institutions like ITIs & other technical diploma colleges.
+• Non-academic applicants: Voluntary and other organizations with strong
+experience in the promotion of Science and Technology.
+💰 WHAT DO • Support up to ₹2.5 crore in multiple tranches, based on the approved
+YOU GET? budget made by the applicant.
+• Funding from AIM to cover 50% of total project.
+• Applicant to match the remaining contribution either through PPP or
+private contribution.
+🚀 HOW TO • Interested applicants may submit their applications online via
+APPLY https://aim.gov.in/
+• The applications are evaluated a Screening and Selection Committee.
+🔗 KEY • Operational Guidelines: https://aim.gov.in/pdf/Flag-
+LINKS O_Revised_ACIC_Guidelines_June-2022.pdf
+💡 BEST Ideation to Incubation (Underserved regions)
+SUITED FOR
+Page 87 of 107
+
+=== PAGE 88 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Scheme for Scale-up Support to Established
+Incubation Centres (EICs)
+Atal Innovation Mission (AIM), NITI Aayog
+📌 WHAT IS This Scheme helps established incubators expand their space, services,
+THIS? funding support, and infrastructure so they can support more startups.
+🎯 • Established Incubation Centres (EICs) are existing incubators who are
+OBJECTIVES supported by the AIM to further enhance their incubation capacity.
+• The aim is to refurbish the existing incubation space, enhance capabilities
+and capacity, including team, infrastructure, tools and equipment,
+services, seed funding support, outreach initiatives, training programs
+and/or other incubation related events.
+✅ WHO • EICs registered in India as a legal entity in public, private or public-private
+CAN APPLY? partnership mode.
+• Operational for a minimum of three years as of 1st August 2017.
+💰 WHAT DO • Grant-in-aid support of up to ₹10 crore will be provided to EICs.
+YOU GET? • Balanced utilisation of fund as per suggestive activity-wise breakup is to
+be ensured.
+• EICs would be eligible to apply and avail grant-in-aid under this scheme
+for a maximum of three times.
+🚀 HOW TO • Interested applicants may visit https://aim.gov.in/atal-incubation-
+APPLY centres.php to know more
+🔗 KEY • Operational Guidelines: https://aim.gov.in/pdf/EIC_guidelines_2019.pdf
+LINKS
+💡 BEST Incubation
+SUITED FOR
+Page 88 of 107
+
+=== PAGE 89 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Agriculture Infrastructure Financing Facility
+Agricultural & Farmers Welfare Department
+📌 WHAT IS The facility offers an interest subvention of 3% per annum on loans for viable
+THIS? projects focused on post-harvest management infrastructure and community
+farming assets.
+🎯 • Aims to mobilise medium-long term debt financing facility for investment
+OBJECTIVES in viable projects for post-harvest management infrastructure and
+community farming assets through incentives and financial support.
+✅ WHO • Funds to be provided by banks and financial institutions as loans to
+CAN APPLY? Primary Agricultural Credit Societies (PACS), Marketing Cooperative
+Societies, Farmer Producers Organizations(FPOs), Self Help Group
+(SHG), Farmers, Joint Liability Groups (JLG), Multipurpose Cooperative
+Societies, Agri-entrepreneurs, Startups and Central/State agency or Local
+Body sponsored Public Private Partnership Projects, State Agencies,
+Agricultural Produce Market Committees (Mandis), National & State
+Federations of Cooperatives, Federations of FPOs (Farmer Produce
+Organizations) and Federations of Self Help Groups (SHGs)
+💰 WHAT DO • Interest subvention of 3% per annum on loans up to ₹2 crore, available for
+YOU GET? a maximum period of 7 years.
+🚀 HOW TO • Applications are open round the year.
+APPLY • Visit https://agriinfra.dac.gov.in/Home/BeneficiaryRegistration
+🔗 KEY • Operational Guidelines:
+LINKS https://agriinfra.dac.gov.in/Content/DocAttachment/FINALSchemeGuideli
+nesAIF.pdf
+💡 BEST Scaling
+SUITED FOR
+Page 89 of 107
+
+=== PAGE 90 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Pradhan Mantri Mudra Yojana (PMMY)
+Ministry of Finance
+📌 WHAT IS PMMY helps small businesses and entrepreneurs get collateral-free loans so
+THIS? they can start, run, or expand income-generating activities.
+🎯 • MUDRA is a refinancing Institution. It provides loans of up to ₹20 lakh to
+OBJECTIVES income generating micro/small business entities engaged in trading,
+manufacturing, service, activities allied to agriculture, poultry, farming etc.
+✅ WHO • Individuals, Proprietary, Partnership Firm, Private Ltd. Company, Public
+CAN APPLY? Company, any other legal forms.
+💰 WHAT DO • Term Loan / Overdraft/ Working Capital / Composite Loan for acquiring
+YOU GET? assets are required.
+• Loans shall be granted across the following types of loans:
+• Shishu Loan: up to ₹50,000
+• Kishor Loan: ₹50,000 to ₹5 lakh
+• Tarun Loan: ₹5 lakh to ₹10 lakh
+• TarunPLus Loan: ₹10 lakh to ₹20 lakh.
+🚀 HOW TO • Mudra loans are available at all bank branches across the country. Mudra
+APPLY loans are also issued by NBFCs / MFIs who are engaged in financing for
+micro enterprises in small business activities.
+• It can also be applied through the Jan Samarth Business Loan Portal
+(https://www.jansamarth.in/business-loan-pradhan-mantri-mudra-yojana-
+scheme) or Udyamimitra portal (www.udyamimitra.in).
+🔗 KEY • Website: https://www.mudra.org.in/
+LINKS
+💡 BEST Credit Support
+SUITED FOR
+Page 90 of 107
+
+=== PAGE 91 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Stand-Up India
+Department of Financial Services
+📌 WHAT IS Stand-Up India helps SC/ST and women entrepreneurs get bank loans to
+THIS? start a new business for the first time.
+🎯 • The Scheme aims to finance Scheduled Caste (SC)/ Scheduled Tribe (ST)
+OBJECTIVES and/or women entrepreneurs by facilitating bank loans for setting up a
+greenfield project enterprise in manufacturing, services, trading sector and
+activities allied to agriculture.
+• The objective is to facilitate bank loans between ₹10 lakh and ₹1 crore to
+at least one SC or ST entrepreneur and at least one-woman entrepreneur
+per bank branch for setting up a greenfield enterprise.
+• This enterprise may be in manufacturing, services, agri-allied activities or
+the trading sector.
+✅ WHO • Applicant must be from the SC/ST category or a woman, above 18 years
+CAN APPLY? of age. Finance is provided only for greenfield enterprises.
+💰 WHAT DO • Eligible applicants are provided composite loan (inclusive of term loan and
+YOU GET? working capital) above ₹10 lakh and up to ₹1 crore.
+• The loan is repayable in 7 years with a maximum moratorium period of 18
+months.
+🚀 HOW TO • The Stand-Up India Scheme was launched on 05.04.2016 and was valid/
+APPLY operational till March 2025.
+🔗 KEY • https://static.pib.gov.in/WriteReadData/specificdocs/documents/2022/apr
+LINKS /doc20224535701.pdf
+💡 BEST Credit Support
+SUITED FOR
+Page 91 of 107
+
+=== PAGE 92 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Pradhan Mantri Formalisation of Micro Food
+Processing Enterprises (PMFME) Scheme
+Ministry of Food Processing Industries (MoFPI)
+📌 WHAT IS PMFME helps small food processing businesses become formal, improve
+THIS? their products, and grow by giving them financial support, training, and access
+to incubation facilities.
+🎯 • The Pradhan Mantri Formalisation of Micro Food Processing Enterprises
+OBJECTIVES (PMFME) Scheme promotes the formalisation of the unorganized
+microenterprises in the food processing sector through the establishment
+of Incubation Center based on One District One Product (ODOP).
+• To support establishment and utilization of Incubation Centers for ODOP
+and other products to be used on commercial basis
+• To provide training and capacity building support micro entrepreneurs/
+SHGs/FPOs/Cooperatives and groups through Incubation Centers at the
+training rates prescribed under PMFME Scheme based on National Skill
+Framework.
+✅ WHO • Existing individual microentrepreneurs/micro units/ SHGs/ FPOs/
+CAN APPLY? Individuals.
+💰 WHAT DO • Individual Units are provided with credit linked capital subsidy at 35% of
+YOU GET? the project cost with the maximum ceiling of ₹10 lakh per unit.
+• FPOs and Producer Cooperatives are provided with 35% grant with credit
+linkage.
+• SHGs are provided with seed capital of ₹40,000 per member for working
+capital and purchase of small tools.
+• Support through incubation centres.
+🚀 HOW TO To know more: https://pmfme.mofpi.gov.in/pmfme/#/Login
+APPLY
+🔗 KEY • Links:
+LINKS https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/sep
+/doc202592626401.pdf; https://pmfme.mofpi.gov.in/c6def576-2b36-
+4314-b37e-5b0f8ad9ddd9
+💡 BEST Formalisation / Scaling
+SUITED FOR
+Page 92 of 107
+
+=== PAGE 93 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+IFSCA Fintech Incentive Scheme
+International Financial Services Centres Authority (IFSCA)
+📌 WHAT IS The IFSCA Fintech Incentive Scheme gives grants to fintech startups to help
+THIS? them build products, test solutions, and grow from prototype to market at
+GIFT IFSC.
+🎯 • The IFSCA Fintech Incentive Scheme aims to promote the establishment
+OBJECTIVES of a world class FinTech Hub, at GIFT International Financial Services
+Centre (IFSC) India by providing financial support to the eligible fintech
+entities.
+• The Fintech Startup Grant is to be utilized for developing a product or a
+service and related ‘go-to market’ initiatives for a startup with a novel
+FinTech idea or solution.
+✅ WHO • FinTech startup with a novel FinTech idea or solution with the focus on
+CAN APPLY? converting that idea into a Minimum Viable Product.
+💰 WHAT DO • Fintech Startup Grant of up to ₹15 lakh
+YOU GET? • Proof of Concept (PoC) grant of up to ₹50 lakh
+• Sand-box grant of up to ₹30 lakh
+• Green FinTech Grant of up to ₹75 lakh
+• For accelerators - Accelerator Grant of up to ₹10 lakh.
+🚀 HOW TO To know more: https://ifsca.gov.in/Pages/Contents/HowToApply
+APPLY
+🔗 KEY • Website: https://ifsca.gov.in/Pages/Contents/FinTech
+LINKS • Operational Guidelines: https://ifsca.gov.in/Document/Developments/29-
+ifsca-fintech-incentive-scheme-202225042022010125.pdf
+💡 BEST Prototype to Market Entry
+SUITED FOR
+Page 93 of 107
+
+=== PAGE 94 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Technology Development-cum-Incubation
+Centers
+Department of Atomic Energy
+📌 WHAT IS Technology Development-cum-Incubation Centers provide startups and
+THIS? industries research facilities, and mentoring to turn strong technology ideas
+into real products and businesses.
+🎯 • The aim is to link India’s robust startup ecosystem to the nuclear sector by
+OBJECTIVES setting up Technology Development-cum-Incubation Centers for fostering
+synergy between research facilities and tech-entrepreneurs.
+• The main objective of Incubation Centres is to foster nucleation, incubation
+and growth of startups/enterprises based on technologies or available
+know-how.
+✅ WHO • Startups/MSMEs/Industries that have robust proposals, based on sound
+CAN APPLY? original ideas.
+💰 WHAT DO • Providing infrastructure and value-added services through prototyping
+YOU GET? facilities, test beds, pilot implementation, etc. to Indian industries; and
+creating a network of mentors who would provide sector-specific
+knowledge and real-world practical guidance.
+• Interested applicants are encouraged to visit the nearest incubation
+centres to collect more information on the Call for Proposals and benefits
+being provided.
+🚀 HOW TO • Interested stakeholder can visit the different Technology Development-
+APPLY cum-Incubation Centers for more details on benefits available and
+application process.
+• For example, in the case of the Indira Gandhi Centre for Atomic Research
+(IGCAR), eligible applicants can submit their proposal along with an
+Expression of Interest for incubation of the technology to Head, IC-IGCAR
+(incubation@igcar.gov.in).
+🔗 KEY • https://dae.gov.in/video/dae-launches-technology-development-cum-
+LINKS incubation-centres/
+• https://pib.gov.in/PressReleasePage.aspx?PRID=1883457
+• https://www.igcar.gov.in/incubation.html
+💡 BEST Incubation
+SUITED FOR
+Page 94 of 107
+
+=== PAGE 95 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Start-up Village Entrepreneurship Programme
+(SVEP)
+Ministry of Rural Development (MoRD)
+📌 WHAT IS SVEP helps rural SHG members and their families start small non-farm
+THIS? businesses by giving them local business support and access to capital.
+🎯 • Startup Village Entrepreneurship Programme (SVEP), the sub-scheme
+OBJECTIVES under Deendayal Antyodaya Yojana - National Rural Livelihoods Mission
+(DAY-NRLM) supports members of Self-Help Groups (SHGs) or their
+family members to set-up small enterprises in the non-farm sector.
+• The ecosystem comprises of a cadre of Community Resource Person -
+Enterprise Promotion (CRP-EP) who will provide business support
+services to entrepreneurs.
+✅ WHO • States/Union Territories (UTs) select blocks for the implementation on the
+CAN APPLY? SVEP which meet detailed criteria as defined in the guidelines.
+• Early-stage rural enterprises are the beneficiaries under the programme.
+💰 WHAT DO • A dedicated fund called Community Enterprise Fund (CEF) is set-up to
+YOU GET? provide capital for enterprises.
+🚀 HOW TO • Apply here: https://svep.nrlm.gov.in/landing
+APPLY
+🔗 KEY • Website: https://svep.nrlm.gov.in/landing
+LINKS • Guidelines: https://lakhpatididi.gov.in/wp-
+content/uploads/2024/02/SVEP_updated_Master_Circular.pdf
+• Other details:
+https://www.pib.gov.in/PressReleasePage.aspx?PRID=2081567&reg=3&
+lang=2
+💡 BEST Ideation to Enterprise Creation
+SUITED FOR
+Page 95 of 107
+
+=== PAGE 96 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Venture Capital Fund for Scheduled Castes (VCF-
+SC)
+Ministry of Social Justice and Empowerment
+📌 WHAT IS The Venture Capital Fund for Scheduled Castes (VCF-SC) helps SC
+THIS? entrepreneurs get affordable funding to start or grow businesses.
+🎯 • Ministry of Social Justice and Empowerment is implementing a Venture
+OBJECTIVES Capital Fund for Scheduled Castes with a corpus of ₹750 crore, intended
+for financial assistance to Scheduled Caste (VCF-SC) Entrepreneurs.
+• It is aimed at providing concessional finance to SC entrepreneurs, who will
+create wealth and value for society and at the same time will promote
+profitable businesses. This fund is managed by IFCI Venture Capital Ltd.
+✅ WHO • The projects/units being set up in manufacturing, services and allied
+CAN APPLY? sector, including startups and units being incubated in the technology
+business incubators, ensuring asset creation out of the funds deployed in
+the unit shall be considered.
+• For Companies applying for assistance up to ₹50 lakh: Companies
+having at least 51% shareholding by Scheduled Castes entrepreneurs
+for the past 6 months with management control.
+• For Companies applying for assistance above ₹50 lakh: Companies
+having at least 51% shareholding by Scheduled Castes (SC)
+entrepreneurs for the past 12 months for the past 12 months with
+management control.
+💰 WHAT DO • Loans from ₹10 lakh to ₹15 crore to SC entrepreneurs, at a 4% coupon
+YOU GET? rate.
+• For financial assistance up to ₹5 crore, up to 75% of the project cost are
+funded.
+• For financial assistance above ₹5 crore, up to 50% of the project cost are
+funded.
+🚀 HOW TO • Apply here: https://vcfsc.in/apply-online.html
+APPLY
+🔗 KEY • Website: https://vcfsc.in/index.html
+LINKS • Other: https://www.vcfsc.in/VCF-SC%20Brochure.pdf;
+https://www.pib.gov.in/PressReleasePage.aspx?PRID=2112696&reg=3&
+lang=2
+💡 BEST Scaling
+SUITED FOR
+Page 96 of 107
+
+=== PAGE 97 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Science Technology and Innovation (STI) Hubs
+for Development of Scheduled Caste (SC) and
+Scheduled Tribe (ST) Communities
+Department of Science and Technology (DST)
+📌 WHAT IS STI Hubs support local institutions in using science, technology, and
+THIS? innovation to improve livelihoods, preserve community knowledge, and
+create practical development solutions for SC and ST communities.
+🎯 • To capture the weakest linkages in the predominant livelihood systems of
+OBJECTIVES the SC and ST Communities and improving the livelihoods through
+Science and Technological intervention.
+• To harness, document, research, validate and conserve the Indigenous
+Knowledge Systems (IKS), skills and practices of different communities
+through inputs of science and technology.
+✅ WHO • Local Academic or S&T institutions, R&D Labs, S&T based Voluntary
+CAN APPLY? Organizations (NGOs) etc. having majority of SC or ST population in their
+catchment area.
+💰 WHAT DO • Financial support to establish an STI Hub.
+YOU GET? • This support can be used for equipment purchase, creation of small
+infrastructure, and common facility centres / construction costs for setting
+up the hub, as per DST norms.
+🚀 HOW TO • Please visit the DST website to know more:
+APPLY https://dst.gov.in/callforproposals/science-technology-and-innovation-sti-
+hubs-development-scheduled-caste-sc-and
+🔗 KEY • Website: https://dst.gov.in/callforproposals/science-technology-and-
+LINKS innovation-sti-hubs-development-scheduled-caste-sc-and
+• Operational Guidelines:
+https://dst.gov.in/sites/default/files/Science%20Technology%20and%20I
+nnovation%20%28STI%29%20Hubs%20for%20Development%20of%20
+Scheduled%20Caste%20%28SC%29%20and%20Scheduled%20Tribe%
+20%28ST%29%20Communities_1.pdf
+💡 BEST Incubation / Livelihood Innovation
+SUITED FOR
+Page 97 of 107
+
+=== PAGE 98 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+National Livestock Mission
+Department of Animal Husbandry & Dairying
+📌 WHAT IS The National Livestock Mission helps startups and institutions in animal
+THIS? husbandry build businesses, improve innovation, and strengthen the
+livestock value chain from production to market.
+🎯 • The National Livestock Mission (NLM) Scheme aims to develop
+OBJECTIVES entrepreneurs in the sector of animal husbandry in order to create the
+forward and backward linkages for the produce available at the
+unorganized sector with the organized sector.
+✅ WHO • Indian Council of Agricultural Research (ICAR) Institutes, Central
+CAN APPLY? Institutes, State Government University farms and other credible
+institutions and startups
+💰 WHAT DO • The Central Government will provide 100% assistance for conducting
+YOU GET? Extension, R&D and Innovation activities, based on the need and scope
+of the proposal shared by the applicant. The startups will also be
+incentivized for problem solving in the sheep, goat, poultry, pig, feed and
+fodder. The Department will conduct a Startup Grand Challenge
+Programme.
+🚀 HOW TO • The Central Agencies/ University farms will submit the proposal to the
+APPLY NLM division of the Department through their parent organization/ State
+Animal Husbandry Department. The parent organization/ Department
+shall approve and recommend the project before forwarding. Applications
+can be applied on the portal: https://nlm.udyamimitra.in/Login/Login
+🔗 KEY • Website: https://nlm.udyamimitra.in/
+LINKS • Operational Guidelines:
+https://nlm.udyamimitra.in/Home/OperationalGuidelines
+💡 BEST Credit / Subsidy
+SUITED FOR
+Page 98 of 107
+
+=== PAGE 99 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Mission on Advanced and High-Impact Research
+(MAHIR)
+Ministry of Power and Ministry of New and Renewable Energy
+📌 WHAT IS MAHIR supports startups, industry, and research institutions in developing
+THIS? and testing advanced power and clean-energy technologies.
+🎯 • The Ministry of Power and Ministry of New and Renewable Energy have
+OBJECTIVES launched a National Mission, titled “Mission on Advanced and High-Impact
+Research (MAHIR)”, to identify emerging technologies in the power sector,
+to facilitate indigenous research, development, and demonstration of said
+latest and emerging technologies, at scale, for deployment within and
+outside India.
+✅ WHO • Academia, Industry, Startups and R&D Institutions, and similar entities,
+CAN APPLY? working in the fields: Carbon Capture & Utilization, Green hydrogen for
+mobility (High Efficiency Fuel Cell), Automation and Artificial Intelligence:
+indigenous development of the eco-system, Geothermal Energy,
+Alternatives to Lithium-Ion storage batteries.
+💰 WHAT DO • The financial support rendered under this program is subjective to the
+YOU GET? nature of the project, budgetary requirements of the same, the
+infrastructure required to implement it, in addition to the research area it
+falls under.
+🚀 HOW TO • Interested applicants may learn more about the initiative and its
+APPLY application process on
+https://cpri.res.in/sites/default/files/MAHIR_Call%20for%20proposals.pdf
+🔗 KEY • Website: https://cpri.res.in/en/content/mahir
+LINKS • Operational Guidelines and others:
+https://static.pib.gov.in/WriteReadData/specificdocs/documents/2023/jun/
+doc202367209801.pdf ;
+https://static.pib.gov.in/WriteReadData/specificdocs/documents/2023/jun/
+doc202367209801.pdf ;
+https://sansad.in/getFile/loksabhaquestions/annex/184/AU5414_Ie1brM.
+pdf?source=pqals
+💡 BEST R&D to Pilot
+SUITED FOR
+Page 99 of 107
+
+=== PAGE 100 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Yuva Sahakar – Cooperative Enterprise Support
+and Innovation Scheme
+Ministry of Cooperation
+📌 WHAT IS Yuva Sahakar helps newly formed cooperative societies get easier long-term
+THIS? finance and interest support.
+🎯 • The Scheme focuses on supporting newly formed cooperative societies
+OBJECTIVES with innovative and value chain–enhancing ideas through financial
+assistance and incentives.
+• The scheme is linked with a dedicated Cooperative Startup and Innovation
+Fund and provides special encouragement to cooperatives in
+Northeastern Region, Aspirational Districts, and those led by women,
+SC/ST, and PwD members.
+• The aim is to encourage young entrepreneurs to establish and manage
+cooperative enterprises. And to strengthen the cooperative ecosystem by
+enabling sustainable and scalable projects.
+✅ WHO • Newly formed cooperative societies.
+CAN APPLY?
+💰 WHAT DO • Provides long-term financial support to cooperative startups.
+YOU GET? • Offers a 2% interest concession on term loans.
+• Encourages innovation and new business ideas.
+• Supports young entrepreneurs in the cooperative sector.
+• Allows convergence with other government subsidies.
+🚀 HOW TO • https://www.ncdc.in/documents/other/3908071119Yuva.pdf
+APPLY
+🔗 KEY • https://www.ncdc.in/documents/booklet/3812280223E-Book-NCDC.pdf
+LINKS • https://www.ncdc.in/documents/other/3908071119Yuva.pdf
+💡 BEST Credit
+SUITED FOR
+Page 100 of 107
+
+=== PAGE 101 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Entrepreneurship and Skill Development
+Programme (ESDP)
+Ministry of Micro, Small and Medium Enterprises
+📌 WHAT IS ESDP helps aspiring and existing entrepreneurs build business and practical
+THIS? skills so they can start, manage, and grow MSMEs.
+🎯 • To motivate people from different sections of society to consider
+OBJECTIVES entrepreneurship as a career option, by imparting technical and business
+skills training.
+• To provide entrepreneurship training to entrepreneurs in domains
+including e-commerce, software, biotech, modern agriculture, genomics
+and others
+• To support the establishment of new MSMEs and enhance growth of
+existing ones.
+✅ WHO • Existing or aspiring entrepreneurs.
+CAN APPLY? • 40% of the beneficiaries are required to be from weaker sections of society
+including SC/ST/Women/Physically Handicapped.
+💰 WHAT DO • Training is provided under three modules – Entrepreneurship Awareness
+YOU GET? Program, Entrepreneurship-cum-Skill Development Program, and
+Management Development Program.
+• Hands-on practice or demonstration to upgrade skills of prospective
+entrepreneurs.
+🚀 HOW TO • Apply through the websites of MSME-DFOs, MSME-TC and other
+APPLY Implementing Agencies under ESDP scheme
+🔗 KEY • Website: https://msmedi.dcmsme.gov.in/
+LINKS • Operational Guidelines:
+https://msmedi.dcmsme.gov.in/Manuals/Approved%20ESDP%20Guideli
+nes_new.pdf
+💡 BEST Capacity Building
+SUITED FOR
+Page 101 of 107
+
+=== PAGE 102 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+SECTION 4
+Other Initiatives under PSUs, Regulators, and States /
+UTs
+Startup Initiatives of Public Sector Undertakings (PSUs) and Regulators
+PSU Link to Initiatives
+ONGC Startup Fund
+Oil and Natural Gas
+Corporation (ONGC)
+https://startup.ongc.co.in/web/ongcstartup
+SanRachna Platform
+Bharat Heavy Electricals
+Limited (BHEL)
+https://sanrachna.bhel.in/home
+Project Ankur / Ankur Fund
+https://ebiz.bpc.co.in/BPCLStartup/
+Bharat Petroleum (BPCL)
+Launch Pad for Entrepreneurship
+https://www.bharatpetroleum.in/bharat-petroleum-
+for/startups/launch-pad-for-entrepreneurship
+CIL Innovation & Incubation Centre (CII Centre)
+Coal India (CIL)
+https://ciicentre.iitism.ac.in/
+Pankh
+GAIL (India) Limited
+https://gailebank.gail.co.in/GSUICBG/frmStartUpGAIL.aspx;
+https://www.gailonline.com/PressRelease_01042025.html
+HP Udgam
+Hindustan Petroleum (HPCL)
+https://startup.hpcl.co.in/HPCLStartup/index.jsp
+IndS_UP StartUp Scheme
+Indian Oil (IOCL)
+https://iocl.com/pages/r-and-d-centre
+Startup Connect
+Steel Authority of India
+Limited (SAIL)
+https://webapp.sailcorp.in/startup/
+Start Up Fund
+Oil India (OIL)
+https://www.oil-india.com/start-fund
+Page 102 of 107
+
+=== PAGE 103 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+PSU Link to Initiatives
+EngSUI
+Engineers India Limited
+https://www6.eil.co.in/engsui/Open/Default.aspx ;
+https://www.engineersindia.com/startup-india@eil
+BDL Start Ups
+Bharat Dynamics Limited
+https://bdl-india.in/en/start-ups
+Ubharte Sitaare
+EXIM Bank
+https://www.sidbiventure.co.in/ubharte_sitaare_fund.html
+Regulatory sandbox
+Reserve Bank of India
+https://fintech.rbi.org.in/FS_Publications?id=1262
+Insurance Regulatory and
+Regulatory sandbox
+Development Authority of
+India (IRDAI) https://irdai.gov.in/document-detail?documentId=6541188
+International Financial
+Regulatory sandbox
+Services Centres Authority
+(IFSCA) https://ifsca.gov.in/Legal/Index?MId=IeTjhim8HvY=
+Regulatory sandbox
+Securities and Exchange
+Board of India (SEBI) https://www.sebi.gov.in/legal/circulars/jun-2021/revised-
+framework-for-regulatory-sandbox_50521.html
+Page 103 of 107
+
+=== PAGE 104 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Startup Initiatives of State and Union Territories
+States / UTs Link to Initiatives
+Andaman and Nicobar https://southandaman.nic.in/document/innovation-and-start-up-policy-
+Islands 2018/
+Andhra Pradesh https://apis.ap.gov.in/home/
+Arunachal Pradesh https://www.startup.arunachal.gov.in/startup-policy
+Assam http://startup.assam.gov.in/
+Bihar https://startup.bihar.gov.in/
+Chandigarh https://share.google/Cpz8sLzpTnVUvRl58
+Chhattisgarh https://invest.cg.gov.in/startup
+Dadra and Nagar Haveli https://swp.dddgov.in/assets/pdf/Notification_IPS_2022_DNH_DD.pdf
+and Daman and Diu
+Delhi https://industries.delhi.gov.in/sites/default/files/Industries/marquee-
+files/draft_delhi_startup_policy.pdf
+Goa https://www.startup.goa.gov.in/index
+Gujarat https://startup.gujarat.gov.in/home
+Haryana https://startupharyana.gov.in/
+Himachal Pradesh https://emerginghimachal.hp.gov.in/startup/
+Jammu and Kashmir https://startupjk.com/
+Jharkhand https://abvil.jharkhand.gov.in/documents/Policy2023.pdf
+Karnataka https://www.missionstartupkarnataka.org/?en
+Kerala https://startupmission.kerala.gov.in/
+Ladakh https://ediiladakh.org/
+Lakshadweep https://lakshadweep.gov.in/notice/25-capital-investment-subsidy/
+Page 104 of 107
+
+=== PAGE 105 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+States / UTs Link to Initiatives
+Madhya Pradesh https://startup.mp.gov.in/
+Maharashtra https://msins.in/
+Manipur https://startupmanipur.in/
+Meghalaya https://www.primemeghalaya.com/
+Mizoram https://startupmizoram.com/
+Nagaland https://www.startupnagaland.in/
+Odisha https://startupodisha.gov.in/
+Puducherry https://industry.py.gov.in/startup-policy-2019
+Punjab https://pbindustries.gov.in/startup/home
+Rajasthan https://istart.rajasthan.gov.in/
+Sikkim https://sikkimentrepreneur.org
+Tamil Nadu https://startuptn.in/
+Telangana https://startup.telangana.gov.in/
+Tripura https://startup.tripura.gov.in/
+Uttar Pradesh https://startinup.up.gov.in/
+Uttarakhand https://startuputtarakhand.uk.gov.in/
+West Bengal https://www.startupbengal.in/
+Page 105 of 107
+
+=== PAGE 106 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+SECTION 5
+Appendix Definitions & Glossary
+Key terms used throughout this Playbook
+Term Definition / Explanation
+DPIIT-Recognised A startup officially recognised by the Department for Promotion of
+Startup Industry & Internal Trade (DPIIT) as per notified eligibility criteria.
+Fund of Funds A fund that invests in other venture funds (AIFs) rather than directly in
+(FoF) startups. Startups receive funding when their venture fund makes an
+investment.
+AIF (Alternative SEBI-registered private investment fund that pools capital from
+Investment Fund) investors and deploys into startups/companies.
+Credit Guarantee A government-backed promise to repay a lender if the borrower
+(startup) defaults. Enables startups to access loans without pledging
+collateral.
+Grant Non-repayable financial assistance provided by the government. The
+startup does not repay the money and does not give equity.
+Equity Investment Capital provided in exchange for ownership stake (shares) in the
+startup. The investor becomes a part-owner.
+Convertible Debt A loan that can convert into equity at a later stage. Used when valuation
+is uncertain at the time of investment.
+Proof of Concept Early demonstration that an idea or technology works, typically in a lab
+(PoC) or controlled setting. Pre-prototype stage.
+TRL (Technology A 1–9 scale measuring how mature a technology is. TRL-1 = basic
+Readiness Level) research; TRL-9 = fully commercial system.
+TBI (Technology An institution providing physical space, mentoring, seed funding and
+Business networks to early-stage technology startups.
+Incubator)
+Incubator / Organisations that support startups at early stages (incubator) or fast-
+Accelerator track growth of already-validated startups (accelerator).
+EMD (Earnest A security deposit required in government tenders. DPIIT-recognised
+Money Deposit) startups are exempt from EMD on GeM.
+SEBI Securities and Exchange Board of India.
+CGPDTM Office of the Controller General of Patents, Designs & Trade Marks.
+Startup-Specific In this Playbook: schemes where startups are the primary or sole
+named eligible beneficiary in the scheme’s eligibility criteria.
+Startup-Relevant In this Playbook: schemes with broader eligibility (MSMEs, companies,
+institutions) that startups commonly access and benefit from.
+Page 106 of 107
+
+=== PAGE 107 ===
+PLAYBOOK OF GOVERNMENT SCHEMES AND INITIATIVES FOR STARTUPS
+Start Your Startup
+Journey Today!
+Page 107 of 107
+

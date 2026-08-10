@@ -44,3 +44,9 @@ logs/
 .env*.local
 mcp/node_modules/
 mcp/.env*
+
+# IDE and tool logs
+.playwright-cli/
+.opencode/
+.mimocode/
+*.sql

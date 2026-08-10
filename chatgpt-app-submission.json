@@ -1,0 +1,192 @@
+{
+  "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
+  "schema_version": 1,
+  "app_info": {
+    "display_name": "Agri Updates Publishing",
+    "subtitle": "Draft and schedule posts",
+    "description": "Agri Updates Publishing helps editors search published Agri Updates coverage, open full article records, create CMS drafts from finalized copy, upload or generate post images, attach images to posts, and schedule approved posts for publication.",
+    "category": "NEWS"
+  },
+  "tools": {
+    "search_published_posts": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only searches published post records and returns public article metadata without changing any stored content.",
+        "open_world_justification": "Does not create, update, or publish content to any public or third-party system.",
+        "destructive_justification": "Does not delete, overwrite, revoke, or trigger irreversible changes."
+      }
+    },
+    "get_published_post": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only retrieves one published article and its canonical URLs from existing site data.",
+        "open_world_justification": "Does not write to the CMS, the public site, or any outside service.",
+        "destructive_justification": "Does not remove or alter any records."
+      }
+    },
+    "list_recent_published_posts": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only lists recent published posts for discovery and never mutates content or schedules.",
+        "open_world_justification": "Does not post, upload, or update anything on the internet or in third-party systems.",
+        "destructive_justification": "Does not delete, overwrite, or trigger irreversible actions."
+      }
+    },
+    "create_draft_post": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Creates a new draft post record in the Agri Updates CMS and therefore changes stored editorial state.",
+        "open_world_justification": "Creates a private draft only and does not itself publish content to a public URL.",
+        "destructive_justification": "Adds a new draft without deleting or overwriting existing records."
+      }
+    },
+    "generate_post_image": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Generates a new image and uploads it into Agri Updates storage, which creates new persisted content.",
+        "open_world_justification": "Writes a publicly reachable image asset URL that can be used on the live site.",
+        "destructive_justification": "Creates a new asset and does not delete or overwrite existing content."
+      }
+    },
+    "upload_post_image": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Uploads an image into the Agri Updates storage bucket and returns a new stored asset URL.",
+        "open_world_justification": "Creates a publicly reachable media asset on the Agri Updates domain.",
+        "destructive_justification": "Adds a new file and does not remove or irreversibly alter existing records."
+      }
+    },
+    "attach_post_image": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Updates a post record to point at a specific image URL, which changes CMS content state.",
+        "open_world_justification": "Can change the image shown on a published article, so it can affect public site output.",
+        "destructive_justification": "Updates metadata but does not delete posts, assets, or access."
+      }
+    },
+    "schedule_post": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": true,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Moves a post into scheduled status and writes its future publish timestamp in the CMS.",
+        "open_world_justification": "Commits a post to the automated publishing workflow that later makes content public on the site.",
+        "destructive_justification": "Schedules a post but does not delete content or perform irreversible destructive actions."
+      }
+    }
+  },
+  "test_cases": [
+    {
+      "description": "Search published coverage before citing a story.",
+      "user_prompt": "Find published Agri Updates posts about soil health startups from this year.",
+      "file_attachment_urls": null,
+      "tools_triggered": "search_published_posts",
+      "expected_output": "Returns matching published posts with public and canonical URLs that can be cited or opened next.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Open a full published article by slug.",
+      "user_prompt": "Open the published Agri Updates post with slug soil-health-update.",
+      "file_attachment_urls": null,
+      "tools_triggered": "get_published_post",
+      "expected_output": "Returns the full published article body and its canonical/public URLs.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Browse the newest published posts in one category.",
+      "user_prompt": "List the 5 most recent published Grants posts from Agri Updates.",
+      "file_attachment_urls": null,
+      "tools_triggered": "list_recent_published_posts",
+      "expected_output": "Returns recent published posts filtered to the requested category.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Create a new editorial draft from finalized HTML copy.",
+      "user_prompt": "Create an Agri Updates draft titled State Grant Opens for Climate-Smart Irrigation using this finalized HTML and tag it with irrigation and grants.",
+      "file_attachment_urls": null,
+      "tools_triggered": "create_draft_post",
+      "expected_output": "Creates a draft-only CMS record and returns the post ID, slug, admin URL, and future public URL.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Generate a fallback editorial image on the server.",
+      "user_prompt": "Generate a landscape hero image for a story about precision irrigation for small farms.",
+      "file_attachment_urls": null,
+      "tools_triggered": "generate_post_image",
+      "expected_output": "Creates an image asset and returns the stored public image URL with storage metadata.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Upload an existing image and attach it to a post.",
+      "user_prompt": "Upload this image URL for the draft and attach it to post 22222222-2222-4222-8222-222222222222.",
+      "file_attachment_urls": null,
+      "tools_triggered": "upload_post_image, attach_post_image",
+      "expected_output": "Uploads the remote image into Agri Updates storage and updates the target post to use that image URL.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Schedule an approved draft for publication.",
+      "user_prompt": "Schedule post 22222222-2222-4222-8222-222222222222 for 2026-06-03T08:30:00+05:30.",
+      "file_attachment_urls": null,
+      "tools_triggered": "schedule_post",
+      "expected_output": "Changes the post to scheduled status and stores the requested publish timestamp.",
+      "expected_output_url": null
+    }
+  ],
+  "negative_test_cases": [
+    {
+      "description": "Do not trigger the app for pure rewriting requests that stay inside chat.",
+      "user_prompt": "Rewrite this agriculture update so it sounds more human and concise, but do not save anything.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The app should not be invoked because the request only asks for in-chat writing help.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not trigger for unrelated weather lookups.",
+      "user_prompt": "What is the weather in Pune tomorrow morning?",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The app should not be invoked because weather data is outside the MCP server's publishing workflows.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not imply unsupported live publishing.",
+      "user_prompt": "Publish this article live on Agri Updates right now.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The app should not be invoked because the exposed MCP tool set does not support immediate publishing.",
+      "expected_output_url": null
+    }
+  ]
+}

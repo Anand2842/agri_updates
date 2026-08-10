@@ -3,8 +3,23 @@ import { getRequiredSupabaseClientConfig, getSupabaseServiceRoleKey } from '@/li
 
 const { url: supabaseUrl, publishableKey: supabaseAnonKey } = getRequiredSupabaseClientConfig()
 
+let browserClient: SupabaseClient | null = null
+
+function getBrowserClient() {
+    if (!browserClient) {
+        browserClient = createClient(supabaseUrl, supabaseAnonKey)
+    }
+    return browserClient
+}
+
 // Client-side Supabase client (uses anon key with RLS)
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = new Proxy({} as SupabaseClient, {
+    get(_target, prop, receiver) {
+        const client = getBrowserClient()
+        const value = Reflect.get(client, prop, receiver)
+        return typeof value === 'function' ? value.bind(client) : value
+    }
+})
 
 let adminClient: SupabaseClient | null = null
 
