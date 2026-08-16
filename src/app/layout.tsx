@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
-import { IBM_Plex_Sans, Newsreader } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 
 export const viewport = {
   width: 'device-width',
@@ -12,9 +12,9 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.agriupdates.online'), // Replace with actual domain when live
   title: {
     template: '%s | Agri Updates',
-    default: 'Agri Updates | Agricultural Jobs & Innovation Platform for India',
+    default: 'Agri Updates | Agricultural Jobs, Funding & Innovation Platform',
   },
-  description: "India's trusted platform for agricultural jobs, grants & funding, startup news, and agri-warnings.",
+  description: "India's premier intelligence and career desk for agriculture jobs, grants & funding, startup news, and agri-warnings.",
   openGraph: {
     title: 'Agri Updates | AgriTech Careers & News',
     description: 'India\'s trusted platform for agricultural jobs, grants & funding, startup, and agri-warnings.',
@@ -54,17 +54,17 @@ import CookieConsent from "@/components/ui/CookieConsent";
 import MobileBottomNav from "@/components/layout/MobileBottomNav";
 import { getPublicNavigationCategories, getPublicCategories } from "@/lib/public-categories";
 
-const ibmPlexSans = IBM_Plex_Sans({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-ibm-plex-sans",
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-inter",
   display: "swap",
 });
 
-const newsreader = Newsreader({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-newsreader",
+  weight: ["600", "700", "800"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -99,7 +99,8 @@ export default async function RootLayout({
   return (
     <html lang="en-IN" className="scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body
-        className={`${ibmPlexSans.variable} ${newsreader.variable} antialiased text-stone-900 font-sans flex min-h-screen flex-col`}
+        suppressHydrationWarning
+        className={`${inter.variable} ${playfair.variable} antialiased text-slate-900 bg-slate-50 font-sans flex min-h-screen flex-col`}
       >
         <Script
           id="gtm-script"

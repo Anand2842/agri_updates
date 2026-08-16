@@ -175,3 +175,16 @@ export type Ad = {
     clicks: number
     created_at: string
 }
+
+export type UserRole = 'admin' | 'moderator' | 'author' | 'user'
+
+export type UserProfile = {
+    id: string
+    role: UserRole
+    full_name: string | null
+    avatar_url: string | null
+    updated_at: string | null
+    email?: string | null
+    created_at?: string | null
+    last_sign_in_at?: string | null
+}

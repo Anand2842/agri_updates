@@ -6,7 +6,7 @@ import { Menu, Search, X } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
 import { createClient } from '@/utils/supabase/client';
-import { PublicCategoryDescriptor, getCategoryAccentClasses } from '@/lib/public-categories';
+import { PublicCategoryDescriptor } from '@/lib/public-categories';
 
 type NavbarProps = {
     categories: PublicCategoryDescriptor[];
@@ -72,8 +72,6 @@ export default function Navbar({ categories }: NavbarProps) {
         return null;
     }
 
-    const isHomePage = pathname === '/';
-
     const isActive = (href: string) => {
         if (href === '/updates') return pathname === '/updates';
         if (href === '/jobs') return pathname?.startsWith('/jobs');
@@ -83,188 +81,215 @@ export default function Navbar({ categories }: NavbarProps) {
 
     return (
         <>
-            <header className="hidden md:block border-b border-stone-200 bg-[var(--color-paper-elevated)]/95 backdrop-blur-sm">
+            {/* Desktop Header */}
+            <header className="hidden md:block sticky top-0 z-50 border-b border-slate-200/80 bg-white/90 backdrop-blur-md transition-all shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
                 <div className="editorial-shell">
-                    <div className="flex items-center justify-between border-b border-stone-200 py-3 text-[11px] uppercase tracking-[0.24em] text-stone-500">
-                        <div className="flex items-center gap-4">
-                            <span className="font-semibold text-stone-700">Agri Updates</span>
+                    {/* Top utility row */}
+                    <div className="flex items-center justify-between py-2 border-b border-slate-100 text-[11px] font-medium text-slate-500">
+                        <div className="flex items-center gap-3">
+                            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-semibold">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                Live Intelligence Desk
+                            </span>
+                            <span className="text-slate-300">•</span>
+                            <span>{currentDate}</span>
                         </div>
                         <div className="flex items-center gap-4">
-                            <span className="hidden lg:inline">{currentDate}</span>
                             {user ? (
                                 <>
-                                    <Link href="/admin/posts" className="hover:text-black">Dashboard</Link>
-                                    <button onClick={handleSignOut} className="hover:text-[var(--color-vermilion)]">Sign Out</button>
+                                    <Link href="/admin/posts" className="hover:text-slate-900 font-semibold">Dashboard</Link>
+                                    <button onClick={handleSignOut} className="hover:text-rose-600 font-medium">Sign Out</button>
                                 </>
                             ) : (
                                 <>
-                                    <Link href="/login" className="hover:text-black">Login</Link>
-                                    <Link href="/newsletter" className="font-semibold text-[var(--color-forest)] hover:text-black">Subscribe</Link>
+                                    <Link href="/login" className="hover:text-slate-900 font-semibold">Staff Login</Link>
+                                    <Link href="/newsletter" className="font-semibold text-emerald-700 hover:text-emerald-800">Get Daily Alerts</Link>
                                 </>
                             )}
                         </div>
                     </div>
 
-                    <div className={`grid gap-6 border-b border-stone-200 ${isHomePage ? 'grid-cols-[1fr_auto] py-10' : 'grid-cols-[auto_1fr_auto] items-center py-6'}`}>
-                        <div className={isHomePage ? 'max-w-2xl' : ''}>
-                            <Link href="/" className="block">
-                                <h1 className={`${isHomePage ? 'text-6xl lg:text-7xl' : 'text-4xl lg:text-5xl'} font-black uppercase tracking-[-0.05em] text-[var(--color-graphite)]`}>
-                                    AGRI UPDATES
-                                </h1>
+                    {/* Main branding and search bar */}
+                    <div className="flex items-center justify-between py-3.5 gap-8">
+                        <div className="flex items-center gap-6">
+                            <Link href="/" className="group flex items-center gap-3">
+                                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-800 flex items-center justify-center text-white font-black text-lg shadow-sm group-hover:scale-105 transition-transform">
+                                    A
+                                </div>
+                                <div>
+                                    <span className="block font-black text-xl tracking-tight text-slate-900 leading-none">
+                                        AGRI UPDATES
+                                    </span>
+                                    <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400 mt-0.5">
+                                        Agriculture Intelligence & Careers
+                                    </span>
+                                </div>
                             </Link>
-                            {isHomePage ? (
-                                <p className="mt-4 max-w-xl text-lg leading-7 text-stone-600">
-                                    A calm, global desk for agriculture news, research, capital flows, careers, startup signals, and field warnings.
-                                </p>
-                            ) : (
-                                <p className="mt-2 text-sm uppercase tracking-[0.18em] text-stone-500">
-                                    Markets, science, careers, and urgent notices from the agri ecosystem
-                                </p>
-                            )}
                         </div>
 
-                        {isHomePage ? (
-                            <div className="min-w-[280px] justify-self-end border-l border-stone-200 pl-8">
-                                <p className="eyebrow-label mb-4">Today&apos;s Focus</p>
-                                <div className="space-y-3 text-sm leading-6 text-stone-600">
-                                    <p>Research pipelines, startup financing, and verified hiring.</p>
-                                    <Link href="/updates" className="inline-flex items-center gap-2 font-semibold text-[var(--color-forest)] hover:text-black">
-                                        View all updates
-                                        <span aria-hidden="true">→</span>
-                                    </Link>
-                                </div>
-                            </div>
-                        ) : (
-                            <form onSubmit={handleSearch} className="mx-8 flex max-w-md items-center rounded-full border border-stone-300 bg-white px-4 py-2">
-                                <Search className="h-4 w-4 text-stone-400" />
+                        {/* Search input right in the center */}
+                        <form onSubmit={handleSearch} className="flex-1 max-w-lg">
+                            <div className="relative flex items-center">
+                                <Search className="absolute left-3.5 h-4 w-4 text-slate-400" />
                                 <input
                                     type="text"
                                     value={searchQuery}
                                     onChange={(event) => setSearchQuery(event.target.value)}
-                                    placeholder="Search reporting, grants, jobs..."
-                                    className="w-full bg-transparent px-3 py-1 text-sm text-stone-800 outline-none placeholder:text-stone-400"
+                                    placeholder="Search news, ICAR grants, agritech jobs, tenders..."
+                                    className="w-full pl-10 pr-4 py-2 bg-slate-100/80 hover:bg-slate-100 focus:bg-white border border-transparent focus:border-emerald-500 rounded-full text-xs text-slate-800 placeholder:text-slate-400 outline-none transition-all focus:ring-2 focus:ring-emerald-500/10 focus:shadow-sm"
                                 />
-                            </form>
-                        )}
+                            </div>
+                        </form>
+
+                        {/* Action CTA */}
+                        <div className="flex items-center gap-3">
+                            <Link
+                                href="/jobs"
+                                className="px-3.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+                            >
+                                Post / Find Jobs
+                            </Link>
+                            <Link
+                                href="/newsletter"
+                                className="px-4 py-1.5 text-xs font-semibold text-white bg-emerald-700 hover:bg-emerald-800 rounded-lg shadow-sm transition-all active:scale-95"
+                            >
+                                Subscribe Free
+                            </Link>
+                        </div>
                     </div>
 
-                    <nav className="flex items-center justify-between gap-6 py-4">
-                        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-700">
-                            {categories.map((category) => (
-                                <Link
-                                    key={category.href}
-                                    href={category.href}
-                                    className={`border-b pb-1 transition-colors ${isActive(category.href)
-                                        ? 'border-[var(--color-graphite)] text-[var(--color-graphite)]'
-                                        : 'border-transparent hover:border-stone-400 hover:text-black'
-                                    }`}
-                                >
-                                    {category.label}
-                                </Link>
-                            ))}
+                    {/* Category Navigation Pills */}
+                    <nav className="flex items-center justify-between gap-4 py-2 border-t border-slate-100 overflow-x-auto no-scrollbar">
+                        <div className="flex items-center gap-1 text-xs font-medium">
+                            {categories.map((category) => {
+                                const active = isActive(category.href);
+                                return (
+                                    <Link
+                                        key={category.href}
+                                        href={category.href}
+                                        className={`px-3 py-1.5 rounded-lg transition-all whitespace-nowrap ${
+                                            active
+                                                ? 'bg-slate-900 text-white font-semibold shadow-xs'
+                                                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                                        }`}
+                                    >
+                                        {category.label}
+                                    </Link>
+                                );
+                            })}
                         </div>
-                        <Link href="/search" className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-stone-500 transition-colors hover:text-black">
-                            Search
-                            <Search className="h-4 w-4" />
+                        <Link
+                            href="/updates"
+                            className="text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 whitespace-nowrap"
+                        >
+                            All Sections →
                         </Link>
                     </nav>
                 </div>
             </header>
 
-            <div className="md:hidden sticky top-0 z-50 border-b border-stone-200 bg-[var(--color-paper-elevated)]/95 backdrop-blur-sm">
+            {/* Mobile Sticky Header */}
+            <div className="md:hidden sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur-md">
                 <div className="flex items-center justify-between px-4 py-3">
-                    <Link href="/" className="block" onClick={() => setIsMenuOpen(false)}>
-                        <span className="block text-xl font-black uppercase tracking-[-0.05em] text-[var(--color-graphite)]">AGRI UPDATES</span>
+                    <Link href="/" className="flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
+                        <div className="w-7 h-7 rounded-lg bg-emerald-700 flex items-center justify-center text-white font-black text-sm">
+                            A
+                        </div>
+                        <span className="text-lg font-black uppercase tracking-tight text-slate-900">AGRI UPDATES</span>
                     </Link>
 
-                    <button
-                        className="rounded-full border border-stone-200 p-2 text-stone-700 transition-colors hover:bg-white"
-                        onClick={() => setIsMenuOpen(true)}
-                        aria-label="Open Menu"
-                    >
-                        <Menu className="h-5 w-5" />
-                    </button>
+                    <div className="flex items-center gap-2">
+                        <Link
+                            href="/search"
+                            className="rounded-full p-2 text-slate-600 hover:bg-slate-100"
+                            aria-label="Search"
+                        >
+                            <Search className="h-4 w-4" />
+                        </Link>
+                        <button
+                            className="rounded-full p-2 text-slate-700 hover:bg-slate-100"
+                            onClick={() => setIsMenuOpen(true)}
+                            aria-label="Open Menu"
+                        >
+                            <Menu className="h-5 w-5" />
+                        </button>
+                    </div>
                 </div>
             </div>
 
+            {/* Mobile Drawer */}
             {isMenuOpen && (
                 <div
-                    className="md:hidden fixed inset-0 z-[60] bg-black/30 backdrop-blur-sm"
+                    className="md:hidden fixed inset-0 z-[60] bg-slate-900/40 backdrop-blur-xs"
                     onClick={() => setIsMenuOpen(false)}
                 />
             )}
 
-            <div className={`md:hidden fixed inset-y-0 right-0 z-[70] w-[88%] max-w-[360px] transform bg-[var(--color-paper-elevated)] shadow-2xl transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className={`md:hidden fixed inset-y-0 right-0 z-[70] w-[88%] max-w-[340px] transform bg-white shadow-2xl transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                 <div className="flex h-full flex-col">
-                    <div className="flex items-center justify-between border-b border-stone-200 px-5 py-4">
+                    <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
                         <div>
-                            <p className="eyebrow-label mb-1">Sections</p>
-                            <p className="text-sm text-stone-500">Browse the full public desk</p>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-700">Sections</p>
+                            <p className="text-xs text-slate-500">Agri Updates Editorial</p>
                         </div>
                         <button
                             onClick={() => setIsMenuOpen(false)}
-                            className="rounded-full border border-stone-200 p-2 text-stone-600"
+                            className="rounded-full border border-slate-200 p-1.5 text-slate-600"
                             aria-label="Close Menu"
                         >
-                            <X className="h-5 w-5" />
+                            <X className="h-4 w-4" />
                         </button>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto px-5 py-5">
-                        <form onSubmit={handleSearch} className="mb-6 flex items-center rounded-full border border-stone-300 bg-white px-4 py-2">
-                            <Search className="h-4 w-4 text-stone-400" />
+                    <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4">
+                        <form onSubmit={handleSearch} className="flex items-center rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2">
+                            <Search className="h-4 w-4 text-slate-400" />
                             <input
                                 type="text"
                                 value={searchQuery}
                                 onChange={(event) => setSearchQuery(event.target.value)}
-                                placeholder="Search reporting, grants, jobs..."
-                                className="w-full bg-transparent px-3 py-1 text-sm text-stone-800 outline-none placeholder:text-stone-400"
+                                placeholder="Search all reporting & jobs..."
+                                className="w-full bg-transparent px-2 text-xs text-slate-800 outline-none placeholder:text-slate-400"
                             />
                         </form>
 
-                        <div className="mb-6 rounded-2xl border border-stone-200 bg-white px-4 py-4">
-                            <p className="eyebrow-label mb-2">Today</p>
-                            <p className="font-serif text-lg text-[var(--color-graphite)]">{currentDate}</p>
-                        </div>
-
-                        <div className="space-y-3">
+                        <div className="space-y-1.5">
                             {categories.map((category) => {
-                                const accent = getCategoryAccentClasses(category.accent);
+                                const active = isActive(category.href);
                                 return (
                                     <Link
                                         key={category.href}
                                         href={category.href}
                                         onClick={() => setIsMenuOpen(false)}
-                                        className={`block rounded-2xl border px-4 py-4 transition-colors ${isActive(category.href) ? accent.panel : 'border-stone-200 bg-white'}`}
+                                        className={`flex items-center justify-between px-3.5 py-3 rounded-xl border transition-all ${
+                                            active
+                                                ? 'bg-slate-900 text-white border-slate-900 font-semibold'
+                                                : 'bg-white text-slate-800 border-slate-100 hover:bg-slate-50'
+                                        }`}
                                     >
-                                        <div className="mb-2 flex items-center justify-between">
-                                            <span className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${accent.chip}`}>
-                                                {category.surfaceType}
-                                            </span>
-                                            <span className="text-xs text-stone-400">{category.label}</span>
+                                        <div>
+                                            <div className="text-sm font-medium">{category.label}</div>
+                                            <div className={`text-[11px] mt-0.5 line-clamp-1 ${active ? 'text-slate-300' : 'text-slate-400'}`}>{category.description}</div>
                                         </div>
-                                        <h3 className={`mb-1 text-xl font-semibold ${accent.text}`}>{category.label}</h3>
-                                        <p className="text-sm leading-6 text-stone-500">{category.description}</p>
+                                        <span className="text-xs opacity-50">→</span>
                                     </Link>
                                 );
                             })}
                         </div>
                     </div>
 
-                    <div className="border-t border-stone-200 px-5 py-4">
-                        <div className="mb-4 flex gap-2">
-                            {user ? (
-                                <>
-                                    <Link href="/admin/posts" onClick={() => setIsMenuOpen(false)} className="btn-secondary w-full text-center">Dashboard</Link>
-                                    <button onClick={() => { void handleSignOut(); setIsMenuOpen(false); }} className="btn-secondary w-full text-center">Sign Out</button>
-                                </>
-                            ) : (
-                                <>
-                                    <Link href="/login" onClick={() => setIsMenuOpen(false)} className="btn-secondary w-full text-center">Login</Link>
-                                    <Link href="/newsletter" onClick={() => setIsMenuOpen(false)} className="btn-primary w-full text-center">Subscribe</Link>
-                                </>
-                            )}
-                        </div>
+                    <div className="border-t border-slate-100 px-5 py-4 bg-slate-50">
+                        {user ? (
+                            <div className="space-y-2">
+                                <Link href="/admin/posts" onClick={() => setIsMenuOpen(false)} className="btn-secondary w-full text-center">Dashboard</Link>
+                                <button onClick={() => { void handleSignOut(); setIsMenuOpen(false); }} className="w-full text-xs text-rose-600 font-semibold py-2">Sign Out</button>
+                            </div>
+                        ) : (
+                            <div className="space-y-2">
+                                <Link href="/newsletter" onClick={() => setIsMenuOpen(false)} className="btn-primary w-full text-center">Subscribe Free</Link>
+                                <Link href="/login" onClick={() => setIsMenuOpen(false)} className="btn-secondary w-full text-center">Staff Login</Link>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

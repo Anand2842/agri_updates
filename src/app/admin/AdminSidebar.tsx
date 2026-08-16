@@ -22,6 +22,7 @@ import {
     LogOut,
     Tag,
     Users,
+    UserCheck,
     DollarSign,
     AlertTriangle,
     Calendar,
@@ -70,6 +71,7 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse, user, role =
             section: 'Overview',
             items: [
                 { name: 'Dashboard', icon: LayoutDashboard, href: '/admin/dashboard' },
+                { name: 'Team & Roles', icon: UserCheck, href: '/admin/team', adminOnly: true },
                 { name: 'Calendar', icon: Calendar, href: '/admin/calendar' }
             ] as MenuItemType[]
         },

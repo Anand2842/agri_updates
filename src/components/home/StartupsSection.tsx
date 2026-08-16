@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Post } from '@/types/database';
 import { useState } from 'react';
 import { getPublicPostHref } from '@/lib/public-posts';
+import { Rocket, ArrowRight } from 'lucide-react';
 
 type Props = {
     posts: Post[];
@@ -15,15 +16,21 @@ export default function StartupsSection({ posts }: Props) {
 
     if (!posts || posts.length === 0) {
         return (
-            <div className="paper-panel flex h-full flex-col p-5">
-                <div className="flex justify-between items-end mb-4 pb-2 border-b border-ink-black/20">
-                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-stone-500 m-0 pb-0 border-0">Startup News</h3>
+            <div className="paper-panel p-5 bg-white border border-slate-200/90 shadow-xs flex flex-col justify-between">
+                <div className="flex items-center gap-2 pb-3.5 border-b border-slate-100">
+                    <div className="w-6 h-6 rounded-lg bg-teal-50 text-teal-900 flex items-center justify-center">
+                        <Rocket className="w-3.5 h-3.5" />
+                    </div>
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                        AgriTech Startups
+                    </h3>
                 </div>
-                <div className="py-12 text-center flex-grow flex flex-col justify-center">
-                    <p className="font-serif text-xl text-stone-400 mb-2">Startup coverage is loading up.</p>
-                    <p className="text-sm text-stone-400 mb-4">We&apos;re tracking the freshest agri-tech launches.</p>
-                    <Link href="/startups" className="inline-block text-sm font-semibold text-[var(--color-forest)] hover:underline">
-                        View all startup news &rarr;
+                <div className="py-12 text-center">
+                    <p className="text-xs text-slate-400">Startup intelligence is loading.</p>
+                </div>
+                <div className="pt-3 border-t border-slate-100">
+                    <Link href="/startups" className="text-xs font-semibold text-teal-900 hover:underline">
+                        View all startups &rarr;
                     </Link>
                 </div>
             </div>
@@ -31,52 +38,63 @@ export default function StartupsSection({ posts }: Props) {
     }
 
     return (
-        <div className="paper-panel flex h-full flex-col p-5">
-            {/* Section Header */}
-            <div className="flex justify-between items-end mb-4 pb-2 border-b border-ink-black/20">
-                <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-stone-500 m-0 pb-0 border-0">Startup News</h3>
-            </div>
-
-            {/* List */}
-            <div className="flex flex-col gap-6 flex-grow">
-                {posts.slice(0, 4).map((post) => (
-                    <div key={post.id} className="group relative transition-all">
-                        <Link href={getPublicPostHref(post)} className="flex gap-4 items-start">
-                             {/* Thumbnail */}
-                             <div className="relative w-16 h-16 flex-shrink-0 bg-stone-100 rounded-lg overflow-hidden border border-stone-200">
-                                <Image
-                                    src={imageErrors[post.id] ? 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80' : (post.image_url || 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80')}
-                                    alt={post.title}
-                                    fill
-                                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                                    onError={() => {
-                                        setImageErrors(prev => ({ ...prev, [post.id]: true }));
-                                    }}
-                                />
-                            </div>
-
-                            <div className="flex-1 min-w-0">
-                                {post.tags && post.tags.length > 0 && (
-                                    <span className="inline-block px-1 py-0.5 mb-1 bg-stone-100 text-stone-600 text-[8px] font-bold uppercase tracking-widest rounded-sm group-hover:bg-agri-green group-hover:text-white transition-colors">
-                                        {post.tags[0]}
-                                    </span>
-                                )}
-                                <h4 className="font-serif text-sm font-bold leading-tight mb-1 group-hover:text-agri-green transition-colors line-clamp-2">
-                                    {post.title}
-                                </h4>
-                                <p className="text-[11px] text-stone-500 font-serif line-clamp-1">
-                                    {post.excerpt || 'Monitoring the pulse of India\'s agriculture startups.'}
-                                </p>
-                            </div>
-                        </Link>
+        <div className="paper-panel p-5 bg-white border border-slate-200/90 shadow-xs flex flex-col justify-between h-full">
+            <div>
+                {/* Section Header */}
+                <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-3">
+                    <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-lg bg-teal-50 text-teal-900 flex items-center justify-center">
+                            <Rocket className="w-3.5 h-3.5" />
+                        </div>
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800">
+                            AgriTech Ventures
+                        </h3>
                     </div>
-                ))}
+                    <span className="text-[10px] font-bold text-teal-900 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200">
+                        Innovation
+                    </span>
+                </div>
+
+                {/* List */}
+                <div className="divide-y divide-slate-100">
+                    {posts.slice(0, 4).map((post) => (
+                        <div key={post.id} className="group py-3 first:pt-0 last:pb-0">
+                            <Link href={getPublicPostHref(post)} className="flex gap-3 items-start">
+                                <div className="relative w-14 h-14 flex-shrink-0 bg-slate-100 rounded-xl overflow-hidden border border-slate-200">
+                                    <Image
+                                        src={imageErrors[post.id] ? 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80' : (post.image_url || 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80')}
+                                        alt={post.title}
+                                        fill
+                                        sizes="60px"
+                                        className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                                        onError={() => {
+                                            setImageErrors(prev => ({ ...prev, [post.id]: true }));
+                                        }}
+                                    />
+                                </div>
+
+                                <div className="flex-1 min-w-0">
+                                    <h4 className="text-xs font-bold text-slate-900 leading-snug group-hover:text-teal-900 transition-colors line-clamp-2 mb-1">
+                                        {post.title}
+                                    </h4>
+                                    <p className="text-[11px] text-slate-500 line-clamp-1">
+                                        {post.excerpt || 'Venture funding, drone robotics, and bio-tech innovation.'}
+                                    </p>
+                                </div>
+                            </Link>
+                        </div>
+                    ))}
+                </div>
             </div>
 
             {/* Footer Link */}
-            <div className="mt-3 pt-3 border-t border-border-thin">
-                <Link href="/startups" className="text-xs font-bold uppercase tracking-widest text-agri-green hover:text-agri-dark flex items-center gap-1 group">
-                    View All Startup News <span className="group-hover:translate-x-1 transition-transform">→</span>
+            <div className="pt-4 mt-3 border-t border-slate-100">
+                <Link
+                    href="/startups"
+                    className="flex items-center justify-center gap-1.5 w-full py-2 rounded-xl bg-teal-50/60 hover:bg-teal-50 text-xs font-bold text-teal-900 border border-teal-200/80 transition-all"
+                >
+                    <span>Explore Startup Index</span>
+                    <ArrowRight className="w-3 h-3" />
                 </Link>
             </div>
         </div>

@@ -1,32 +1,107 @@
-import Link from 'next/link';
+'use client';
+
+import { useState } from 'react';
+import { Mail, CheckCircle2, ShieldCheck, ArrowRight } from 'lucide-react';
 
 export default function SubscribeBlock() {
-    return (
-        <section className="max-w-[1600px] mx-auto px-4 py-2 border-b border-stone-200">
-            <div className="flex flex-row items-center justify-between gap-4 md:gap-6 card-glass md:bg-transparent md:border-none md:shadow-none md:backdrop-blur-none p-4 md:p-0 rounded-2xl md:rounded-none">
-                <div className="flex-1">
-                    <span className="block font-serif text-lg md:text-4xl font-black text-black uppercase tracking-tight mb-0 md:mb-2 leading-tight">
-                        AGRI UPDATES
-                    </span>
-                    <p className="hidden md:block text-stone-600 font-serif text-lg leading-relaxed max-w-xl">
-                        Get notified about opportunities. Your premier source for agricultural jobs, research breakthroughs, and startup innovation.
-                    </p>
-                    <p className="block md:hidden text-stone-600 font-sans text-[10px] leading-snug mt-1 max-w-[160px]">
-                        Join for daily jobs & startup alerts.
-                    </p>
-                </div>
+    const [email, setEmail] = useState('');
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [message, setMessage] = useState('');
 
-                {/* CTA */}
-                <div className="flex-shrink-0">
-                    <Link
-                        href="/newsletter"
-                        className="inline-flex items-center gap-1 md:gap-2 bg-agri-green text-white text-[10px] md:text-xs font-bold uppercase tracking-widest px-4 py-2 md:px-6 md:py-3 rounded-xl md:rounded-none transition-colors border border-white/20 shadow-[inset_1px_1px_2px_rgba(255,255,255,0.3),_4px_4px_10px_rgba(0,0,0,0.15)] md:shadow-none active:scale-95"
-                    >
-                        Subscribe
-                        <svg className="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </Link>
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!email.trim()) return;
+
+        setStatus('loading');
+        try {
+            const response = await fetch('/api/newsletter', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email.trim() }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setStatus('success');
+                setMessage(data.message || 'Subscribed successfully!');
+                setEmail('');
+            } else {
+                setStatus('error');
+                setMessage(data.error || 'Something went wrong');
+            }
+        } catch {
+            setStatus('error');
+            setMessage('Network error. Please try again.');
+        }
+    };
+
+    return (
+        <section className="editorial-shell py-10 my-4">
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 p-8 sm:p-12 text-white shadow-xl">
+                {/* Subtle decorative glow */}
+                <div className="absolute top-0 right-0 -mt-12 -mr-12 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+
+                <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div className="lg:col-span-7">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-bold uppercase tracking-wider mb-4">
+                            <Mail className="w-3.5 h-3.5" />
+                            Daily Intelligence Briefing
+                        </div>
+                        <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight mb-4">
+                            Stay ahead of agricultural markets, research & careers.
+                        </h2>
+                        <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl mb-6">
+                            Join over 5,000+ agribusiness founders, researchers, ICAR scholars, and agronomy professionals receiving our curated 7 AM briefing.
+                        </p>
+
+                        <div className="flex flex-wrap items-center gap-6 text-xs text-slate-300">
+                            <span className="flex items-center gap-1.5">
+                                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                                Verified job & grant alerts
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                                No spam, unsubscribe anytime
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="lg:col-span-5">
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-4 sm:p-6 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 shadow-inner">
+                            <div className="relative">
+                                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder="Enter your professional email"
+                                    required
+                                    disabled={status === 'loading'}
+                                    className="w-full pl-10 pr-4 py-3 bg-white/90 focus:bg-white text-slate-900 placeholder:text-slate-400 text-sm rounded-xl outline-none border border-transparent focus:border-emerald-400 transition-all"
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={status === 'loading'}
+                                className="w-full py-3 px-6 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
+                            >
+                                {status === 'loading' ? (
+                                    'Joining Briefing...'
+                                ) : (
+                                    <>
+                                        <span>Get Free Daily Briefing</span>
+                                        <ArrowRight className="w-4 h-4" />
+                                    </>
+                                )}
+                            </button>
+
+                            {message && (
+                                <p className={`text-xs text-center font-medium mt-1 ${status === 'success' ? 'text-emerald-300' : 'text-rose-300'}`}>
+                                    {message}
+                                </p>
+                            )}
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>

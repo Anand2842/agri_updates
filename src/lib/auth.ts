@@ -26,7 +26,7 @@ export async function requireStaff(supabase: SupabaseClient): Promise<UserRole> 
 export async function requireAdmin(supabase: SupabaseClient): Promise<UserRole> {
     const role = await getUserRole(supabase);
     if (role !== 'admin') {
-        if (role === 'moderator') {
+        if (role === 'moderator' || role === 'author') {
             redirect('/admin/dashboard');
         } else {
             redirect('/unauthorized');

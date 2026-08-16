@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server';
 import { getUserRole } from '@/lib/auth';
+import ChangePasswordForm from '@/components/admin/ChangePasswordForm';
 
 export default async function AdminSettings() {
     const supabase = await createClient();
@@ -47,11 +48,7 @@ export default async function AdminSettings() {
                     </div>
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-stone-100">
-                    <p className="text-stone-400 text-sm italic">
-                        More settings (notifications, password change) coming soon.
-                    </p>
-                </div>
+                <ChangePasswordForm />
             </div>
         </div>
     );

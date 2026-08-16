@@ -10,7 +10,7 @@ import StartupsSection from '@/components/home/StartupsSection';
 import LatestJobs from '@/components/home/LatestJobs';
 import CoverageMap from '@/components/home/CoverageMap';
 import SectionsDesk from '@/components/home/SectionsDesk';
-// import PolicySection from '@/components/home/PolicySection'; // Hidden for now
+import QuickAccessBar from '@/components/home/QuickAccessBar';
 import AdBanner from '@/components/ads/AdBanner';
 import { supabase } from '@/lib/supabase';
 import { Post, Job } from '@/types/database';
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 60; // Dynamic for now
+export const revalidate = 60;
 
 // MOCK DATA for Fallback
 const MOCK_POSTS: Post[] = [
@@ -459,29 +459,31 @@ export default async function Home() {
   });
 
   return (
-    <div className="bg-paper-bg min-h-screen">
+    <div className="bg-slate-50 min-h-screen">
       {/* Screen-reader accessible H1 for SEO */}
-      <h1 className="sr-only">Agricultural Jobs, Internships & Innovation News in India</h1>
+      <h1 className="sr-only">Agricultural Jobs, Internships, Grants & Innovation News in India</h1>
 
-      {/* Featured Grid */}
-      <FeaturedGrid posts={featuredPosts} />
+      {/* 1. Quick Intent Selector Bar */}
+      <QuickAccessBar
+        jobCount={jobs.length}
+        grantCount={grantsPosts.length}
+        startupCount={startupPosts.length}
+      />
 
-      <div className="max-w-[1700px] mx-auto px-4 my-0.5">
-        <AdBanner placement="banner" />
-      </div>
+      {/* 2. Warnings / Advisories Strip */}
+      {warningsPosts.length > 0 && <WarningsStrip posts={warningsPosts} />}
 
-      {/* Main Content Grid (Stacking Order updated for mobile) */}
-      <section className="max-w-[1700px] mx-auto px-4 grid grid-cols-1 lg:grid-cols-12 gap-6 py-1">
-        
-        {/* MainHero: order-1 on mobile, lg:order-2 on desktop */}
-        <div className="lg:col-span-6 order-1 lg:order-2">
-          {mainHeroPost && <MainHero post={mainHeroPost} />}
-        </div>
-
+      {/* 3. Main Intelligence Showcase Grid */}
+      <section className="editorial-shell py-4 grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
         {/* Trending: order-2 on mobile, lg:order-1 on desktop */}
         <aside className="lg:col-span-3 order-2 lg:order-1">
           <Trending posts={trendingPosts} />
         </aside>
+
+        {/* MainHero: order-1 on mobile, lg:order-2 on desktop */}
+        <div className="lg:col-span-6 order-1 lg:order-2">
+          {mainHeroPost && <MainHero post={mainHeroPost} />}
+        </div>
 
         {/* Opportunities: order-3 on mobile, lg:order-3 on desktop */}
         <aside className="lg:col-span-3 order-3 lg:order-3">
@@ -489,34 +491,37 @@ export default async function Home() {
         </aside>
       </section>
 
-      {/* Don't Miss Section */}
-      <DontMiss posts={dontMissPosts} />
-
-      <div className="hidden md:block max-w-[1700px] mx-auto px-4 my-0.5">
+      {/* Ad Placement */}
+      <div className="editorial-shell my-3">
         <AdBanner placement="banner" />
       </div>
 
-      {/* Warnings Strip */}
-      {warningsPosts.length > 0 && <WarningsStrip posts={warningsPosts} />}
+      {/* 4. Featured Curated Stories */}
+      <FeaturedGrid posts={featuredPosts} />
 
+      {/* 5. Deep Dives / Don't Miss */}
+      <DontMiss posts={dontMissPosts} />
+
+      {/* 6. Desks & Coverage Explorer */}
       <CoverageMap items={coverageMapItems} />
 
+      {/* 7. Detailed Section Desks */}
       <SectionsDesk sections={sectionsDesk} />
 
-      {/* Bottom Categories Section */}
-      <section className="editorial-shell border-t border-stone-200 py-10 md:py-14">
-        <div className="mb-6 border-b border-stone-200 pb-4">
-          <p className="eyebrow-label mb-2">Utility Desks</p>
-          <h2 className="text-3xl md:text-5xl font-semibold text-[var(--color-graphite)]">Funding, startup signals, and verified hiring in one view.</h2>
+      {/* 8. Bottom Utility Desks Section */}
+      <section className="editorial-shell py-8 border-t border-slate-200/80">
+        <div className="mb-6 pb-2 border-b border-slate-200/80">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">Specialized Resources</p>
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">Capital, Startups & Careers Hub</h2>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-3">
           <GrantsSection posts={grantsPosts} />
           <StartupsSection posts={startupPosts} />
           <LatestJobs posts={jobPosts} />
         </div>
       </section>
 
-      {/* Subscribe Block */}
+      {/* 9. Daily Briefing Signup */}
       <SubscribeBlock />
     </div>
   );

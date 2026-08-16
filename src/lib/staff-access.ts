@@ -1,6 +1,6 @@
 import type { User } from '@supabase/supabase-js'
 
-export type StaffAccessRole = 'admin' | 'moderator' | 'user'
+export type StaffAccessRole = 'admin' | 'moderator' | 'author' | 'user'
 
 type MinimalUser = Pick<User, 'id' | 'email'> | null | undefined
 type ProfileLookupClient = {
@@ -26,7 +26,7 @@ export function isAdminEmail(email: string | null | undefined, env: NodeJS.Proce
 }
 
 export function coerceStaffAccessRole(value: unknown): StaffAccessRole | null {
-    if (value === 'admin' || value === 'moderator' || value === 'user') {
+    if (value === 'admin' || value === 'moderator' || value === 'author' || value === 'user') {
         return value
     }
     return null
@@ -49,14 +49,19 @@ export async function resolveUserRole(
 ): Promise<StaffAccessRole> {
     if (!user) return 'user'
 
+    try {
+        const profileRole = await lookupProfileRole(supabase, user.id)
+        if (profileRole) {
+            return profileRole
+        }
+    } catch (error) {
+        console.error('Error fetching user role from database:', error)
+    }
+
+    // Fallback: If no profile role exists yet, check the admin email allowlist
     if (isAdminEmail(user.email, env)) {
         return 'admin'
     }
 
-    try {
-        return (await lookupProfileRole(supabase, user.id)) || 'user'
-    } catch (error) {
-        console.error('Error fetching user role:', error)
-        return 'user'
-    }
+    return 'user'
 }
