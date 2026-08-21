@@ -12,7 +12,7 @@ export default function StartupNewsHero({ post }: StartupNewsHeroProps) {
     if (!post) return null;
 
     return (
-        <div className="relative w-full overflow-hidden border-b border-stone-200 bg-[var(--color-paper-elevated)] group">
+        <div className="relative w-full overflow-hidden border-b border-stone-200 bg-startup-forest group">
             <div className="relative h-[520px] md:h-[680px]">
                 {post.image_url ? (
                     <>
@@ -33,7 +33,7 @@ export default function StartupNewsHero({ post }: StartupNewsHeroProps) {
                         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent"></div>
                     </>
                 ) : (
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#2D5016] to-black"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-startup-forest via-[#064E3B] to-startup-emerald opacity-80"></div>
                 )}
 
                 <div className="absolute inset-0 flex flex-col justify-end">
@@ -41,12 +41,12 @@ export default function StartupNewsHero({ post }: StartupNewsHeroProps) {
                         <div className="max-w-3xl transform transition-transform duration-700 translate-y-4 group-hover:translate-y-0">
                             <div className="flex items-center gap-3 mb-4">
                                 {post.tags && post.tags.length > 0 ? (
-                                    <span className="bg-[#C9A961] text-black px-3 py-1 text-xs font-bold uppercase tracking-widest flex items-center gap-1.5 shadow-lg">
+                                    <span className="bg-startup-amber text-black px-3 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5 shadow-lg">
                                         <Sparkles size={12} />
                                         {post.tags[0]}
                                     </span>
                                 ) : (
-                                    <span className="bg-[#C9A961] text-black px-3 py-1 text-xs font-bold uppercase tracking-widest shadow-lg">
+                                    <span className="bg-startup-amber text-black px-3 py-1 text-[10px] font-bold uppercase tracking-widest shadow-lg">
                                         Featured
                                     </span>
                                 )}
@@ -70,7 +70,7 @@ export default function StartupNewsHero({ post }: StartupNewsHeroProps) {
                             <div className="flex items-center gap-4">
                                 <Link 
                                     href={`/blog/${post.slug}`}
-                                    className="inline-flex items-center gap-2 bg-[#2D5016] hover:bg-white text-white hover:text-black px-6 py-3 font-bold uppercase tracking-widest text-xs transition-colors shadow-lg group-hover:pr-4"
+                                    className="inline-flex items-center gap-2 bg-startup-lime hover:bg-white text-startup-forest px-7 py-3.5 font-bold uppercase tracking-widest text-[11px] transition-colors shadow-[0_4px_14px_0_rgba(183,243,74,0.39)] group-hover:pr-5"
                                 >
                                     Read Full Story <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
                                 </Link>

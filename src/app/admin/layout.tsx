@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import AdminShell from './AdminShell'
 import { requireStaff } from '@/lib/auth'
+import '@/styles/admin.css'
 
 export default async function AdminLayout({
     children,

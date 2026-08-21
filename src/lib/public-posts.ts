@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase'
 import { Post } from '@/types/database'
 import { resolveCategoryPresetKey } from '@/lib/public-categories'
+import { decodeHtmlEntities } from '@/lib/utils/string'
 
 export const UPDATES_PAGE_SIZE = 12
 const ALLOWED_IMAGE_HOSTS = new Set([
@@ -26,11 +27,12 @@ export async function getPublishedPostsPage({
         const from = (page - 1) * limit
         const to = from + limit - 1
 
-        let query = supabase
-            .from('posts')
-            .select('*', { count: 'exact' })
-            .eq('status', 'published')
-            .order('published_at', { ascending: false })
+            let query = supabase
+                .from('posts')
+                .select('*', { count: 'exact' })
+                .eq('status', 'published')
+                .order('published_at', { ascending: false })
+                .order('id', { ascending: false })
 
         if (category) {
             query = query.eq('category', category)
@@ -64,6 +66,7 @@ export async function getRecentPublishedPosts(limit = 48) {
             .select('*')
             .eq('status', 'published')
             .order('published_at', { ascending: false })
+            .order('id', { ascending: false })
             .limit(limit)
 
         if (error) {
@@ -107,6 +110,9 @@ export function normalizePublicImageUrl(imageUrl?: string | null) {
 export function normalizePostRecord(post: Post): Post {
     return {
         ...post,
+        title: post.title ? decodeHtmlEntities(post.title) : post.title,
+        excerpt: post.excerpt ? decodeHtmlEntities(post.excerpt) : post.excerpt,
+        author_name: post.author_name ? decodeHtmlEntities(post.author_name) : post.author_name,
         image_url: normalizePublicImageUrl(post.image_url),
     }
 }

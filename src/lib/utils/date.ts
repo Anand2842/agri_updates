@@ -1,4 +1,4 @@
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow, format } from 'date-fns';
 
 export function formatDate(date: string | Date): string {
     return new Date(date).toLocaleDateString();
@@ -26,7 +26,19 @@ export function safeDateFormat(
         if (isNaN(parsed.getTime()) || parsed.getFullYear() < 1900 || parsed.getFullYear() > 2100) {
             return fallback;
         }
-        return parsed.toLocaleDateString(locale, options);
+
+        const now = new Date();
+        const diffInHours = Math.abs(now.getTime() - parsed.getTime()) / (1000 * 60 * 60);
+
+        if (diffInHours < 48) {
+            return formatDistanceToNow(parsed, { addSuffix: true });
+        }
+
+        if (options) {
+            return parsed.toLocaleDateString(locale, options);
+        }
+
+        return format(parsed, 'd MMM yyyy');
     } catch {
         return fallback;
     }

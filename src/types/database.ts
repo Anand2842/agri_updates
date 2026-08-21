@@ -1,5 +1,6 @@
 
 import type { PolicyConfig } from '@/components/admin/editor/EligibilityEditor'
+export type { PolicyConfig }
 
 export type Job = {
     id: string

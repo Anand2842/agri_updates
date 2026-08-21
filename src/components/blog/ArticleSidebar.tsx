@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import AdBanner from '@/components/ads/AdBanner';
@@ -127,9 +128,21 @@ function RelatedPostsCard({
                             href={`/blog/${post.slug}`}
                             className={`group flex gap-3 px-5 transition-colors hover:bg-stone-50 ${mobile ? 'py-4' : 'py-4'}`}
                         >
-                            <span className="mt-0.5 w-6 flex-shrink-0 select-none text-[22px] font-black leading-none text-stone-200 transition-colors group-hover:text-agri-green/40">
-                                {String(idx + 1).padStart(2, '0')}
-                            </span>
+                            {post.image_url ? (
+                                <div className="relative w-20 h-[56px] flex-shrink-0 rounded-md overflow-hidden bg-stone-100 ring-1 ring-black/5 mt-0.5">
+                                    <Image
+                                        src={post.image_url}
+                                        alt={post.title}
+                                        fill
+                                        sizes="80px"
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                </div>
+                            ) : (
+                                <span className="mt-0.5 w-6 flex-shrink-0 select-none text-[22px] font-black leading-none text-stone-200 transition-colors group-hover:text-agri-green/40">
+                                    {String(idx + 1).padStart(2, '0')}
+                                </span>
+                            )}
                             <div className="min-w-0 flex-1">
                                 <span className="mb-1 block text-[9px] font-bold uppercase tracking-widest text-agri-green/80">
                                     {post.category}

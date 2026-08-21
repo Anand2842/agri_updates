@@ -137,7 +137,7 @@ export default function EditorToolbar({ editor, onImageUpload }: EditorToolbarPr
 
     /* eslint-disable react-hooks/static-components */
     return (
-        <div className="sticky top-0 z-[50] w-full bg-white/95 backdrop-blur-sm border-b border-stone-200 px-3 py-2 flex items-center flex-wrap gap-1 shadow-sm transition-all">
+        <div className="w-full bg-white border-b border-stone-200 px-2 py-1.5 flex items-center overflow-x-auto scrollbar-none gap-1 shadow-xs">
 
             {/* History Group */}
             <div className="flex gap-0.5">

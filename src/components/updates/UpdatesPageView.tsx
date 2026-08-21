@@ -48,7 +48,7 @@ export default function UpdatesPageView({
     return (
         <div className="min-h-screen bg-[var(--color-paper-bg)]">
             <section className="border-b border-stone-200 bg-[var(--color-paper-elevated)]">
-                <div className="editorial-shell py-10 md:py-14">
+                <div className="editorial-shell py-6 md:py-8">
                     <div className="grid gap-8 lg:grid-cols-[1fr_320px] lg:items-end">
                         <div>
                             <span className={`inline-flex rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${accent.chip}`}>
@@ -66,7 +66,7 @@ export default function UpdatesPageView({
                             <p className="eyebrow-label mb-3">Desk Snapshot</p>
                             <div className="mb-3 flex items-baseline gap-3">
                                 <span className="text-4xl font-semibold text-[var(--color-graphite)]">{totalPosts}</span>
-                                <span className="text-sm uppercase tracking-[0.16em] text-stone-500">published items</span>
+                                <span className="text-sm uppercase tracking-[0.16em] text-stone-500">stories</span>
                             </div>
                             <p className="text-sm leading-7 text-stone-600">
                                 Browse the latest reporting, then pivot by section using the coverage rail.
@@ -76,10 +76,10 @@ export default function UpdatesPageView({
                 </div>
             </section>
 
-            <div className="editorial-shell py-8 md:py-10">
+            <div className="editorial-shell py-6 md:py-8">
                 <div className="grid gap-10 lg:grid-cols-[280px_1fr]">
-                    <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
-                        <div className="paper-panel p-5">
+                    <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+                        <div className="px-2">
                             <p className="eyebrow-label mb-4">Coverage Rail</p>
                             <div className="space-y-3">
                                 {categories.map((category) => {
@@ -104,7 +104,7 @@ export default function UpdatesPageView({
                             </div>
                         </div>
 
-                        <div className="paper-panel p-5">
+                        <div className="px-2 border-t border-stone-200 pt-6 mt-6">
                             <p className="eyebrow-label mb-4">Search This Desk</p>
                             <form action={basePath} className="space-y-3">
                                 <input
@@ -123,30 +123,22 @@ export default function UpdatesPageView({
 
                     <div className="space-y-8">
                         {leadPost && (
-                            <article className="paper-panel overflow-hidden">
+                            <article className="rounded-lg border border-stone-200 bg-white shadow-sm overflow-hidden transition-all hover:border-stone-400">
                                 <Link href={getPublicPostHref(leadPost)} className="block">
                                     {leadPost.image_url && (
-                                        <div className="lead-image-stage m-4 aspect-[4/3] md:m-6 md:aspect-[16/10]">
-                                            <Image
-                                                src={leadPost.image_url}
-                                                alt=""
-                                                fill
-                                                priority
-                                                className="object-cover opacity-20 blur-3xl scale-110"
-                                                sizes="(max-width: 768px) 100vw, 960px"
-                                            />
+                                        <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden bg-stone-200">
                                             <Image
                                                 src={leadPost.image_url}
                                                 alt={leadPost.title}
                                                 fill
                                                 priority
-                                                className="object-contain p-4 md:p-8"
+                                                className="object-cover transition-transform duration-700 hover:scale-[1.02]"
                                                 sizes="(max-width: 768px) 100vw, 960px"
                                             />
                                         </div>
                                     )}
 
-                                    <div className="px-5 pb-6 md:px-8 md:pb-8">
+                                    <div className="px-5 py-6 md:px-8 md:py-8">
                                         <div className="mb-4 flex flex-wrap items-center gap-3">
                                             <span className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${accent.chip}`}>
                                                 Lead Story
@@ -169,10 +161,10 @@ export default function UpdatesPageView({
                         {gridPosts.length > 0 ? (
                             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                                 {gridPosts.map((post) => (
-                                    <article key={post.id} className="paper-panel overflow-hidden transition-transform duration-300 hover:-translate-y-0.5">
-                                        <Link href={getPublicPostHref(post)} className="block h-full">
+                                    <article key={post.id} className="rounded-lg border border-stone-200 bg-white overflow-hidden transition-all duration-300 hover:border-stone-400 hover:-translate-y-0.5 shadow-sm">
+                                        <Link href={getPublicPostHref(post)} className="flex flex-col h-full">
                                             {post.image_url && (
-                                                <div className="relative aspect-[4/3] overflow-hidden bg-stone-200">
+                                                <div className="relative aspect-[16/9] w-full overflow-hidden bg-stone-200">
                                                     <Image
                                                         src={post.image_url}
                                                         alt={post.title}
@@ -182,20 +174,20 @@ export default function UpdatesPageView({
                                                     />
                                                 </div>
                                             )}
-                                            <div className="flex h-full flex-col p-5">
+                                            <div className="flex h-full flex-col p-4">
                                                 <div className="mb-3 flex items-center justify-between gap-3 text-[10px] uppercase tracking-[0.16em] text-stone-400">
                                                     <span>{post.category}</span>
                                                     <span>{safeDateFormat(post.published_at)}</span>
                                                 </div>
-                                                <h3 className="mb-3 text-xl font-semibold text-[var(--color-graphite)]">
+                                                <h3 className="mb-2 text-lg font-semibold text-[var(--color-graphite)] line-clamp-3 leading-tight">
                                                     {post.title}
                                                 </h3>
-                                                <p className="mb-4 text-sm leading-7 text-stone-600">
+                                                <p className="mb-4 text-sm leading-6 text-stone-600 line-clamp-2">
                                                     {post.excerpt || 'Open the full story for reporting, context, and the latest desk update.'}
                                                 </p>
-                                                <div className="mt-auto flex items-center justify-between text-[11px] uppercase tracking-[0.16em] text-stone-500">
-                                                    <span className="truncate">By {post.author_name}</span>
-                                                    <span className="font-semibold text-[var(--color-forest)]">Open</span>
+                                                <div className="mt-auto pt-2 border-t border-stone-100 flex items-center justify-between text-[11px] uppercase tracking-[0.16em] text-stone-500">
+                                                    <span>By {post.author_name}</span>
+                                                    <span className="font-semibold text-[var(--color-forest)]">Read story →</span>
                                                 </div>
                                             </div>
                                         </Link>

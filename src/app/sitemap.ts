@@ -11,24 +11,35 @@ function isValidSlug(slug: string): boolean {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = 'https://www.agriupdates.online';
+    const now = new Date();
 
-    // Static routes — only include pages that actually exist
+    // 1. Core High-Intent Static Routes
     const staticRoutes: MetadataRoute.Sitemap = [
-        { url: baseUrl, lastModified: new Date(), changeFrequency: 'daily', priority: 1 },
-        { url: `${baseUrl}/jobs`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
-        { url: `${baseUrl}/updates`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
-        { url: `${baseUrl}/startups`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
-        { url: `${baseUrl}/search`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.6 },
-        { url: `${baseUrl}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
-        { url: `${baseUrl}/contact`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
-        { url: `${baseUrl}/newsletter`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
-        { url: `${baseUrl}/faq`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
-        { url: `${baseUrl}/privacy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
-        { url: `${baseUrl}/terms`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
-        { url: `${baseUrl}/disclaimer`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
+        { url: baseUrl, lastModified: now, changeFrequency: 'daily', priority: 1.0 },
+        { url: `${baseUrl}/jobs`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
+        { url: `${baseUrl}/updates`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
+        { url: `${baseUrl}/exams`, lastModified: now, changeFrequency: 'daily', priority: 0.9 },
+        { url: `${baseUrl}/scholarships`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
+        { url: `${baseUrl}/fellowships`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
+        { url: `${baseUrl}/internships`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
+        { url: `${baseUrl}/warnings`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
+        { url: `${baseUrl}/conferences`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+        { url: `${baseUrl}/startups`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+        { url: `${baseUrl}/startups/directory`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+        { url: `${baseUrl}/featured-listings`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
+        { url: `${baseUrl}/search`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 },
+        { url: `${baseUrl}/editorial-guidelines`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+        { url: `${baseUrl}/corrections`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+        { url: `${baseUrl}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+        { url: `${baseUrl}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+        { url: `${baseUrl}/newsletter`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+        { url: `${baseUrl}/faq`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
+        { url: `${baseUrl}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+        { url: `${baseUrl}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+        { url: `${baseUrl}/disclaimer`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     ];
 
-    // Dynamic: All published posts — ONE entry per post, using the canonical /blog/ path
+    // 2. Dynamic: All published articles & stories
     let postRoutes: MetadataRoute.Sitemap = [];
     try {
         const { data: posts } = await supabase
@@ -41,15 +52,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             postRoutes = posts
                 .filter((post) => isValidSlug(post.slug))
                 .map((post) => ({
-                    url: `${baseUrl}/blog/${post.slug}`,
-                    lastModified: post.updated_at || post.published_at || post.created_at || new Date().toISOString(),
+                    url: `${baseUrl}/blog/${encodeURIComponent(post.slug)}`,
+                    lastModified: post.updated_at || post.published_at || post.created_at || now.toISOString(),
                     changeFrequency: (post.category === 'Jobs' ? 'weekly' : 'daily') as 'weekly' | 'daily',
-                    priority: post.category === 'Jobs' ? 0.6 : 0.7,
+                    priority: post.category === 'Jobs' ? 0.7 : 0.8,
                 }));
         }
     } catch (e) {
         console.error('Sitemap posts query error:', e);
     }
 
-    return [...staticRoutes, ...postRoutes];
+    // 3. Dynamic: E-E-A-T Author Profiles
+    let authorRoutes: MetadataRoute.Sitemap = [];
+    try {
+        const { data: authors } = await supabase
+            .from('authors')
+            .select('slug, updated_at, created_at');
+
+        if (authors) {
+            authorRoutes = authors
+                .filter((author) => isValidSlug(author.slug))
+                .map((author) => ({
+                    url: `${baseUrl}/author/${encodeURIComponent(author.slug)}`,
+                    lastModified: author.updated_at || author.created_at || now.toISOString(),
+                    changeFrequency: 'monthly' as const,
+                    priority: 0.5,
+                }));
+        }
+    } catch (e) {
+        console.error('Sitemap authors query error:', e);
+    }
+
+    return [...staticRoutes, ...postRoutes, ...authorRoutes];
 }

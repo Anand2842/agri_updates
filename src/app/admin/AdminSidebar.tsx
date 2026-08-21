@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-    LayoutDashboard,
+    Home,
     Briefcase,
     FileText,
     Star,
@@ -14,19 +14,25 @@ import {
     X,
     Wand2,
     Plus,
-    Crown,
     TrendingUp,
     Eye,
     ChevronLeft,
     ChevronRight,
-    LogOut,
+    ExternalLink,
     Tag,
     Users,
     UserCheck,
     DollarSign,
     AlertTriangle,
     Calendar,
-    type LucideIcon
+    BarChart3,
+    Megaphone,
+    Building2,
+    UserPlus,
+    FlaskConical,
+    Crown,
+    MoreHorizontal,
+    type LucideIcon,
 } from 'lucide-react';
 
 import type { User } from '@supabase/supabase-js';
@@ -42,10 +48,13 @@ type MenuItemType = {
     name: string;
     icon: LucideIcon;
     href: string;
-    highlight?: boolean;
     adminOnly?: boolean;
-    special?: boolean;
-    money?: boolean;
+}
+
+type MenuSection = {
+    section: string;
+    adminOnly?: boolean;
+    items: MenuItemType[];
 }
 
 export default function AdminSidebar({ isCollapsed, toggleCollapse, user, role = 'user' }: AdminSidebarProps) {
@@ -57,90 +66,103 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse, user, role =
     const name = user?.user_metadata?.full_name || email.split('@')[0] || 'Admin';
     const initials = name.slice(0, 2).toUpperCase();
 
-    // Base menu items
-    const rawMenuItems = [
+    // ─── New 6-section IA ───
+    const rawMenuItems: MenuSection[] = [
         {
-            section: 'Quick Actions',
+            section: 'Newsroom',
             items: [
-                { name: 'New Post', icon: Plus, href: '/admin/posts/new', highlight: true },
-                { name: 'Add Job', icon: Briefcase, href: '/admin/jobs/new', adminOnly: true },
-                { name: 'Blog Generator', icon: Wand2, href: '/admin/posts/generate', special: true },
-            ] as MenuItemType[]
+                { name: 'Home', icon: Home, href: '/admin' },
+                { name: 'Review', icon: Eye, href: '/admin/review' },
+                { name: 'Calendar', icon: Calendar, href: '/admin/calendar' },
+            ]
         },
         {
-            section: 'Overview',
+            section: 'Content',
             items: [
-                { name: 'Dashboard', icon: LayoutDashboard, href: '/admin/dashboard' },
-                { name: 'Team & Roles', icon: UserCheck, href: '/admin/team', adminOnly: true },
-                { name: 'Calendar', icon: Calendar, href: '/admin/calendar' }
-            ] as MenuItemType[]
+                { name: 'Stories', icon: FileText, href: '/admin/posts' },
+                { name: 'Jobs', icon: Briefcase, href: '/admin/jobs' },
+                { name: 'Startups', icon: Zap, href: '/admin/startups' },
+                { name: 'Research', icon: FlaskConical, href: '/admin/research' },
+                { name: 'Grants & Funding', icon: DollarSign, href: '/admin/posts?category=Grants' },
+                { name: 'Warnings', icon: AlertTriangle, href: '/admin/posts?category=Warnings' },
+            ]
         },
         {
-            section: 'Content Management',
+            section: 'Discovery',
             items: [
-                { name: 'All Posts', icon: FileText, href: '/admin/posts' },
-                { name: 'Review Queue', icon: Eye, href: '/admin/review', special: true },
-                { name: 'Featured Manager', icon: Crown, href: '/admin/posts?is_featured=true', money: true },
+                { name: 'Featured', icon: Crown, href: '/admin/posts?is_featured=true' },
                 { name: 'Hero & Highlights', icon: Star, href: '/admin/posts?display=hero' },
                 { name: 'Trending', icon: TrendingUp, href: '/admin/posts?display=trending' },
                 { name: 'Categories', icon: Tag, href: '/admin/categories', adminOnly: true },
-                { name: 'Authors Directory', icon: Users, href: '/admin/authors', adminOnly: true },
-            ] as MenuItemType[]
+            ]
         },
         {
-            section: 'Categories',
+            section: 'People',
+            items: [
+                { name: 'Authors', icon: Users, href: '/admin/authors', adminOnly: true },
+                { name: 'Companies', icon: Building2, href: '/admin/companies' },
+                { name: 'Applicants', icon: UserPlus, href: '/admin/applicants' },
+                { name: 'Team', icon: UserCheck, href: '/admin/team', adminOnly: true },
+            ]
+        },
+        {
+            section: 'Business',
+            items: [
+                { name: 'Analytics', icon: BarChart3, href: '/admin/dashboard' },
+                { name: 'Ads', icon: Megaphone, href: '/admin/ads' },
+            ]
+        },
+        {
+            section: 'System',
             adminOnly: true,
             items: [
-                { name: 'Jobs', icon: Briefcase, href: '/admin/jobs' },
-                { name: 'Startup Directory', icon: Zap, href: '/admin/startups' },
-                { name: 'Startup News', icon: Zap, href: '/admin/posts?category=Startups' },
-                { name: 'Grants & Funding', icon: DollarSign, href: '/admin/posts?category=Grants' },
-                { name: 'Warnings', icon: AlertTriangle, href: '/admin/posts?category=Warnings' },
-            ] as MenuItemType[]
+                { name: 'Settings', icon: Settings, href: '/admin/settings' },
+            ]
         }
     ];
 
     // Filter based on role
     const menuItems = rawMenuItems
-        .filter(group => role === 'admin' || !('adminOnly' in group) || !group.adminOnly)
+        .filter(group => role === 'admin' || !group.adminOnly)
         .map(group => ({
             ...group,
             items: group.items.filter(item => role === 'admin' || !item.adminOnly)
         }))
         .filter(group => group.items.length > 0);
 
+    const isActive = (href: string) => {
+        if (href === '/admin') return pathname === '/admin';
+        if (href.includes('?')) return pathname === href.split('?')[0] && typeof window !== 'undefined' && window.location.search.includes(href.split('?')[1]);
+        return pathname?.startsWith(href) || false;
+    };
+
     const renderSidebarContent = (collapsed = false) => (
-        <div className={`flex flex-col h-full bg-[#fdfdfc] border-r border-stone-200/60 transition-all duration-300 ${collapsed ? 'w-[88px]' : 'w-[280px]'}`}>
+        <div className={`flex flex-col h-full transition-all duration-300 ${collapsed ? 'w-[72px]' : 'w-[260px]'}`}
+            style={{ background: 'var(--admin-surface)', borderRight: '1px solid var(--admin-border)' }}>
             {/* Header */}
-            <div className={`h-20 flex items-center shrink-0 ${collapsed ? 'justify-center' : 'px-6'}`}>
+            <div className={`h-14 flex items-center shrink-0 ${collapsed ? 'justify-center' : 'px-5'}`}>
                 {collapsed ? (
                     <button
                         onClick={toggleCollapse}
-                        className="w-12 h-12 flex items-center justify-center text-stone-400 hover:text-stone-900 hover:bg-stone-100/50 rounded-2xl transition-all"
+                        className="w-9 h-9 flex items-center justify-center text-stone-400 hover:text-stone-900 hover:bg-stone-100 rounded-lg transition-all"
                         title="Expand Sidebar"
                     >
-                        <ChevronRight className="w-5 h-5" />
+                        <ChevronRight className="w-4 h-4" />
                     </button>
                 ) : (
                     <>
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 flex-shrink-0 bg-stone-900 rounded-xl flex items-center justify-center text-white shadow-lg shadow-stone-900/20">
-                                <span className="font-serif font-bold text-xl leading-none -mt-0.5">A</span>
+                        <div className="flex items-center gap-2.5 min-w-0">
+                            <div className="w-7 h-7 flex-shrink-0 bg-stone-900 rounded-lg flex items-center justify-center text-white">
+                                <span className="font-serif font-bold text-sm leading-none">A</span>
                             </div>
-                            <div className="overflow-hidden whitespace-nowrap">
-                                <h1 className="font-serif font-bold text-xl tracking-tight text-stone-900 leading-none mb-1">Agri Updates</h1>
-                                <div className="flex items-center gap-1.5">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-agri-green animate-pulse"></span>
-                                    <span className="text-[10px] uppercase font-bold text-stone-500 tracking-widest">Workspace</span>
-                                </div>
-                            </div>
+                            <span className="font-serif font-bold text-base tracking-tight text-stone-900 leading-none truncate">Agri Updates</span>
                         </div>
                         <button
                             onClick={toggleCollapse}
-                            className="ml-auto w-8 h-8 flex items-center justify-center text-stone-400 hover:text-stone-900 hover:bg-stone-100/50 rounded-xl transition-all"
+                            className="ml-auto w-7 h-7 flex items-center justify-center text-stone-400 hover:text-stone-900 hover:bg-stone-100 rounded-lg transition-all"
                             title="Collapse Sidebar"
                         >
-                            <ChevronLeft className="w-4 h-4" />
+                            <ChevronLeft className="w-3.5 h-3.5" />
                         </button>
                     </>
                 )}
@@ -151,113 +173,104 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse, user, role =
                 )}
             </div>
 
+            {/* + New Story Button */}
+            <div className={`px-3 mb-2 ${collapsed ? 'flex justify-center' : ''}`}>
+                <Link
+                    href="/admin/posts/new"
+                    onClick={() => setIsMobileOpen(false)}
+                    className={`flex items-center justify-center gap-2 font-semibold text-sm transition-all active:scale-[0.97] ${
+                        collapsed
+                            ? 'w-10 h-10 rounded-lg bg-stone-900 text-white hover:bg-stone-800'
+                            : 'w-full px-4 py-2 rounded-lg bg-stone-900 text-white hover:bg-stone-800'
+                    }`}
+                    title={collapsed ? '+ New Story' : ''}
+                >
+                    <Plus className="w-4 h-4" />
+                    {!collapsed && <span>New Story</span>}
+                </Link>
+            </div>
+
             {/* Nav */}
-            <nav className="flex-grow px-4 py-2 space-y-1 overflow-y-auto overflow-x-hidden scrollbar-thin">
+            <nav className="flex-grow px-3 py-1 space-y-0.5 overflow-y-auto overflow-x-hidden">
                 {menuItems.map((group, idx) => (
-                    <div key={idx} className={`mb-6 ${collapsed ? 'flex flex-col items-center' : ''}`}>
+                    <div key={idx} className={`mb-4 ${collapsed ? 'flex flex-col items-center' : ''}`}>
                         {!collapsed ? (
-                            <div className="text-[10px] font-bold uppercase text-stone-400 tracking-widest mb-3 px-3 truncate">
+                            <div className="admin-section-label mt-3 mb-1.5">
                                 {group.section}
                             </div>
                         ) : (
-                            <div className="w-8 h-[1px] bg-stone-200/60 my-3" />
+                            <div className="w-6 h-px bg-stone-200/60 my-2" />
                         )}
 
-                        <div className="space-y-1">
-                        {group.items.map((item) => {
-                            const isActive = pathname === item.href || (item.href.includes('?') && pathname === item.href.split('?')[0]);
-                            const isMoney = 'money' in item && item.money;
-                            const isHighlight = 'highlight' in item && item.highlight;
-                            const isSpecial = 'special' in item && item.special;
+                        <div className="space-y-px">
+                            {group.items.map((item) => {
+                                const active = isActive(item.href);
 
-                            return (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    onClick={() => setIsMobileOpen(false)}
-                                    title={collapsed ? item.name : ''}
-                                    className={`
-                                        flex items-center rounded-xl transition-all duration-200 font-medium relative group
-                                        ${collapsed
-                                            ? 'justify-center w-12 h-12 p-0'
-                                            : 'gap-3 px-3.5 py-2.5 text-sm w-full'
-                                        }
-                                        ${isActive
-                                            ? 'bg-white text-stone-900 shadow-[0_2px_10px_rgb(0,0,0,0.04)] border border-stone-200/80 font-bold'
-                                            : isMoney
-                                                ? 'text-amber-700 bg-amber-50 hover:bg-amber-100/80 border border-transparent hover:border-amber-200/50'
-                                                : isHighlight
-                                                    ? 'bg-stone-900 text-white hover:bg-stone-800 shadow-md border border-transparent'
-                                                    : isSpecial
-                                                        ? 'bg-gradient-to-r from-purple-50 to-indigo-50 text-purple-700 hover:from-purple-100 hover:to-indigo-100 border border-transparent hover:border-purple-200/50'
-                                                        : 'text-stone-500 hover:bg-stone-100/50 hover:text-stone-900 border border-transparent'
-                                        }
-                                    `}
-                                >
-                                    <item.icon className={`w-4 h-4 flex-shrink-0 transition-transform group-hover:scale-110 ${
-                                        isActive ? 'text-stone-900' : 
-                                        isMoney ? 'text-amber-600' : 
-                                        isHighlight ? 'text-white' : ''
-                                    }`} />
+                                return (
+                                    <Link
+                                        key={item.name}
+                                        href={item.href}
+                                        onClick={() => setIsMobileOpen(false)}
+                                        title={collapsed ? item.name : ''}
+                                        className={`
+                                            flex items-center rounded-md transition-all duration-150 relative group
+                                            ${collapsed
+                                                ? 'justify-center w-10 h-9 mx-auto'
+                                                : 'gap-2.5 px-3 py-1.5 text-[13px] w-full'
+                                            }
+                                            ${active
+                                                ? 'bg-stone-100 text-stone-900 font-semibold'
+                                                : 'text-stone-500 hover:bg-stone-50 hover:text-stone-800'
+                                            }
+                                        `}
+                                    >
+                                        {/* Active indicator bar */}
+                                        {active && !collapsed && (
+                                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 rounded-r-full" style={{ background: 'var(--admin-brand)' }} />
+                                        )}
+                                        {active && collapsed && (
+                                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 rounded-r-full" style={{ background: 'var(--admin-brand)' }} />
+                                        )}
 
-                                    {!collapsed && (
-                                        <>
+                                        <item.icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-stone-700' : ''}`} />
+
+                                        {!collapsed && (
                                             <span className="truncate">{item.name}</span>
-                                            {isMoney && <span className="ml-auto text-[9px] bg-amber-200/50 text-amber-800 px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">Prem</span>}
-                                        </>
-                                    )}
-
-                                    {/* Collapsed Tooltip (simple native title used above, but visual dot for active state) */}
-                                    {collapsed && isActive && (
-                                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-3 rounded-full bg-stone-900 -mr-1"></div>
-                                    )}
-                                </Link>
-                            );
-                        })}
+                                        )}
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </div>
                 ))}
 
-                <div className={`mt-10 pt-4 border-t border-stone-200/60 ${collapsed ? 'flex flex-col items-center' : ''}`}>
-                    {role === 'admin' && (
-                        <Link
-                            href="/admin/settings"
-                            title="Settings"
-                            className={`
-                                flex items-center text-stone-500 hover:bg-white hover:text-stone-900 hover:shadow-[0_2px_10px_rgb(0,0,0,0.04)] hover:border-stone-200/80 border border-transparent transition-all duration-200 font-medium rounded-xl group
-                                ${collapsed ? 'justify-center w-12 h-12 p-0 mb-1' : 'gap-3 px-3.5 py-2.5 text-sm w-full mb-1'}
-                            `}
-                        >
-                            <Settings className="w-4 h-4 transition-transform group-hover:rotate-45" />
-                            {!collapsed && <span>Settings</span>}
-                        </Link>
-                    )}
+                {/* View Site — always at bottom of nav */}
+                <div className={`mt-auto pt-3 border-t ${collapsed ? 'flex flex-col items-center' : ''}`} style={{ borderColor: 'var(--admin-border)' }}>
                     <Link
                         href="/"
                         target="_blank"
                         title="View Site"
                         className={`
-                            flex items-center text-stone-500 hover:bg-white hover:text-stone-900 hover:shadow-[0_2px_10px_rgb(0,0,0,0.04)] hover:border-stone-200/80 border border-transparent transition-all duration-200 font-medium rounded-xl group
-                            ${collapsed ? 'justify-center w-12 h-12 p-0' : 'gap-3 px-3.5 py-2.5 text-sm w-full'}
+                            flex items-center text-stone-400 hover:text-stone-700 hover:bg-stone-50 transition-all duration-150 rounded-md group
+                            ${collapsed ? 'justify-center w-10 h-9 mx-auto' : 'gap-2.5 px-3 py-1.5 text-[13px] w-full'}
                         `}
                     >
-                        <LogOut className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                        <ExternalLink className="w-4 h-4" />
                         {!collapsed && <span>View Site</span>}
                     </Link>
                 </div>
             </nav>
 
-            {/* User Profile */}
-            <div className="p-4 mt-auto border-t border-stone-200/60">
-                <div className={`p-3 bg-white border border-stone-200/60 rounded-2xl shadow-[0_2px_10px_rgb(0,0,0,0.02)] flex items-center ${collapsed ? 'justify-center' : 'gap-3'}`}>
-                    <div className="w-9 h-9 rounded-xl bg-stone-100 text-stone-600 flex-shrink-0 flex items-center justify-center font-bold text-xs ring-1 ring-stone-200 relative overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-tr from-stone-200/50 to-transparent"></div>
-                        <span className="relative z-10">{initials}</span>
+            {/* User Profile — simplified */}
+            <div className={`p-3 mt-auto shrink-0 ${collapsed ? 'flex justify-center' : ''}`} style={{ borderTop: '1px solid var(--admin-border)' }}>
+                <div className={`flex items-center ${collapsed ? 'justify-center' : 'gap-2.5'}`}>
+                    <div className="w-8 h-8 rounded-full bg-stone-100 text-stone-600 flex-shrink-0 flex items-center justify-center font-semibold text-xs">
+                        {initials}
                     </div>
                     {!collapsed && (
-                        <div className="flex flex-col overflow-hidden">
-                            <span className="text-sm font-bold text-stone-900 truncate" title={name}>{name}</span>
-                            <span className="text-[10px] uppercase tracking-widest font-bold text-stone-500 truncate mt-0.5">{role}</span>
+                        <div className="flex flex-col overflow-hidden min-w-0">
+                            <span className="text-sm font-semibold text-stone-900 truncate leading-tight">{name}</span>
+                            <span className="text-[10px] uppercase tracking-widest font-semibold text-stone-400 leading-tight">{role}</span>
                         </div>
                     )}
                 </div>
@@ -267,28 +280,109 @@ export default function AdminSidebar({ isCollapsed, toggleCollapse, user, role =
 
     return (
         <>
-            {/* Mobile Trigger */}
-            <div className="md:hidden sticky top-0 z-30 bg-white border-b border-stone-200 px-4 py-3 flex items-center justify-between">
-                <h1 className="font-serif font-bold text-xl">Agri Updates Admin</h1>
-                <button onClick={() => setIsMobileOpen(true)} className="p-2 border border-stone-200 rounded hover:bg-stone-50">
-                    <Menu className="w-5 h-5" />
-                </button>
-            </div>
+            {/* Mobile Top Header */}
+            <header className="md:hidden sticky top-0 z-30 border-b px-4 py-2.5 flex items-center justify-between"
+                style={{ background: 'var(--admin-surface)', borderColor: 'var(--admin-border)' }}>
+                <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-stone-900 flex items-center justify-center text-white">
+                        <span className="font-serif font-bold text-sm leading-none">A</span>
+                    </div>
+                    <span className="font-serif font-bold text-base tracking-tight text-stone-900">Agri Updates</span>
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                    <Link
+                        href="/admin/posts/new"
+                        className="bg-stone-900 text-white p-2 rounded-lg font-bold flex items-center justify-center hover:bg-stone-800 transition-colors active:scale-95"
+                        title="New Story"
+                    >
+                        <Plus className="w-4 h-4" />
+                    </Link>
+                    <button
+                        onClick={() => setIsMobileOpen(true)}
+                        className="p-2 border text-stone-700 rounded-lg hover:bg-stone-50 active:bg-stone-100 transition-colors min-w-[36px] min-h-[36px] flex items-center justify-center"
+                        style={{ borderColor: 'var(--admin-border-strong)' }}
+                        aria-label="Open Navigation Menu"
+                    >
+                        <Menu className="w-5 h-5" />
+                    </button>
+                </div>
+            </header>
 
             {/* Desktop Sidebar (Fixed) */}
-            <aside className={`hidden md:block fixed inset-y-0 z-40 transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+            <aside className={`hidden md:block fixed inset-y-0 z-40 transition-all duration-300 ${isCollapsed ? 'w-[72px]' : 'w-[260px]'}`}>
                 {renderSidebarContent(isCollapsed)}
             </aside>
 
-            {/* Mobile Sidebar (Overlay) */}
+            {/* Mobile Sidebar Drawer (Overlay) */}
             {isMobileOpen && (
                 <div className="fixed inset-0 z-50 md:hidden">
-                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsMobileOpen(false)} />
-                    <div className="absolute inset-y-0 left-0 w-64 bg-white shadow-2xl animate-in slide-in-from-left">
+                    <div
+                        className="absolute inset-0 bg-stone-950/50 transition-opacity"
+                        onClick={() => setIsMobileOpen(false)}
+                    />
+                    <div className="absolute inset-y-0 left-0 w-[280px] max-w-[85vw] shadow-2xl flex flex-col"
+                        style={{ background: 'var(--admin-surface)' }}>
                         {renderSidebarContent(false)}
                     </div>
                 </div>
             )}
+
+            {/* Mobile Bottom Navigation */}
+            <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 border-t px-2 py-1.5 flex items-center justify-around"
+                style={{ background: 'var(--admin-surface)', borderColor: 'var(--admin-border)' }}>
+                <Link
+                    href="/admin"
+                    onClick={() => setIsMobileOpen(false)}
+                    className={`flex flex-col items-center justify-center py-1 px-2 rounded-lg text-[10px] font-semibold transition-all ${
+                        pathname === '/admin' ? 'text-stone-900' : 'text-stone-400'
+                    }`}
+                >
+                    <Home className="w-4 h-4 mb-0.5" />
+                    <span>Home</span>
+                </Link>
+
+                <Link
+                    href="/admin/posts"
+                    onClick={() => setIsMobileOpen(false)}
+                    className={`flex flex-col items-center justify-center py-1 px-2 rounded-lg text-[10px] font-semibold transition-all ${
+                        pathname === '/admin/posts' ? 'text-stone-900' : 'text-stone-400'
+                    }`}
+                >
+                    <FileText className="w-4 h-4 mb-0.5" />
+                    <span>Stories</span>
+                </Link>
+
+                <Link
+                    href="/admin/posts/new"
+                    onClick={() => setIsMobileOpen(false)}
+                    className="flex flex-col items-center justify-center -mt-3"
+                >
+                    <div className="w-10 h-10 rounded-xl bg-stone-900 text-white flex items-center justify-center shadow-md active:scale-95 transition-transform">
+                        <Plus className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-semibold text-stone-900 mt-0.5">New</span>
+                </Link>
+
+                <Link
+                    href="/admin/review"
+                    onClick={() => setIsMobileOpen(false)}
+                    className={`flex flex-col items-center justify-center py-1 px-2 rounded-lg text-[10px] font-semibold transition-all ${
+                        pathname === '/admin/review' ? 'text-stone-900' : 'text-stone-400'
+                    }`}
+                >
+                    <Eye className="w-4 h-4 mb-0.5" />
+                    <span>Review</span>
+                </Link>
+
+                <button
+                    onClick={() => setIsMobileOpen(true)}
+                    className="flex flex-col items-center justify-center py-1 px-2 rounded-lg text-[10px] font-semibold text-stone-400"
+                >
+                    <MoreHorizontal className="w-4 h-4 mb-0.5" />
+                    <span>More</span>
+                </button>
+            </nav>
         </>
     );
 }

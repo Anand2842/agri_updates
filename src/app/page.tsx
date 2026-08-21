@@ -1,7 +1,6 @@
 import FeaturedGrid from '@/components/home/FeaturedGrid';
 import Trending from '@/components/home/Trending';
 import MainHero from '@/components/home/MainHero';
-import Opportunities from '@/components/home/Opportunities';
 import DontMiss from '@/components/home/DontMiss';
 import SubscribeBlock from '@/components/home/SubscribeBlock';
 import GrantsSection from '@/components/home/GrantsSection';
@@ -10,7 +9,7 @@ import StartupsSection from '@/components/home/StartupsSection';
 import LatestJobs from '@/components/home/LatestJobs';
 import CoverageMap from '@/components/home/CoverageMap';
 import SectionsDesk from '@/components/home/SectionsDesk';
-import QuickAccessBar from '@/components/home/QuickAccessBar';
+import LatestNewsFeed from '@/components/home/LatestNewsFeed';
 import AdBanner from '@/components/ads/AdBanner';
 import { supabase } from '@/lib/supabase';
 import { Post, Job } from '@/types/database';
@@ -194,9 +193,9 @@ const MOCK_JOBS: Job[] = [
     company: 'Green Growth Labs',
     location: 'Remote',
     type: 'Full-time',
-    salary_range: '$50k - $70k', // Added
+    salary_range: '$50k - $70k',
     application_link: '#',
-    description: 'Entry level position for a botanist enthusiast.', // Added
+    description: 'Entry level position for a botanist enthusiast.',
     tags: ['Entry Level', 'Remote'],
     is_active: true,
     status: 'published',
@@ -209,9 +208,9 @@ const MOCK_JOBS: Job[] = [
     company: 'FarmFuture Inc.',
     location: 'San Francisco, CA',
     type: 'Full-time',
-    salary_range: '$120k - $160k', // Added
+    salary_range: '$120k - $160k',
     application_link: '#',
-    description: 'Senior developer needed to lead our frontend team.', // Added
+    description: 'Senior developer needed to lead our frontend team.',
     tags: ['Senior', 'Tech', 'React'],
     is_active: true,
     status: 'published',
@@ -224,9 +223,9 @@ const MOCK_JOBS: Job[] = [
     company: 'Earth Matters',
     location: 'Austin, TX',
     type: 'Contract',
-    salary_range: '$80/hr', // Added
+    salary_range: '$80/hr',
     application_link: '#',
-    description: 'Contract role for soil analysis and reporting.', // Added
+    description: 'Contract role for soil analysis and reporting.',
     tags: ['Contract', 'Science'],
     is_active: true,
     status: 'published',
@@ -239,9 +238,9 @@ const MOCK_JOBS: Job[] = [
     company: 'Square Roots',
     location: 'NYC',
     type: 'Internship',
-    salary_range: '$20/hr', // Added
+    salary_range: '$20/hr',
     application_link: '#',
-    description: 'Learn urban farming techniques this summer.', // Added
+    description: 'Learn urban farming techniques this summer.',
     tags: ['Intern'],
     is_active: true,
     status: 'published',
@@ -254,32 +253,25 @@ function isJobListing(post: Post): boolean {
   return /hiring|vacancy|job opening|position|territory manager|sales officer|field executive/i.test(title);
 }
 
-
 async function getData() {
   try {
     const { data: posts, error: postError } = await supabase
       .from('posts')
       .select('*')
-      // .neq('category', 'Jobs') // ALLOW Jobs in main feed now
-      .eq('status', 'published') // Only show published posts
+      .eq('status', 'published')
       .order('published_at', { ascending: false });
 
-    // Fetch jobs from posts table
     const { data: jobsData, error: jobError } = await supabase
       .from('posts')
       .select('*')
       .eq('category', 'Jobs')
-      .eq('status', 'published') // Only show published jobs
+      .eq('status', 'published')
       .order('created_at', { ascending: false })
       .limit(10);
 
     if (postError) console.error('Supabase posts fetch error:', JSON.stringify(postError, null, 2));
     if (jobError) console.error('Supabase jobs fetch error:', JSON.stringify(jobError, null, 2));
 
-    // Map posts to Job interface 
-    // We assume the extra job fields are stored in the table columns 
-    // based on previous context, but will use 'any' casting for safety 
-    // if types aren't perfectly aligned yet.
     const jobs: Job[] = (jobsData || []).map((post: Post) => ({
       id: post.id,
       slug: post.slug,
@@ -295,7 +287,6 @@ async function getData() {
       is_active: post.is_active ?? true,
       created_at: post.created_at
     }));
-
 
     return {
       posts: (posts && posts.length > 0) 
@@ -322,54 +313,40 @@ export default async function Home() {
     !isJobListing(post)
   );
 
-  // --- REFINED SLOT LOGIC WITH ADMIN WIREUPS ---
-
-  // 1. Bucket posts by their explicit display_location
+  // 1. Bucket posts by explicit display_location
   const explicitHero = feedPosts.filter(p => p.display_location === 'hero');
   const explicitFeatured = feedPosts.filter(p => p.display_location === 'featured');
   const explicitTrending = feedPosts.filter(p => p.display_location === 'trending');
   const explicitDontMiss = feedPosts.filter(p => p.display_location === 'dont_miss');
 
   const shownIds = new Set<string>();
-
-  // Helper to check if a post is already shown
   const isAvailable = (p: Post) => !shownIds.has(p.id);
   const markShown = (p: Post) => shownIds.add(p.id);
 
-  // 2. Select Main Hero (Priority: Explicit 'hero' -> First Featured -> First Recent)
+  // 2. Select Main Hero
   let mainHeroPost: Post | null = null;
-
   if (explicitHero.length > 0 && isAvailable(explicitHero[0])) {
     mainHeroPost = explicitHero[0];
   } else {
-    // Fallback: Use first featured post that isn't already used (though none used yet)
-    // or just the first post in the list.
     const fallback = feedPosts.find(p => p.is_featured) || feedPosts[0];
     if (fallback) mainHeroPost = fallback;
   }
-
   if (mainHeroPost) markShown(mainHeroPost);
 
-  // Helper to check if featured is still active (not expired)
   const isFeaturedActive = (p: Post) => {
     if (!p.is_featured) return false;
-    if (!p.featured_until) return true; // No expiration = forever featured
-    return new Date(p.featured_until) > new Date(); // Check if not yet expired
+    if (!p.featured_until) return true;
+    return new Date(p.featured_until) > new Date();
   };
 
-  // 3. Select Featured Grid (Target: 3 posts)
-  // Priority: Explicit 'featured' -> Other is_featured=true posts (that haven't expired)
+  // 3. Select Featured Grid (3 posts)
   const featuredPosts: Post[] = [];
-
-  // Add explicit featured ones first
   explicitFeatured.forEach(p => {
     if (isAvailable(p) && featuredPosts.length < 3) {
       featuredPosts.push(p);
       markShown(p);
     }
   });
-
-  // Fill remainder with generic featured posts (checking expiration)
   if (featuredPosts.length < 3) {
     const candidates = feedPosts.filter(p => isFeaturedActive(p) && isAvailable(p));
     for (const p of candidates) {
@@ -379,19 +356,15 @@ export default async function Home() {
     }
   }
 
-  // 4. Select Trending (Target: 5 posts)
-  // Priority: Explicit 'trending' -> Next available recent posts
+  // 4. Select Trending (5 posts)
   const trendingPosts: Post[] = [];
-
   explicitTrending.forEach(p => {
     if (isAvailable(p) && trendingPosts.length < 5) {
       trendingPosts.push(p);
       markShown(p);
     }
   });
-
   if (trendingPosts.length < 5) {
-    // Fill with remaining posts (sorted by date desc from fetch)
     const candidates = feedPosts.filter(p => isAvailable(p));
     for (const p of candidates) {
       if (trendingPosts.length >= 5) break;
@@ -400,17 +373,14 @@ export default async function Home() {
     }
   }
 
-  // 5. Select Don't Miss (Target: 4 posts)
-  // Priority: Explicit 'dont_miss' -> Next available recent posts
+  // 5. Select Don't Miss (4 posts)
   const dontMissPosts: Post[] = [];
-
   explicitDontMiss.forEach(p => {
     if (isAvailable(p) && dontMissPosts.length < 4) {
       dontMissPosts.push(p);
       markShown(p);
     }
   });
-
   if (dontMissPosts.length < 4) {
     const candidates = feedPosts.filter(p => isAvailable(p));
     for (const p of candidates) {
@@ -432,7 +402,7 @@ export default async function Home() {
 
   const sectionsDesk = publicCategories
     .filter((category) => category.surfaceType === 'editorial' && category.name !== 'Warnings')
-    .slice(0, 3)
+    .slice(0, 4)
     .map((descriptor) => ({
       descriptor,
       posts: categoryPostsMap.get(descriptor.name) || [],
@@ -459,47 +429,38 @@ export default async function Home() {
   });
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-white min-h-screen">
       {/* Screen-reader accessible H1 for SEO */}
       <h1 className="sr-only">Agricultural Jobs, Internships, Grants & Innovation News in India</h1>
 
-      {/* 1. Quick Intent Selector Bar */}
-      <QuickAccessBar
-        jobCount={jobs.length}
-        grantCount={grantsPosts.length}
-        startupCount={startupPosts.length}
-      />
-
-      {/* 2. Warnings / Advisories Strip */}
+      {/* 1. Warnings / Advisories Strip */}
       {warningsPosts.length > 0 && <WarningsStrip posts={warningsPosts} />}
 
-      {/* 3. Main Intelligence Showcase Grid */}
-      <section className="editorial-shell py-4 grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-        {/* Trending: order-2 on mobile, lg:order-1 on desktop */}
-        <aside className="lg:col-span-3 order-2 lg:order-1">
-          <Trending posts={trendingPosts} />
-        </aside>
-
-        {/* MainHero: order-1 on mobile, lg:order-2 on desktop */}
-        <div className="lg:col-span-6 order-1 lg:order-2">
+      {/* 2. Main Intelligence Showcase Grid (Beat 1: Single column on mobile, 12-cols on desktop) */}
+      <section className="editorial-shell pt-6 sm:pt-8 pb-8 sm:pb-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start border-b border-slate-100">
+        <div className="lg:col-span-8 order-1">
           {mainHeroPost && <MainHero post={mainHeroPost} />}
         </div>
 
-        {/* Opportunities: order-3 on mobile, lg:order-3 on desktop */}
-        <aside className="lg:col-span-3 order-3 lg:order-3">
-          <Opportunities jobs={jobs} />
-        </aside>
+        <div className="lg:col-span-4 order-2 lg:border-l border-slate-100 lg:pl-8 pt-4 lg:pt-0">
+          <Trending posts={trendingPosts} />
+        </div>
+      </section>
+
+      {/* 3. Latest Agriculture News Ticker (Beat 2) */}
+      <section className="editorial-shell my-8 sm:my-12">
+        <LatestNewsFeed posts={feedPosts} />
       </section>
 
       {/* Ad Placement */}
-      <div className="editorial-shell my-3">
+      <div className="editorial-shell my-4 sm:my-6">
         <AdBanner placement="banner" />
       </div>
 
-      {/* 4. Featured Curated Stories */}
+      {/* 4. Featured Curated Stories (Beat 3) */}
       <FeaturedGrid posts={featuredPosts} />
 
-      {/* 5. Deep Dives / Don't Miss */}
+      {/* 5. Deep Dives / Don't Miss (Beat 4) */}
       <DontMiss posts={dontMissPosts} />
 
       {/* 6. Desks & Coverage Explorer */}
@@ -508,13 +469,15 @@ export default async function Home() {
       {/* 7. Detailed Section Desks */}
       <SectionsDesk sections={sectionsDesk} />
 
-      {/* 8. Bottom Utility Desks Section */}
-      <section className="editorial-shell py-8 border-t border-slate-200/80">
-        <div className="mb-6 pb-2 border-b border-slate-200/80">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">Specialized Resources</p>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">Capital, Startups & Careers Hub</h2>
+      {/* 8. Bottom Specialized Resources Hub (Grants, Startups, Jobs) */}
+      <section className="editorial-shell py-8 sm:py-12 border-t border-slate-200/80">
+        <div className="mb-6 pb-3 border-b border-slate-200/80 flex flex-col sm:flex-row sm:items-end justify-between gap-1">
+          <div>
+            <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-emerald-700">Specialized Resources</p>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">Capital, Startups & Careers Hub</h2>
+          </div>
         </div>
-        <div className="grid gap-5 md:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
           <GrantsSection posts={grantsPosts} />
           <StartupsSection posts={startupPosts} />
           <LatestJobs posts={jobPosts} />

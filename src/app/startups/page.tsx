@@ -7,7 +7,7 @@ import StartupNewsHero from '@/components/startups/StartupNewsHero';
 import StartupTagFilter from '@/components/startups/StartupTagFilter';
 import StartupNewsCard from '@/components/startups/StartupNewsCard';
 import DirectoryPreview from '@/components/startups/DirectoryPreview';
-import AdBanner from '@/components/ads/AdBanner';
+import StartupTrending from '@/components/startups/StartupTrending';
 import { normalizePostRecord } from '@/lib/public-posts';
 
 export const revalidate = 60;
@@ -16,7 +16,7 @@ interface StartupsHubProps {
     searchParams: Promise<{ tag?: string; page?: string }>;
 }
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 10; // We can show 1 featured (2 col) + 8 standard (1 col each) = 9 cards, but 10 is fine.
 
 // Fetch posts (news)
 async function getStartupNews(tagFilter?: string, page: number = 1): Promise<{ posts: Post[], total: number }> {
@@ -138,129 +138,98 @@ export default async function StartupsHubPage({ searchParams }: StartupsHubProps
     const gridPosts = heroPost ? posts.slice(1) : posts;
 
     return (
-        <div className="bg-stone-50 min-h-screen pb-20">
-            {/* HERO SECTION */}
+        <div className="bg-white min-h-screen">
+            {/* 1. DARK HERO SECTION */}
             {heroPost && (
-                <div className="mb-0">
-                    <StartupNewsHero post={heroPost} />
-                </div>
+                <StartupNewsHero post={heroPost} />
             )}
 
             {/* TAG FILTER BAR */}
             <StartupTagFilter currentTag={tagFilter || null} />
 
-            {/* MAIN CONTENT GRID */}
-            <div className="editorial-shell py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    
-                    {/* LEFT COLUMN: News Feed (8 cols) */}
-                    <div className="lg:col-span-8">
-                        
-                        <div className="mb-8 flex items-end justify-between border-b border-stone-800 pb-2">
-                            <h2 className="text-xl font-serif font-bold text-stone-900">
-                                {tagFilter ? `${tagFilter} News` : 'Latest News'}
+            {/* 2. LATEST STARTUP NEWS (Light Content) */}
+            <div className="bg-[#F8FAF9] py-16 border-b border-stone-200">
+                <div className="container mx-auto px-4 max-w-6xl">
+                    <div className="mb-10 flex flex-col sm:flex-row sm:items-end justify-between border-b border-stone-200 pb-4 gap-4">
+                        <div>
+                            <h2 className="text-3xl font-serif font-bold text-stone-900 tracking-tight">
+                                {tagFilter ? `${tagFilter} News` : 'Latest Startup News'}
                             </h2>
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400">
-                                {total} updates
-                            </span>
+                            {tagFilter && (
+                                <p className="text-stone-500 mt-1 text-sm">
+                                    Showing all updates tagged with "{tagFilter}"
+                                </p>
+                            )}
                         </div>
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400 shrink-0 mb-1">
+                            {total} updates
+                        </span>
+                    </div>
 
-                        {gridPosts.length > 0 ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {gridPosts.map((post, idx) => (
-                                    <div key={post.id} className={idx === 0 && !heroPost ? 'md:col-span-2' : ''}>
+                    {gridPosts.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {gridPosts.map((post, idx) => {
+                                // If we don't have a hero (e.g. on filtered pages or page 2), make the first card featured
+                                const isFeatured = idx === 0 && !heroPost;
+                                return (
+                                    <div key={post.id} className={isFeatured ? 'md:col-span-2 lg:col-span-2' : ''}>
                                         <StartupNewsCard 
                                             post={post} 
-                                            variant={idx === 0 && !heroPost ? 'featured' : 'compact'} 
+                                            variant={isFeatured ? 'featured' : 'standard'} 
                                         />
                                     </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="py-20 text-center bg-white border border-stone-200 rounded-[1.5rem] shadow-sm">
-                                <h3 className="font-serif text-xl font-bold mb-2">No news found</h3>
-                                <p className="text-stone-500 text-sm">
-                                    {tagFilter 
-                                        ? `We couldn't find any updates for "${tagFilter}".` 
-                                        : "Check back later for the latest startup news."}
-                                </p>
-                            </div>
-                        )}
-
-                        {/* Pagination */}
-                        {totalPages > 1 && (
-                            <div className="flex justify-center gap-4 mt-12 pt-8 border-t border-stone-200">
-                                {page > 1 && (
-                                    <Link
-                                        href={`/startups?page=${page - 1}${tagFilter ? `&tag=${encodeURIComponent(tagFilter)}` : ''}`}
-                                        className="rounded-full px-6 py-2.5 bg-white border border-stone-200 shadow-sm hover:bg-stone-900 hover:text-white hover:border-stone-900 transition-all font-bold text-xs uppercase tracking-wider"
-                                    >
-                                        Previous
-                                    </Link>
-                                )}
-                                <span className="flex items-center text-xs font-bold uppercase text-stone-500">
-                                    Page {page} of {totalPages}
-                                </span>
-                                {page < totalPages && (
-                                    <Link
-                                        href={`/startups?page=${page + 1}${tagFilter ? `&tag=${encodeURIComponent(tagFilter)}` : ''}`}
-                                        className="rounded-full px-6 py-2.5 bg-white border border-stone-200 shadow-sm hover:bg-stone-900 hover:text-white hover:border-stone-900 transition-all font-bold text-xs uppercase tracking-wider"
-                                    >
-                                        Next
-                                    </Link>
-                                )}
-                            </div>
-                        )}
-                    </div>
-
-                    {/* RIGHT COLUMN: Sidebar (4 cols) */}
-                    <div className="lg:col-span-4 space-y-10">
-                        {/* Ad Banner */}
-                        <div className="paper-panel p-5 shadow-sm">
-                            <span className="text-[9px] uppercase font-bold text-stone-400 block mb-2 text-center tracking-widest">Advertisement</span>
-                            <AdBanner placement="sidebar" />
+                                );
+                            })}
                         </div>
-
-                        {/* Trending Tags Cloud */}
-                        {trendingTags.length > 0 && (
-                            <div className="paper-panel p-6 shadow-sm">
-                                <h3 className="font-bold uppercase text-xs tracking-widest text-stone-900 mb-6 flex items-center gap-2">
-                                    <span className="w-2 h-2 bg-agri-green rounded-full"></span>
-                                    Trending Topics
-                                </h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {trendingTags.map((t) => (
-                                        <Link 
-                                            key={t.tag}
-                                            href={`/startups?tag=${encodeURIComponent(t.tag)}`}
-                                            className="px-3 py-1.5 bg-stone-50 border border-stone-200 text-stone-600 text-xs font-bold uppercase hover:border-agri-green hover:text-agri-green transition-colors"
-                                        >
-                                            {t.tag} <span className="text-stone-400 font-normal ml-1">({t.count})</span>
-                                        </Link>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Directory Widget */}
-                        <div className="bg-black text-white p-8 rounded-[1.5rem] shadow-sm">
-                            <h3 className="font-serif text-2xl font-bold mb-4">Startup Directory</h3>
-                            <p className="text-stone-400 text-sm mb-8 leading-relaxed">
-                                Research and discover hundreds of innovative agritech companies mapped by sector, stage, and location.
+                    ) : (
+                        <div className="py-24 text-center bg-white border border-stone-200 rounded-[1.5rem] shadow-sm max-w-2xl mx-auto">
+                            <h3 className="font-serif text-2xl font-bold mb-3 text-stone-900">No news found</h3>
+                            <p className="text-stone-500 text-base">
+                                {tagFilter 
+                                    ? `We couldn't find any updates for "${tagFilter}".` 
+                                    : "Check back later for the latest startup news."}
                             </p>
-                            <Link 
-                                href="/startups/directory"
-                                className="block w-full py-3 bg-agri-green hover:bg-white hover:text-black transition-colors text-center font-bold uppercase text-xs tracking-widest rounded-full"
-                            >
-                                Enter Directory
-                            </Link>
+                            {tagFilter && (
+                                <Link href="/startups" className="inline-block mt-6 px-6 py-2.5 bg-startup-forest text-white text-xs font-bold uppercase tracking-widest rounded-full hover:bg-startup-emerald transition-colors">
+                                    View All News
+                                </Link>
+                            )}
                         </div>
-                    </div>
+                    )}
 
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div className="flex justify-center gap-4 mt-16">
+                            {page > 1 && (
+                                <Link
+                                    href={`/startups?page=${page - 1}${tagFilter ? `&tag=${encodeURIComponent(tagFilter)}` : ''}`}
+                                    className="rounded-full px-8 py-3 bg-white border border-stone-200 shadow-sm hover:border-startup-emerald hover:text-startup-emerald transition-all font-bold text-xs uppercase tracking-wider"
+                                >
+                                    Previous
+                                </Link>
+                            )}
+                            <span className="flex items-center text-xs font-bold uppercase text-stone-400 tracking-widest">
+                                Page {page} of {totalPages}
+                            </span>
+                            {page < totalPages && (
+                                <Link
+                                    href={`/startups?page=${page + 1}${tagFilter ? `&tag=${encodeURIComponent(tagFilter)}` : ''}`}
+                                    className="rounded-full px-8 py-3 bg-white border border-stone-200 shadow-sm hover:border-startup-emerald hover:text-startup-emerald transition-all font-bold text-xs uppercase tracking-wider"
+                                >
+                                    Next
+                                </Link>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
 
-            {/* DIRECTORY PREVIEW (Bottom) */}
+            {/* 3. TRENDING NOW (Very Light Content) */}
+            {trendingTags.length > 0 && !tagFilter && page === 1 && (
+                <StartupTrending tags={trendingTags} />
+            )}
+
+            {/* 4. DIRECTORY PREVIEW (Tinted Background) */}
             <DirectoryPreview startups={directoryPreview} />
 
         </div>

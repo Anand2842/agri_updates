@@ -7,6 +7,7 @@ import { formatRelativeDate } from '@/lib/utils/date';
 import PostContent from '@/components/PostContent';
 import { getAllHubs } from '@/lib/hubs';
 import AdBanner from '@/components/ads/AdBanner';
+import { decodeHtmlEntities } from '@/lib/utils/string';
 
 export const revalidate = 60;
 
@@ -47,19 +48,21 @@ export async function generateMetadata({ params }: JobPageProps): Promise<Metada
         };
     }
 
+    const safeTitle = decodeHtmlEntities(job.title);
+
     return {
-        title: `${job.title} at ${job.company} | Agri Updates`,
-        description: `Apply for the ${job.title} position at ${job.company} in ${job.location}.`,
+        title: `${safeTitle} at ${job.company} | Agri Updates`,
+        description: `Apply for the ${safeTitle} position at ${job.company} in ${job.location}.`,
         openGraph: {
-            title: `${job.title} at ${job.company}`,
-            description: `Apply for the ${job.title} position at ${job.company} in ${job.location}.`,
+            title: `${safeTitle} at ${job.company}`,
+            description: `Apply for the ${safeTitle} position at ${job.company} in ${job.location}.`,
             type: 'article',
             publishedTime: job.created_at,
         },
         twitter: {
             card: 'summary_large_image',
-            title: `${job.title} at ${job.company}`,
-            description: `Apply for the ${job.title} position at ${job.company} in ${job.location}.`,
+            title: `${safeTitle} at ${job.company}`,
+            description: `Apply for the ${safeTitle} position at ${job.company} in ${job.location}.`,
         },
         alternates: {
             canonical: `/blog/${job.slug}`,
@@ -80,11 +83,13 @@ export default async function JobPage({ params }: JobPageProps) {
         redirect(`/jobs/${job.slug}`);
     }
 
+    const safeTitle = decodeHtmlEntities(job.title);
+
     // Schema.org JSON-LD
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'JobPosting',
-        title: job.title,
+        title: safeTitle,
         hiringOrganization: {
             '@type': 'Organization',
             name: job.company,
@@ -131,7 +136,7 @@ export default async function JobPage({ params }: JobPageProps) {
                             {
                                 '@type': 'ListItem',
                                 position: 3,
-                                name: job.title,
+                                name: safeTitle,
                                 item: `https://www.agriupdates.online/jobs/${slug}`
                             }
                         ]
@@ -157,8 +162,8 @@ export default async function JobPage({ params }: JobPageProps) {
                                     Posted {formatRelativeDate(job.created_at)}
                                 </span>
                             </div>
-                            <h1 className="font-serif text-3xl md:text-5xl font-bold text-stone-900 mb-2">
-                                {job.title}
+                            <h1 className="font-serif text-4xl md:text-5xl font-bold text-stone-900 leading-tight mb-3 tracking-tight">
+                                {safeTitle}
                             </h1>
                             <div className="flex items-center gap-2 text-lg text-stone-600 font-serif">
                                 <Building className="w-5 h-5" />

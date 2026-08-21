@@ -4,331 +4,326 @@ import { safeDateFormat } from '@/lib/utils/date';
 
 export const revalidate = 0;
 
-export default async function AdminDashboard() {
+export default async function AdminHome() {
     const supabase = await createClient()
 
-    // 1. Fetch Key Stats
-    const { count: totalPostsCount } = await supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'published')
-    const { count: draftPostsCount } = await supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'draft')
-    const { count: pendingReviewCount } = await supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'pending_review')
-    const { count: scheduledPostsCount } = await supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'scheduled')
+    // Get current user for greeting + "Your Work"
+    const { data: { user } } = await supabase.auth.getUser()
+    const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'there'
 
-    const totalPosts = totalPostsCount || 0
-    const draftPosts = draftPostsCount || 0
-    const pendingReview = pendingReviewCount || 0
-    const scheduledPosts = scheduledPostsCount || 0
+    // ─── Fetch key stats in parallel ───
+    const [
+        { count: publishedCount },
+        { count: draftCount },
+        { count: pendingReviewCount },
+        { count: scheduledCount },
+        { data: allPostViews },
+        { data: todayPublished },
+        { data: topStories },
+        { data: recentDrafts },
+        { data: reviewQueue },
+        { data: scheduledToday },
+    ] = await Promise.all([
+        supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'published'),
+        supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'draft'),
+        supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'pending_review'),
+        supabase.from('posts').select('*', { count: 'exact', head: true }).eq('status', 'scheduled'),
+        supabase.from('posts').select('views'),
+        (() => {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            return supabase.from('posts').select('views').gte('published_at', today.toISOString());
+        })(),
+        supabase.from('posts').select('id, title, views, category, published_at').eq('status', 'published').order('views', { ascending: false }).limit(5),
+        supabase.from('posts').select('id, title, category, created_at, source, excerpt, content').eq('status', 'draft').order('created_at', { ascending: false }).limit(5),
+        supabase.from('posts').select('id, title, author_name, created_at').eq('status', 'pending_review').order('created_at', { ascending: false }).limit(5),
+        (() => {
+            const todayStart = new Date();
+            todayStart.setHours(0, 0, 0, 0);
+            const todayEnd = new Date();
+            todayEnd.setHours(23, 59, 59, 999);
+            return supabase.from('posts').select('id, title, category, scheduled_for').eq('status', 'scheduled').gte('scheduled_for', todayStart.toISOString()).lte('scheduled_for', todayEnd.toISOString()).order('scheduled_for', { ascending: true });
+        })(),
+    ])
 
-    // Calculate Total Views
-    const { data: allPosts } = await supabase.from('posts').select('views');
-    const totalViews = allPosts?.reduce((acc, curr) => acc + (curr.views || 0), 0) || 0;
+    const totalPublished = publishedCount || 0
+    const totalDrafts = draftCount || 0
+    const totalPendingReview = pendingReviewCount || 0
+    const totalScheduled = scheduledCount || 0
+    const totalViews = allPostViews?.reduce((acc, curr) => acc + (curr.views || 0), 0) || 0
+    const todayViews = todayPublished?.reduce((acc, curr) => acc + (curr.views || 0), 0) || 0
 
-    // Today's views (posts viewed today)
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const { data: todayPosts } = await supabase
-        .from('posts')
-        .select('views')
-        .gte('published_at', today.toISOString());
-    const todayViews = todayPosts?.reduce((acc, curr) => acc + (curr.views || 0), 0) || 0;
+    // Greeting based on time
+    const hour = new Date().getHours()
+    const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
+    const dateStr = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })
 
-    // 2. Fetch Top Performing Stories (with time filter)
-    const { data: topStories } = await supabase
-        .from('posts')
-        .select('id, title, views, category, published_at')
-        .eq('status', 'published')
-        .order('views', { ascending: false })
-        .limit(5)
+    // Estimate draft completeness from content length
+    const estimateCompletion = (post: { title?: string; content?: string | null; excerpt?: string | null }) => {
+        let score = 0
+        if (post.title && post.title.length > 5) score += 30
+        if (post.excerpt && post.excerpt.length > 10) score += 15
+        if (post.content) {
+            const len = post.content.replace(/<[^>]*>/g, '').length
+            if (len > 500) score += 55
+            else if (len > 200) score += 40
+            else if (len > 50) score += 25
+            else score += 10
+        }
+        return Math.min(score, 100)
+    }
 
-    // 3. Fetch Recent Drafts (WhatsApp Stream)
-    const { data: recentDrafts } = await supabase
-        .from('posts')
-        .select('*')
-        .eq('status', 'draft')
-        .order('created_at', { ascending: false })
-        .limit(5)
-
-    // 4. Fetch posts needing review
-    const { data: reviewQueue } = await supabase
-        .from('posts')
-        .select('id, title, author_name, created_at')
-        .eq('status', 'pending_review')
-        .order('created_at', { ascending: false })
-        .limit(3)
+    const hasActions = totalPendingReview > 0 || (scheduledToday && scheduledToday.length > 0)
 
     return (
-        <div className="max-w-7xl pb-12">
-            {/* Header section */}
-            <header className="mb-8">
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div>
-                        <h1 className="font-serif text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-stone-900 to-stone-500 tracking-tight mb-1">
-                            Newsroom Engine
-                        </h1>
-                        <p className="text-stone-500 text-sm font-medium">Real-time intelligence and media engagement</p>
-                    </div>
-                    <div className="flex gap-3">
-                        <Link 
-                            href="/admin/posts/new"
-                            className="group relative inline-flex items-center justify-center gap-2 bg-stone-900 text-white px-6 py-2.5 rounded-xl font-bold text-sm tracking-wide overflow-hidden transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-stone-900/20 active:scale-95"
-                        >
-                            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
-                            <span className="relative z-10 flex items-center gap-2">✍️ Write Story</span>
-                        </Link>
-                        <Link 
-                            href="/admin/posts/generate"
-                            className="bg-gradient-to-b from-indigo-500 to-purple-600 p-[1px] rounded-xl overflow-hidden transition-all hover:scale-[1.02] hover:shadow-xl hover:shadow-purple-500/25 active:scale-95 z-10"
-                        >
-                            <span className="flex items-center gap-2 bg-gradient-to-br from-indigo-50 to-purple-50 text-purple-900 px-6 py-2.5 rounded-[11px] font-bold text-sm h-full">
-                                ✨ AI Generate
-                            </span>
-                        </Link>
-                    </div>
+        <div className="max-w-4xl pb-12 space-y-8">
+
+            {/* ─── Greeting ─── */}
+            <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                <div>
+                    <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 tracking-tight">
+                        {greeting}, {userName}
+                    </h1>
+                    <p className="text-sm text-stone-400 mt-0.5">{dateStr}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Link
+                        href="/admin/posts/new"
+                        className="inline-flex items-center gap-1.5 bg-stone-900 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-stone-800 transition-colors active:scale-[0.97]"
+                    >
+                        + New Story
+                    </Link>
+                    <Link
+                        href="/admin/posts/generate"
+                        className="inline-flex items-center gap-1.5 text-stone-600 border px-4 py-2 rounded-lg font-semibold text-sm hover:bg-stone-50 transition-colors"
+                        style={{ borderColor: 'var(--admin-border-strong)' }}
+                    >
+                        ✨ AI Assist
+                    </Link>
+                    <Link
+                        href="/"
+                        target="_blank"
+                        className="hidden sm:inline-flex items-center gap-1 text-stone-400 text-sm font-medium hover:text-stone-700 transition-colors"
+                    >
+                        View Site →
+                    </Link>
                 </div>
             </header>
 
-            {/* BENTO GRID */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-6 mb-8">
-                
-                {/* Master Stat: Views */}
-                <div className="md:col-span-12 lg:col-span-8 group relative bg-white border border-stone-200/60 rounded-3xl p-6 lg:p-8 overflow-hidden transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-stone-300">
-                    <div className="absolute inset-0 bg-gradient-to-bl from-green-500/[0.03] to-transparent pointer-events-none"></div>
-                    <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                        <div>
-                            <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-stone-500 mb-2">
-                                <span className="w-2 h-2 rounded-full bg-agri-green animate-pulse"></span>
-                                Total Engagement
-                            </h3>
-                            <div className="flex items-end gap-3">
-                                <p className="text-5xl lg:text-7xl font-serif font-bold text-stone-900 tracking-tighter">
-                                    {totalViews.toLocaleString()}
-                                </p>
+            {/* ─── Action Required ─── */}
+            {hasActions && (
+                <div className="space-y-2">
+                    <h2 className="admin-section-label px-0">Action Required</h2>
+                    <div className="space-y-1.5">
+                        {totalPendingReview > 0 && (
+                            <div className="admin-action-banner">
+                                <span>{totalPendingReview} {totalPendingReview === 1 ? 'story' : 'stories'} awaiting review</span>
+                                <Link href="/admin/review">Review →</Link>
                             </div>
-                            <p className="text-sm text-stone-400 mt-2 font-medium">All-time views across {totalPosts} published stories</p>
-                        </div>
-                        
-                        {/* Split stat for today */}
-                        <div className="bg-stone-50/80 backdrop-blur rounded-2xl p-4 lg:p-6 border border-stone-100 min-w-[200px]">
-                            <h3 className="text-[10px] font-bold uppercase tracking-widest text-blue-500 mb-1">Today&apos;s Traffic</h3>
-                            <p className="text-3xl font-serif font-bold text-blue-600 mb-1">+{todayViews.toLocaleString()}</p>
-                            <div className="w-full h-1.5 bg-blue-100 rounded-full mt-3 overflow-hidden">
-                                <div className="h-full bg-blue-500 rounded-full w-3/4"></div> {/* Decorative bar */}
+                        )}
+                        {scheduledToday && scheduledToday.length > 0 && (
+                            <div className="admin-action-banner" style={{ background: 'var(--admin-ai-light)', borderColor: 'rgba(124,58,237,0.15)', color: '#5B21B6' }}>
+                                <span>{scheduledToday.length} {scheduledToday.length === 1 ? 'story' : 'stories'} scheduled today</span>
+                                <Link href="/admin/calendar" style={{ color: 'var(--admin-ai)' }}>View →</Link>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Secondary Stats */}
-                <div className="md:col-span-6 lg:col-span-4 grid grid-cols-2 gap-4 lg:gap-6">
-                    {/* Live Posts Card */}
-                    <div className="col-span-1 bg-gradient-to-b from-stone-50 to-white border border-stone-200/60 rounded-3xl p-5 flex flex-col justify-between group transition-all hover:shadow-lg hover:border-agri-green/30">
-                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-4">Live Stories</h3>
-                        <div>
-                            <p className="text-4xl font-serif font-bold text-stone-900 mb-1 group-hover:text-agri-green transition-colors">{totalPosts}</p>
-                            <p className="text-xs text-stone-400 font-medium">Published</p>
-                        </div>
-                    </div>
-                    {/* Scheduled Card */}
-                    <div className="col-span-1 bg-gradient-to-b from-stone-50 to-white border border-stone-200/60 rounded-3xl p-5 flex flex-col justify-between group transition-all hover:shadow-lg hover:border-purple-300">
-                        <h3 className="text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-4">Pipeline</h3>
-                        <div>
-                            <p className="text-4xl font-serif font-bold text-purple-600 mb-1">{scheduledPosts}</p>
-                            <p className="text-xs text-stone-400 font-medium">Scheduled</p>
-                        </div>
-                    </div>
-                    {/* Drafts Card (spanning full width of this sub-grid) */}
-                    <div className="col-span-2 group bg-stone-900 border border-stone-800 rounded-3xl p-5 relative overflow-hidden transition-all hover:shadow-xl hover:shadow-stone-900/10">
-                        <div className="absolute inset-0 bg-gradient-to-br from-stone-800/50 to-transparent"></div>
-                        <div className="relative z-10 flex justify-between items-end">
-                            <div>
-                                <h3 className="text-[10px] font-bold uppercase tracking-widest text-stone-400 mb-3 block">Works in Progress</h3>
-                                <p className="text-4xl font-serif font-bold text-white mb-1 drop-shadow-md">{draftPosts}</p>
-                                <p className="text-xs text-stone-400 font-medium">Active Drafts</p>
-                            </div>
-                            {pendingReview > 0 && (
-                                <Link href="/admin/posts?status=pending_review" className="bg-amber-500 hover:bg-amber-400 text-stone-900 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-lg hover:shadow-amber-500/25 flex items-center gap-1.5 -mb-1">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-stone-900 animate-pulse"></span>
-                                    {pendingReview} Review
-                                </Link>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* ACTION REQUIRED BANNER */}
-            {(pendingReview > 0 || scheduledPosts > 0) && (
-                <div className="relative overflow-hidden bg-gradient-to-r from-amber-50 via-orange-50/50 to-amber-50 border border-amber-200/60 p-5 mb-8 rounded-2xl md:rounded-[2rem] shadow-sm group">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-amber-400/20 blur-3xl rounded-full -mr-20 -mt-20"></div>
-                    <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 border border-amber-200">
-                                ⚡
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-amber-900 text-sm tracking-wide">Action Required</h3>
-                                <p className="text-xs text-amber-700 mt-0.5">
-                                    {pendingReview > 0 && `${pendingReview} post${pendingReview > 1 ? 's' : ''} waiting for review`}
-                                    {pendingReview > 0 && scheduledPosts > 0 && ' • '}
-                                    {scheduledPosts > 0 && `${scheduledPosts} scheduled post${scheduledPosts > 1 ? 's' : ''}`}
-                                </p>
-                            </div>
-                        </div>
-                        <div className="flex gap-2 w-full md:w-auto">
-                            {pendingReview > 0 && (
-                                <Link 
-                                    href="/admin/posts?status=pending_review"
-                                    className="flex-1 md:flex-none text-center bg-amber-500 text-amber-950 px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-amber-400 transition-colors shadow-sm"
-                                >
-                                    Review Queue
-                                </Link>
-                            )}
-                            {scheduledPosts > 0 && (
-                                <Link 
-                                    href="/admin/posts?status=scheduled"
-                                    className="flex-1 md:flex-none text-center bg-white/60 hover:bg-white text-stone-800 border border-stone-200 px-5 py-2.5 rounded-xl text-xs font-bold transition-colors shadow-sm"
-                                >
-                                    View Schedule
-                                </Link>
-                            )}
-                        </div>
+                        )}
                     </div>
                 </div>
             )}
 
-            {/* CONTENT GRIDS (Stories & Incoming) */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                
-                {/* Trending Stories Column */}
-                <section className="lg:col-span-7 xl:col-span-8 bg-white border border-stone-200/60 shadow-[0_4px_20px_rgb(0,0,0,0.02)] rounded-[2rem] overflow-hidden">
-                    <div className="p-6 md:p-8 flex justify-between items-end border-b border-stone-100/80 bg-stone-50/30 backdrop-blur-md">
-                        <div>
-                            <h2 className="font-bold text-xl text-stone-900 tracking-tight">Trending Content</h2>
-                            <p className="text-xs text-stone-500 mt-1 font-medium">Highest traction this period</p>
-                        </div>
-                        <Link 
-                            href="/admin/posts?sort=views"
-                            className="text-[10px] font-bold text-stone-400 hover:text-stone-800 uppercase tracking-widest transition-colors flex items-center gap-1 group"
-                        >
-                            View All <span className="group-hover:translate-x-0.5 transition-transform">→</span>
-                        </Link>
-                    </div>
-                    <div className="divide-y divide-stone-100/80">
-                        {topStories?.map((post, i) => (
-                            <Link
-                                key={post.id}
-                                href={`/admin/posts/${post.id}`}
-                                className="flex items-center gap-4 lg:gap-6 p-4 md:p-6 hover:bg-stone-50/50 transition-colors group relative overflow-hidden"
-                            >
-                                <div className="absolute inset-y-0 left-0 w-1 bg-agri-green scale-y-0 origin-bottom group-hover:scale-y-100 transition-transform duration-300"></div>
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${
-                                    i === 0 ? 'bg-amber-100 text-amber-600 ring-2 ring-amber-100/50' : 
-                                    i === 1 ? 'bg-stone-100 text-stone-500' : 
-                                    i === 2 ? 'bg-orange-50 text-orange-700' : 'bg-transparent text-stone-300 border border-stone-200'
-                                }`}>
-                                    {i + 1}
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <h4 className="font-bold text-stone-900 text-base md:text-lg line-clamp-1 group-hover:text-agri-green transition-colors">{post.title}</h4>
-                                    <div className="flex items-center gap-3 text-xs text-stone-500 mt-1.5 font-medium border-l border-transparent">
-                                        <span className="flex items-center gap-1.5">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-stone-300"></span>
-                                            {post.category}
-                                        </span>
-                                        <span className="text-stone-300">•</span>
-                                        <span>{safeDateFormat(post.published_at)}</span>
-                                    </div>
-                                </div>
-                                <div className="text-right flex-shrink-0">
-                                    <span className="block font-serif font-bold text-xl md:text-2xl text-stone-900 group-hover:text-agri-green transition-colors">{(post.views || 0).toLocaleString()}</span>
-                                    <span className="text-[10px] uppercase text-stone-400 tracking-widest font-bold">Views</span>
-                                </div>
-                            </Link>
-                        ))}
-                        {(!topStories || topStories.length === 0) && (
-                            <div className="p-16 flex flex-col items-center text-center">
-                                <div className="w-16 h-16 bg-stone-50 rounded-full flex items-center justify-center mb-4 text-2xl">📰</div>
-                                <p className="text-stone-500 font-medium mb-2">No published stories yet</p>
-                                <Link href="/admin/posts/new" className="text-sm font-bold text-stone-900 hover:text-agri-green transition-colors border-b border-transparent hover:border-agri-green">Publish your first post →</Link>
-                            </div>
-                        )}
-                    </div>
-                </section>
+            {/* ─── Today's Newsroom (horizontal stat row) ─── */}
+            <div className="admin-card-flush">
+                <div className="grid grid-cols-2 sm:grid-cols-4 divide-x" style={{ borderColor: 'var(--admin-border)' }}>
+                    <Link href="/admin/posts?status=published" className="admin-stat p-4 sm:p-5 hover:bg-stone-50 transition-colors">
+                        <span className="admin-stat-value" style={{ color: 'var(--admin-success)' }}>{totalPublished}</span>
+                        <span className="admin-stat-label">Live Now</span>
+                    </Link>
+                    <Link href="/admin/review" className="admin-stat p-4 sm:p-5 hover:bg-stone-50 transition-colors">
+                        <span className="admin-stat-value" style={{ color: totalPendingReview > 0 ? 'var(--admin-warning)' : 'var(--admin-text)' }}>{totalPendingReview}</span>
+                        <span className="admin-stat-label">In Review</span>
+                    </Link>
+                    <Link href="/admin/posts?status=scheduled" className="admin-stat p-4 sm:p-5 hover:bg-stone-50 transition-colors">
+                        <span className="admin-stat-value" style={{ color: 'var(--admin-ai)' }}>{totalScheduled}</span>
+                        <span className="admin-stat-label">Scheduled</span>
+                    </Link>
+                    <Link href="/admin/posts?status=draft" className="admin-stat p-4 sm:p-5 hover:bg-stone-50 transition-colors">
+                        <span className="admin-stat-value">{totalDrafts}</span>
+                        <span className="admin-stat-label">Drafts</span>
+                    </Link>
+                </div>
+            </div>
 
-                {/* Right Column: Feeds & Queues */}
-                <div className="lg:col-span-5 xl:col-span-4 flex flex-col gap-6">
-                    
-                    {/* Needs Review (Premium Glassy Card) */}
-                    {reviewQueue && reviewQueue.length > 0 && (
-                        <section className="relative overflow-hidden bg-white border border-stone-200/60 shadow-[0_4px_20px_rgb(0,0,0,0.02)] rounded-[2rem]">
-                            <div className="p-5 border-b border-stone-100 flex items-center justify-between relative z-10 w-full mb-0">
-                                <div className="flex items-center gap-2">
-                                    <h2 className="font-bold text-sm text-stone-900 pl-1">Pending Review</h2>
-                                </div>
-                                <span className="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-1 flex items-center rounded-lg uppercase tracking-wider">{pendingReview} Queued</span>
-                            </div>
-                            <div className="divide-y divide-stone-100/50">
-                                {reviewQueue.map((post) => (
-                                    <Link
-                                        key={post.id}
-                                        href={`/admin/posts/${post.id}`}
-                                        className="block p-5 hover:bg-stone-50 transition-colors group"
-                                    >
-                                        <h4 className="font-bold text-sm text-stone-800 group-hover:text-amber-600 transition-colors line-clamp-2 leading-snug">{post.title || "Untitled"}</h4>
-                                        <div className="flex items-center justify-between mt-3">
-                                            <p className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">by {post.author_name}</p>
-                                            <span className="text-[10px] text-amber-500 font-bold bg-amber-50 px-2 py-1 rounded">Review →</span>
-                                        </div>
-                                    </Link>
-                                ))}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* Inbox / Recent Drafts */}
-                    <section className="bg-gradient-to-b from-stone-50/50 to-white border border-stone-200/60 shadow-[0_4px_20px_rgb(0,0,0,0.02)] rounded-[2rem] flex-1">
-                        <div className="p-6 border-b border-stone-100/80 flex items-end justify-between">
-                            <div>
-                                <h2 className="font-bold text-sm text-stone-900">Inbox & Drafts</h2>
-                                <p className="text-[10px] uppercase font-bold text-stone-400 tracking-widest mt-1">Latest Content</p>
-                            </div>
-                            <Link 
-                                href="/admin/posts?status=draft"
-                                className="w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 flex items-center justify-center transition-colors"
-                            >
-                                <span className="text-xs">→</span>
-                            </Link>
-                        </div>
-                        <div className="divide-y divide-stone-100">
-                            {recentDrafts?.map((post) => (
+            {/* ─── Your Work ─── */}
+            <div>
+                <div className="flex items-center justify-between mb-3">
+                    <h2 className="admin-section-label px-0">Your Work</h2>
+                    <Link href="/admin/posts?status=draft" className="text-xs font-semibold text-stone-400 hover:text-stone-700 transition-colors">
+                        All drafts →
+                    </Link>
+                </div>
+                {recentDrafts && recentDrafts.length > 0 ? (
+                    <div className="admin-card-flush divide-y" style={{ borderColor: 'var(--admin-border)' }}>
+                        {recentDrafts.map((post) => {
+                            const completion = estimateCompletion(post)
+                            return (
                                 <Link
                                     key={post.id}
                                     href={`/admin/posts/${post.id}`}
-                                    className="block p-5 hover:bg-stone-50 transition-colors group relative"
+                                    className="flex items-center gap-4 p-3.5 hover:bg-stone-50 transition-colors group"
                                 >
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-md flex items-center ${
-                                            post.source === 'whatsapp' 
-                                                ? 'bg-green-50 text-green-700' 
-                                                : 'bg-stone-100 text-stone-600'
-                                        }`}>
-                                            {post.source === 'whatsapp' ? '📱 WhatsApp' : '⌨️ Manual Draft'}
-                                        </span>
-                                        <span className="text-[10px] text-stone-400 font-bold">{new Date(post.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                    <div className="flex-1 min-w-0">
+                                        <h4 className="font-semibold text-sm text-stone-800 truncate group-hover:text-stone-950 transition-colors">
+                                            {post.title || 'Untitled draft'}
+                                        </h4>
+                                        <div className="flex items-center gap-2 mt-1 text-xs text-stone-400">
+                                            <span>{post.category}</span>
+                                            <span>·</span>
+                                            <span>{post.source === 'whatsapp' ? '📱 WhatsApp' : 'Manual'}</span>
+                                            <span>·</span>
+                                            <span>{safeDateFormat(post.created_at)}</span>
+                                        </div>
                                     </div>
-                                    <h4 className="font-bold text-sm text-stone-800 line-clamp-2 leading-relaxed group-hover:text-stone-950 transition-colors">{post.title || "Untitled Draft"}</h4>
+                                    <div className="flex items-center gap-3 shrink-0">
+                                        <div className="hidden sm:flex items-center gap-2">
+                                            <div className="w-16 h-1.5 bg-stone-100 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full rounded-full transition-all"
+                                                    style={{
+                                                        width: `${completion}%`,
+                                                        background: completion >= 80 ? 'var(--admin-success)' : completion >= 40 ? 'var(--admin-warning)' : 'var(--admin-text-muted)',
+                                                    }}
+                                                />
+                                            </div>
+                                            <span className="text-[11px] font-semibold text-stone-400 w-8 text-right">{completion}%</span>
+                                        </div>
+                                        <span className="text-xs text-stone-400 group-hover:text-stone-600 transition-colors">Edit →</span>
+                                    </div>
+                                </Link>
+                            )
+                        })}
+                    </div>
+                ) : (
+                    <div className="admin-card text-center py-8">
+                        <p className="text-sm text-stone-400 mb-2">No drafts in progress</p>
+                        <Link href="/admin/posts/new" className="text-sm font-semibold text-stone-900 hover:text-stone-600 transition-colors">
+                            Start writing →
+                        </Link>
+                    </div>
+                )}
+            </div>
+
+            {/* ─── Publishing Today ─── */}
+            {scheduledToday && scheduledToday.length > 0 && (
+                <div>
+                    <h2 className="admin-section-label px-0 mb-3">Publishing Today</h2>
+                    <div className="admin-card-flush divide-y" style={{ borderColor: 'var(--admin-border)' }}>
+                        {scheduledToday.map((post) => (
+                            <Link
+                                key={post.id}
+                                href={`/admin/posts/${post.id}`}
+                                className="flex items-center gap-4 p-3.5 hover:bg-stone-50 transition-colors group"
+                            >
+                                <span className="text-xs font-mono font-semibold text-stone-400 shrink-0 w-12">
+                                    {post.scheduled_for ? new Date(post.scheduled_for).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '—'}
+                                </span>
+                                <span className="admin-badge admin-badge-scheduled shrink-0">{post.category}</span>
+                                <h4 className="font-semibold text-sm text-stone-800 truncate group-hover:text-stone-950 transition-colors">
+                                    {post.title || 'Untitled'}
+                                </h4>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* ─── Performance ─── */}
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                {/* Performance stats */}
+                <div className="lg:col-span-2 space-y-3">
+                    <h2 className="admin-section-label px-0">Performance</h2>
+                    <div className="admin-card space-y-4">
+                        <div className="admin-stat">
+                            <span className="admin-stat-value">{totalViews.toLocaleString()}</span>
+                            <span className="admin-stat-label">Total Views</span>
+                        </div>
+                        <div style={{ borderTop: '1px solid var(--admin-border)', paddingTop: '12px' }}>
+                            <div className="admin-stat">
+                                <span className="admin-stat-value text-xl">+{todayViews.toLocaleString()}</span>
+                                <span className="admin-stat-label">Today</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Top stories compact */}
+                <div className="lg:col-span-3 space-y-3">
+                    <div className="flex items-center justify-between">
+                        <h2 className="admin-section-label px-0">Top Stories</h2>
+                        <Link href="/admin/posts?sort=views" className="text-xs font-semibold text-stone-400 hover:text-stone-700 transition-colors">
+                            View all →
+                        </Link>
+                    </div>
+                    {topStories && topStories.length > 0 ? (
+                        <div className="admin-card-flush divide-y" style={{ borderColor: 'var(--admin-border)' }}>
+                            {topStories.map((post, i) => (
+                                <Link
+                                    key={post.id}
+                                    href={`/admin/posts/${post.id}`}
+                                    className="flex items-center gap-3 p-3 hover:bg-stone-50 transition-colors group"
+                                >
+                                    <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                                        i === 0 ? 'bg-amber-100 text-amber-700'
+                                        : i === 1 ? 'bg-stone-100 text-stone-500'
+                                        : i === 2 ? 'bg-orange-50 text-orange-600'
+                                        : 'text-stone-300'
+                                    }`}>
+                                        {i + 1}
+                                    </span>
+                                    <h4 className="font-medium text-sm text-stone-700 truncate flex-1 group-hover:text-stone-950 transition-colors">
+                                        {post.title}
+                                    </h4>
+                                    <span className="text-sm font-bold text-stone-500 shrink-0 tabular-nums">
+                                        {(post.views || 0).toLocaleString()}
+                                    </span>
                                 </Link>
                             ))}
-                            {(!recentDrafts || recentDrafts.length === 0) && (
-                                <div className="p-12 text-center">
-                                    <div className="w-12 h-12 bg-white border border-dashed border-stone-300 rounded-full flex items-center justify-center mb-3 mx-auto text-stone-300">✏️</div>
-                                    <p className="text-xs font-medium text-stone-500 mb-2">No pending drafts in inbox</p>
-                                    <Link href="/admin/posts/new" className="text-[10px] font-bold uppercase tracking-widest text-stone-900 hover:text-agri-green transition-colors">Create Draft</Link>
-                                </div>
-                            )}
                         </div>
-                    </section>
+                    ) : (
+                        <div className="admin-card text-center py-6">
+                            <p className="text-sm text-stone-400">No published stories yet</p>
+                        </div>
+                    )}
                 </div>
             </div>
+
+            {/* ─── Pending Review (if any) ─── */}
+            {reviewQueue && reviewQueue.length > 0 && (
+                <div>
+                    <div className="flex items-center justify-between mb-3">
+                        <h2 className="admin-section-label px-0">Review Queue</h2>
+                        <Link href="/admin/review" className="text-xs font-semibold text-stone-400 hover:text-stone-700 transition-colors">
+                            Review all →
+                        </Link>
+                    </div>
+                    <div className="admin-card-flush divide-y" style={{ borderColor: 'var(--admin-border)' }}>
+                        {reviewQueue.map((post) => (
+                            <Link
+                                key={post.id}
+                                href={`/admin/posts/${post.id}`}
+                                className="flex items-center justify-between p-3.5 hover:bg-stone-50 transition-colors group"
+                            >
+                                <div className="min-w-0">
+                                    <h4 className="font-semibold text-sm text-stone-800 truncate group-hover:text-stone-950 transition-colors">
+                                        {post.title || 'Untitled'}
+                                    </h4>
+                                    <p className="text-xs text-stone-400 mt-0.5">by {post.author_name} · {safeDateFormat(post.created_at)}</p>
+                                </div>
+                                <span className="admin-badge admin-badge-review shrink-0 ml-3">Review</span>
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

@@ -51,7 +51,6 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import CookieConsent from "@/components/ui/CookieConsent";
-import MobileBottomNav from "@/components/layout/MobileBottomNav";
 import { getPublicNavigationCategories, getPublicCategories } from "@/lib/public-categories";
 
 const inter = Inter({
@@ -132,7 +131,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <Suspense fallback={<div className="h-20 bg-white" />}>
           <Navbar categories={navigationCategories} />
         </Suspense>
-        <MobileBottomNav categories={navigationCategories} />
         <main className="flex-grow pb-10 md:pb-0">
           {children}
         </main>

@@ -24,6 +24,7 @@ import AdBanner from '@/components/ads/AdBanner';
 import WarningAttachmentViewer from '@/components/blog/WarningAttachmentViewer';
 import { getPublicCategoryByName, toCategorySlug } from '@/lib/public-categories';
 import { normalizePostRecord } from '@/lib/public-posts';
+import { decodeHtmlEntities } from '@/lib/utils/string';
 
 /**
  * Server-side content normalizer — runs in Node.js before the HTML reaches
@@ -65,8 +66,8 @@ function serverNormalizeContent(html: string): string {
         ''
     );
     content = content.replace(/Updated(?:\s|<[^>]+>)*for(?:\s|<[^>]+>)*Agri(?:\s|<[^>]+>)*Updates/gi, '');
-    content = content.replace(/Agri(?:\s|<[^>]+>)*Updates?\s+Editor/gi, 'Editorial Desk');
-    content = content.replace(/Agri(?:\s|<[^>]+>)*Updates?\s+Desk/gi, 'Editorial Desk');
+    content = content.replace(/Agri(?:\s|<[^>]+>)*Updates?\s+Editor/gi, 'Agri Updates Desk');
+    content = content.replace(/Agri(?:\s|<[^>]+>)*Updates?\s+Desk/gi, 'Agri Updates Desk');
 
     // 4. Strip empty paragraphs and blockquotes left behind
     content = content.replace(/<p[^>]*>\s*<\/p>/gi, '');
@@ -115,12 +116,15 @@ export async function generateMetadata({ params, searchParams }: { params: Promi
         };
     }
 
+    const safeTitle = decodeHtmlEntities(post.title);
+    const safeDescription = decodeHtmlEntities(post.excerpt) || (post.content || '').substring(0, 160) + '...';
+
     return {
-        title: post.title,
-        description: post.excerpt || (post.content || '').substring(0, 160) + '...',
+        title: safeTitle,
+        description: safeDescription,
         openGraph: {
-            title: post.title,
-            description: post.excerpt || (post.content || '').substring(0, 160) + '...',
+            title: safeTitle,
+            description: safeDescription,
             images: [post.image_url || '/og-image.png'],
             type: 'article',
             publishedTime: post.published_at,
@@ -131,8 +135,8 @@ export async function generateMetadata({ params, searchParams }: { params: Promi
         },
         twitter: {
             card: 'summary_large_image',
-            title: post.title,
-            description: post.excerpt || (post.content || '').substring(0, 160) + '...',
+            title: safeTitle,
+            description: safeDescription,
             images: [post.image_url || '/og-image.png'],
         },
         alternates: {
@@ -157,12 +161,14 @@ export default async function ArticlePage({ params, searchParams }: { params: Pr
 
     const canonicalUrl = `https://www.agriupdates.online/blog/${slug}`;
     const isJob = post.category === 'Jobs';
+    const safeTitle = decodeHtmlEntities(post.title);
+    const safeExcerpt = decodeHtmlEntities(post.excerpt);
 
     const jsonLd = isJob ? {
         '@context': 'https://schema.org',
         '@type': 'JobPosting',
-        title: post.title,
-        description: post.excerpt || post.content?.substring(0, 500),
+        title: safeTitle,
+        description: safeExcerpt || post.content?.substring(0, 500),
         datePosted: post.published_at,
         validThrough: post.featured_until || undefined,
         hiringOrganization: {
@@ -199,8 +205,8 @@ export default async function ArticlePage({ params, searchParams }: { params: Pr
     } : {
         '@context': 'https://schema.org',
         '@type': 'NewsArticle',
-        headline: post.title,
-        description: post.excerpt || post.content?.substring(0, 160),
+        headline: safeTitle,
+        description: safeExcerpt || post.content?.substring(0, 160),
         image: [post.image_url || 'https://www.agriupdates.online/og-image.png'],
         datePublished: post.published_at,
         dateModified: post.updated_at || post.published_at,
@@ -257,7 +263,7 @@ export default async function ArticlePage({ params, searchParams }: { params: Pr
             {
                 '@type': 'ListItem',
                 position: 3,
-                name: post.title,
+                name: safeTitle,
                 item: canonicalUrl
             }
         ]
@@ -303,66 +309,59 @@ export default async function ArticlePage({ params, searchParams }: { params: Pr
                             </div>
 
                             {/* Title */}
-                            <h1 className="font-serif text-[28px] md:text-[38px] lg:text-[48px] xl:text-[52px] font-bold text-[#111] leading-[1.15] md:leading-[1.08] mb-4 md:mb-5 tracking-tight drop-shadow-sm md:drop-shadow-none">
-                                {post.title}
+                            <h1 className="font-serif text-4xl md:text-5xl lg:text-[52px] font-bold text-stone-900 leading-tight mb-4 tracking-tight">
+                                {safeTitle}
                             </h1>
 
                             {/* Excerpt / Dek */}
                             {post.excerpt && (
-                                <p className="text-[18px] md:text-[20px] text-stone-500 leading-relaxed mb-7 font-light border-l-2 border-stone-200 pl-4">
-                                    {post.excerpt}
+                                <p className="text-lg md:text-xl text-stone-600 leading-relaxed mb-8 font-medium">
+                                    {safeExcerpt}
                                 </p>
                             )}
 
                             {/* Meta Row: Author, Date, Share */}
-                            <div className="flex items-center justify-between gap-4 pt-5 border-t border-stone-100">
-                                <div className="flex items-center gap-3">
-                                    <div className="relative w-10 h-10 rounded-full overflow-hidden bg-stone-100 border border-stone-200 flex-shrink-0">
-                                        <Image
-                                            src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) || 'ED')}&background=1a1a1a&color=fff&size=40`}
-                                            alt={neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) || 'Editorial Desk'}
-                                            fill
-                                            sizes="40px"
-                                            className="object-cover"
-                                        />
-                                    </div>
-                                    <div>
-                                        <span className="text-[13px] font-semibold text-stone-800 block">
-                                            {neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) ? (
-                                                post.authors?.slug ? (
-                                                    <Link href={`/author/${post.authors.slug}`} className="hover:text-agri-green transition-colors">
-                                                        {neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name)}
-                                                    </Link>
-                                                ) : (
-                                                    neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name)
-                                                )
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-6 border-t border-stone-100">
+                                <div className="flex flex-col">
+                                    <span className="text-sm font-bold text-stone-900 block mb-1">
+                                        By{' '}
+                                        {neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) ? (
+                                            post.authors?.slug ? (
+                                                <Link href={`/author/${post.authors.slug}`} className="hover:text-agri-green transition-colors underline decoration-stone-300 underline-offset-4">
+                                                    {neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name)}
+                                                </Link>
                                             ) : (
-                                                'Editorial Desk'
-                                            )}
-                                        </span>
-                                        <span className="text-[11px] text-stone-400">{safeDateFormat(post.published_at)}</span>
-                                    </div>
+                                                neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name)
+                                            )
+                                        ) : (
+                                            'Agri Updates Desk'
+                                        )}
+                                    </span>
+                                    <span className="text-xs font-semibold text-stone-500 uppercase tracking-widest">{safeDateFormat(post.published_at)}</span>
                                 </div>
                                 {/* Inline share */}
                                 <div className="flex-shrink-0 hidden md:block">
-                                    <SocialShare title={post.title} />
+                                    <SocialShare title={safeTitle} />
                                 </div>
                             </div>
                         </header>
 
                         {/* Hero Image */}
-                        {post.image_url && (
-                            <div className="w-full mb-8 md:mb-10">
-                                <style>{`
-                                    @media (max-width: 639px) { .hero-frame { aspect-ratio: 1/1 !important; min-height: 240px; max-height: 380px; } }
-                                    @media (min-width: 640px) { .hero-frame { aspect-ratio: 16/9 !important; } }
-                                `}</style>
-                                <div className="hero-frame relative w-full bg-stone-900 overflow-hidden rounded-xl shadow-md">
-                                    <Image src={post.image_url} alt="" fill priority className="object-cover opacity-40 blur-2xl scale-110" sizes="(max-width: 760px) 100vw, 800px" />
-                                    <Image src={post.image_url} alt={post.title} fill priority className="object-contain relative z-10" sizes="(max-width: 760px) 100vw, 800px" />
-                                </div>
+                        <figure className="w-full mb-8 md:mb-12">
+                            <div className="relative w-full aspect-video md:aspect-[16/9] bg-stone-100 overflow-hidden rounded-lg">
+                                <Image 
+                                    src={post.image_url || '/placeholder.jpg'} 
+                                    alt={safeTitle} 
+                                    fill 
+                                    priority 
+                                    className="object-cover" 
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 800px" 
+                                />
                             </div>
-                        )}
+                            <figcaption className="mt-3 text-xs text-stone-400 font-medium text-right uppercase tracking-wider">
+                                Image via Agri Updates
+                            </figcaption>
+                        </figure>
 
                         {/* Eligibility Checker Widget */}
                         {post.policy_rules && (
@@ -404,8 +403,8 @@ export default async function ArticlePage({ params, searchParams }: { params: Pr
                                 <div className="mt-8 md:mt-10 flex flex-col md:flex-row gap-4 md:gap-5 items-start bg-stone-50 p-5 md:p-6 rounded-2xl border border-stone-100 card-neu md:border-stone-100 md:card-neu-none md:shadow-none">
                                     <div className="relative w-12 h-12 md:w-16 md:h-16 flex-shrink-0 rounded-full overflow-hidden bg-white border border-stone-200">
                                         <Image
-                                            src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) || 'ED')}&background=1a1a1a&color=fff`}
-                                            alt={neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) || 'Editorial Desk'}
+                                            src={post.authors?.avatar_url || post.author_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) || 'AD')}&background=1a1a1a&color=fff`}
+                                            alt={neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) || 'Agri Updates Desk'}
                                             fill sizes="(max-width: 768px) 48px, 64px" className="object-cover"
                                         />
                                     </div>
@@ -416,7 +415,7 @@ export default async function ArticlePage({ params, searchParams }: { params: Pr
                                                     {neutralAuthorName(post.authors.name)}
                                                 </Link>
                                             ) : (
-                                                neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) || 'Editorial Desk'
+                                                neutralAuthorName(post.authors?.name) || neutralAuthorName(post.author_name) || 'Agri Updates Desk'
                                             )}
                                         </h4>
                                         <p className="text-stone-500 text-xs md:text-sm leading-relaxed">
@@ -464,7 +463,7 @@ export default async function ArticlePage({ params, searchParams }: { params: Pr
             {/* Mobile Floating Share Bar */}
             <div className="md:hidden fixed bottom-[4.5rem] right-4 z-40">
                 <div className="card-glass px-3 py-2 rounded-full shadow-[0_8px_16px_rgba(0,0,0,0.15)] flex items-center justify-center pointer-events-auto border border-white/30 backdrop-blur-md bg-white/70">
-                    <SocialShare title={post.title} />
+                    <SocialShare title={safeTitle} />
                 </div>
             </div>
         </article>

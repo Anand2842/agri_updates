@@ -19,9 +19,19 @@ interface RichTextEditorProps {
     onImageUpload?: (file: File) => Promise<string>
     isEditable?: boolean
     onEditorReady?: (editor: Editor) => void
+    borderless?: boolean
+    className?: string
 }
 
-export default function RichTextEditor({ content, onChange, onImageUpload, isEditable = true, onEditorReady }: RichTextEditorProps) {
+export default function RichTextEditor({ 
+    content, 
+    onChange, 
+    onImageUpload, 
+    isEditable = true, 
+    onEditorReady,
+    borderless = false,
+    className = ''
+}: RichTextEditorProps) {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -55,7 +65,7 @@ export default function RichTextEditor({ content, onChange, onImageUpload, isEdi
         immediatelyRender: false,
         editorProps: {
             attributes: {
-                class: 'prose prose-lg prose-stone max-w-none focus:outline-none min-h-[500px] p-8 bg-white selection:bg-indigo-100',
+                class: 'prose prose-base sm:prose-lg prose-stone max-w-none focus:outline-none min-h-[360px] sm:min-h-[500px] p-4 sm:p-8 bg-white selection:bg-indigo-100',
             },
         },
     })
@@ -125,7 +135,11 @@ export default function RichTextEditor({ content, onChange, onImageUpload, isEdi
     }
 
     return (
-        <div className="border border-stone-200 rounded-lg overflow-hidden bg-white shadow-sm">
+        <div className={`overflow-hidden bg-white ${
+            borderless 
+                ? 'border-none shadow-none' 
+                : 'border border-stone-200 rounded-lg shadow-sm'
+        } ${className}`}>
             <EditorToolbar editor={editor} onImageUpload={handleImageTrigger} />
             <EditorContent editor={editor} />
             <input

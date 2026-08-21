@@ -54,9 +54,9 @@ export default function Footer({ categories }: FooterProps) {
     }
 
     return (
-        <footer className="mt-16 border-t border-slate-200 bg-white">
-            <div className="editorial-shell py-12 md:py-16">
-                <div className="grid gap-10 md:grid-cols-12 pb-12 border-b border-slate-200">
+        <footer className="mt-12 border-t border-slate-200 bg-white">
+            <div className="editorial-shell py-8 md:py-12">
+                <div className="grid gap-10 md:grid-cols-12 pb-8 border-b border-slate-200">
                     {/* Brand column */}
                     <div className="md:col-span-4">
                         <Link href="/" className="flex items-center gap-2.5 mb-4">

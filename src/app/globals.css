@@ -28,6 +28,12 @@
   --color-ink-black: #0f172a;
   --color-border-thin: #e2e8f0;
   
+  /* Startup Section Specific Tokens */
+  --color-startup-forest: #03261B;
+  --color-startup-emerald: #087F5B;
+  --color-startup-lime: #B7F34A;
+  --color-startup-amber: #F4B740;
+  
   /* Modern Depth Tokens */
   --neu-shadow-light: #ffffff;
   --neu-shadow-dark: #e2e8f0;

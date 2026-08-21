@@ -1,0 +1,177 @@
+/* ═══════════════════════════════════════════════
+   ADMIN DESIGN SYSTEM — Agri Updates Newsroom
+   Calm, dense, productive. Not decorative.
+   ═══════════════════════════════════════════════ */
+
+/* ─── Design Tokens ─── */
+:root {
+  --admin-bg: #F5F5F2;
+  --admin-surface: #FFFFFF;
+  --admin-surface-hover: #FAFAF9;
+  --admin-surface-active: #F5F5F4;
+  --admin-border: rgba(28, 25, 23, 0.08);
+  --admin-border-strong: rgba(28, 25, 23, 0.15);
+  --admin-text: #1C1917;
+  --admin-text-secondary: #57534E;
+  --admin-text-muted: #A8A29E;
+  --admin-brand: #4A7C59;
+  --admin-brand-light: rgba(74, 124, 89, 0.08);
+  --admin-ai: #7C3AED;
+  --admin-ai-light: rgba(124, 58, 237, 0.08);
+  --admin-warning: #D97706;
+  --admin-warning-light: rgba(217, 119, 6, 0.08);
+  --admin-danger: #DC2626;
+  --admin-danger-light: rgba(220, 38, 38, 0.08);
+  --admin-success: #16A34A;
+  --admin-success-light: rgba(22, 163, 74, 0.08);
+  --admin-sidebar-width: 260px;
+  --admin-sidebar-collapsed: 72px;
+  --admin-radius-sm: 6px;
+  --admin-radius: 8px;
+  --admin-radius-lg: 12px;
+}
+
+/* ─── Status Badges ─── */
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.admin-badge-draft {
+  background: #F5F5F4;
+  color: #78716C;
+}
+
+.admin-badge-review {
+  background: var(--admin-warning-light);
+  color: #92400E;
+}
+
+.admin-badge-scheduled {
+  background: var(--admin-ai-light);
+  color: #5B21B6;
+}
+
+.admin-badge-published {
+  background: var(--admin-success-light);
+  color: #166534;
+}
+
+.admin-badge-archived {
+  background: #F5F5F4;
+  color: #A8A29E;
+}
+
+/* ─── Admin Card ─── */
+.admin-card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  padding: 16px;
+}
+
+.admin-card-flush {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+}
+
+/* ─── Admin Section Header ─── */
+.admin-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--admin-text-muted);
+  padding: 0 12px;
+  margin-bottom: 4px;
+}
+
+/* ─── Admin Table ─── */
+.admin-table {
+  width: 100%;
+  text-align: left;
+  font-size: 13px;
+}
+
+.admin-table thead {
+  border-bottom: 1px solid var(--admin-border-strong);
+}
+
+.admin-table thead th {
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--admin-text-muted);
+}
+
+.admin-table tbody tr {
+  border-bottom: 1px solid var(--admin-border);
+  transition: background 0.1s ease;
+}
+
+.admin-table tbody tr:hover {
+  background: var(--admin-surface-hover);
+}
+
+.admin-table tbody td {
+  padding: 10px 16px;
+}
+
+/* ─── Stat Card (compact) ─── */
+.admin-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--admin-text);
+  line-height: 1.1;
+  font-family: var(--font-serif, Georgia, serif);
+}
+
+.admin-stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--admin-text-muted);
+}
+
+/* ─── Action Required Banner ─── */
+.admin-action-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-radius: var(--admin-radius);
+  background: var(--admin-warning-light);
+  border: 1px solid rgba(217, 119, 6, 0.15);
+  font-size: 13px;
+  font-weight: 500;
+  color: #92400E;
+}
+
+.admin-action-banner a {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--admin-warning);
+  text-decoration: none;
+}
+
+.admin-action-banner a:hover {
+  text-decoration: underline;
+}

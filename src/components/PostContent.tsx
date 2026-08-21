@@ -206,6 +206,18 @@ export default function PostContent({ html }: PostContentProps) {
             // Strip empty paragraphs left behind after cleanup
             content = content.replace(/<p[^>]*>\s*<\/p>/gi, '');
 
+            // Format "Source: ..." paragraphs
+            content = content.replace(
+                /<p[^>]*>\s*Source:\s*(.*?)\s*<\/p>/gi, 
+                '<div class="mt-10 p-5 bg-stone-50 border-l-4 border-stone-300 text-sm text-stone-600 font-medium rounded-r-lg"><strong>Source:</strong> $1</div>'
+            );
+
+            // Restyle generic AI headers to be less prominent
+            content = content.replace(
+                /<h2[^>]*>\s*(How to read this update on the ground|What readers should watch next|Agri Updates View|Why it matters)\s*<\/h2>/gi, 
+                '<h3 class="!mt-12 !mb-4 text-[11px] font-black uppercase tracking-[0.15em] text-stone-400 border-b border-stone-100 pb-3">$1</h3>'
+            );
+
             // Harden imported HTML so malformed links or inline underline styles
             // cannot turn the whole article into link-like text.
             content = normalizeEditorialMarkup(content);
@@ -275,16 +287,6 @@ export default function PostContent({ html }: PostContentProps) {
                     [&_blockquote]:pl-6 [&_blockquote]:py-2 [&_blockquote]:italic 
                     [&_blockquote]:text-[22px] [&_blockquote]:text-stone-800 [&_blockquote]:font-serif
                     [&_blockquote]:my-10 [&_blockquote]:bg-stone-50 [&_blockquote]:pr-6
-                    
-                    [&>p:first-of-type::first-letter]:float-left 
-                    [&>p:first-of-type::first-letter]:text-[5.5rem] 
-                    [&>p:first-of-type::first-letter]:pr-4
-                    [&>p:first-of-type::first-letter]:mr-2
-                    [&>p:first-of-type::first-letter]:font-serif 
-                    [&>p:first-of-type::first-letter]:font-bold 
-                    [&>p:first-of-type::first-letter]:text-stone-900 
-                    [&>p:first-of-type::first-letter]:leading-[0.75] 
-                    [&>p:first-of-type::first-letter]:mt-3
                 "
                 style={{ wordBreak: 'normal', overflowWrap: 'anywhere' }}
                 dangerouslySetInnerHTML={{ __html: cleanHtml.replace(/<!--__AD_MID_BREAK__-->/g, '') }}
